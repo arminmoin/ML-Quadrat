@@ -1,5 +1,5 @@
 # ML-Quadrat (ML2)
-ML2 is a free open source Model-Driven Software Engineering (MDSE) framework for creating smart services for the Internet of Things (IoT) and Cyber-Physical Systems (CPS). It is based on [ThingML](https://github.com/TelluIoT/ThingML). Please read the accompanying license agreement (Apache License Verrsion 2.0). 
+ML2 is a free open source Model-Driven Software Engineering (MDSE) framework for creating smart services for the Internet of Things (IoT) and Cyber-Physical Systems (CPS). It is based on [ThingML](https://github.com/TelluIoT/ThingML). Please read the accompanying license agreement (Apache License Version 2.0). 
 
 Note: The name ML-Quadrat (German word for ML-Square / MLˆ2) refers to the fact that the project is about two MLs: (i) ML for Modeling Language; (ii) ML for Machine Learning. However, in the following documentation and also in the source code comments, we refer to the project name as ML2 for simplicity.
 
@@ -21,13 +21,13 @@ Go to the terminal / shell / command line and follow the steps below.
 ```bash
 git clone https://github.com/arminmoin/ML-Quadrat/
 ```
-2. In principle, it is possible to use any text editor, e.g., vi / vim to create a model instance, if you follow the syntax of our Domain-Specific Modeling Langauge (DSML) and save the text file with the **.thingml** extension. However, a major added value of our tool is provided through our customized model editors. ML2 and ThingML are built on top of the Eclipse Modeling Framework (EMF). Thus, in order to benefit from our model editors, you need to run the Eclipse Modeling Tools. You can download and install that IDE from https://www.eclipse.org/downloads/packages/.
+2. In principle, it is possible to use any text editor, e.g., vi / vim to create a model instance, if you follow the syntax of our Domain-Specific Modeling Language (DSML) and save the text file with the **.thingml** extension. However, a major added value of our tool is provided through our customized model editors. ML2 and ThingML are built on top of the Eclipse Modeling Framework (EMF). Thus, in order to benefit from our model editors, you need to run the Eclipse Modeling Tools. You can download and install that IDE from https://www.eclipse.org/downloads/packages/.
 
 Once installed, you shall create a new workspace and then import the ML2 project there. Perhaps there are different ways to accomplish that. However, we recommend the following method:
 
 File -> import -> General -> Existing Projects into Workspace (you may also check the option **search for nested projects** in the wizard)
 
-Make sure that you wait sufficiently long, so that the (sub-/nested) projects are built and you get a clean workspace without any errors. If that is not the case, sometimes cleaing the workspace (Project -> Clean... -> Clean all projects), updating the Maven projects (right click on a project -> Maven -> Update Project... -> Select All, you may also check the option **Force Update of Snapshots/Releases**) or restarting the Eclipse IDE (Eclipse Modeling Tools) might help.
+Make sure that you wait sufficiently long, so that the (sub-/nested) projects are built and you get a clean workspace without any errors. If that is not the case, sometimes cleaning the workspace (Project -> Clean... -> Clean all projects), updating the Maven projects (right click on a project -> Maven -> Update Project... -> Select All, you may also check the option **Force Update of Snapshots/Releases**) or restarting the Eclipse IDE (Eclipse Modeling Tools) might help.
 
 3. Build the project using Maven:
 ```bash
@@ -41,9 +41,9 @@ cd ..
 ### How to create new model instances using ML2?
 Before creating new model instances, you may want to take a look at our samples for 3 use cases: Smart Ping-Pong, Non-Intrusive Appliance Load Monitoring, and Energy Stock Exchange. Please check them out at https://github.com/arminmoin/ML-Quadrat/tree/master/org.thingml.samples/src/main/thingml.
 
-As mentioned above, one may trivially use a text editor and follow the syntax of our DSML (Domain-Specific Modeling Language) to create new model instances with the **.thingml** extension. However, in order to exploit the power of our DSML and modeling tool, one may either employ our grahical tree model editor (EMF-based) or our customized textual model editor (Xtext-based). In what follows, we illustrate both options. Regardless of your choice, you will need to follow the steps below:
+As mentioned above, one may trivially use a text editor and follow the syntax of our DSML (Domain-Specific Modeling Language) to create new model instances with the **.thingml** extension. However, in order to exploit the power of our DSML and modeling tool, one may either employ our graphical tree model editor (EMF-based) or our customized textual model editor (Xtext-based). In what follows, we illustrate both options. Regardless of your choice, you will need to follow the steps below:
 
-Step 1: Open the Eclispe IDE (Eclipse Modeling Tools) and choose the workspace, which contains ML2.
+Step 1: Open the Eclipse IDE (Eclipse Modeling Tools) and choose the workspace, which contains ML2.
 
 Step 2: Run a second (nested) instance of the Eclipse IDE by right-clicking on one of the (sub)projects, e.g., thingml, selecting "Run As" and then selecting "Eclipse Application". This way, a new (nested) instance of the Eclipse IDE will open, while the first (main) instance is still open. If you see any problems, e.g., concerning javax, ignore that and simply click on continue.
 
@@ -84,9 +84,9 @@ This is a sample data analytics block in our demo, Smart Ping-Pong, which you ma
 	
 (i) dataset: This is the path to the Comma-Separated Values (CSV) file, which contains the dataset that should be used for data analytics.
 
-(ii) sequential: This is a boolean (TRUE/FLASE) value that indicates whether the dataset is a sequential / temporal one, i.e., whether the order of the data instances must be preserved or not. If this is true, then, e.g., cross validation shall not be practiced.
+(ii) sequential: This is a Boolean (TRUE/FLASE) value that indicates whether the dataset is a sequential / temporal one, i.e., whether the order of the data instances must be preserved or not. If this is true, then, e.g., cross validation shall not be practiced.
 
-(iii) timestamps: This is a binary (ON/OFF) value, which indicates whether timestamps are present in the dataset or not. If this is on, it means we should assume that teh first column in the CSV file contains the timestamps. Also, timestamps shall be added to new data instances through the da_save action of the action language used in the statecharts.
+(iii) timestamps: This is a binary (ON/OFF) value, which indicates whether timestamps are present in the dataset or not. If this is on, it means we should assume that the first column in the CSV file contains the timestamps. Also, timestamps shall be added to new data instances through the da_save action of the action language used in the state charts.
 
 (iv) labels: This is a binary (ON/OFF) value, which indicates whether the dataset is labeled or not. If the data instances are labeled, it means we can do supervised machine learning, i.e., classification or regression. In this case, the last feature in the CSV file is always the class label for each data instance (on each row).
 
@@ -157,7 +157,7 @@ java -jar SmartPingPongCfg-1.0.0-jar-with-dependencies.jar
 ## ML2 Developers' Documentation (for Contributors)
 If you are going to contribute to this project, please read the developers' documentation below. 
 
-Our focus is on the Java code generator (model-to-text transformation), which also generates Python code. However, the same strategy shall apply to the other supported target platforms and programming langauges for code generation. 
+Our focus is on the Java code generator (model-to-text transformation), which also generates Python code. However, the same strategy shall apply to the other supported target platforms and programming languages for code generation. 
 
 ### Contribution to the Modeling Language
 
@@ -174,7 +174,7 @@ Also, generate the graphical EMF-based model editor by opening ThingML.genmodel 
 
 #### The Main Part: the Xtext Grammar
 
-This is the core of the Domain-Specific Modeling Language (DSML). Even the Ecore meta-model is generated out of this grammar. You may find the grammar in the follwoing path:
+This is the core of the Domain-Specific Modeling Language (DSML). Even the Ecore meta-model is generated out of this grammar. You may find the grammar in the following path:
 
 language/thingml/src/org/thingml/xtext/ThingML.xtext
 
