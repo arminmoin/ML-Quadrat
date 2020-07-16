@@ -19,7 +19,7 @@ Go to the terminal / shell / command line and follow the steps below.
 
 1. Check out the source code from our Git repository:
 ```bash
-git clone https://github.com/arminmoin/ML2/
+git clone https://github.com/arminmoin/ML-Quadrat/
 ```
 2. In principle, it is possible to use any text editor, e.g., vi / vim to create a model instance, if you follow the syntax of our Domain-Specific Modeling Langauge (DSML) and save the text file with the **.thingml** extension. However, a major added value of our tool is provided through our customized model editors. ML2 and ThingML are built on top of the Eclipse Modeling Framework (EMF). Thus, in order to benefit from our model editors, you need to run the Eclipse Modeling Tools. You can download and install that IDE from https://www.eclipse.org/downloads/packages/.
 
@@ -39,7 +39,7 @@ cd ..
 ```
 
 ### How to create new model instances using ML2?
-Before creating new model instances, you may want to take a look at our samples for 3 use cases: Smart Ping-Pong, Non-Intrusive Appliance Load Monitoring, and Energy Stock Exchange. Please check them out at https://github.com/arminmoin/ML2/tree/master/org.thingml.samples/src/main/thingml.
+Before creating new model instances, you may want to take a look at our samples for 3 use cases: Smart Ping-Pong, Non-Intrusive Appliance Load Monitoring, and Energy Stock Exchange. Please check them out at https://github.com/arminmoin/ML-Quadrat/tree/master/org.thingml.samples/src/main/thingml.
 
 As mentioned above, one may trivially use a text editor and follow the syntax of our DSML (Domain-Specific Modeling Language) to create new model instances with the **.thingml** extension. However, in order to exploit the power of our DSML and modeling tool, one may either employ our grahical tree model editor (EMF-based) or our customized textual model editor (Xtext-based). In what follows, we illustrate both options. Regardless of your choice, you will need to follow the steps below:
 
@@ -69,7 +69,7 @@ There is no universal answer to this question. Some users prefer the textual edi
 
 #### Understanding the data analytics block of ML2 model instances
 
-This is a sample data analytics block in our demo, Smart Ping-Pong, which you may find at https://github.com/arminmoin/ML2/tree/master/org.thingml.samples/src/main/thingml:
+This is a sample data analytics block in our demo, Smart Ping-Pong, which you may find at https://github.com/arminmoin/ML-Quadrat/tree/master/org.thingml.samples/src/main/thingml:
 
 	data_analytics da1 {
 		dataset "data/ip_dataset.csv"
@@ -103,7 +103,7 @@ In our sample model instances, we show how to do this. For instance, see this li
 
 last_training_timer!timer_start(3600000)
 
-in our examples here: https://github.com/arminmoin/ML2/tree/master/org.thingml.samples/src/main/thingml. That is the time in milliseconds, thus in this case retraining the data analytics models in 1 hour periods always using the latest data in the CSV file (dataset). This way, we will take new data into account.
+in our examples here: https://github.com/arminmoin/ML-Quadrat/tree/master/org.thingml.samples/src/main/thingml. That is the time in milliseconds, thus in this case retraining the data analytics models in 1 hour periods always using the latest data in the CSV file (dataset). This way, we will take new data into account.
 
 ### How to generate the target software (IoT service / CPS application) using ML2?
 
@@ -117,7 +117,7 @@ java -jar compilers.registry-2.0.0-SNAPSHOT-jar-with-dependencies.jar
 ```
 If you run the JAR file (e.g., with the -h or --help options), you will see the list of all options and commands.
 
-For instance, if you want to generate source code in Java and Python for our samples (you can find our examples Smart Ping-Pong, Non-Intrusive Appliance Load Monitoring, and Energy Stock Exchange at https://github.com/arminmoin/ML2/tree/master/org.thingml.samples/src/main/thingml), please use the commands below:
+For instance, if you want to generate source code in Java and Python for our samples (you can find our examples Smart Ping-Pong, Non-Intrusive Appliance Load Monitoring, and Energy Stock Exchange at https://github.com/arminmoin/ML-Quadrat/tree/master/org.thingml.samples/src/main/thingml), please use the commands below:
 
 ```bash
 cd compilers/registry/target
@@ -145,7 +145,7 @@ cd target
 mkdir data
 ```
 
-Please copy a sample CSV file from https://github.com/arminmoin/ML2/tree/master/org.thingml.samples/src/main/thingml/ML2_Demos_SampleData into the data directory. For instance, in case of GeneratedDemo1, please use the CSV file called ip_dataset.csv. For GeneratedDemo2 and GeneratedDemo3, please use nialm.csv and esm.csv, respectively.
+Please copy a sample CSV file from https://github.com/arminmoin/ML-Quadrat/tree/master/org.thingml.samples/src/main/thingml/ML2_Demos_SampleData into the data directory. For instance, in case of GeneratedDemo1, please use the CSV file called ip_dataset.csv. For GeneratedDemo2 and GeneratedDemo3, please use nialm.csv and esm.csv, respectively.
 
 Now, you should be able to run the generated program easily. Please use java -jar to run the generated executable JAR file with all of the required dependencies. For instance, for GeneratedDemo1:
 ```bash
