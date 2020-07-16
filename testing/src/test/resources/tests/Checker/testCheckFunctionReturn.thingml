@@ -1,0 +1,14 @@
+import "datatypes.thingml" from stl
+
+thing TestCheckFunctionReturn
+{
+	//Should fail because function does not return
+    function foo(a : Integer) : Integer do
+      //...
+    end
+
+    statechart TestAbstractFunction init INIT {
+    	state INIT {
+    	}
+    }
+}

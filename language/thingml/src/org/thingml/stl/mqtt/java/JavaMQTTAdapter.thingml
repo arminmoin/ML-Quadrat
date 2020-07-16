@@ -1,0 +1,333 @@
+import "../MQTTAdapterMsgs.thingml"
+
+object MQTTMessage 
+	@java_type `org.eclipse.paho.client.mqttv3.MqttMessage`
+
+object Throwable 
+	@java_type `Throwable`
+	
+object IMqttDeliveryToken
+	@java_type `IMqttDeliveryToken`
+
+thing JavaMQTTAdapter includes AbstractMQTTAdapter
+@maven_dep `		
+		<dependency>
+			<groupId>org.eclipse.paho</groupId>
+			<artifactId>org.eclipse.paho.client.mqttv3</artifactId>
+			<version>1.2.0</version>
+		</dependency>
+
+        <dependency>
+		    <groupId>org.bouncycastle</groupId>
+		    <artifactId>bcpkix-jdk15on</artifactId>
+		    <version>1.60</version>
+		</dependency>
+	
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>org.json</artifactId>
+			<version>chargebee-1.0</version>
+		</dependency>`
+
+@java_interface `org.eclipse.paho.client.mqttv3.MqttCallbackExtended`
+@java_import `import java.util.logging.Logger;`
+@java_import `import java.util.logging.Level;`
+@java_import `import org.eclipse.paho.client.mqttv3.*;`
+@java_import `import org.eclipse.paho.client.mqttv3.persist.*;`
+@java_import `import org.bouncycastle.jce.provider.*;`
+@java_import `import org.bouncycastle.openssl.*;`
+@java_import `import org.bouncycastle.openssl.jcajce.*;`
+@java_import `import javax.net.ssl.*;`
+@java_import `import java.security.*;`
+@java_import `import java.security.cert.*;`
+@java_import `import java.io.*;`
+
+@java_features `org.eclipse.paho.client.mqttv3.MqttAsyncClient mqttAsyncClient;`
+
+@java_features `
+        private static SSLSocketFactory getSocketFactory(final String caCrtFile, final String crtFile, final String keyFile, final String password, boolean fromClassLoaderRessource)
+			throws Exception {
+        
+        Class currentClass = new Object() { }.getClass().getEnclosingClass();
+        
+		Security.addProvider(new BouncyCastleProvider());
+
+		// load CA certificate
+        X509Certificate caCert = null;
+
+		InputStream is = null;
+		if (fromClassLoaderRessource) is = currentClass.getClassLoader().getResourceAsStream(caCrtFile);
+		else is = new FileInputStream(caCrtFile);
+        BufferedInputStream bis = new BufferedInputStream(is);
+        CertificateFactory cf = CertificateFactory.getInstance("X.509");
+
+		while (bis.available() > 0) {
+			caCert = (X509Certificate) cf.generateCertificate(bis);
+			//System.out.println(caCert.toString());
+		}
+
+		// load client certificate
+		if (fromClassLoaderRessource) is = currentClass.getClassLoader().getResourceAsStream(crtFile);
+		else is = new FileInputStream(crtFile);
+		bis = new BufferedInputStream(is);
+		X509Certificate cert = null;
+		while (bis.available() > 0) {
+			cert = (X509Certificate) cf.generateCertificate(bis);
+			//System.out.println(caCert.toString());
+		}
+
+		// load client private key
+		if (fromClassLoaderRessource) is = currentClass.getClassLoader().getResourceAsStream(keyFile);
+		else is = new FileInputStream(keyFile);
+		PEMParser pemParser = new PEMParser(new InputStreamReader(is));
+		Object object = pemParser.readObject();
+		PEMDecryptorProvider decProv = new JcePEMDecryptorProviderBuilder()
+				.build(password.toCharArray());
+		JcaPEMKeyConverter converter = new JcaPEMKeyConverter()
+				.setProvider("BC");
+		          KeyPair key;
+		if (object instanceof PEMEncryptedKeyPair) {
+			System.out.println("Encrypted key - we will use provided password");
+			key = converter.getKeyPair(((PEMEncryptedKeyPair) object)
+					.decryptKeyPair(decProv));
+		} else {
+			System.out.println("Unencrypted key - no password needed");
+			key = converter.getKeyPair((PEMKeyPair) object);
+		}
+		pemParser.close();
+
+		// CA certificate is used to authenticate server
+		KeyStore caKs = KeyStore.getInstance(KeyStore.getDefaultType());
+		caKs.load(null, null);
+		caKs.setCertificateEntry("ca-certificate", caCert);
+		TrustManagerFactory tmf = TrustManagerFactory.getInstance("X509");
+		tmf.init(caKs);
+
+		// client key and certificates are sent to server so it can authenticate
+		// us
+		KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType());
+		ks.load(null, null);
+		ks.setCertificateEntry("certificate", cert);
+		ks.setKeyEntry("private-key", key.getPrivate(), password.toCharArray(),
+				new java.security.cert.Certificate[] { cert });
+		          KeyManagerFactory kmf = KeyManagerFactory.getInstance(KeyManagerFactory
+				.getDefaultAlgorithm());
+		kmf.init(ks, password.toCharArray());
+
+		// finally, create SSL socket factory
+		SSLContext context = SSLContext.getInstance("TLSv1.2");
+		context.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
+
+		return context.getSocketFactory();
+	}
+`
+{
+
+	property broker_uri : String = "tcp://localhost:1883"
+	
+	readonly property load_certificate_from_ressource : Boolean = false
+	
+	property debug_log : Boolean = false
+	
+	readonly property max_inflight : UInt16 = 10
+
+	
+	function setTopicPrefix(src : String) do
+		topic_prefix = src
+	end
+
+	function mqtt_connect() : Boolean do
+	    `try {`
+		    `MemoryPersistence persistence = new MemoryPersistence();`
+
+		    `MqttConnectOptions connOpts = new MqttConnectOptions();`
+		    `connOpts.setMaxInflight(` & max_inflight & `);`
+	        `connOpts.setCleanSession(true);`
+	        `connOpts.setAutomaticReconnect(true);`
+	        `connOpts.setConnectionTimeout(30);`
+	        
+	        if (client_id == `null`) do
+	        	client_id = `MqttClient.generateClientId()`
+	        end
+	        
+	        if (enable_user_credentials) do
+	        	`connOpts.setUserName(`&username&`);`
+	        	`connOpts.setPassword(`&password&`.toCharArray());`        	
+	        end
+	        
+	        if (enable_tls_certificates) do
+	        	`SSLSocketFactory socketFactory = getSocketFactory(`&cafile&`, `&certfile&`, `&keyfile&`, "", `&load_certificate_from_ressource&`);`
+				`connOpts.setSocketFactory(socketFactory);`
+	        end
+		    
+		    `mqttAsyncClient = new MqttAsyncClient(`&broker_uri&`, `&client_id&` + "_Sub", persistence);`
+		    
+		    // For now we are only monitoring the connection on the subscriber client
+		    `mqttAsyncClient.setCallback(this);`
+		    
+		    `if (`&debug_log&`) Logger.getLogger(this.getClass().getName()).log(Level.INFO, "MQTT Connect to: " + `&broker_uri&` );`
+		    
+		    // Connect and collect associated callbacks
+		    `IMqttToken mqttConnectToken = mqttAsyncClient.connect(connOpts, null, new IMqttActionListener() {
+					@Override
+					public void onSuccess(IMqttToken asyncActionToken) {
+						`mqtt!mqtt_connected()`
+					}
+				
+					@Override
+					public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
+						`mqtt!mqtt_error()`
+						`mqtt!mqtt_disconnected()`
+						exception.printStackTrace();
+					}
+				});`
+	        
+	    `} catch (Exception ex) {`
+            `Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);`
+            return false
+        `}`
+	    return true
+	end
+
+	function mqtt_publish(topic : String, payload: Buffer, size : UInt16) : Boolean do
+		if (`mqttAsyncClient == null`) return false
+        `try {
+            if (`&debug_log&`) Logger.getLogger(this.getClass().getName()).log(Level.INFO, "MQTT Publish: " + `&topic&` + " -> " + new String(`&payload&`));
+            
+            MqttMessage message = new MqttMessage(`&payload&`);
+            String fulltopic = `&topic&`;
+            if (`&topic_prefix&` != null) fulltopic = `&topic_prefix&` + "/" + fulltopic;
+            
+            //System.out.println("Publish on " + fulltopic);
+            
+            mqttAsyncClient.publish(fulltopic, message, null, new IMqttActionListener() {
+					@Override
+					public void onSuccess(IMqttToken asyncActionToken) {
+						`mqtt!mqtt_message_published()`
+					}
+				
+					@Override
+					public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
+						`mqtt!mqtt_error()`
+						exception.printStackTrace();
+					}
+				});
+        
+        } catch (org.eclipse.paho.client.mqttv3.MqttException ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);`
+            return false
+        `}`
+        return true
+	end
+
+
+	function mqtt_subscribe(topic : String) : Boolean do
+		if (`mqttAsyncClient == null`) return false
+        `try {
+           
+            String fulltopic = `&topic&`;
+            if (`&topic_prefix&` != null) fulltopic = `&topic_prefix&` + "/" + fulltopic;
+            
+            if (`&debug_log&`) Logger.getLogger(this.getClass().getName()).log(Level.INFO, "MQTT Subscribe: " + fulltopic);
+            
+            mqttAsyncClient.subscribe(fulltopic, 0, null, new IMqttActionListener() {
+					@Override
+					public void onSuccess(IMqttToken asyncActionToken) {
+						`mqtt!mqtt_topic_subscribed()` 
+					}
+				
+					@Override
+					public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
+						`mqtt!mqtt_error()`
+						exception.printStackTrace();
+					}
+				});
+
+        } catch (org.eclipse.paho.client.mqttv3.MqttException ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);`
+            return false
+        `}`
+        return true
+	end
+	
+	function messageArrived(topic : String, m : MQTTMessage) 
+		@override "true" 
+		@java_visibility "public"
+	do
+		
+		`if (`&debug_log&`) Logger.getLogger(this.getClass().getName()).log(Level.INFO, "MQTT Message Arrived: " + `&topic&` + " -> " + new String(`&m&`.getPayload()));`
+	
+		`String topic_without_prefix = `&topic&`;`
+		`if (topic_without_prefix.startsWith(`&topic_prefix&`)) topic_without_prefix = topic_without_prefix.substring(`&topic_prefix&`.length());`
+		`if (topic_without_prefix.length()>1 && topic_without_prefix.charAt(0) == '/') topic_without_prefix = topic_without_prefix.substring(1);`
+
+		 mqtt!mqtt_message(`topic_without_prefix`, ``&m&`.getPayload()`, ``&m&`.getPayload().length`)
+	end
+	
+	function connectionLost(t : Throwable) 
+		@override "true" 
+		@java_visibility "public"
+	do
+		`if (`&debug_log&`) Logger.getLogger(this.getClass().getName()).log(Level.INFO, "MQTT Connection Lost.");`
+		mqtt!mqtt_error()
+		mqtt!mqtt_disconnected()
+	end
+	
+	function deliveryComplete(imdt : IMqttDeliveryToken) 
+		@override "true"
+		@java_visibility "public"
+	do
+		// Handled in IMqttActionListener
+	end
+	
+	function connectComplete(reconnect : Boolean, serverURI : String) 
+		@override "true"
+		@java_visibility "public"
+	do
+		// Handled in IMqttActionListener
+	end
+	
+	statechart MQTTAdapterThing init Start {
+		
+		internal event m: mqtt?mqtt_set_credentials action do
+			username = m.usr
+			password = m.pwd
+			enable_user_credentials = true
+		end
+		
+		internal event m: mqtt?mqtt_set_prefix action do
+			setTopicPrefix(m.prefix)
+		end
+		
+		internal event m: mqtt?mqtt_set_tls_certificates action do
+			cafile = m.cafile
+			capath = m.capath
+			certfile = m.certfile
+			keyfile = m.keyfile
+			enable_tls_certificates = true
+		end
+		
+		internal event m : mqtt?mqtt_connect action do
+			client_id = m.client_id
+			if (broker_uri == `null`) do
+				`String uri;`
+				if (m.tls) `uri = "ssl://";`
+				else `uri = "tcp://";`
+				`uri += `&m.host&` + ":" + `&m.portno&`;` 
+				broker_uri = `uri`
+			end
+			enable_tls = m.tls
+			mqtt_connect()
+		end
+		
+		internal event m : mqtt?mqtt_publish action do
+			mqtt_publish(m.topic, m.payload, m.size)
+		end
+		
+		internal event m : mqtt?mqtt_subscribe action do
+			mqtt_subscribe(m.topic)
+		end
+		
+		state Start {}
+	}
+}

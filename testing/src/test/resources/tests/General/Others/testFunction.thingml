@@ -1,0 +1,44 @@
+import "../../thingml.thingml"
+
+thing TestFunction includes Test 
+@test "x # xxxxxxxx"
+{
+    //Test function call from a function
+    function foo(a : UInt32, b : UInt32) : UInt32 do
+    	return a + bar(b)
+    end
+    
+    //Test recursive function
+    function bar(a : UInt32) : UInt32 do
+        if (a > 0) do
+            return bar(a-1)
+        end
+        if (a < 0) do
+            return bar(a+1)
+        end
+		return 0
+    end
+    
+  
+    statechart TestPropertyPing init INIT {
+    
+    	state INIT {
+			
+			property a : UInt32 = 8
+			
+    		transition -> INIT
+			event m : Test?In
+			guard m.c == 'x'
+			action do
+				var result : UInt32 = foo(a, 5)
+                var index : UInt32 = 0
+                while (index < result) do
+				    TestOut('x')
+                    index = index + 1
+                end
+                TestDone()
+			end
+			    		
+    	}
+    }
+}

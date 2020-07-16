@@ -1,0 +1,266 @@
+import "thingml/core/timer.thingml"
+
+//datatype Double<4>
+//    @type_checker "Real"
+//	@c_type "double"
+//	@c_byte_size "4"
+//	@java_type "double"
+//  	@js_type "float"
+//	@java_primitive "true";
+//
+//datatype UInt64<8>
+//    @type_checker "Integer"
+//	@c_type "uint64_t"
+//	@c_byte_size "8"
+//	@java_type "long"
+//    @js_type "long"
+//	@java_primitive "true";
+
+object String
+    @type_checker "String"
+	@c_type "char *"
+	@c_byte_size "*"
+	@java_type "String"
+    @js_type "String"
+    @SenML_type "String";
+	
+thing fragment NIALMMsgs {
+	
+	message request_aggregated_load();
+	message response_aggregated_load(load: Double);
+	
+	message request_disaggregate(load: Double);
+	message response_disaggregated_loads(loads: Double[10]);
+}
+
+thing SmartGrid includes NIALMMsgs, TimerMsgs {
+	
+	required port grid_service {
+		sends request_aggregated_load
+		receives response_aggregated_load
+	}
+	
+	required port da_service {
+		sends request_disaggregate
+		receives response_disaggregated_loads
+	}
+	
+	 required port timer {
+ 		 sends timer_start, timer_cancel
+ 		 receives timer_timeout
+ 	}
+		
+	property aggregated_load: Double
+	property disaggregated_loads: Double[10]
+		set disaggregated_loads[0] = 0.0
+        set disaggregated_loads[1] = 0.0
+        set disaggregated_loads[2] = 0.0
+        set disaggregated_loads[3] = 0.0
+		set disaggregated_loads[4] = 0.0
+        set disaggregated_loads[5] = 0.0
+        set disaggregated_loads[6] = 0.0
+        set disaggregated_loads[7] = 0.0
+        set disaggregated_loads[8] = 0.0
+        set disaggregated_loads[9] = 0.0
+	
+	statechart SmartGridBehavior init Init {
+	
+	on entry print "Smart Grid Started!\n"
+	
+		state Init {
+			
+			on entry do
+				print "Waiting...\n"
+				timer!timer_start(10000)					
+			end			
+			transition -> RequestLoad 
+			event timer?timer_timeout
+			
+			on exit timer!timer_cancel()
+		}
+		
+		state RequestLoad {
+			
+			on entry do
+				print "Requesting the aggregated load...\n"				
+				grid_service!request_aggregated_load()
+			end
+			
+			transition -> Request_Disaggregation
+			event e1: grid_service?response_aggregated_load
+			action aggregated_load = e1.load
+			
+		}
+		
+		state Request_Disaggregation {
+			on entry do
+				print "Requesting energy disaggregation (NIALM)...\n"				
+				da_service!request_disaggregate(aggregated_load)
+			end
+			
+			transition -> Announce_Disaggregation
+			event e2: da_service?response_disaggregated_loads
+			action disaggregated_loads = e2.loads
+		}
+		
+		state Announce_Disaggregation {
+			on entry do
+				print "The disaggregated loads are:...\n"
+				for (item: Double in disaggregated_loads)
+					do
+					print item
+					print "\n"
+					end
+			end
+			
+			transition -> Init
+			}
+	}
+
+}
+
+thing SmartHome includes NIALMMsgs {
+	
+	provided port grid_service {
+		receives request_aggregated_load
+		sends response_aggregated_load
+	}
+	
+	property my_current_aggregated_load: Double = 4003.5 //TODO
+	
+	statechart SmartHomeBehavior init Active {
+
+        on entry print "Smart Home Started!\n"
+	
+		state Active {
+			
+			internal event e: grid_service?request_aggregated_load			
+			action		 
+			do				
+			print("Got a request from the smart grid...\n")
+			print("Sending the current aggregated load:\n")
+			print my_current_aggregated_load
+			print("\n")
+			grid_service!response_aggregated_load(my_current_aggregated_load)
+			end
+		}
+	}
+}
+
+thing NIALMDataAnalytics includes NIALMMsgs, TimerMsgs {
+		
+	provided port da_service {		
+		sends response_disaggregated_loads
+		receives request_disaggregate
+	}
+	
+	required port last_training_timer {
+ 		 sends timer_start, timer_cancel
+ 		 receives timer_timeout
+ 	}
+	
+	property aggregated_load: Double
+	property disaggregated_loads_1: Double[10]
+	    set disaggregated_loads_1[0] = 0.0
+        set disaggregated_loads_1[1] = 0.0
+        set disaggregated_loads_1[2] = 0.0
+        set disaggregated_loads_1[3] = 0.0
+		set disaggregated_loads_1[4] = 0.0
+        set disaggregated_loads_1[5] = 0.0
+        set disaggregated_loads_1[6] = 0.0
+        set disaggregated_loads_1[7] = 0.0
+        set disaggregated_loads_1[8] = 0.0
+        set disaggregated_loads_1[9] = 0.0
+	
+	property disaggregated_loads_2: Double[10]
+		set disaggregated_loads_2[0] = 0.0
+        set disaggregated_loads_2[1] = 0.0
+        set disaggregated_loads_2[2] = 0.0
+        set disaggregated_loads_2[3] = 0.0
+		set disaggregated_loads_2[4] = 0.0
+        set disaggregated_loads_2[5] = 0.0
+        set disaggregated_loads_2[6] = 0.0
+        set disaggregated_loads_2[7] = 0.0
+        set disaggregated_loads_2[8] = 0.0
+        set disaggregated_loads_2[9] = 0.0
+
+	data_analytics da1 {
+		dataset "data/nialm.csv"
+		sequential TRUE
+		timestamps ON
+		labels ON
+		features aggregated_load, disaggregated_loads_1
+		////model_algorithm gated_recurrent_units my_gru(
+			////loss_function MSE, optimizer Adam, learning_rate 0.00001
+		////)
+		model_algorithm decision_tree my_dt()
+		training_results "data/training_da1.txt"		
+		prediction_results disaggregated_loads_1
+	}
+	
+	data_analytics da2 {
+		dataset "data/nialm.csv"
+		sequential TRUE
+		timestamps ON
+		labels ON
+		features aggregated_load, disaggregated_loads_2
+		model_algorithm long_short_term_memory my_lstm(
+			learning_rate 0.0000001
+		)
+		training_results "data/training_da2.txt"		
+		prediction_results disaggregated_loads_2
+	}
+
+	statechart NIALMDataAnalyticsBehavior init Preprocess {
+	
+	on entry print "NIALM Data Analytics Started!\n"
+	
+		state Preprocess {
+			on entry do
+				print "NIALM Data Analytics: Data Preprocessing\n"
+				da_preprocess da1
+				//da_preprocess da2
+			end
+			transition -> Train			
+		}
+		
+		state Train {
+			on entry do
+				print "NIALM Data Analytics: Training\n"
+				da_train da1
+				//da_train da2
+			end
+			transition -> Ready
+		}
+		
+		state Ready {
+			on entry do
+			print "NIALM Data Analytics: Ready for Prediction\n"
+			last_training_timer!timer_start(3600000)	
+			end
+					
+			transition -> Train 
+			event last_training_timer?timer_timeout 
+			
+			transition -> Predict
+			event m: da_service?request_disaggregate
+			action aggregated_load = m.load			
+			
+			on exit last_training_timer!timer_cancel()
+			
+		}
+		
+		state Predict {
+			on entry do
+				print "NIALM Data Analytics: Predicting\n"
+				da_predict da1(aggregated_load)
+				//da_predict da2(aggregated_load)
+				da_service!response_disaggregated_loads(disaggregated_loads_1)
+				//da_service!response_disaggregated_loads(disaggregated_loads_2)
+			end
+			transition -> Ready
+			on exit da_save da1
+			//on exit da_save da2
+		}	
+	}
+}
