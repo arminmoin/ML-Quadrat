@@ -4,7 +4,7 @@ ML2 is a free open source Model-Driven Software Engineering (MDSE) framework for
 Note: The name ML-Quadrat (German word for ML-Square / MLˆ2) refers to the fact that the project is about two MLs: (i) ML for Modeling Language; (ii) ML for Machine Learning. However, in the following documentation and also in the source code comments, we refer to the project name as ML2 for simplicity.
 
 ## ML2 Users' Documentation (Tutorial)
-If you are looking for a tutorial to learn how to use ML2, please read the users' documentation below.
+If you are looking for a tutorial to learn how to use ML2, please read the users' documentation below. Our documentation focuses on Linux and mainly Java. However, a number of other platforms and programming languages may also be used similarly with minor modifications.
 
 Since ML2 is based on ThingML, we highly encourage those users, who are not familiar with ThingML, to first read the documentation of ThingML and take a look at their samples: https://github.com/TelluIoT/ThingML
 
@@ -13,7 +13,7 @@ ThingML and other Model-Driven Software Engineering (MDSE) tools, that we are aw
 
 ### How to install ML2?
 **Prerequisites:**
-You need Git (https://git-scm.com/), Maven (https://maven.apache.org/), and the Java Development Kit (JDK) version 8+.
+You need Git (https://git-scm.com/), Maven (https://maven.apache.org/), the Java Development Kit (JDK) version 8+, Python 3 (Anaconda recommended: https://www.anaconda.com/), Scikit-learn (https://scikit-learn.org), Tensorflow (https://www.tensorflow.org/), Keras (https://keras.io/) and Pytorch (https://pytorch.org/). They are all free open source software.
 
 Go to the terminal / shell / command line and follow the steps below.
 
@@ -155,7 +155,7 @@ java -jar SmartPingPongCfg-1.0.0-jar-with-dependencies.jar
 ```
 
 ## ML2 Developers' Documentation (for Contributors)
-If you are going to contribute to this project, please read the developers' documentation below. 
+If you are going to contribute to this project, please read the developers' documentation below. Our documentation focuses on Linux and mainly Java. However, a number of other platforms and programming languages may also be used similarly with minor modifications.
 
 Our focus is on the Java code generator (model-to-text transformation), which also generates Python code. However, the same strategy shall apply to the other supported target platforms and programming languages for code generation. 
 
