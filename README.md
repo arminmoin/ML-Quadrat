@@ -98,6 +98,14 @@ This is a sample data analytics block in our demo, Smart Ping-Pong, which you ma
 
 (viii) prediction_results: Here we mention the property that shall contain the final result of the prediction of the data analytics model.
 
+The auto-complete feature of our Xtext-based model editor or alternatively our EMF-based tree model editor can be quite useful for finding out all possible options to tune the data analytics models. For instance, depending on the configurations of your Eclipse IDE, by clicking on Control and Space buttons of your keyboard, you should be able to see all the suggestions of the model editor. Just as an example, if you click on those buttons at this point (at the end of the following line): 
+
+model_algorithm nn_multilayer_perceptron my_nn_mlp(
+
+you will see suggestions regarding the hyperparameters and configurations of the Neural Networks model, such as the choice of the ctivation function, optimizer, loss function and so forth. These choices are based on the APIs of the Keras library (see https://keras.io/guides) for the Deep Learning models, e.g., for the Multi-Layer Perceptron (MLP) Neural Network (NN), and based on the APIs of the Scikit-Learn library (see https://scikit-learn.org/stable/) for other models, e.g., Decision Trees and Random Forests.
+
+Moreover, all keywords regarding data analytics are highlíghted in blue color in our textual xtext-based model editor.
+
 #### How to have the trained data analytics models retrained periodically
 In our sample model instances, we show how to do this. For instance, see this line:
 
