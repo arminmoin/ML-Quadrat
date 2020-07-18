@@ -109,6 +109,20 @@ you will see suggestions regarding the hyperparameters and configurations of the
 
 Moreover, all keywords regarding data analytics are highlíghted in blue color in our textual xtext-based model editor.
 
+#### The extended action language
+
+If you are familiar with the action language of ThingML, you can notice that we introduced four new action types concerning data analytics:
+
+(i) da_preprocess: This action leads to preprocessing the data, based on the data analytics block. The name of the corresponding data analytics block shall be mentioned after that, e.g., da_preprocess da1.
+
+(ii) da_train: This action leads to training the data analytics model, based on the data analytics block. The name of the corresponding data analytics block shall be mentioned after that, e.g., da_train da1.
+
+(iii) da_predict: This action leads to predictions using the data analytics model. The name of the corresponding data analytics block, as well as the values of the features, based on which the prediction shall occur, must be mentioned after that, e.g., da_predict da1(value).
+
+(iv) da_save: This action leads to saving the prediction (new data) in the dataset. The name of the corresponding data analytics block shall be mentioned after that, e.g., da_save da1.
+
+Please see our examples (ML2 Demos) at https://github.com/arminmoin/ML-Quadrat/tree/master/org.thingml.samples/src/main/thingml.
+
 #### How to have the trained data analytics models retrained periodically
 In our sample model instances, we show how to do this. For instance, see this line:
 
