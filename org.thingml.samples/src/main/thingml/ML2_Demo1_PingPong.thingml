@@ -134,7 +134,9 @@ thing PingPongDataAnalytics includes PingPongMsgs {
 		timestamps ON
 		labels ON
 		features client_ip_address,prediction
-		model_algorithm decision_tree my_dt()
+		//model_algorithm decision_tree my_dt()
+		//model_algorithm random_forest my_rf()
+		model_algorithm nn_multilayer_perceptron my_nn_mlp(activation relu optimizer Adam loss sparse_categorical_crossentropy)
 		training_results "data/training.txt"		
 		prediction_results prediction
 	}

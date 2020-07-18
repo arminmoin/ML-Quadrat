@@ -26,7 +26,7 @@ package org.thingml.xtext.thingML;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link org.thingml.xtext.thingML.DecisionTree#getLossFunction <em>Loss Function</em>}</li>
+ *   <li>{@link org.thingml.xtext.thingML.DecisionTree#getDecisionTreeCriterion <em>Decision Tree Criterion</em>}</li>
  *   <li>{@link org.thingml.xtext.thingML.DecisionTree#getMin_samples_split <em>Min samples split</em>}</li>
  * </ul>
  *
@@ -37,58 +37,58 @@ package org.thingml.xtext.thingML;
 public interface DecisionTree extends ML2_ModelAlgorithm
 {
   /**
-	 * Returns the value of the '<em><b>Loss Function</b></em>' attribute.
-	 * The literals are from the enumeration {@link org.thingml.xtext.thingML.LossFunction}.
+	 * Returns the value of the '<em><b>Decision Tree Criterion</b></em>' attribute.
+	 * The literals are from the enumeration {@link org.thingml.xtext.thingML.DecisionTreeCriterion}.
 	 * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Loss Function</em>' attribute isn't clear,
+   * If the meaning of the '<em>Decision Tree Criterion</em>' attribute isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-	 * @return the value of the '<em>Loss Function</em>' attribute.
-	 * @see org.thingml.xtext.thingML.LossFunction
-	 * @see #setLossFunction(LossFunction)
-	 * @see org.thingml.xtext.thingML.ThingMLPackage#getDecisionTree_LossFunction()
+	 * @return the value of the '<em>Decision Tree Criterion</em>' attribute.
+	 * @see org.thingml.xtext.thingML.DecisionTreeCriterion
+	 * @see #setDecisionTreeCriterion(DecisionTreeCriterion)
+	 * @see org.thingml.xtext.thingML.ThingMLPackage#getDecisionTree_DecisionTreeCriterion()
 	 * @model
 	 * @generated
 	 */
-  LossFunction getLossFunction();
+  DecisionTreeCriterion getDecisionTreeCriterion();
 
   /**
-	 * Sets the value of the '{@link org.thingml.xtext.thingML.DecisionTree#getLossFunction <em>Loss Function</em>}' attribute.
+	 * Sets the value of the '{@link org.thingml.xtext.thingML.DecisionTree#getDecisionTreeCriterion <em>Decision Tree Criterion</em>}' attribute.
 	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Loss Function</em>' attribute.
-	 * @see org.thingml.xtext.thingML.LossFunction
-	 * @see #getLossFunction()
+	 * @param value the new value of the '<em>Decision Tree Criterion</em>' attribute.
+	 * @see org.thingml.xtext.thingML.DecisionTreeCriterion
+	 * @see #getDecisionTreeCriterion()
 	 * @generated
 	 */
-  void setLossFunction(LossFunction value);
+  void setDecisionTreeCriterion(DecisionTreeCriterion value);
 
   /**
-	 * Returns the value of the '<em><b>Min samples split</b></em>' containment reference.
+	 * Returns the value of the '<em><b>Min samples split</b></em>' attribute.
 	 * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Min samples split</em>' containment reference isn't clear,
+   * If the meaning of the '<em>Min samples split</em>' attribute isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-	 * @return the value of the '<em>Min samples split</em>' containment reference.
-	 * @see #setMin_samples_split(MinSamplesSplit)
+	 * @return the value of the '<em>Min samples split</em>' attribute.
+	 * @see #setMin_samples_split(String)
 	 * @see org.thingml.xtext.thingML.ThingMLPackage#getDecisionTree_Min_samples_split()
-	 * @model containment="true"
+	 * @model
 	 * @generated
 	 */
-  MinSamplesSplit getMin_samples_split();
+  String getMin_samples_split();
 
   /**
-	 * Sets the value of the '{@link org.thingml.xtext.thingML.DecisionTree#getMin_samples_split <em>Min samples split</em>}' containment reference.
+	 * Sets the value of the '{@link org.thingml.xtext.thingML.DecisionTree#getMin_samples_split <em>Min samples split</em>}' attribute.
 	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Min samples split</em>' containment reference.
+	 * @param value the new value of the '<em>Min samples split</em>' attribute.
 	 * @see #getMin_samples_split()
 	 * @generated
 	 */
-  void setMin_samples_split(MinSamplesSplit value);
+  void setMin_samples_split(String value);
 
 } // DecisionTree

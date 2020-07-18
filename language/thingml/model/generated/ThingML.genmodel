@@ -18,15 +18,49 @@
       <genEnumLiterals ecoreEnumLiteral="ThingML.ecore#//Labels/ON"/>
       <genEnumLiterals ecoreEnumLiteral="ThingML.ecore#//Labels/OFF"/>
     </genEnums>
-    <genEnums typeSafeEnumCompatible="false" ecoreEnum="ThingML.ecore#//Optimizer">
-      <genEnumLiterals ecoreEnumLiteral="ThingML.ecore#//Optimizer/ADAM"/>
-      <genEnumLiterals ecoreEnumLiteral="ThingML.ecore#//Optimizer/Nadam"/>
-      <genEnumLiterals ecoreEnumLiteral="ThingML.ecore#//Optimizer/RMSPROP"/>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="ThingML.ecore#//DecisionTreeCriterion">
+      <genEnumLiterals ecoreEnumLiteral="ThingML.ecore#//DecisionTreeCriterion/NO_IDEA"/>
+      <genEnumLiterals ecoreEnumLiteral="ThingML.ecore#//DecisionTreeCriterion/MSE"/>
+      <genEnumLiterals ecoreEnumLiteral="ThingML.ecore#//DecisionTreeCriterion/FRIEDMAN_MSE"/>
+      <genEnumLiterals ecoreEnumLiteral="ThingML.ecore#//DecisionTreeCriterion/MAE"/>
+      <genEnumLiterals ecoreEnumLiteral="ThingML.ecore#//DecisionTreeCriterion/GINI"/>
+      <genEnumLiterals ecoreEnumLiteral="ThingML.ecore#//DecisionTreeCriterion/ENTROPY"/>
     </genEnums>
-    <genEnums typeSafeEnumCompatible="false" ecoreEnum="ThingML.ecore#//LossFunction">
-      <genEnumLiterals ecoreEnumLiteral="ThingML.ecore#//LossFunction/MSE"/>
-      <genEnumLiterals ecoreEnumLiteral="ThingML.ecore#//LossFunction/FRIEDMAN_MSE"/>
-      <genEnumLiterals ecoreEnumLiteral="ThingML.ecore#//LossFunction/MAE"/>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="ThingML.ecore#//RandomForestCriterion">
+      <genEnumLiterals ecoreEnumLiteral="ThingML.ecore#//RandomForestCriterion/NO_IDEA"/>
+      <genEnumLiterals ecoreEnumLiteral="ThingML.ecore#//RandomForestCriterion/MSE"/>
+      <genEnumLiterals ecoreEnumLiteral="ThingML.ecore#//RandomForestCriterion/MAE"/>
+      <genEnumLiterals ecoreEnumLiteral="ThingML.ecore#//RandomForestCriterion/GINI"/>
+      <genEnumLiterals ecoreEnumLiteral="ThingML.ecore#//RandomForestCriterion/ENTROPY"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="ThingML.ecore#//Activation">
+      <genEnumLiterals ecoreEnumLiteral="ThingML.ecore#//Activation/NO_IDEA"/>
+      <genEnumLiterals ecoreEnumLiteral="ThingML.ecore#//Activation/RELU"/>
+      <genEnumLiterals ecoreEnumLiteral="ThingML.ecore#//Activation/SIGMOID"/>
+      <genEnumLiterals ecoreEnumLiteral="ThingML.ecore#//Activation/SOFTMAX"/>
+      <genEnumLiterals ecoreEnumLiteral="ThingML.ecore#//Activation/SOFTPLUS"/>
+      <genEnumLiterals ecoreEnumLiteral="ThingML.ecore#//Activation/SOFTSIGN"/>
+      <genEnumLiterals ecoreEnumLiteral="ThingML.ecore#//Activation/TANH"/>
+      <genEnumLiterals ecoreEnumLiteral="ThingML.ecore#//Activation/SELU"/>
+      <genEnumLiterals ecoreEnumLiteral="ThingML.ecore#//Activation/ELU"/>
+      <genEnumLiterals ecoreEnumLiteral="ThingML.ecore#//Activation/EXPONENTIAL"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="ThingML.ecore#//Optimizer">
+      <genEnumLiterals ecoreEnumLiteral="ThingML.ecore#//Optimizer/NO_IDEA"/>
+      <genEnumLiterals ecoreEnumLiteral="ThingML.ecore#//Optimizer/SGD"/>
+      <genEnumLiterals ecoreEnumLiteral="ThingML.ecore#//Optimizer/RMSPROP"/>
+      <genEnumLiterals ecoreEnumLiteral="ThingML.ecore#//Optimizer/ADAM"/>
+      <genEnumLiterals ecoreEnumLiteral="ThingML.ecore#//Optimizer/ADADELTA"/>
+      <genEnumLiterals ecoreEnumLiteral="ThingML.ecore#//Optimizer/ADAGRAD"/>
+      <genEnumLiterals ecoreEnumLiteral="ThingML.ecore#//Optimizer/ADAMAX"/>
+      <genEnumLiterals ecoreEnumLiteral="ThingML.ecore#//Optimizer/NADAM"/>
+      <genEnumLiterals ecoreEnumLiteral="ThingML.ecore#//Optimizer/FTRL"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="ThingML.ecore#//Loss">
+      <genEnumLiterals ecoreEnumLiteral="ThingML.ecore#//Loss/NO_IDEA"/>
+      <genEnumLiterals ecoreEnumLiteral="ThingML.ecore#//Loss/SPARSE_CATEGORICAL_CROSSENTROPY"/>
+      <genEnumLiterals ecoreEnumLiteral="ThingML.ecore#//Loss/CATEGORICAL_CROSSENTROPY"/>
+      <genEnumLiterals ecoreEnumLiteral="ThingML.ecore#//Loss/MSE"/>
     </genEnums>
     <genClasses ecoreClass="ThingML.ecore#//ThingMLModel">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ThingML.ecore#//ThingMLModel/imports"/>
@@ -160,39 +194,21 @@
     </genClasses>
     <genClasses ecoreClass="ThingML.ecore#//ML2_ModelAlgorithm"/>
     <genClasses ecoreClass="ThingML.ecore#//DecisionTree">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ThingML.ecore#//DecisionTree/lossFunction"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ThingML.ecore#//DecisionTree/min_samples_split"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ThingML.ecore#//DecisionTree/decisionTreeCriterion"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ThingML.ecore#//DecisionTree/min_samples_split"/>
     </genClasses>
     <genClasses ecoreClass="ThingML.ecore#//RandomForest">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ThingML.ecore#//RandomForest/lossFunction"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ThingML.ecore#//RandomForest/min_samples_split"/>
-    </genClasses>
-    <genClasses ecoreClass="ThingML.ecore#//GatedRecurrentUnits">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ThingML.ecore#//GatedRecurrentUnits/loss_function"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ThingML.ecore#//GatedRecurrentUnits/optimizer"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ThingML.ecore#//GatedRecurrentUnits/learning_rate"/>
-    </genClasses>
-    <genClasses ecoreClass="ThingML.ecore#//LongShortTermMemory">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ThingML.ecore#//LongShortTermMemory/loss_function"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ThingML.ecore#//LongShortTermMemory/optimizer"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ThingML.ecore#//LongShortTermMemory/learning_rate"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ThingML.ecore#//RandomForest/randomForestCriterion"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ThingML.ecore#//RandomForest/min_samples_split"/>
     </genClasses>
     <genClasses ecoreClass="ThingML.ecore#//NN_MultilayerPerceptron">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ThingML.ecore#//NN_MultilayerPerceptron/loss_function"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ThingML.ecore#//NN_MultilayerPerceptron/no_hidden_layers"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ThingML.ecore#//NN_MultilayerPerceptron/activation"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ThingML.ecore#//NN_MultilayerPerceptron/optimizer"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ThingML.ecore#//NN_MultilayerPerceptron/learning_rate"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ThingML.ecore#//NN_MultilayerPerceptron/no_layers"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ThingML.ecore#//NN_MultilayerPerceptron/dropout_probability"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ThingML.ecore#//NN_MultilayerPerceptron/loss"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ThingML.ecore#//NN_MultilayerPerceptron/epochs"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ThingML.ecore#//NN_MultilayerPerceptron/batch_size"/>
     </genClasses>
-    <genClasses ecoreClass="ThingML.ecore#//DenoisingAutoencoders">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ThingML.ecore#//DenoisingAutoencoders/loss_function"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ThingML.ecore#//DenoisingAutoencoders/optimizer"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ThingML.ecore#//DenoisingAutoencoders/learning_rate"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ThingML.ecore#//DenoisingAutoencoders/sequence_length"/>
-    </genClasses>
-    <genClasses ecoreClass="ThingML.ecore#//FactorialHiddenMarkovModel"/>
-    <genClasses ecoreClass="ThingML.ecore#//CombinatorialOptimization"/>
-    <genClasses ecoreClass="ThingML.ecore#//MinSamplesSplit"/>
     <genClasses ecoreClass="ThingML.ecore#//Event"/>
     <genClasses ecoreClass="ThingML.ecore#//ReceiveMessage">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ThingML.ecore#//ReceiveMessage/port"/>

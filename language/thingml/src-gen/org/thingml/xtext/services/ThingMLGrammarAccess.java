@@ -3035,16 +3035,11 @@ public class ThingMLGrammarAccess extends AbstractGrammarElementFinder {
 		
 		//// Models and algorithms for data analytics (specifically Machine Learning) may have any of the following types:
 		//// 1. They can conform to the PMML standard. 
-		//// 2. They can conform to the PFA standard.
-		//// 3. If they do not conform to the above-mentioned standards, they may be one of the choices offered here by ML2:
+		//// 2. They can conform to the PFA standard (not yet supported).
+		//// 3. If they do not conform to the above-mentioned standards, they may be one of the choices offered here by ML2 (the list will be extended):
 		////  DecisionTreeRegressor
 		////	RandomForestRegressor
-		////	GatedRecurrentUnits 
-		////	LongShortTermMemory 
 		////	NN_MultilayerPerceptron 
-		////	DenoisingAutoencoders 
-		////	FactorialHiddenMarkovModel 
-		////	CombinatorialOptimization
 		//DataAnalyticsModelAlgorithm:
 		//	PMML_ModelAlgorithm | PFA_ModelAlgorithm | ML2_ModelAlgorithm;
 		@Override public ParserRule getRule() { return rule; }
@@ -3125,6 +3120,7 @@ public class ThingMLGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightParenthesisKeyword_4 = (Keyword)cGroup.eContents().get(4);
 		
 		//// 2. The PFA Standard (see http://dmg.org/pfa/)
+		////TODO To be supported
 		//PFA_ModelAlgorithm:
 		//	'pfa' name=ID
 		//	'(' ('path' pfa_path=STRING)
@@ -3166,21 +3162,15 @@ public class ThingMLGrammarAccess extends AbstractGrammarElementFinder {
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
 		private final RuleCall cDecisionTreeParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
 		private final RuleCall cRandomForestParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
-		private final RuleCall cGatedRecurrentUnitsParserRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
-		private final RuleCall cLongShortTermMemoryParserRuleCall_3 = (RuleCall)cAlternatives.eContents().get(3);
-		private final RuleCall cNN_MultilayerPerceptronParserRuleCall_4 = (RuleCall)cAlternatives.eContents().get(4);
-		private final RuleCall cDenoisingAutoencodersParserRuleCall_5 = (RuleCall)cAlternatives.eContents().get(5);
-		private final RuleCall cFactorialHiddenMarkovModelParserRuleCall_6 = (RuleCall)cAlternatives.eContents().get(6);
-		private final RuleCall cCombinatorialOptimizationParserRuleCall_7 = (RuleCall)cAlternatives.eContents().get(7);
+		private final RuleCall cNN_MultilayerPerceptronParserRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
 		
-		//// 3. Non-standard ML2 models and algorithms
+		//// 3. ML2 models and algorithms
+		////TODO To be extended
 		//ML2_ModelAlgorithm:
-		//	DecisionTree | RandomForest | GatedRecurrentUnits | LongShortTermMemory | NN_MultilayerPerceptron |
-		//	DenoisingAutoencoders | FactorialHiddenMarkovModel | CombinatorialOptimization;
+		//	DecisionTree | RandomForest | NN_MultilayerPerceptron;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//DecisionTree | RandomForest | GatedRecurrentUnits | LongShortTermMemory | NN_MultilayerPerceptron |
-		//DenoisingAutoencoders | FactorialHiddenMarkovModel | CombinatorialOptimization
+		//DecisionTree | RandomForest | NN_MultilayerPerceptron
 		public Alternatives getAlternatives() { return cAlternatives; }
 		
 		//DecisionTree
@@ -3189,23 +3179,8 @@ public class ThingMLGrammarAccess extends AbstractGrammarElementFinder {
 		//RandomForest
 		public RuleCall getRandomForestParserRuleCall_1() { return cRandomForestParserRuleCall_1; }
 		
-		//GatedRecurrentUnits
-		public RuleCall getGatedRecurrentUnitsParserRuleCall_2() { return cGatedRecurrentUnitsParserRuleCall_2; }
-		
-		//LongShortTermMemory
-		public RuleCall getLongShortTermMemoryParserRuleCall_3() { return cLongShortTermMemoryParserRuleCall_3; }
-		
 		//NN_MultilayerPerceptron
-		public RuleCall getNN_MultilayerPerceptronParserRuleCall_4() { return cNN_MultilayerPerceptronParserRuleCall_4; }
-		
-		//DenoisingAutoencoders
-		public RuleCall getDenoisingAutoencodersParserRuleCall_5() { return cDenoisingAutoencodersParserRuleCall_5; }
-		
-		//FactorialHiddenMarkovModel
-		public RuleCall getFactorialHiddenMarkovModelParserRuleCall_6() { return cFactorialHiddenMarkovModelParserRuleCall_6; }
-		
-		//CombinatorialOptimization
-		public RuleCall getCombinatorialOptimizationParserRuleCall_7() { return cCombinatorialOptimizationParserRuleCall_7; }
+		public RuleCall getNN_MultilayerPerceptronParserRuleCall_2() { return cNN_MultilayerPerceptronParserRuleCall_2; }
 	}
 	public class DecisionTreeElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.thingml.xtext.ThingML.DecisionTree");
@@ -3215,25 +3190,25 @@ public class ThingMLGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cNameIDTerminalRuleCall_1_0 = (RuleCall)cNameAssignment_1.eContents().get(0);
 		private final Keyword cLeftParenthesisKeyword_2 = (Keyword)cGroup.eContents().get(2);
 		private final Group cGroup_3 = (Group)cGroup.eContents().get(3);
-		private final Keyword cLoss_functionKeyword_3_0 = (Keyword)cGroup_3.eContents().get(0);
-		private final Assignment cLossFunctionAssignment_3_1 = (Assignment)cGroup_3.eContents().get(1);
-		private final RuleCall cLossFunctionLossFunctionEnumRuleCall_3_1_0 = (RuleCall)cLossFunctionAssignment_3_1.eContents().get(0);
+		private final Keyword cCriterionKeyword_3_0 = (Keyword)cGroup_3.eContents().get(0);
+		private final Assignment cDecisionTreeCriterionAssignment_3_1 = (Assignment)cGroup_3.eContents().get(1);
+		private final RuleCall cDecisionTreeCriterionDecisionTreeCriterionEnumRuleCall_3_1_0 = (RuleCall)cDecisionTreeCriterionAssignment_3_1.eContents().get(0);
 		private final Keyword cCommaKeyword_4 = (Keyword)cGroup.eContents().get(4);
 		private final Group cGroup_5 = (Group)cGroup.eContents().get(5);
 		private final Keyword cMin_samples_splitKeyword_5_0 = (Keyword)cGroup_5.eContents().get(0);
 		private final Assignment cMin_samples_splitAssignment_5_1 = (Assignment)cGroup_5.eContents().get(1);
-		private final RuleCall cMin_samples_splitMinSamplesSplitParserRuleCall_5_1_0 = (RuleCall)cMin_samples_splitAssignment_5_1.eContents().get(0);
+		private final RuleCall cMin_samples_splitMin_samples_split_typeParserRuleCall_5_1_0 = (RuleCall)cMin_samples_splitAssignment_5_1.eContents().get(0);
 		private final Keyword cRightParenthesisKeyword_6 = (Keyword)cGroup.eContents().get(6);
 		
 		//DecisionTree:
 		//	'decision_tree' name=ID
-		//	'(' ('loss_function' lossFunction=LossFunction)?
-		//	','? ('min_samples_split' min_samples_split=MinSamplesSplit)?
+		//	'(' ('criterion' decisionTreeCriterion=DecisionTreeCriterion)?
+		//	','? ('min_samples_split' min_samples_split=Min_samples_split_type)?
 		//	')';
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'decision_tree' name=ID '(' ('loss_function' lossFunction=LossFunction)? ','? ('min_samples_split'
-		//min_samples_split=MinSamplesSplit)? ')'
+		//'decision_tree' name=ID '(' ('criterion' decisionTreeCriterion=DecisionTreeCriterion)? ','? ('min_samples_split'
+		//min_samples_split=Min_samples_split_type)? ')'
 		public Group getGroup() { return cGroup; }
 		
 		//'decision_tree'
@@ -3248,32 +3223,32 @@ public class ThingMLGrammarAccess extends AbstractGrammarElementFinder {
 		//'('
 		public Keyword getLeftParenthesisKeyword_2() { return cLeftParenthesisKeyword_2; }
 		
-		//('loss_function' lossFunction=LossFunction)?
+		//('criterion' decisionTreeCriterion=DecisionTreeCriterion)?
 		public Group getGroup_3() { return cGroup_3; }
 		
-		//'loss_function'
-		public Keyword getLoss_functionKeyword_3_0() { return cLoss_functionKeyword_3_0; }
+		//'criterion'
+		public Keyword getCriterionKeyword_3_0() { return cCriterionKeyword_3_0; }
 		
-		//lossFunction=LossFunction
-		public Assignment getLossFunctionAssignment_3_1() { return cLossFunctionAssignment_3_1; }
+		//decisionTreeCriterion=DecisionTreeCriterion
+		public Assignment getDecisionTreeCriterionAssignment_3_1() { return cDecisionTreeCriterionAssignment_3_1; }
 		
-		//LossFunction
-		public RuleCall getLossFunctionLossFunctionEnumRuleCall_3_1_0() { return cLossFunctionLossFunctionEnumRuleCall_3_1_0; }
+		//DecisionTreeCriterion
+		public RuleCall getDecisionTreeCriterionDecisionTreeCriterionEnumRuleCall_3_1_0() { return cDecisionTreeCriterionDecisionTreeCriterionEnumRuleCall_3_1_0; }
 		
 		//','?
 		public Keyword getCommaKeyword_4() { return cCommaKeyword_4; }
 		
-		//('min_samples_split' min_samples_split=MinSamplesSplit)?
+		//('min_samples_split' min_samples_split=Min_samples_split_type)?
 		public Group getGroup_5() { return cGroup_5; }
 		
 		//'min_samples_split'
 		public Keyword getMin_samples_splitKeyword_5_0() { return cMin_samples_splitKeyword_5_0; }
 		
-		//min_samples_split=MinSamplesSplit
+		//min_samples_split=Min_samples_split_type
 		public Assignment getMin_samples_splitAssignment_5_1() { return cMin_samples_splitAssignment_5_1; }
 		
-		//MinSamplesSplit
-		public RuleCall getMin_samples_splitMinSamplesSplitParserRuleCall_5_1_0() { return cMin_samples_splitMinSamplesSplitParserRuleCall_5_1_0; }
+		//Min_samples_split_type
+		public RuleCall getMin_samples_splitMin_samples_split_typeParserRuleCall_5_1_0() { return cMin_samples_splitMin_samples_split_typeParserRuleCall_5_1_0; }
 		
 		//')'
 		public Keyword getRightParenthesisKeyword_6() { return cRightParenthesisKeyword_6; }
@@ -3286,25 +3261,25 @@ public class ThingMLGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cNameIDTerminalRuleCall_1_0 = (RuleCall)cNameAssignment_1.eContents().get(0);
 		private final Keyword cLeftParenthesisKeyword_2 = (Keyword)cGroup.eContents().get(2);
 		private final Group cGroup_3 = (Group)cGroup.eContents().get(3);
-		private final Keyword cLoss_functionKeyword_3_0 = (Keyword)cGroup_3.eContents().get(0);
-		private final Assignment cLossFunctionAssignment_3_1 = (Assignment)cGroup_3.eContents().get(1);
-		private final RuleCall cLossFunctionLossFunctionEnumRuleCall_3_1_0 = (RuleCall)cLossFunctionAssignment_3_1.eContents().get(0);
+		private final Keyword cCriterionKeyword_3_0 = (Keyword)cGroup_3.eContents().get(0);
+		private final Assignment cRandomForestCriterionAssignment_3_1 = (Assignment)cGroup_3.eContents().get(1);
+		private final RuleCall cRandomForestCriterionRandomForestCriterionEnumRuleCall_3_1_0 = (RuleCall)cRandomForestCriterionAssignment_3_1.eContents().get(0);
 		private final Keyword cCommaKeyword_4 = (Keyword)cGroup.eContents().get(4);
 		private final Group cGroup_5 = (Group)cGroup.eContents().get(5);
 		private final Keyword cMin_samples_splitKeyword_5_0 = (Keyword)cGroup_5.eContents().get(0);
 		private final Assignment cMin_samples_splitAssignment_5_1 = (Assignment)cGroup_5.eContents().get(1);
-		private final RuleCall cMin_samples_splitMinSamplesSplitParserRuleCall_5_1_0 = (RuleCall)cMin_samples_splitAssignment_5_1.eContents().get(0);
+		private final RuleCall cMin_samples_splitMin_samples_split_typeParserRuleCall_5_1_0 = (RuleCall)cMin_samples_splitAssignment_5_1.eContents().get(0);
 		private final Keyword cRightParenthesisKeyword_6 = (Keyword)cGroup.eContents().get(6);
 		
 		//RandomForest:
 		//	'random_forest' name=ID
-		//	'(' ('loss_function' lossFunction=LossFunction)?
-		//	','? ('min_samples_split' min_samples_split=MinSamplesSplit)?
+		//	'(' ('criterion' randomForestCriterion=RandomForestCriterion)?
+		//	','? ('min_samples_split' min_samples_split=Min_samples_split_type)?
 		//	')';
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'random_forest' name=ID '(' ('loss_function' lossFunction=LossFunction)? ','? ('min_samples_split'
-		//min_samples_split=MinSamplesSplit)? ')'
+		//'random_forest' name=ID '(' ('criterion' randomForestCriterion=RandomForestCriterion)? ','? ('min_samples_split'
+		//min_samples_split=Min_samples_split_type)? ')'
 		public Group getGroup() { return cGroup; }
 		
 		//'random_forest'
@@ -3319,219 +3294,35 @@ public class ThingMLGrammarAccess extends AbstractGrammarElementFinder {
 		//'('
 		public Keyword getLeftParenthesisKeyword_2() { return cLeftParenthesisKeyword_2; }
 		
-		//('loss_function' lossFunction=LossFunction)?
+		//('criterion' randomForestCriterion=RandomForestCriterion)?
 		public Group getGroup_3() { return cGroup_3; }
 		
-		//'loss_function'
-		public Keyword getLoss_functionKeyword_3_0() { return cLoss_functionKeyword_3_0; }
+		//'criterion'
+		public Keyword getCriterionKeyword_3_0() { return cCriterionKeyword_3_0; }
 		
-		//lossFunction=LossFunction
-		public Assignment getLossFunctionAssignment_3_1() { return cLossFunctionAssignment_3_1; }
+		//randomForestCriterion=RandomForestCriterion
+		public Assignment getRandomForestCriterionAssignment_3_1() { return cRandomForestCriterionAssignment_3_1; }
 		
-		//LossFunction
-		public RuleCall getLossFunctionLossFunctionEnumRuleCall_3_1_0() { return cLossFunctionLossFunctionEnumRuleCall_3_1_0; }
+		//RandomForestCriterion
+		public RuleCall getRandomForestCriterionRandomForestCriterionEnumRuleCall_3_1_0() { return cRandomForestCriterionRandomForestCriterionEnumRuleCall_3_1_0; }
 		
 		//','?
 		public Keyword getCommaKeyword_4() { return cCommaKeyword_4; }
 		
-		//('min_samples_split' min_samples_split=MinSamplesSplit)?
+		//('min_samples_split' min_samples_split=Min_samples_split_type)?
 		public Group getGroup_5() { return cGroup_5; }
 		
 		//'min_samples_split'
 		public Keyword getMin_samples_splitKeyword_5_0() { return cMin_samples_splitKeyword_5_0; }
 		
-		//min_samples_split=MinSamplesSplit
+		//min_samples_split=Min_samples_split_type
 		public Assignment getMin_samples_splitAssignment_5_1() { return cMin_samples_splitAssignment_5_1; }
 		
-		//MinSamplesSplit
-		public RuleCall getMin_samples_splitMinSamplesSplitParserRuleCall_5_1_0() { return cMin_samples_splitMinSamplesSplitParserRuleCall_5_1_0; }
+		//Min_samples_split_type
+		public RuleCall getMin_samples_splitMin_samples_split_typeParserRuleCall_5_1_0() { return cMin_samples_splitMin_samples_split_typeParserRuleCall_5_1_0; }
 		
 		//')'
 		public Keyword getRightParenthesisKeyword_6() { return cRightParenthesisKeyword_6; }
-	}
-	public class GatedRecurrentUnitsElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.thingml.xtext.ThingML.GatedRecurrentUnits");
-		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Keyword cGated_recurrent_unitsKeyword_0 = (Keyword)cGroup.eContents().get(0);
-		private final Assignment cNameAssignment_1 = (Assignment)cGroup.eContents().get(1);
-		private final RuleCall cNameIDTerminalRuleCall_1_0 = (RuleCall)cNameAssignment_1.eContents().get(0);
-		private final Keyword cLeftParenthesisKeyword_2 = (Keyword)cGroup.eContents().get(2);
-		private final Group cGroup_3 = (Group)cGroup.eContents().get(3);
-		private final Keyword cLoss_functionKeyword_3_0 = (Keyword)cGroup_3.eContents().get(0);
-		private final Assignment cLoss_functionAssignment_3_1 = (Assignment)cGroup_3.eContents().get(1);
-		private final RuleCall cLoss_functionLossFunctionEnumRuleCall_3_1_0 = (RuleCall)cLoss_functionAssignment_3_1.eContents().get(0);
-		private final Keyword cCommaKeyword_4 = (Keyword)cGroup.eContents().get(4);
-		private final Group cGroup_5 = (Group)cGroup.eContents().get(5);
-		private final Keyword cOptimizerKeyword_5_0 = (Keyword)cGroup_5.eContents().get(0);
-		private final Assignment cOptimizerAssignment_5_1 = (Assignment)cGroup_5.eContents().get(1);
-		private final RuleCall cOptimizerOptimizerEnumRuleCall_5_1_0 = (RuleCall)cOptimizerAssignment_5_1.eContents().get(0);
-		private final Keyword cCommaKeyword_6 = (Keyword)cGroup.eContents().get(6);
-		private final Group cGroup_7 = (Group)cGroup.eContents().get(7);
-		private final Keyword cLearning_rateKeyword_7_0 = (Keyword)cGroup_7.eContents().get(0);
-		private final Assignment cLearning_rateAssignment_7_1 = (Assignment)cGroup_7.eContents().get(1);
-		private final RuleCall cLearning_rateFLOATTerminalRuleCall_7_1_0 = (RuleCall)cLearning_rateAssignment_7_1.eContents().get(0);
-		private final Keyword cRightParenthesisKeyword_8 = (Keyword)cGroup.eContents().get(8);
-		
-		//GatedRecurrentUnits:
-		//	'gated_recurrent_units' name=ID
-		//	'(' ('loss_function' loss_function=LossFunction)?
-		//	','? ('optimizer' optimizer=Optimizer)?
-		//	','? ('learning_rate' learning_rate=FLOAT)?
-		//	')';
-		@Override public ParserRule getRule() { return rule; }
-		
-		//'gated_recurrent_units' name=ID '(' ('loss_function' loss_function=LossFunction)? ','? ('optimizer'
-		//optimizer=Optimizer)? ','? ('learning_rate' learning_rate=FLOAT)? ')'
-		public Group getGroup() { return cGroup; }
-		
-		//'gated_recurrent_units'
-		public Keyword getGated_recurrent_unitsKeyword_0() { return cGated_recurrent_unitsKeyword_0; }
-		
-		//name=ID
-		public Assignment getNameAssignment_1() { return cNameAssignment_1; }
-		
-		//ID
-		public RuleCall getNameIDTerminalRuleCall_1_0() { return cNameIDTerminalRuleCall_1_0; }
-		
-		//'('
-		public Keyword getLeftParenthesisKeyword_2() { return cLeftParenthesisKeyword_2; }
-		
-		//('loss_function' loss_function=LossFunction)?
-		public Group getGroup_3() { return cGroup_3; }
-		
-		//'loss_function'
-		public Keyword getLoss_functionKeyword_3_0() { return cLoss_functionKeyword_3_0; }
-		
-		//loss_function=LossFunction
-		public Assignment getLoss_functionAssignment_3_1() { return cLoss_functionAssignment_3_1; }
-		
-		//LossFunction
-		public RuleCall getLoss_functionLossFunctionEnumRuleCall_3_1_0() { return cLoss_functionLossFunctionEnumRuleCall_3_1_0; }
-		
-		//','?
-		public Keyword getCommaKeyword_4() { return cCommaKeyword_4; }
-		
-		//('optimizer' optimizer=Optimizer)?
-		public Group getGroup_5() { return cGroup_5; }
-		
-		//'optimizer'
-		public Keyword getOptimizerKeyword_5_0() { return cOptimizerKeyword_5_0; }
-		
-		//optimizer=Optimizer
-		public Assignment getOptimizerAssignment_5_1() { return cOptimizerAssignment_5_1; }
-		
-		//Optimizer
-		public RuleCall getOptimizerOptimizerEnumRuleCall_5_1_0() { return cOptimizerOptimizerEnumRuleCall_5_1_0; }
-		
-		//','?
-		public Keyword getCommaKeyword_6() { return cCommaKeyword_6; }
-		
-		//('learning_rate' learning_rate=FLOAT)?
-		public Group getGroup_7() { return cGroup_7; }
-		
-		//'learning_rate'
-		public Keyword getLearning_rateKeyword_7_0() { return cLearning_rateKeyword_7_0; }
-		
-		//learning_rate=FLOAT
-		public Assignment getLearning_rateAssignment_7_1() { return cLearning_rateAssignment_7_1; }
-		
-		//FLOAT
-		public RuleCall getLearning_rateFLOATTerminalRuleCall_7_1_0() { return cLearning_rateFLOATTerminalRuleCall_7_1_0; }
-		
-		//')'
-		public Keyword getRightParenthesisKeyword_8() { return cRightParenthesisKeyword_8; }
-	}
-	public class LongShortTermMemoryElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.thingml.xtext.ThingML.LongShortTermMemory");
-		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Keyword cLong_short_term_memoryKeyword_0 = (Keyword)cGroup.eContents().get(0);
-		private final Assignment cNameAssignment_1 = (Assignment)cGroup.eContents().get(1);
-		private final RuleCall cNameIDTerminalRuleCall_1_0 = (RuleCall)cNameAssignment_1.eContents().get(0);
-		private final Keyword cLeftParenthesisKeyword_2 = (Keyword)cGroup.eContents().get(2);
-		private final Group cGroup_3 = (Group)cGroup.eContents().get(3);
-		private final Keyword cLoss_functionKeyword_3_0 = (Keyword)cGroup_3.eContents().get(0);
-		private final Assignment cLoss_functionAssignment_3_1 = (Assignment)cGroup_3.eContents().get(1);
-		private final RuleCall cLoss_functionLossFunctionEnumRuleCall_3_1_0 = (RuleCall)cLoss_functionAssignment_3_1.eContents().get(0);
-		private final Keyword cCommaKeyword_4 = (Keyword)cGroup.eContents().get(4);
-		private final Group cGroup_5 = (Group)cGroup.eContents().get(5);
-		private final Keyword cOptimizerKeyword_5_0 = (Keyword)cGroup_5.eContents().get(0);
-		private final Assignment cOptimizerAssignment_5_1 = (Assignment)cGroup_5.eContents().get(1);
-		private final RuleCall cOptimizerOptimizerEnumRuleCall_5_1_0 = (RuleCall)cOptimizerAssignment_5_1.eContents().get(0);
-		private final Keyword cCommaKeyword_6 = (Keyword)cGroup.eContents().get(6);
-		private final Group cGroup_7 = (Group)cGroup.eContents().get(7);
-		private final Keyword cLearning_rateKeyword_7_0 = (Keyword)cGroup_7.eContents().get(0);
-		private final Assignment cLearning_rateAssignment_7_1 = (Assignment)cGroup_7.eContents().get(1);
-		private final RuleCall cLearning_rateFLOATTerminalRuleCall_7_1_0 = (RuleCall)cLearning_rateAssignment_7_1.eContents().get(0);
-		private final Keyword cRightParenthesisKeyword_8 = (Keyword)cGroup.eContents().get(8);
-		
-		//LongShortTermMemory:
-		//	'long_short_term_memory' name=ID
-		//	'(' ('loss_function' loss_function=LossFunction)?
-		//	','? ('optimizer' optimizer=Optimizer)?
-		//	','? ('learning_rate' learning_rate=FLOAT)?
-		//	')';
-		@Override public ParserRule getRule() { return rule; }
-		
-		//'long_short_term_memory' name=ID '(' ('loss_function' loss_function=LossFunction)? ','? ('optimizer'
-		//optimizer=Optimizer)? ','? ('learning_rate' learning_rate=FLOAT)? ')'
-		public Group getGroup() { return cGroup; }
-		
-		//'long_short_term_memory'
-		public Keyword getLong_short_term_memoryKeyword_0() { return cLong_short_term_memoryKeyword_0; }
-		
-		//name=ID
-		public Assignment getNameAssignment_1() { return cNameAssignment_1; }
-		
-		//ID
-		public RuleCall getNameIDTerminalRuleCall_1_0() { return cNameIDTerminalRuleCall_1_0; }
-		
-		//'('
-		public Keyword getLeftParenthesisKeyword_2() { return cLeftParenthesisKeyword_2; }
-		
-		//('loss_function' loss_function=LossFunction)?
-		public Group getGroup_3() { return cGroup_3; }
-		
-		//'loss_function'
-		public Keyword getLoss_functionKeyword_3_0() { return cLoss_functionKeyword_3_0; }
-		
-		//loss_function=LossFunction
-		public Assignment getLoss_functionAssignment_3_1() { return cLoss_functionAssignment_3_1; }
-		
-		//LossFunction
-		public RuleCall getLoss_functionLossFunctionEnumRuleCall_3_1_0() { return cLoss_functionLossFunctionEnumRuleCall_3_1_0; }
-		
-		//','?
-		public Keyword getCommaKeyword_4() { return cCommaKeyword_4; }
-		
-		//('optimizer' optimizer=Optimizer)?
-		public Group getGroup_5() { return cGroup_5; }
-		
-		//'optimizer'
-		public Keyword getOptimizerKeyword_5_0() { return cOptimizerKeyword_5_0; }
-		
-		//optimizer=Optimizer
-		public Assignment getOptimizerAssignment_5_1() { return cOptimizerAssignment_5_1; }
-		
-		//Optimizer
-		public RuleCall getOptimizerOptimizerEnumRuleCall_5_1_0() { return cOptimizerOptimizerEnumRuleCall_5_1_0; }
-		
-		//','?
-		public Keyword getCommaKeyword_6() { return cCommaKeyword_6; }
-		
-		//('learning_rate' learning_rate=FLOAT)?
-		public Group getGroup_7() { return cGroup_7; }
-		
-		//'learning_rate'
-		public Keyword getLearning_rateKeyword_7_0() { return cLearning_rateKeyword_7_0; }
-		
-		//learning_rate=FLOAT
-		public Assignment getLearning_rateAssignment_7_1() { return cLearning_rateAssignment_7_1; }
-		
-		//FLOAT
-		public RuleCall getLearning_rateFLOATTerminalRuleCall_7_1_0() { return cLearning_rateFLOATTerminalRuleCall_7_1_0; }
-		
-		//')'
-		public Keyword getRightParenthesisKeyword_8() { return cRightParenthesisKeyword_8; }
 	}
 	public class NN_MultilayerPerceptronElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.thingml.xtext.ThingML.NN_MultilayerPerceptron");
@@ -3541,44 +3332,50 @@ public class ThingMLGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cNameIDTerminalRuleCall_1_0 = (RuleCall)cNameAssignment_1.eContents().get(0);
 		private final Keyword cLeftParenthesisKeyword_2 = (Keyword)cGroup.eContents().get(2);
 		private final Group cGroup_3 = (Group)cGroup.eContents().get(3);
-		private final Keyword cLoss_functionKeyword_3_0 = (Keyword)cGroup_3.eContents().get(0);
-		private final Assignment cLoss_functionAssignment_3_1 = (Assignment)cGroup_3.eContents().get(1);
-		private final RuleCall cLoss_functionLossFunctionEnumRuleCall_3_1_0 = (RuleCall)cLoss_functionAssignment_3_1.eContents().get(0);
+		private final Keyword cNo_hidden_layersKeyword_3_0 = (Keyword)cGroup_3.eContents().get(0);
+		private final Assignment cNo_hidden_layersAssignment_3_1 = (Assignment)cGroup_3.eContents().get(1);
+		private final RuleCall cNo_hidden_layersINTTerminalRuleCall_3_1_0 = (RuleCall)cNo_hidden_layersAssignment_3_1.eContents().get(0);
 		private final Keyword cCommaKeyword_4 = (Keyword)cGroup.eContents().get(4);
 		private final Group cGroup_5 = (Group)cGroup.eContents().get(5);
-		private final Keyword cOptimizerKeyword_5_0 = (Keyword)cGroup_5.eContents().get(0);
-		private final Assignment cOptimizerAssignment_5_1 = (Assignment)cGroup_5.eContents().get(1);
-		private final RuleCall cOptimizerOptimizerEnumRuleCall_5_1_0 = (RuleCall)cOptimizerAssignment_5_1.eContents().get(0);
+		private final Keyword cActivationKeyword_5_0 = (Keyword)cGroup_5.eContents().get(0);
+		private final Assignment cActivationAssignment_5_1 = (Assignment)cGroup_5.eContents().get(1);
+		private final RuleCall cActivationActivationEnumRuleCall_5_1_0 = (RuleCall)cActivationAssignment_5_1.eContents().get(0);
 		private final Keyword cCommaKeyword_6 = (Keyword)cGroup.eContents().get(6);
 		private final Group cGroup_7 = (Group)cGroup.eContents().get(7);
-		private final Keyword cLearning_rateKeyword_7_0 = (Keyword)cGroup_7.eContents().get(0);
-		private final Assignment cLearning_rateAssignment_7_1 = (Assignment)cGroup_7.eContents().get(1);
-		private final RuleCall cLearning_rateFLOATTerminalRuleCall_7_1_0 = (RuleCall)cLearning_rateAssignment_7_1.eContents().get(0);
+		private final Keyword cOptimizerKeyword_7_0 = (Keyword)cGroup_7.eContents().get(0);
+		private final Assignment cOptimizerAssignment_7_1 = (Assignment)cGroup_7.eContents().get(1);
+		private final RuleCall cOptimizerOptimizerEnumRuleCall_7_1_0 = (RuleCall)cOptimizerAssignment_7_1.eContents().get(0);
 		private final Keyword cCommaKeyword_8 = (Keyword)cGroup.eContents().get(8);
 		private final Group cGroup_9 = (Group)cGroup.eContents().get(9);
-		private final Keyword cNo_layersKeyword_9_0 = (Keyword)cGroup_9.eContents().get(0);
-		private final Assignment cNo_layersAssignment_9_1 = (Assignment)cGroup_9.eContents().get(1);
-		private final RuleCall cNo_layersINTTerminalRuleCall_9_1_0 = (RuleCall)cNo_layersAssignment_9_1.eContents().get(0);
+		private final Keyword cLossKeyword_9_0 = (Keyword)cGroup_9.eContents().get(0);
+		private final Assignment cLossAssignment_9_1 = (Assignment)cGroup_9.eContents().get(1);
+		private final RuleCall cLossLossEnumRuleCall_9_1_0 = (RuleCall)cLossAssignment_9_1.eContents().get(0);
 		private final Keyword cCommaKeyword_10 = (Keyword)cGroup.eContents().get(10);
 		private final Group cGroup_11 = (Group)cGroup.eContents().get(11);
-		private final Keyword cDropout_probabilityKeyword_11_0 = (Keyword)cGroup_11.eContents().get(0);
-		private final Assignment cDropout_probabilityAssignment_11_1 = (Assignment)cGroup_11.eContents().get(1);
-		private final RuleCall cDropout_probabilityFLOATTerminalRuleCall_11_1_0 = (RuleCall)cDropout_probabilityAssignment_11_1.eContents().get(0);
-		private final Keyword cRightParenthesisKeyword_12 = (Keyword)cGroup.eContents().get(12);
+		private final Keyword cEpochsKeyword_11_0 = (Keyword)cGroup_11.eContents().get(0);
+		private final Assignment cEpochsAssignment_11_1 = (Assignment)cGroup_11.eContents().get(1);
+		private final RuleCall cEpochsINTTerminalRuleCall_11_1_0 = (RuleCall)cEpochsAssignment_11_1.eContents().get(0);
+		private final Keyword cCommaKeyword_12 = (Keyword)cGroup.eContents().get(12);
+		private final Group cGroup_13 = (Group)cGroup.eContents().get(13);
+		private final Keyword cBatch_sizeKeyword_13_0 = (Keyword)cGroup_13.eContents().get(0);
+		private final Assignment cBatch_sizeAssignment_13_1 = (Assignment)cGroup_13.eContents().get(1);
+		private final RuleCall cBatch_sizeINTTerminalRuleCall_13_1_0 = (RuleCall)cBatch_sizeAssignment_13_1.eContents().get(0);
+		private final Keyword cRightParenthesisKeyword_14 = (Keyword)cGroup.eContents().get(14);
 		
 		//NN_MultilayerPerceptron:
 		//	'nn_multilayer_perceptron' name=ID
-		//	'(' ('loss_function' loss_function=LossFunction)?
+		//	'(' ('no_hidden_layers' no_hidden_layers=INT)?
+		//	','? ('activation' activation=Activation)?
 		//	','? ('optimizer' optimizer=Optimizer)?
-		//	','? ('learning_rate' learning_rate=FLOAT)?
-		//	','? ('no_layers' no_layers=INT)?
-		//	','? ('dropout_probability' dropout_probability=FLOAT)?
+		//	','? ('loss' loss=Loss)?
+		//	','? ('epochs' epochs=INT)?
+		//	','? ('batch_size' batch_size=INT)?
 		//	')';
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'nn_multilayer_perceptron' name=ID '(' ('loss_function' loss_function=LossFunction)? ','? ('optimizer'
-		//optimizer=Optimizer)? ','? ('learning_rate' learning_rate=FLOAT)? ','? ('no_layers' no_layers=INT)? ','?
-		//('dropout_probability' dropout_probability=FLOAT)? ')'
+		//'nn_multilayer_perceptron' name=ID '(' ('no_hidden_layers' no_hidden_layers=INT)? ','? ('activation'
+		//activation=Activation)? ','? ('optimizer' optimizer=Optimizer)? ','? ('loss' loss=Loss)? ','? ('epochs' epochs=INT)?
+		//','? ('batch_size' batch_size=INT)? ')'
 		public Group getGroup() { return cGroup; }
 		
 		//'nn_multilayer_perceptron'
@@ -3593,267 +3390,103 @@ public class ThingMLGrammarAccess extends AbstractGrammarElementFinder {
 		//'('
 		public Keyword getLeftParenthesisKeyword_2() { return cLeftParenthesisKeyword_2; }
 		
-		//('loss_function' loss_function=LossFunction)?
+		//('no_hidden_layers' no_hidden_layers=INT)?
 		public Group getGroup_3() { return cGroup_3; }
 		
-		//'loss_function'
-		public Keyword getLoss_functionKeyword_3_0() { return cLoss_functionKeyword_3_0; }
+		//'no_hidden_layers'
+		public Keyword getNo_hidden_layersKeyword_3_0() { return cNo_hidden_layersKeyword_3_0; }
 		
-		//loss_function=LossFunction
-		public Assignment getLoss_functionAssignment_3_1() { return cLoss_functionAssignment_3_1; }
+		//no_hidden_layers=INT
+		public Assignment getNo_hidden_layersAssignment_3_1() { return cNo_hidden_layersAssignment_3_1; }
 		
-		//LossFunction
-		public RuleCall getLoss_functionLossFunctionEnumRuleCall_3_1_0() { return cLoss_functionLossFunctionEnumRuleCall_3_1_0; }
+		//INT
+		public RuleCall getNo_hidden_layersINTTerminalRuleCall_3_1_0() { return cNo_hidden_layersINTTerminalRuleCall_3_1_0; }
 		
 		//','?
 		public Keyword getCommaKeyword_4() { return cCommaKeyword_4; }
 		
-		//('optimizer' optimizer=Optimizer)?
+		//('activation' activation=Activation)?
 		public Group getGroup_5() { return cGroup_5; }
 		
-		//'optimizer'
-		public Keyword getOptimizerKeyword_5_0() { return cOptimizerKeyword_5_0; }
+		//'activation'
+		public Keyword getActivationKeyword_5_0() { return cActivationKeyword_5_0; }
 		
-		//optimizer=Optimizer
-		public Assignment getOptimizerAssignment_5_1() { return cOptimizerAssignment_5_1; }
+		//activation=Activation
+		public Assignment getActivationAssignment_5_1() { return cActivationAssignment_5_1; }
 		
-		//Optimizer
-		public RuleCall getOptimizerOptimizerEnumRuleCall_5_1_0() { return cOptimizerOptimizerEnumRuleCall_5_1_0; }
+		//Activation
+		public RuleCall getActivationActivationEnumRuleCall_5_1_0() { return cActivationActivationEnumRuleCall_5_1_0; }
 		
 		//','?
 		public Keyword getCommaKeyword_6() { return cCommaKeyword_6; }
 		
-		//('learning_rate' learning_rate=FLOAT)?
+		//('optimizer' optimizer=Optimizer)?
 		public Group getGroup_7() { return cGroup_7; }
 		
-		//'learning_rate'
-		public Keyword getLearning_rateKeyword_7_0() { return cLearning_rateKeyword_7_0; }
+		//'optimizer'
+		public Keyword getOptimizerKeyword_7_0() { return cOptimizerKeyword_7_0; }
 		
-		//learning_rate=FLOAT
-		public Assignment getLearning_rateAssignment_7_1() { return cLearning_rateAssignment_7_1; }
+		//optimizer=Optimizer
+		public Assignment getOptimizerAssignment_7_1() { return cOptimizerAssignment_7_1; }
 		
-		//FLOAT
-		public RuleCall getLearning_rateFLOATTerminalRuleCall_7_1_0() { return cLearning_rateFLOATTerminalRuleCall_7_1_0; }
+		//Optimizer
+		public RuleCall getOptimizerOptimizerEnumRuleCall_7_1_0() { return cOptimizerOptimizerEnumRuleCall_7_1_0; }
 		
 		//','?
 		public Keyword getCommaKeyword_8() { return cCommaKeyword_8; }
 		
-		//('no_layers' no_layers=INT)?
+		//('loss' loss=Loss)?
 		public Group getGroup_9() { return cGroup_9; }
 		
-		//'no_layers'
-		public Keyword getNo_layersKeyword_9_0() { return cNo_layersKeyword_9_0; }
+		//'loss'
+		public Keyword getLossKeyword_9_0() { return cLossKeyword_9_0; }
 		
-		//no_layers=INT
-		public Assignment getNo_layersAssignment_9_1() { return cNo_layersAssignment_9_1; }
+		//loss=Loss
+		public Assignment getLossAssignment_9_1() { return cLossAssignment_9_1; }
 		
-		//INT
-		public RuleCall getNo_layersINTTerminalRuleCall_9_1_0() { return cNo_layersINTTerminalRuleCall_9_1_0; }
+		//Loss
+		public RuleCall getLossLossEnumRuleCall_9_1_0() { return cLossLossEnumRuleCall_9_1_0; }
 		
 		//','?
 		public Keyword getCommaKeyword_10() { return cCommaKeyword_10; }
 		
-		//('dropout_probability' dropout_probability=FLOAT)?
+		//('epochs' epochs=INT)?
 		public Group getGroup_11() { return cGroup_11; }
 		
-		//'dropout_probability'
-		public Keyword getDropout_probabilityKeyword_11_0() { return cDropout_probabilityKeyword_11_0; }
+		//'epochs'
+		public Keyword getEpochsKeyword_11_0() { return cEpochsKeyword_11_0; }
 		
-		//dropout_probability=FLOAT
-		public Assignment getDropout_probabilityAssignment_11_1() { return cDropout_probabilityAssignment_11_1; }
-		
-		//FLOAT
-		public RuleCall getDropout_probabilityFLOATTerminalRuleCall_11_1_0() { return cDropout_probabilityFLOATTerminalRuleCall_11_1_0; }
-		
-		//')'
-		public Keyword getRightParenthesisKeyword_12() { return cRightParenthesisKeyword_12; }
-	}
-	public class DenoisingAutoencodersElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.thingml.xtext.ThingML.DenoisingAutoencoders");
-		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Keyword cDenoising_autoencodersKeyword_0 = (Keyword)cGroup.eContents().get(0);
-		private final Assignment cNameAssignment_1 = (Assignment)cGroup.eContents().get(1);
-		private final RuleCall cNameIDTerminalRuleCall_1_0 = (RuleCall)cNameAssignment_1.eContents().get(0);
-		private final Keyword cLeftParenthesisKeyword_2 = (Keyword)cGroup.eContents().get(2);
-		private final Group cGroup_3 = (Group)cGroup.eContents().get(3);
-		private final Keyword cLoss_functionKeyword_3_0 = (Keyword)cGroup_3.eContents().get(0);
-		private final Assignment cLoss_functionAssignment_3_1 = (Assignment)cGroup_3.eContents().get(1);
-		private final RuleCall cLoss_functionLossFunctionEnumRuleCall_3_1_0 = (RuleCall)cLoss_functionAssignment_3_1.eContents().get(0);
-		private final Keyword cCommaKeyword_4 = (Keyword)cGroup.eContents().get(4);
-		private final Group cGroup_5 = (Group)cGroup.eContents().get(5);
-		private final Keyword cOptimizerKeyword_5_0 = (Keyword)cGroup_5.eContents().get(0);
-		private final Assignment cOptimizerAssignment_5_1 = (Assignment)cGroup_5.eContents().get(1);
-		private final RuleCall cOptimizerOptimizerEnumRuleCall_5_1_0 = (RuleCall)cOptimizerAssignment_5_1.eContents().get(0);
-		private final Keyword cCommaKeyword_6 = (Keyword)cGroup.eContents().get(6);
-		private final Group cGroup_7 = (Group)cGroup.eContents().get(7);
-		private final Keyword cLearning_rateKeyword_7_0 = (Keyword)cGroup_7.eContents().get(0);
-		private final Assignment cLearning_rateAssignment_7_1 = (Assignment)cGroup_7.eContents().get(1);
-		private final RuleCall cLearning_rateFLOATTerminalRuleCall_7_1_0 = (RuleCall)cLearning_rateAssignment_7_1.eContents().get(0);
-		private final Keyword cCommaKeyword_8 = (Keyword)cGroup.eContents().get(8);
-		private final Group cGroup_9 = (Group)cGroup.eContents().get(9);
-		private final Keyword cSequence_lengthKeyword_9_0 = (Keyword)cGroup_9.eContents().get(0);
-		private final Assignment cSequence_lengthAssignment_9_1 = (Assignment)cGroup_9.eContents().get(1);
-		private final RuleCall cSequence_lengthINTTerminalRuleCall_9_1_0 = (RuleCall)cSequence_lengthAssignment_9_1.eContents().get(0);
-		private final Keyword cRightParenthesisKeyword_10 = (Keyword)cGroup.eContents().get(10);
-		
-		//DenoisingAutoencoders:
-		//	'denoising_autoencoders' name=ID
-		//	'(' ('loss_function' loss_function=LossFunction)?
-		//	','? ('optimizer' optimizer=Optimizer)?
-		//	','? ('learning_rate' learning_rate=FLOAT)?
-		//	','? ('sequence_length' sequence_length=INT)?
-		//	')';
-		@Override public ParserRule getRule() { return rule; }
-		
-		//'denoising_autoencoders' name=ID '(' ('loss_function' loss_function=LossFunction)? ','? ('optimizer'
-		//optimizer=Optimizer)? ','? ('learning_rate' learning_rate=FLOAT)? ','? ('sequence_length' sequence_length=INT)? ')'
-		public Group getGroup() { return cGroup; }
-		
-		//'denoising_autoencoders'
-		public Keyword getDenoising_autoencodersKeyword_0() { return cDenoising_autoencodersKeyword_0; }
-		
-		//name=ID
-		public Assignment getNameAssignment_1() { return cNameAssignment_1; }
-		
-		//ID
-		public RuleCall getNameIDTerminalRuleCall_1_0() { return cNameIDTerminalRuleCall_1_0; }
-		
-		//'('
-		public Keyword getLeftParenthesisKeyword_2() { return cLeftParenthesisKeyword_2; }
-		
-		//('loss_function' loss_function=LossFunction)?
-		public Group getGroup_3() { return cGroup_3; }
-		
-		//'loss_function'
-		public Keyword getLoss_functionKeyword_3_0() { return cLoss_functionKeyword_3_0; }
-		
-		//loss_function=LossFunction
-		public Assignment getLoss_functionAssignment_3_1() { return cLoss_functionAssignment_3_1; }
-		
-		//LossFunction
-		public RuleCall getLoss_functionLossFunctionEnumRuleCall_3_1_0() { return cLoss_functionLossFunctionEnumRuleCall_3_1_0; }
-		
-		//','?
-		public Keyword getCommaKeyword_4() { return cCommaKeyword_4; }
-		
-		//('optimizer' optimizer=Optimizer)?
-		public Group getGroup_5() { return cGroup_5; }
-		
-		//'optimizer'
-		public Keyword getOptimizerKeyword_5_0() { return cOptimizerKeyword_5_0; }
-		
-		//optimizer=Optimizer
-		public Assignment getOptimizerAssignment_5_1() { return cOptimizerAssignment_5_1; }
-		
-		//Optimizer
-		public RuleCall getOptimizerOptimizerEnumRuleCall_5_1_0() { return cOptimizerOptimizerEnumRuleCall_5_1_0; }
-		
-		//','?
-		public Keyword getCommaKeyword_6() { return cCommaKeyword_6; }
-		
-		//('learning_rate' learning_rate=FLOAT)?
-		public Group getGroup_7() { return cGroup_7; }
-		
-		//'learning_rate'
-		public Keyword getLearning_rateKeyword_7_0() { return cLearning_rateKeyword_7_0; }
-		
-		//learning_rate=FLOAT
-		public Assignment getLearning_rateAssignment_7_1() { return cLearning_rateAssignment_7_1; }
-		
-		//FLOAT
-		public RuleCall getLearning_rateFLOATTerminalRuleCall_7_1_0() { return cLearning_rateFLOATTerminalRuleCall_7_1_0; }
-		
-		//','?
-		public Keyword getCommaKeyword_8() { return cCommaKeyword_8; }
-		
-		//('sequence_length' sequence_length=INT)?
-		public Group getGroup_9() { return cGroup_9; }
-		
-		//'sequence_length'
-		public Keyword getSequence_lengthKeyword_9_0() { return cSequence_lengthKeyword_9_0; }
-		
-		//sequence_length=INT
-		public Assignment getSequence_lengthAssignment_9_1() { return cSequence_lengthAssignment_9_1; }
+		//epochs=INT
+		public Assignment getEpochsAssignment_11_1() { return cEpochsAssignment_11_1; }
 		
 		//INT
-		public RuleCall getSequence_lengthINTTerminalRuleCall_9_1_0() { return cSequence_lengthINTTerminalRuleCall_9_1_0; }
+		public RuleCall getEpochsINTTerminalRuleCall_11_1_0() { return cEpochsINTTerminalRuleCall_11_1_0; }
+		
+		//','?
+		public Keyword getCommaKeyword_12() { return cCommaKeyword_12; }
+		
+		//('batch_size' batch_size=INT)?
+		public Group getGroup_13() { return cGroup_13; }
+		
+		//'batch_size'
+		public Keyword getBatch_sizeKeyword_13_0() { return cBatch_sizeKeyword_13_0; }
+		
+		//batch_size=INT
+		public Assignment getBatch_sizeAssignment_13_1() { return cBatch_sizeAssignment_13_1; }
+		
+		//INT
+		public RuleCall getBatch_sizeINTTerminalRuleCall_13_1_0() { return cBatch_sizeINTTerminalRuleCall_13_1_0; }
 		
 		//')'
-		public Keyword getRightParenthesisKeyword_10() { return cRightParenthesisKeyword_10; }
+		public Keyword getRightParenthesisKeyword_14() { return cRightParenthesisKeyword_14; }
 	}
-	public class FactorialHiddenMarkovModelElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.thingml.xtext.ThingML.FactorialHiddenMarkovModel");
-		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Keyword cFactorial_hidden_markov_modelKeyword_0 = (Keyword)cGroup.eContents().get(0);
-		private final Assignment cNameAssignment_1 = (Assignment)cGroup.eContents().get(1);
-		private final RuleCall cNameIDTerminalRuleCall_1_0 = (RuleCall)cNameAssignment_1.eContents().get(0);
-		private final Keyword cLeftParenthesisKeyword_2 = (Keyword)cGroup.eContents().get(2);
-		private final Keyword cRightParenthesisKeyword_3 = (Keyword)cGroup.eContents().get(3);
-		
-		//FactorialHiddenMarkovModel:
-		//	'factorial_hidden_markov_model' name=ID
-		//	'('
-		//	')';
-		@Override public ParserRule getRule() { return rule; }
-		
-		//'factorial_hidden_markov_model' name=ID '(' ')'
-		public Group getGroup() { return cGroup; }
-		
-		//'factorial_hidden_markov_model'
-		public Keyword getFactorial_hidden_markov_modelKeyword_0() { return cFactorial_hidden_markov_modelKeyword_0; }
-		
-		//name=ID
-		public Assignment getNameAssignment_1() { return cNameAssignment_1; }
-		
-		//ID
-		public RuleCall getNameIDTerminalRuleCall_1_0() { return cNameIDTerminalRuleCall_1_0; }
-		
-		//'('
-		public Keyword getLeftParenthesisKeyword_2() { return cLeftParenthesisKeyword_2; }
-		
-		//')'
-		public Keyword getRightParenthesisKeyword_3() { return cRightParenthesisKeyword_3; }
-	}
-	public class CombinatorialOptimizationElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.thingml.xtext.ThingML.CombinatorialOptimization");
-		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Keyword cCombinatorial_optimizationKeyword_0 = (Keyword)cGroup.eContents().get(0);
-		private final Assignment cNameAssignment_1 = (Assignment)cGroup.eContents().get(1);
-		private final RuleCall cNameIDTerminalRuleCall_1_0 = (RuleCall)cNameAssignment_1.eContents().get(0);
-		private final Keyword cLeftParenthesisKeyword_2 = (Keyword)cGroup.eContents().get(2);
-		private final Keyword cRightParenthesisKeyword_3 = (Keyword)cGroup.eContents().get(3);
-		
-		//CombinatorialOptimization:
-		//	'combinatorial_optimization' name=ID
-		//	'('
-		//	')';
-		@Override public ParserRule getRule() { return rule; }
-		
-		//'combinatorial_optimization' name=ID '(' ')'
-		public Group getGroup() { return cGroup; }
-		
-		//'combinatorial_optimization'
-		public Keyword getCombinatorial_optimizationKeyword_0() { return cCombinatorial_optimizationKeyword_0; }
-		
-		//name=ID
-		public Assignment getNameAssignment_1() { return cNameAssignment_1; }
-		
-		//ID
-		public RuleCall getNameIDTerminalRuleCall_1_0() { return cNameIDTerminalRuleCall_1_0; }
-		
-		//'('
-		public Keyword getLeftParenthesisKeyword_2() { return cLeftParenthesisKeyword_2; }
-		
-		//')'
-		public Keyword getRightParenthesisKeyword_3() { return cRightParenthesisKeyword_3; }
-	}
-	public class MinSamplesSplitElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.thingml.xtext.ThingML.MinSamplesSplit");
+	public class Min_samples_split_typeElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.thingml.xtext.ThingML.Min_samples_split_type");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
 		private final RuleCall cINTTerminalRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
 		private final RuleCall cFLOATTerminalRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
 		
-		//MinSamplesSplit:
+		//Min_samples_split_type:
 		//	INT | FLOAT;
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -6328,75 +5961,338 @@ public class ThingMLGrammarAccess extends AbstractGrammarElementFinder {
 		//'OFF'
 		public Keyword getOFFOFFKeyword_1_0() { return cOFFOFFKeyword_1_0; }
 	}
-	public class OptimizerElements extends AbstractEnumRuleElementFinder {
-		private final EnumRule rule = (EnumRule) GrammarUtil.findRuleForName(getGrammar(), "org.thingml.xtext.ThingML.Optimizer");
+	public class DecisionTreeCriterionElements extends AbstractEnumRuleElementFinder {
+		private final EnumRule rule = (EnumRule) GrammarUtil.findRuleForName(getGrammar(), "org.thingml.xtext.ThingML.DecisionTreeCriterion");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
-		private final EnumLiteralDeclaration cADAMEnumLiteralDeclaration_0 = (EnumLiteralDeclaration)cAlternatives.eContents().get(0);
-		private final Keyword cADAMAdamKeyword_0_0 = (Keyword)cADAMEnumLiteralDeclaration_0.eContents().get(0);
-		private final EnumLiteralDeclaration cNadamEnumLiteralDeclaration_1 = (EnumLiteralDeclaration)cAlternatives.eContents().get(1);
-		private final Keyword cNadamNadamKeyword_1_0 = (Keyword)cNadamEnumLiteralDeclaration_1.eContents().get(0);
-		private final EnumLiteralDeclaration cRMSPROPEnumLiteralDeclaration_2 = (EnumLiteralDeclaration)cAlternatives.eContents().get(2);
-		private final Keyword cRMSPROPRMSpropKeyword_2_0 = (Keyword)cRMSPROPEnumLiteralDeclaration_2.eContents().get(0);
+		private final EnumLiteralDeclaration cNO_IDEAEnumLiteralDeclaration_0 = (EnumLiteralDeclaration)cAlternatives.eContents().get(0);
+		private final Keyword cNO_IDEANO_IDEAKeyword_0_0 = (Keyword)cNO_IDEAEnumLiteralDeclaration_0.eContents().get(0);
+		private final EnumLiteralDeclaration cMSEEnumLiteralDeclaration_1 = (EnumLiteralDeclaration)cAlternatives.eContents().get(1);
+		private final Keyword cMSEMSEKeyword_1_0 = (Keyword)cMSEEnumLiteralDeclaration_1.eContents().get(0);
+		private final EnumLiteralDeclaration cFRIEDMAN_MSEEnumLiteralDeclaration_2 = (EnumLiteralDeclaration)cAlternatives.eContents().get(2);
+		private final Keyword cFRIEDMAN_MSEFRIEDMAN_MSEKeyword_2_0 = (Keyword)cFRIEDMAN_MSEEnumLiteralDeclaration_2.eContents().get(0);
+		private final EnumLiteralDeclaration cMAEEnumLiteralDeclaration_3 = (EnumLiteralDeclaration)cAlternatives.eContents().get(3);
+		private final Keyword cMAEMAEKeyword_3_0 = (Keyword)cMAEEnumLiteralDeclaration_3.eContents().get(0);
+		private final EnumLiteralDeclaration cGINIEnumLiteralDeclaration_4 = (EnumLiteralDeclaration)cAlternatives.eContents().get(4);
+		private final Keyword cGINIGINIKeyword_4_0 = (Keyword)cGINIEnumLiteralDeclaration_4.eContents().get(0);
+		private final EnumLiteralDeclaration cENTROPYEnumLiteralDeclaration_5 = (EnumLiteralDeclaration)cAlternatives.eContents().get(5);
+		private final Keyword cENTROPYENTROPYKeyword_5_0 = (Keyword)cENTROPYEnumLiteralDeclaration_5.eContents().get(0);
 		
-		//enum Optimizer:
-		//	ADAM='Adam' | Nadam | RMSPROP='RMSprop';
+		//enum DecisionTreeCriterion:
+		//	NO_IDEA | MSE | FRIEDMAN_MSE | MAE | GINI | ENTROPY;
 		public EnumRule getRule() { return rule; }
 		
-		//ADAM='Adam' | Nadam | RMSPROP='RMSprop'
+		//NO_IDEA | MSE | FRIEDMAN_MSE | MAE | GINI | ENTROPY
 		public Alternatives getAlternatives() { return cAlternatives; }
 		
-		//ADAM='Adam'
-		public EnumLiteralDeclaration getADAMEnumLiteralDeclaration_0() { return cADAMEnumLiteralDeclaration_0; }
+		//NO_IDEA
+		public EnumLiteralDeclaration getNO_IDEAEnumLiteralDeclaration_0() { return cNO_IDEAEnumLiteralDeclaration_0; }
 		
-		//'Adam'
-		public Keyword getADAMAdamKeyword_0_0() { return cADAMAdamKeyword_0_0; }
-		
-		//Nadam
-		public EnumLiteralDeclaration getNadamEnumLiteralDeclaration_1() { return cNadamEnumLiteralDeclaration_1; }
-		
-		//'Nadam'
-		public Keyword getNadamNadamKeyword_1_0() { return cNadamNadamKeyword_1_0; }
-		
-		//RMSPROP='RMSprop'
-		public EnumLiteralDeclaration getRMSPROPEnumLiteralDeclaration_2() { return cRMSPROPEnumLiteralDeclaration_2; }
-		
-		//'RMSprop'
-		public Keyword getRMSPROPRMSpropKeyword_2_0() { return cRMSPROPRMSpropKeyword_2_0; }
-	}
-	public class LossFunctionElements extends AbstractEnumRuleElementFinder {
-		private final EnumRule rule = (EnumRule) GrammarUtil.findRuleForName(getGrammar(), "org.thingml.xtext.ThingML.LossFunction");
-		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
-		private final EnumLiteralDeclaration cMSEEnumLiteralDeclaration_0 = (EnumLiteralDeclaration)cAlternatives.eContents().get(0);
-		private final Keyword cMSEMSEKeyword_0_0 = (Keyword)cMSEEnumLiteralDeclaration_0.eContents().get(0);
-		private final EnumLiteralDeclaration cFRIEDMAN_MSEEnumLiteralDeclaration_1 = (EnumLiteralDeclaration)cAlternatives.eContents().get(1);
-		private final Keyword cFRIEDMAN_MSEFRIEDMAN_MSEKeyword_1_0 = (Keyword)cFRIEDMAN_MSEEnumLiteralDeclaration_1.eContents().get(0);
-		private final EnumLiteralDeclaration cMAEEnumLiteralDeclaration_2 = (EnumLiteralDeclaration)cAlternatives.eContents().get(2);
-		private final Keyword cMAEMAEKeyword_2_0 = (Keyword)cMAEEnumLiteralDeclaration_2.eContents().get(0);
-		
-		//enum LossFunction:
-		//	MSE | FRIEDMAN_MSE | MAE;
-		public EnumRule getRule() { return rule; }
-		
-		//MSE | FRIEDMAN_MSE | MAE
-		public Alternatives getAlternatives() { return cAlternatives; }
+		//'NO_IDEA'
+		public Keyword getNO_IDEANO_IDEAKeyword_0_0() { return cNO_IDEANO_IDEAKeyword_0_0; }
 		
 		//MSE
-		public EnumLiteralDeclaration getMSEEnumLiteralDeclaration_0() { return cMSEEnumLiteralDeclaration_0; }
+		public EnumLiteralDeclaration getMSEEnumLiteralDeclaration_1() { return cMSEEnumLiteralDeclaration_1; }
 		
 		//'MSE'
-		public Keyword getMSEMSEKeyword_0_0() { return cMSEMSEKeyword_0_0; }
+		public Keyword getMSEMSEKeyword_1_0() { return cMSEMSEKeyword_1_0; }
 		
 		//FRIEDMAN_MSE
-		public EnumLiteralDeclaration getFRIEDMAN_MSEEnumLiteralDeclaration_1() { return cFRIEDMAN_MSEEnumLiteralDeclaration_1; }
+		public EnumLiteralDeclaration getFRIEDMAN_MSEEnumLiteralDeclaration_2() { return cFRIEDMAN_MSEEnumLiteralDeclaration_2; }
 		
 		//'FRIEDMAN_MSE'
-		public Keyword getFRIEDMAN_MSEFRIEDMAN_MSEKeyword_1_0() { return cFRIEDMAN_MSEFRIEDMAN_MSEKeyword_1_0; }
+		public Keyword getFRIEDMAN_MSEFRIEDMAN_MSEKeyword_2_0() { return cFRIEDMAN_MSEFRIEDMAN_MSEKeyword_2_0; }
+		
+		//MAE
+		public EnumLiteralDeclaration getMAEEnumLiteralDeclaration_3() { return cMAEEnumLiteralDeclaration_3; }
+		
+		//'MAE'
+		public Keyword getMAEMAEKeyword_3_0() { return cMAEMAEKeyword_3_0; }
+		
+		//GINI
+		public EnumLiteralDeclaration getGINIEnumLiteralDeclaration_4() { return cGINIEnumLiteralDeclaration_4; }
+		
+		//"GINI"
+		public Keyword getGINIGINIKeyword_4_0() { return cGINIGINIKeyword_4_0; }
+		
+		//ENTROPY
+		public EnumLiteralDeclaration getENTROPYEnumLiteralDeclaration_5() { return cENTROPYEnumLiteralDeclaration_5; }
+		
+		//"ENTROPY"
+		public Keyword getENTROPYENTROPYKeyword_5_0() { return cENTROPYENTROPYKeyword_5_0; }
+	}
+	public class RandomForestCriterionElements extends AbstractEnumRuleElementFinder {
+		private final EnumRule rule = (EnumRule) GrammarUtil.findRuleForName(getGrammar(), "org.thingml.xtext.ThingML.RandomForestCriterion");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final EnumLiteralDeclaration cNO_IDEAEnumLiteralDeclaration_0 = (EnumLiteralDeclaration)cAlternatives.eContents().get(0);
+		private final Keyword cNO_IDEANO_IDEAKeyword_0_0 = (Keyword)cNO_IDEAEnumLiteralDeclaration_0.eContents().get(0);
+		private final EnumLiteralDeclaration cMSEEnumLiteralDeclaration_1 = (EnumLiteralDeclaration)cAlternatives.eContents().get(1);
+		private final Keyword cMSEMSEKeyword_1_0 = (Keyword)cMSEEnumLiteralDeclaration_1.eContents().get(0);
+		private final EnumLiteralDeclaration cMAEEnumLiteralDeclaration_2 = (EnumLiteralDeclaration)cAlternatives.eContents().get(2);
+		private final Keyword cMAEMAEKeyword_2_0 = (Keyword)cMAEEnumLiteralDeclaration_2.eContents().get(0);
+		private final EnumLiteralDeclaration cGINIEnumLiteralDeclaration_3 = (EnumLiteralDeclaration)cAlternatives.eContents().get(3);
+		private final Keyword cGINIGINIKeyword_3_0 = (Keyword)cGINIEnumLiteralDeclaration_3.eContents().get(0);
+		private final EnumLiteralDeclaration cENTROPYEnumLiteralDeclaration_4 = (EnumLiteralDeclaration)cAlternatives.eContents().get(4);
+		private final Keyword cENTROPYENTROPYKeyword_4_0 = (Keyword)cENTROPYEnumLiteralDeclaration_4.eContents().get(0);
+		
+		//enum RandomForestCriterion:
+		//	NO_IDEA | MSE | MAE | GINI | ENTROPY;
+		public EnumRule getRule() { return rule; }
+		
+		//NO_IDEA | MSE | MAE | GINI | ENTROPY
+		public Alternatives getAlternatives() { return cAlternatives; }
+		
+		//NO_IDEA
+		public EnumLiteralDeclaration getNO_IDEAEnumLiteralDeclaration_0() { return cNO_IDEAEnumLiteralDeclaration_0; }
+		
+		//'NO_IDEA'
+		public Keyword getNO_IDEANO_IDEAKeyword_0_0() { return cNO_IDEANO_IDEAKeyword_0_0; }
+		
+		//MSE
+		public EnumLiteralDeclaration getMSEEnumLiteralDeclaration_1() { return cMSEEnumLiteralDeclaration_1; }
+		
+		//'MSE'
+		public Keyword getMSEMSEKeyword_1_0() { return cMSEMSEKeyword_1_0; }
 		
 		//MAE
 		public EnumLiteralDeclaration getMAEEnumLiteralDeclaration_2() { return cMAEEnumLiteralDeclaration_2; }
 		
 		//'MAE'
 		public Keyword getMAEMAEKeyword_2_0() { return cMAEMAEKeyword_2_0; }
+		
+		//GINI
+		public EnumLiteralDeclaration getGINIEnumLiteralDeclaration_3() { return cGINIEnumLiteralDeclaration_3; }
+		
+		//"GINI"
+		public Keyword getGINIGINIKeyword_3_0() { return cGINIGINIKeyword_3_0; }
+		
+		//ENTROPY
+		public EnumLiteralDeclaration getENTROPYEnumLiteralDeclaration_4() { return cENTROPYEnumLiteralDeclaration_4; }
+		
+		//"ENTROPY"
+		public Keyword getENTROPYENTROPYKeyword_4_0() { return cENTROPYENTROPYKeyword_4_0; }
+	}
+	public class ActivationElements extends AbstractEnumRuleElementFinder {
+		private final EnumRule rule = (EnumRule) GrammarUtil.findRuleForName(getGrammar(), "org.thingml.xtext.ThingML.Activation");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final EnumLiteralDeclaration cNO_IDEAEnumLiteralDeclaration_0 = (EnumLiteralDeclaration)cAlternatives.eContents().get(0);
+		private final Keyword cNO_IDEANO_IDEAKeyword_0_0 = (Keyword)cNO_IDEAEnumLiteralDeclaration_0.eContents().get(0);
+		private final EnumLiteralDeclaration cRELUEnumLiteralDeclaration_1 = (EnumLiteralDeclaration)cAlternatives.eContents().get(1);
+		private final Keyword cRELUReluKeyword_1_0 = (Keyword)cRELUEnumLiteralDeclaration_1.eContents().get(0);
+		private final EnumLiteralDeclaration cSIGMOIDEnumLiteralDeclaration_2 = (EnumLiteralDeclaration)cAlternatives.eContents().get(2);
+		private final Keyword cSIGMOIDSigmoidKeyword_2_0 = (Keyword)cSIGMOIDEnumLiteralDeclaration_2.eContents().get(0);
+		private final EnumLiteralDeclaration cSOFTMAXEnumLiteralDeclaration_3 = (EnumLiteralDeclaration)cAlternatives.eContents().get(3);
+		private final Keyword cSOFTMAXSoftmaxKeyword_3_0 = (Keyword)cSOFTMAXEnumLiteralDeclaration_3.eContents().get(0);
+		private final EnumLiteralDeclaration cSOFTPLUSEnumLiteralDeclaration_4 = (EnumLiteralDeclaration)cAlternatives.eContents().get(4);
+		private final Keyword cSOFTPLUSSoftplusKeyword_4_0 = (Keyword)cSOFTPLUSEnumLiteralDeclaration_4.eContents().get(0);
+		private final EnumLiteralDeclaration cSOFTSIGNEnumLiteralDeclaration_5 = (EnumLiteralDeclaration)cAlternatives.eContents().get(5);
+		private final Keyword cSOFTSIGNSoftsignKeyword_5_0 = (Keyword)cSOFTSIGNEnumLiteralDeclaration_5.eContents().get(0);
+		private final EnumLiteralDeclaration cTANHEnumLiteralDeclaration_6 = (EnumLiteralDeclaration)cAlternatives.eContents().get(6);
+		private final Keyword cTANHTanhKeyword_6_0 = (Keyword)cTANHEnumLiteralDeclaration_6.eContents().get(0);
+		private final EnumLiteralDeclaration cSELUEnumLiteralDeclaration_7 = (EnumLiteralDeclaration)cAlternatives.eContents().get(7);
+		private final Keyword cSELUSeluKeyword_7_0 = (Keyword)cSELUEnumLiteralDeclaration_7.eContents().get(0);
+		private final EnumLiteralDeclaration cELUEnumLiteralDeclaration_8 = (EnumLiteralDeclaration)cAlternatives.eContents().get(8);
+		private final Keyword cELUEluKeyword_8_0 = (Keyword)cELUEnumLiteralDeclaration_8.eContents().get(0);
+		private final EnumLiteralDeclaration cEXPONENTIALEnumLiteralDeclaration_9 = (EnumLiteralDeclaration)cAlternatives.eContents().get(9);
+		private final Keyword cEXPONENTIALExponentialKeyword_9_0 = (Keyword)cEXPONENTIALEnumLiteralDeclaration_9.eContents().get(0);
+		
+		//enum Activation:
+		//	NO_IDEA | RELU='relu' | SIGMOID='sigmoid' | SOFTMAX='softmax' | SOFTPLUS='softplus' | SOFTSIGN='softsign' |
+		//	TANH='tanh' | SELU='selu' | ELU='elu' | EXPONENTIAL='exponential';
+		public EnumRule getRule() { return rule; }
+		
+		//NO_IDEA | RELU='relu' | SIGMOID='sigmoid' | SOFTMAX='softmax' | SOFTPLUS='softplus' | SOFTSIGN='softsign' | TANH='tanh'
+		//| SELU='selu' | ELU='elu' | EXPONENTIAL='exponential'
+		public Alternatives getAlternatives() { return cAlternatives; }
+		
+		//NO_IDEA
+		public EnumLiteralDeclaration getNO_IDEAEnumLiteralDeclaration_0() { return cNO_IDEAEnumLiteralDeclaration_0; }
+		
+		//'NO_IDEA'
+		public Keyword getNO_IDEANO_IDEAKeyword_0_0() { return cNO_IDEANO_IDEAKeyword_0_0; }
+		
+		//RELU='relu'
+		public EnumLiteralDeclaration getRELUEnumLiteralDeclaration_1() { return cRELUEnumLiteralDeclaration_1; }
+		
+		//'relu'
+		public Keyword getRELUReluKeyword_1_0() { return cRELUReluKeyword_1_0; }
+		
+		//SIGMOID='sigmoid'
+		public EnumLiteralDeclaration getSIGMOIDEnumLiteralDeclaration_2() { return cSIGMOIDEnumLiteralDeclaration_2; }
+		
+		//'sigmoid'
+		public Keyword getSIGMOIDSigmoidKeyword_2_0() { return cSIGMOIDSigmoidKeyword_2_0; }
+		
+		//SOFTMAX='softmax'
+		public EnumLiteralDeclaration getSOFTMAXEnumLiteralDeclaration_3() { return cSOFTMAXEnumLiteralDeclaration_3; }
+		
+		//'softmax'
+		public Keyword getSOFTMAXSoftmaxKeyword_3_0() { return cSOFTMAXSoftmaxKeyword_3_0; }
+		
+		//SOFTPLUS='softplus'
+		public EnumLiteralDeclaration getSOFTPLUSEnumLiteralDeclaration_4() { return cSOFTPLUSEnumLiteralDeclaration_4; }
+		
+		//'softplus'
+		public Keyword getSOFTPLUSSoftplusKeyword_4_0() { return cSOFTPLUSSoftplusKeyword_4_0; }
+		
+		//SOFTSIGN='softsign'
+		public EnumLiteralDeclaration getSOFTSIGNEnumLiteralDeclaration_5() { return cSOFTSIGNEnumLiteralDeclaration_5; }
+		
+		//'softsign'
+		public Keyword getSOFTSIGNSoftsignKeyword_5_0() { return cSOFTSIGNSoftsignKeyword_5_0; }
+		
+		//TANH='tanh'
+		public EnumLiteralDeclaration getTANHEnumLiteralDeclaration_6() { return cTANHEnumLiteralDeclaration_6; }
+		
+		//'tanh'
+		public Keyword getTANHTanhKeyword_6_0() { return cTANHTanhKeyword_6_0; }
+		
+		//SELU='selu'
+		public EnumLiteralDeclaration getSELUEnumLiteralDeclaration_7() { return cSELUEnumLiteralDeclaration_7; }
+		
+		//'selu'
+		public Keyword getSELUSeluKeyword_7_0() { return cSELUSeluKeyword_7_0; }
+		
+		//ELU='elu'
+		public EnumLiteralDeclaration getELUEnumLiteralDeclaration_8() { return cELUEnumLiteralDeclaration_8; }
+		
+		//'elu'
+		public Keyword getELUEluKeyword_8_0() { return cELUEluKeyword_8_0; }
+		
+		//EXPONENTIAL='exponential'
+		public EnumLiteralDeclaration getEXPONENTIALEnumLiteralDeclaration_9() { return cEXPONENTIALEnumLiteralDeclaration_9; }
+		
+		//'exponential'
+		public Keyword getEXPONENTIALExponentialKeyword_9_0() { return cEXPONENTIALExponentialKeyword_9_0; }
+	}
+	public class OptimizerElements extends AbstractEnumRuleElementFinder {
+		private final EnumRule rule = (EnumRule) GrammarUtil.findRuleForName(getGrammar(), "org.thingml.xtext.ThingML.Optimizer");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final EnumLiteralDeclaration cNO_IDEAEnumLiteralDeclaration_0 = (EnumLiteralDeclaration)cAlternatives.eContents().get(0);
+		private final Keyword cNO_IDEANO_IDEAKeyword_0_0 = (Keyword)cNO_IDEAEnumLiteralDeclaration_0.eContents().get(0);
+		private final EnumLiteralDeclaration cSGDEnumLiteralDeclaration_1 = (EnumLiteralDeclaration)cAlternatives.eContents().get(1);
+		private final Keyword cSGDSGDKeyword_1_0 = (Keyword)cSGDEnumLiteralDeclaration_1.eContents().get(0);
+		private final EnumLiteralDeclaration cRMSPROPEnumLiteralDeclaration_2 = (EnumLiteralDeclaration)cAlternatives.eContents().get(2);
+		private final Keyword cRMSPROPRMSpropKeyword_2_0 = (Keyword)cRMSPROPEnumLiteralDeclaration_2.eContents().get(0);
+		private final EnumLiteralDeclaration cADAMEnumLiteralDeclaration_3 = (EnumLiteralDeclaration)cAlternatives.eContents().get(3);
+		private final Keyword cADAMAdamKeyword_3_0 = (Keyword)cADAMEnumLiteralDeclaration_3.eContents().get(0);
+		private final EnumLiteralDeclaration cADADELTAEnumLiteralDeclaration_4 = (EnumLiteralDeclaration)cAlternatives.eContents().get(4);
+		private final Keyword cADADELTAAdadeltaKeyword_4_0 = (Keyword)cADADELTAEnumLiteralDeclaration_4.eContents().get(0);
+		private final EnumLiteralDeclaration cADAGRADEnumLiteralDeclaration_5 = (EnumLiteralDeclaration)cAlternatives.eContents().get(5);
+		private final Keyword cADAGRADAdagradKeyword_5_0 = (Keyword)cADAGRADEnumLiteralDeclaration_5.eContents().get(0);
+		private final EnumLiteralDeclaration cADAMAXEnumLiteralDeclaration_6 = (EnumLiteralDeclaration)cAlternatives.eContents().get(6);
+		private final Keyword cADAMAXAdamaxKeyword_6_0 = (Keyword)cADAMAXEnumLiteralDeclaration_6.eContents().get(0);
+		private final EnumLiteralDeclaration cNADAMEnumLiteralDeclaration_7 = (EnumLiteralDeclaration)cAlternatives.eContents().get(7);
+		private final Keyword cNADAMNadamKeyword_7_0 = (Keyword)cNADAMEnumLiteralDeclaration_7.eContents().get(0);
+		private final EnumLiteralDeclaration cFTRLEnumLiteralDeclaration_8 = (EnumLiteralDeclaration)cAlternatives.eContents().get(8);
+		private final Keyword cFTRLFtrlKeyword_8_0 = (Keyword)cFTRLEnumLiteralDeclaration_8.eContents().get(0);
+		
+		//enum Optimizer:
+		//	NO_IDEA | SGD | RMSPROP='RMSprop' | ADAM='Adam' | ADADELTA='Adadelta' | ADAGRAD='Adagrad' | ADAMAX='Adamax' |
+		//	NADAM='Nadam' | FTRL='Ftrl';
+		public EnumRule getRule() { return rule; }
+		
+		//NO_IDEA | SGD | RMSPROP='RMSprop' | ADAM='Adam' | ADADELTA='Adadelta' | ADAGRAD='Adagrad' | ADAMAX='Adamax' |
+		//NADAM='Nadam' | FTRL='Ftrl'
+		public Alternatives getAlternatives() { return cAlternatives; }
+		
+		//NO_IDEA
+		public EnumLiteralDeclaration getNO_IDEAEnumLiteralDeclaration_0() { return cNO_IDEAEnumLiteralDeclaration_0; }
+		
+		//'NO_IDEA'
+		public Keyword getNO_IDEANO_IDEAKeyword_0_0() { return cNO_IDEANO_IDEAKeyword_0_0; }
+		
+		//SGD
+		public EnumLiteralDeclaration getSGDEnumLiteralDeclaration_1() { return cSGDEnumLiteralDeclaration_1; }
+		
+		//'SGD'
+		public Keyword getSGDSGDKeyword_1_0() { return cSGDSGDKeyword_1_0; }
+		
+		//RMSPROP='RMSprop'
+		public EnumLiteralDeclaration getRMSPROPEnumLiteralDeclaration_2() { return cRMSPROPEnumLiteralDeclaration_2; }
+		
+		//'RMSprop'
+		public Keyword getRMSPROPRMSpropKeyword_2_0() { return cRMSPROPRMSpropKeyword_2_0; }
+		
+		//ADAM='Adam'
+		public EnumLiteralDeclaration getADAMEnumLiteralDeclaration_3() { return cADAMEnumLiteralDeclaration_3; }
+		
+		//'Adam'
+		public Keyword getADAMAdamKeyword_3_0() { return cADAMAdamKeyword_3_0; }
+		
+		//ADADELTA='Adadelta'
+		public EnumLiteralDeclaration getADADELTAEnumLiteralDeclaration_4() { return cADADELTAEnumLiteralDeclaration_4; }
+		
+		//'Adadelta'
+		public Keyword getADADELTAAdadeltaKeyword_4_0() { return cADADELTAAdadeltaKeyword_4_0; }
+		
+		//ADAGRAD='Adagrad'
+		public EnumLiteralDeclaration getADAGRADEnumLiteralDeclaration_5() { return cADAGRADEnumLiteralDeclaration_5; }
+		
+		//'Adagrad'
+		public Keyword getADAGRADAdagradKeyword_5_0() { return cADAGRADAdagradKeyword_5_0; }
+		
+		//ADAMAX='Adamax'
+		public EnumLiteralDeclaration getADAMAXEnumLiteralDeclaration_6() { return cADAMAXEnumLiteralDeclaration_6; }
+		
+		//'Adamax'
+		public Keyword getADAMAXAdamaxKeyword_6_0() { return cADAMAXAdamaxKeyword_6_0; }
+		
+		//NADAM='Nadam'
+		public EnumLiteralDeclaration getNADAMEnumLiteralDeclaration_7() { return cNADAMEnumLiteralDeclaration_7; }
+		
+		//'Nadam'
+		public Keyword getNADAMNadamKeyword_7_0() { return cNADAMNadamKeyword_7_0; }
+		
+		//FTRL='Ftrl'
+		public EnumLiteralDeclaration getFTRLEnumLiteralDeclaration_8() { return cFTRLEnumLiteralDeclaration_8; }
+		
+		//'Ftrl'
+		public Keyword getFTRLFtrlKeyword_8_0() { return cFTRLFtrlKeyword_8_0; }
+	}
+	public class LossElements extends AbstractEnumRuleElementFinder {
+		private final EnumRule rule = (EnumRule) GrammarUtil.findRuleForName(getGrammar(), "org.thingml.xtext.ThingML.Loss");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final EnumLiteralDeclaration cNO_IDEAEnumLiteralDeclaration_0 = (EnumLiteralDeclaration)cAlternatives.eContents().get(0);
+		private final Keyword cNO_IDEANO_IDEAKeyword_0_0 = (Keyword)cNO_IDEAEnumLiteralDeclaration_0.eContents().get(0);
+		private final EnumLiteralDeclaration cSPARSE_CATEGORICAL_CROSSENTROPYEnumLiteralDeclaration_1 = (EnumLiteralDeclaration)cAlternatives.eContents().get(1);
+		private final Keyword cSPARSE_CATEGORICAL_CROSSENTROPYSparse_categorical_crossentropyKeyword_1_0 = (Keyword)cSPARSE_CATEGORICAL_CROSSENTROPYEnumLiteralDeclaration_1.eContents().get(0);
+		private final EnumLiteralDeclaration cCATEGORICAL_CROSSENTROPYEnumLiteralDeclaration_2 = (EnumLiteralDeclaration)cAlternatives.eContents().get(2);
+		private final Keyword cCATEGORICAL_CROSSENTROPYCategorical_crossentropyKeyword_2_0 = (Keyword)cCATEGORICAL_CROSSENTROPYEnumLiteralDeclaration_2.eContents().get(0);
+		private final EnumLiteralDeclaration cMSEEnumLiteralDeclaration_3 = (EnumLiteralDeclaration)cAlternatives.eContents().get(3);
+		private final Keyword cMSEMSEKeyword_3_0 = (Keyword)cMSEEnumLiteralDeclaration_3.eContents().get(0);
+		
+		//enum Loss:
+		//	NO_IDEA | SPARSE_CATEGORICAL_CROSSENTROPY='sparse_categorical_crossentropy' |
+		//	CATEGORICAL_CROSSENTROPY='categorical_crossentropy' | MSE;
+		public EnumRule getRule() { return rule; }
+		
+		//NO_IDEA | SPARSE_CATEGORICAL_CROSSENTROPY='sparse_categorical_crossentropy' |
+		//CATEGORICAL_CROSSENTROPY='categorical_crossentropy' | MSE
+		public Alternatives getAlternatives() { return cAlternatives; }
+		
+		//NO_IDEA
+		public EnumLiteralDeclaration getNO_IDEAEnumLiteralDeclaration_0() { return cNO_IDEAEnumLiteralDeclaration_0; }
+		
+		//'NO_IDEA'
+		public Keyword getNO_IDEANO_IDEAKeyword_0_0() { return cNO_IDEANO_IDEAKeyword_0_0; }
+		
+		//SPARSE_CATEGORICAL_CROSSENTROPY='sparse_categorical_crossentropy'
+		public EnumLiteralDeclaration getSPARSE_CATEGORICAL_CROSSENTROPYEnumLiteralDeclaration_1() { return cSPARSE_CATEGORICAL_CROSSENTROPYEnumLiteralDeclaration_1; }
+		
+		//'sparse_categorical_crossentropy'
+		public Keyword getSPARSE_CATEGORICAL_CROSSENTROPYSparse_categorical_crossentropyKeyword_1_0() { return cSPARSE_CATEGORICAL_CROSSENTROPYSparse_categorical_crossentropyKeyword_1_0; }
+		
+		//CATEGORICAL_CROSSENTROPY='categorical_crossentropy'
+		public EnumLiteralDeclaration getCATEGORICAL_CROSSENTROPYEnumLiteralDeclaration_2() { return cCATEGORICAL_CROSSENTROPYEnumLiteralDeclaration_2; }
+		
+		//'categorical_crossentropy'
+		public Keyword getCATEGORICAL_CROSSENTROPYCategorical_crossentropyKeyword_2_0() { return cCATEGORICAL_CROSSENTROPYCategorical_crossentropyKeyword_2_0; }
+		
+		//MSE
+		public EnumLiteralDeclaration getMSEEnumLiteralDeclaration_3() { return cMSEEnumLiteralDeclaration_3; }
+		
+		//"MSE"
+		public Keyword getMSEMSEKeyword_3_0() { return cMSEMSEKeyword_3_0; }
 	}
 	
 	private final ThingMLModelElements pThingMLModel;
@@ -6444,15 +6340,13 @@ public class ThingMLGrammarAccess extends AbstractGrammarElementFinder {
 	private final ML2_ModelAlgorithmElements pML2_ModelAlgorithm;
 	private final DecisionTreeElements pDecisionTree;
 	private final RandomForestElements pRandomForest;
-	private final GatedRecurrentUnitsElements pGatedRecurrentUnits;
-	private final LongShortTermMemoryElements pLongShortTermMemory;
 	private final NN_MultilayerPerceptronElements pNN_MultilayerPerceptron;
-	private final DenoisingAutoencodersElements pDenoisingAutoencoders;
-	private final FactorialHiddenMarkovModelElements pFactorialHiddenMarkovModel;
-	private final CombinatorialOptimizationElements pCombinatorialOptimization;
-	private final MinSamplesSplitElements pMinSamplesSplit;
+	private final Min_samples_split_typeElements pMin_samples_split_type;
+	private final DecisionTreeCriterionElements eDecisionTreeCriterion;
+	private final RandomForestCriterionElements eRandomForestCriterion;
+	private final ActivationElements eActivation;
 	private final OptimizerElements eOptimizer;
-	private final LossFunctionElements eLossFunction;
+	private final LossElements eLoss;
 	private final EventElements pEvent;
 	private final ReceiveMessageElements pReceiveMessage;
 	private final ActionElements pAction;
@@ -6568,15 +6462,13 @@ public class ThingMLGrammarAccess extends AbstractGrammarElementFinder {
 		this.pML2_ModelAlgorithm = new ML2_ModelAlgorithmElements();
 		this.pDecisionTree = new DecisionTreeElements();
 		this.pRandomForest = new RandomForestElements();
-		this.pGatedRecurrentUnits = new GatedRecurrentUnitsElements();
-		this.pLongShortTermMemory = new LongShortTermMemoryElements();
 		this.pNN_MultilayerPerceptron = new NN_MultilayerPerceptronElements();
-		this.pDenoisingAutoencoders = new DenoisingAutoencodersElements();
-		this.pFactorialHiddenMarkovModel = new FactorialHiddenMarkovModelElements();
-		this.pCombinatorialOptimization = new CombinatorialOptimizationElements();
-		this.pMinSamplesSplit = new MinSamplesSplitElements();
+		this.pMin_samples_split_type = new Min_samples_split_typeElements();
+		this.eDecisionTreeCriterion = new DecisionTreeCriterionElements();
+		this.eRandomForestCriterion = new RandomForestCriterionElements();
+		this.eActivation = new ActivationElements();
 		this.eOptimizer = new OptimizerElements();
-		this.eLossFunction = new LossFunctionElements();
+		this.eLoss = new LossElements();
 		this.pEvent = new EventElements();
 		this.pReceiveMessage = new ReceiveMessageElements();
 		this.pAction = new ActionElements();
@@ -7114,16 +7006,11 @@ public class ThingMLGrammarAccess extends AbstractGrammarElementFinder {
 	
 	//// Models and algorithms for data analytics (specifically Machine Learning) may have any of the following types:
 	//// 1. They can conform to the PMML standard. 
-	//// 2. They can conform to the PFA standard.
-	//// 3. If they do not conform to the above-mentioned standards, they may be one of the choices offered here by ML2:
+	//// 2. They can conform to the PFA standard (not yet supported).
+	//// 3. If they do not conform to the above-mentioned standards, they may be one of the choices offered here by ML2 (the list will be extended):
 	////  DecisionTreeRegressor
 	////	RandomForestRegressor
-	////	GatedRecurrentUnits 
-	////	LongShortTermMemory 
 	////	NN_MultilayerPerceptron 
-	////	DenoisingAutoencoders 
-	////	FactorialHiddenMarkovModel 
-	////	CombinatorialOptimization
 	//DataAnalyticsModelAlgorithm:
 	//	PMML_ModelAlgorithm | PFA_ModelAlgorithm | ML2_ModelAlgorithm;
 	public DataAnalyticsModelAlgorithmElements getDataAnalyticsModelAlgorithmAccess() {
@@ -7148,6 +7035,7 @@ public class ThingMLGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//// 2. The PFA Standard (see http://dmg.org/pfa/)
+	////TODO To be supported
 	//PFA_ModelAlgorithm:
 	//	'pfa' name=ID
 	//	'(' ('path' pfa_path=STRING)
@@ -7160,10 +7048,10 @@ public class ThingMLGrammarAccess extends AbstractGrammarElementFinder {
 		return getPFA_ModelAlgorithmAccess().getRule();
 	}
 	
-	//// 3. Non-standard ML2 models and algorithms
+	//// 3. ML2 models and algorithms
+	////TODO To be extended
 	//ML2_ModelAlgorithm:
-	//	DecisionTree | RandomForest | GatedRecurrentUnits | LongShortTermMemory | NN_MultilayerPerceptron |
-	//	DenoisingAutoencoders | FactorialHiddenMarkovModel | CombinatorialOptimization;
+	//	DecisionTree | RandomForest | NN_MultilayerPerceptron;
 	public ML2_ModelAlgorithmElements getML2_ModelAlgorithmAccess() {
 		return pML2_ModelAlgorithm;
 	}
@@ -7174,8 +7062,8 @@ public class ThingMLGrammarAccess extends AbstractGrammarElementFinder {
 	
 	//DecisionTree:
 	//	'decision_tree' name=ID
-	//	'(' ('loss_function' lossFunction=LossFunction)?
-	//	','? ('min_samples_split' min_samples_split=MinSamplesSplit)?
+	//	'(' ('criterion' decisionTreeCriterion=DecisionTreeCriterion)?
+	//	','? ('min_samples_split' min_samples_split=Min_samples_split_type)?
 	//	')';
 	public DecisionTreeElements getDecisionTreeAccess() {
 		return pDecisionTree;
@@ -7187,8 +7075,8 @@ public class ThingMLGrammarAccess extends AbstractGrammarElementFinder {
 	
 	//RandomForest:
 	//	'random_forest' name=ID
-	//	'(' ('loss_function' lossFunction=LossFunction)?
-	//	','? ('min_samples_split' min_samples_split=MinSamplesSplit)?
+	//	'(' ('criterion' randomForestCriterion=RandomForestCriterion)?
+	//	','? ('min_samples_split' min_samples_split=Min_samples_split_type)?
 	//	')';
 	public RandomForestElements getRandomForestAccess() {
 		return pRandomForest;
@@ -7198,41 +7086,14 @@ public class ThingMLGrammarAccess extends AbstractGrammarElementFinder {
 		return getRandomForestAccess().getRule();
 	}
 	
-	//GatedRecurrentUnits:
-	//	'gated_recurrent_units' name=ID
-	//	'(' ('loss_function' loss_function=LossFunction)?
-	//	','? ('optimizer' optimizer=Optimizer)?
-	//	','? ('learning_rate' learning_rate=FLOAT)?
-	//	')';
-	public GatedRecurrentUnitsElements getGatedRecurrentUnitsAccess() {
-		return pGatedRecurrentUnits;
-	}
-	
-	public ParserRule getGatedRecurrentUnitsRule() {
-		return getGatedRecurrentUnitsAccess().getRule();
-	}
-	
-	//LongShortTermMemory:
-	//	'long_short_term_memory' name=ID
-	//	'(' ('loss_function' loss_function=LossFunction)?
-	//	','? ('optimizer' optimizer=Optimizer)?
-	//	','? ('learning_rate' learning_rate=FLOAT)?
-	//	')';
-	public LongShortTermMemoryElements getLongShortTermMemoryAccess() {
-		return pLongShortTermMemory;
-	}
-	
-	public ParserRule getLongShortTermMemoryRule() {
-		return getLongShortTermMemoryAccess().getRule();
-	}
-	
 	//NN_MultilayerPerceptron:
 	//	'nn_multilayer_perceptron' name=ID
-	//	'(' ('loss_function' loss_function=LossFunction)?
+	//	'(' ('no_hidden_layers' no_hidden_layers=INT)?
+	//	','? ('activation' activation=Activation)?
 	//	','? ('optimizer' optimizer=Optimizer)?
-	//	','? ('learning_rate' learning_rate=FLOAT)?
-	//	','? ('no_layers' no_layers=INT)?
-	//	','? ('dropout_probability' dropout_probability=FLOAT)?
+	//	','? ('loss' loss=Loss)?
+	//	','? ('epochs' epochs=INT)?
+	//	','? ('batch_size' batch_size=INT)?
 	//	')';
 	public NN_MultilayerPerceptronElements getNN_MultilayerPerceptronAccess() {
 		return pNN_MultilayerPerceptron;
@@ -7242,57 +7103,50 @@ public class ThingMLGrammarAccess extends AbstractGrammarElementFinder {
 		return getNN_MultilayerPerceptronAccess().getRule();
 	}
 	
-	//DenoisingAutoencoders:
-	//	'denoising_autoencoders' name=ID
-	//	'(' ('loss_function' loss_function=LossFunction)?
-	//	','? ('optimizer' optimizer=Optimizer)?
-	//	','? ('learning_rate' learning_rate=FLOAT)?
-	//	','? ('sequence_length' sequence_length=INT)?
-	//	')';
-	public DenoisingAutoencodersElements getDenoisingAutoencodersAccess() {
-		return pDenoisingAutoencoders;
-	}
-	
-	public ParserRule getDenoisingAutoencodersRule() {
-		return getDenoisingAutoencodersAccess().getRule();
-	}
-	
-	//FactorialHiddenMarkovModel:
-	//	'factorial_hidden_markov_model' name=ID
-	//	'('
-	//	')';
-	public FactorialHiddenMarkovModelElements getFactorialHiddenMarkovModelAccess() {
-		return pFactorialHiddenMarkovModel;
-	}
-	
-	public ParserRule getFactorialHiddenMarkovModelRule() {
-		return getFactorialHiddenMarkovModelAccess().getRule();
-	}
-	
-	//CombinatorialOptimization:
-	//	'combinatorial_optimization' name=ID
-	//	'('
-	//	')';
-	public CombinatorialOptimizationElements getCombinatorialOptimizationAccess() {
-		return pCombinatorialOptimization;
-	}
-	
-	public ParserRule getCombinatorialOptimizationRule() {
-		return getCombinatorialOptimizationAccess().getRule();
-	}
-	
-	//MinSamplesSplit:
+	//Min_samples_split_type:
 	//	INT | FLOAT;
-	public MinSamplesSplitElements getMinSamplesSplitAccess() {
-		return pMinSamplesSplit;
+	public Min_samples_split_typeElements getMin_samples_split_typeAccess() {
+		return pMin_samples_split_type;
 	}
 	
-	public ParserRule getMinSamplesSplitRule() {
-		return getMinSamplesSplitAccess().getRule();
+	public ParserRule getMin_samples_split_typeRule() {
+		return getMin_samples_split_typeAccess().getRule();
+	}
+	
+	//enum DecisionTreeCriterion:
+	//	NO_IDEA | MSE | FRIEDMAN_MSE | MAE | GINI | ENTROPY;
+	public DecisionTreeCriterionElements getDecisionTreeCriterionAccess() {
+		return eDecisionTreeCriterion;
+	}
+	
+	public EnumRule getDecisionTreeCriterionRule() {
+		return getDecisionTreeCriterionAccess().getRule();
+	}
+	
+	//enum RandomForestCriterion:
+	//	NO_IDEA | MSE | MAE | GINI | ENTROPY;
+	public RandomForestCriterionElements getRandomForestCriterionAccess() {
+		return eRandomForestCriterion;
+	}
+	
+	public EnumRule getRandomForestCriterionRule() {
+		return getRandomForestCriterionAccess().getRule();
+	}
+	
+	//enum Activation:
+	//	NO_IDEA | RELU='relu' | SIGMOID='sigmoid' | SOFTMAX='softmax' | SOFTPLUS='softplus' | SOFTSIGN='softsign' |
+	//	TANH='tanh' | SELU='selu' | ELU='elu' | EXPONENTIAL='exponential';
+	public ActivationElements getActivationAccess() {
+		return eActivation;
+	}
+	
+	public EnumRule getActivationRule() {
+		return getActivationAccess().getRule();
 	}
 	
 	//enum Optimizer:
-	//	ADAM='Adam' | Nadam | RMSPROP='RMSprop';
+	//	NO_IDEA | SGD | RMSPROP='RMSprop' | ADAM='Adam' | ADADELTA='Adadelta' | ADAGRAD='Adagrad' | ADAMAX='Adamax' |
+	//	NADAM='Nadam' | FTRL='Ftrl';
 	public OptimizerElements getOptimizerAccess() {
 		return eOptimizer;
 	}
@@ -7301,14 +7155,15 @@ public class ThingMLGrammarAccess extends AbstractGrammarElementFinder {
 		return getOptimizerAccess().getRule();
 	}
 	
-	//enum LossFunction:
-	//	MSE | FRIEDMAN_MSE | MAE;
-	public LossFunctionElements getLossFunctionAccess() {
-		return eLossFunction;
+	//enum Loss:
+	//	NO_IDEA | SPARSE_CATEGORICAL_CROSSENTROPY='sparse_categorical_crossentropy' |
+	//	CATEGORICAL_CROSSENTROPY='categorical_crossentropy' | MSE;
+	public LossElements getLossAccess() {
+		return eLoss;
 	}
 	
-	public EnumRule getLossFunctionRule() {
-		return getLossFunctionAccess().getRule();
+	public EnumRule getLossRule() {
+		return getLossAccess().getRule();
 	}
 	
 	///*****************************************************************************

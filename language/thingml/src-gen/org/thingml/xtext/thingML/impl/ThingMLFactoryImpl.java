@@ -115,13 +115,7 @@ public class ThingMLFactoryImpl extends EFactoryImpl implements ThingMLFactory
 			case ThingMLPackage.ML2_MODEL_ALGORITHM: return createML2_ModelAlgorithm();
 			case ThingMLPackage.DECISION_TREE: return createDecisionTree();
 			case ThingMLPackage.RANDOM_FOREST: return createRandomForest();
-			case ThingMLPackage.GATED_RECURRENT_UNITS: return createGatedRecurrentUnits();
-			case ThingMLPackage.LONG_SHORT_TERM_MEMORY: return createLongShortTermMemory();
 			case ThingMLPackage.NN_MULTILAYER_PERCEPTRON: return createNN_MultilayerPerceptron();
-			case ThingMLPackage.DENOISING_AUTOENCODERS: return createDenoisingAutoencoders();
-			case ThingMLPackage.FACTORIAL_HIDDEN_MARKOV_MODEL: return createFactorialHiddenMarkovModel();
-			case ThingMLPackage.COMBINATORIAL_OPTIMIZATION: return createCombinatorialOptimization();
-			case ThingMLPackage.MIN_SAMPLES_SPLIT: return createMinSamplesSplit();
 			case ThingMLPackage.EVENT: return createEvent();
 			case ThingMLPackage.RECEIVE_MESSAGE: return createReceiveMessage();
 			case ThingMLPackage.ACTION: return createAction();
@@ -202,10 +196,16 @@ public class ThingMLFactoryImpl extends EFactoryImpl implements ThingMLFactory
 				return createTimestampsFromString(eDataType, initialValue);
 			case ThingMLPackage.LABELS:
 				return createLabelsFromString(eDataType, initialValue);
+			case ThingMLPackage.DECISION_TREE_CRITERION:
+				return createDecisionTreeCriterionFromString(eDataType, initialValue);
+			case ThingMLPackage.RANDOM_FOREST_CRITERION:
+				return createRandomForestCriterionFromString(eDataType, initialValue);
+			case ThingMLPackage.ACTIVATION:
+				return createActivationFromString(eDataType, initialValue);
 			case ThingMLPackage.OPTIMIZER:
 				return createOptimizerFromString(eDataType, initialValue);
-			case ThingMLPackage.LOSS_FUNCTION:
-				return createLossFunctionFromString(eDataType, initialValue);
+			case ThingMLPackage.LOSS:
+				return createLossFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -226,10 +226,16 @@ public class ThingMLFactoryImpl extends EFactoryImpl implements ThingMLFactory
 				return convertTimestampsToString(eDataType, instanceValue);
 			case ThingMLPackage.LABELS:
 				return convertLabelsToString(eDataType, instanceValue);
+			case ThingMLPackage.DECISION_TREE_CRITERION:
+				return convertDecisionTreeCriterionToString(eDataType, instanceValue);
+			case ThingMLPackage.RANDOM_FOREST_CRITERION:
+				return convertRandomForestCriterionToString(eDataType, instanceValue);
+			case ThingMLPackage.ACTIVATION:
+				return convertActivationToString(eDataType, instanceValue);
 			case ThingMLPackage.OPTIMIZER:
 				return convertOptimizerToString(eDataType, instanceValue);
-			case ThingMLPackage.LOSS_FUNCTION:
-				return convertLossFunctionToString(eDataType, instanceValue);
+			case ThingMLPackage.LOSS:
+				return convertLossToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -721,82 +727,10 @@ public class ThingMLFactoryImpl extends EFactoryImpl implements ThingMLFactory
 	 * @generated
 	 */
   @Override
-		public GatedRecurrentUnits createGatedRecurrentUnits()
-  {
-		GatedRecurrentUnitsImpl gatedRecurrentUnits = new GatedRecurrentUnitsImpl();
-		return gatedRecurrentUnits;
-	}
-
-  /**
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @generated
-	 */
-  @Override
-		public LongShortTermMemory createLongShortTermMemory()
-  {
-		LongShortTermMemoryImpl longShortTermMemory = new LongShortTermMemoryImpl();
-		return longShortTermMemory;
-	}
-
-  /**
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @generated
-	 */
-  @Override
 		public NN_MultilayerPerceptron createNN_MultilayerPerceptron()
   {
 		NN_MultilayerPerceptronImpl nN_MultilayerPerceptron = new NN_MultilayerPerceptronImpl();
 		return nN_MultilayerPerceptron;
-	}
-
-  /**
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @generated
-	 */
-  @Override
-		public DenoisingAutoencoders createDenoisingAutoencoders()
-  {
-		DenoisingAutoencodersImpl denoisingAutoencoders = new DenoisingAutoencodersImpl();
-		return denoisingAutoencoders;
-	}
-
-  /**
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @generated
-	 */
-  @Override
-		public FactorialHiddenMarkovModel createFactorialHiddenMarkovModel()
-  {
-		FactorialHiddenMarkovModelImpl factorialHiddenMarkovModel = new FactorialHiddenMarkovModelImpl();
-		return factorialHiddenMarkovModel;
-	}
-
-  /**
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @generated
-	 */
-  @Override
-		public CombinatorialOptimization createCombinatorialOptimization()
-  {
-		CombinatorialOptimizationImpl combinatorialOptimization = new CombinatorialOptimizationImpl();
-		return combinatorialOptimization;
-	}
-
-  /**
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @generated
-	 */
-  @Override
-		public MinSamplesSplit createMinSamplesSplit()
-  {
-		MinSamplesSplitImpl minSamplesSplit = new MinSamplesSplitImpl();
-		return minSamplesSplit;
 	}
 
   /**
@@ -1590,6 +1524,72 @@ public class ThingMLFactoryImpl extends EFactoryImpl implements ThingMLFactory
    * <!-- end-user-doc -->
 	 * @generated
 	 */
+  public DecisionTreeCriterion createDecisionTreeCriterionFromString(EDataType eDataType, String initialValue)
+  {
+		DecisionTreeCriterion result = DecisionTreeCriterion.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+  /**
+	 * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+	 * @generated
+	 */
+  public String convertDecisionTreeCriterionToString(EDataType eDataType, Object instanceValue)
+  {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+  /**
+	 * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+	 * @generated
+	 */
+  public RandomForestCriterion createRandomForestCriterionFromString(EDataType eDataType, String initialValue)
+  {
+		RandomForestCriterion result = RandomForestCriterion.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+  /**
+	 * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+	 * @generated
+	 */
+  public String convertRandomForestCriterionToString(EDataType eDataType, Object instanceValue)
+  {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+  /**
+	 * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+	 * @generated
+	 */
+  public Activation createActivationFromString(EDataType eDataType, String initialValue)
+  {
+		Activation result = Activation.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+  /**
+	 * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+	 * @generated
+	 */
+  public String convertActivationToString(EDataType eDataType, Object instanceValue)
+  {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+  /**
+	 * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+	 * @generated
+	 */
   public Optimizer createOptimizerFromString(EDataType eDataType, String initialValue)
   {
 		Optimizer result = Optimizer.get(initialValue);
@@ -1612,9 +1612,9 @@ public class ThingMLFactoryImpl extends EFactoryImpl implements ThingMLFactory
    * <!-- end-user-doc -->
 	 * @generated
 	 */
-  public LossFunction createLossFunctionFromString(EDataType eDataType, String initialValue)
+  public Loss createLossFromString(EDataType eDataType, String initialValue)
   {
-		LossFunction result = LossFunction.get(initialValue);
+		Loss result = Loss.get(initialValue);
 		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
 		return result;
 	}
@@ -1624,7 +1624,7 @@ public class ThingMLFactoryImpl extends EFactoryImpl implements ThingMLFactory
    * <!-- end-user-doc -->
 	 * @generated
 	 */
-  public String convertLossFunctionToString(EDataType eDataType, Object instanceValue)
+  public String convertLossToString(EDataType eDataType, Object instanceValue)
   {
 		return instanceValue == null ? null : instanceValue.toString();
 	}

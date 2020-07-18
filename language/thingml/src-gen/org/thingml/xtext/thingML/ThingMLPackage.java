@@ -2208,16 +2208,16 @@ public interface ThingMLPackage extends EPackage
   int DECISION_TREE__NAME = ML2_MODEL_ALGORITHM__NAME;
 
   /**
-	 * The feature id for the '<em><b>Loss Function</b></em>' attribute.
+	 * The feature id for the '<em><b>Decision Tree Criterion</b></em>' attribute.
 	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-  int DECISION_TREE__LOSS_FUNCTION = ML2_MODEL_ALGORITHM_FEATURE_COUNT + 0;
+  int DECISION_TREE__DECISION_TREE_CRITERION = ML2_MODEL_ALGORITHM_FEATURE_COUNT + 0;
 
   /**
-	 * The feature id for the '<em><b>Min samples split</b></em>' containment reference.
+	 * The feature id for the '<em><b>Min samples split</b></em>' attribute.
 	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
 	 * @generated
@@ -2254,16 +2254,16 @@ public interface ThingMLPackage extends EPackage
   int RANDOM_FOREST__NAME = ML2_MODEL_ALGORITHM__NAME;
 
   /**
-	 * The feature id for the '<em><b>Loss Function</b></em>' attribute.
+	 * The feature id for the '<em><b>Random Forest Criterion</b></em>' attribute.
 	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-  int RANDOM_FOREST__LOSS_FUNCTION = ML2_MODEL_ALGORITHM_FEATURE_COUNT + 0;
+  int RANDOM_FOREST__RANDOM_FOREST_CRITERION = ML2_MODEL_ALGORITHM_FEATURE_COUNT + 0;
 
   /**
-	 * The feature id for the '<em><b>Min samples split</b></em>' containment reference.
+	 * The feature id for the '<em><b>Min samples split</b></em>' attribute.
 	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
 	 * @generated
@@ -2281,116 +2281,6 @@ public interface ThingMLPackage extends EPackage
   int RANDOM_FOREST_FEATURE_COUNT = ML2_MODEL_ALGORITHM_FEATURE_COUNT + 2;
 
   /**
-	 * The meta object id for the '{@link org.thingml.xtext.thingML.impl.GatedRecurrentUnitsImpl <em>Gated Recurrent Units</em>}' class.
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @see org.thingml.xtext.thingML.impl.GatedRecurrentUnitsImpl
-	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getGatedRecurrentUnits()
-	 * @generated
-	 */
-  int GATED_RECURRENT_UNITS = 40;
-
-  /**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-  int GATED_RECURRENT_UNITS__NAME = ML2_MODEL_ALGORITHM__NAME;
-
-  /**
-	 * The feature id for the '<em><b>Loss function</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-  int GATED_RECURRENT_UNITS__LOSS_FUNCTION = ML2_MODEL_ALGORITHM_FEATURE_COUNT + 0;
-
-  /**
-	 * The feature id for the '<em><b>Optimizer</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-  int GATED_RECURRENT_UNITS__OPTIMIZER = ML2_MODEL_ALGORITHM_FEATURE_COUNT + 1;
-
-  /**
-	 * The feature id for the '<em><b>Learning rate</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-  int GATED_RECURRENT_UNITS__LEARNING_RATE = ML2_MODEL_ALGORITHM_FEATURE_COUNT + 2;
-
-  /**
-	 * The number of structural features of the '<em>Gated Recurrent Units</em>' class.
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-  int GATED_RECURRENT_UNITS_FEATURE_COUNT = ML2_MODEL_ALGORITHM_FEATURE_COUNT + 3;
-
-  /**
-	 * The meta object id for the '{@link org.thingml.xtext.thingML.impl.LongShortTermMemoryImpl <em>Long Short Term Memory</em>}' class.
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @see org.thingml.xtext.thingML.impl.LongShortTermMemoryImpl
-	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getLongShortTermMemory()
-	 * @generated
-	 */
-  int LONG_SHORT_TERM_MEMORY = 41;
-
-  /**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-  int LONG_SHORT_TERM_MEMORY__NAME = ML2_MODEL_ALGORITHM__NAME;
-
-  /**
-	 * The feature id for the '<em><b>Loss function</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-  int LONG_SHORT_TERM_MEMORY__LOSS_FUNCTION = ML2_MODEL_ALGORITHM_FEATURE_COUNT + 0;
-
-  /**
-	 * The feature id for the '<em><b>Optimizer</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-  int LONG_SHORT_TERM_MEMORY__OPTIMIZER = ML2_MODEL_ALGORITHM_FEATURE_COUNT + 1;
-
-  /**
-	 * The feature id for the '<em><b>Learning rate</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-  int LONG_SHORT_TERM_MEMORY__LEARNING_RATE = ML2_MODEL_ALGORITHM_FEATURE_COUNT + 2;
-
-  /**
-	 * The number of structural features of the '<em>Long Short Term Memory</em>' class.
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-  int LONG_SHORT_TERM_MEMORY_FEATURE_COUNT = ML2_MODEL_ALGORITHM_FEATURE_COUNT + 3;
-
-  /**
 	 * The meta object id for the '{@link org.thingml.xtext.thingML.impl.NN_MultilayerPerceptronImpl <em>NN Multilayer Perceptron</em>}' class.
 	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -2398,7 +2288,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getNN_MultilayerPerceptron()
 	 * @generated
 	 */
-  int NN_MULTILAYER_PERCEPTRON = 42;
+  int NN_MULTILAYER_PERCEPTRON = 40;
 
   /**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -2410,13 +2300,22 @@ public interface ThingMLPackage extends EPackage
   int NN_MULTILAYER_PERCEPTRON__NAME = ML2_MODEL_ALGORITHM__NAME;
 
   /**
-	 * The feature id for the '<em><b>Loss function</b></em>' attribute.
+	 * The feature id for the '<em><b>No hidden layers</b></em>' attribute.
 	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-  int NN_MULTILAYER_PERCEPTRON__LOSS_FUNCTION = ML2_MODEL_ALGORITHM_FEATURE_COUNT + 0;
+  int NN_MULTILAYER_PERCEPTRON__NO_HIDDEN_LAYERS = ML2_MODEL_ALGORITHM_FEATURE_COUNT + 0;
+
+  /**
+	 * The feature id for the '<em><b>Activation</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+  int NN_MULTILAYER_PERCEPTRON__ACTIVATION = ML2_MODEL_ALGORITHM_FEATURE_COUNT + 1;
 
   /**
 	 * The feature id for the '<em><b>Optimizer</b></em>' attribute.
@@ -2425,34 +2324,34 @@ public interface ThingMLPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-  int NN_MULTILAYER_PERCEPTRON__OPTIMIZER = ML2_MODEL_ALGORITHM_FEATURE_COUNT + 1;
+  int NN_MULTILAYER_PERCEPTRON__OPTIMIZER = ML2_MODEL_ALGORITHM_FEATURE_COUNT + 2;
 
   /**
-	 * The feature id for the '<em><b>Learning rate</b></em>' attribute.
+	 * The feature id for the '<em><b>Loss</b></em>' attribute.
 	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-  int NN_MULTILAYER_PERCEPTRON__LEARNING_RATE = ML2_MODEL_ALGORITHM_FEATURE_COUNT + 2;
+  int NN_MULTILAYER_PERCEPTRON__LOSS = ML2_MODEL_ALGORITHM_FEATURE_COUNT + 3;
 
   /**
-	 * The feature id for the '<em><b>No layers</b></em>' attribute.
+	 * The feature id for the '<em><b>Epochs</b></em>' attribute.
 	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-  int NN_MULTILAYER_PERCEPTRON__NO_LAYERS = ML2_MODEL_ALGORITHM_FEATURE_COUNT + 3;
+  int NN_MULTILAYER_PERCEPTRON__EPOCHS = ML2_MODEL_ALGORITHM_FEATURE_COUNT + 4;
 
   /**
-	 * The feature id for the '<em><b>Dropout probability</b></em>' attribute.
+	 * The feature id for the '<em><b>Batch size</b></em>' attribute.
 	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-  int NN_MULTILAYER_PERCEPTRON__DROPOUT_PROBABILITY = ML2_MODEL_ALGORITHM_FEATURE_COUNT + 4;
+  int NN_MULTILAYER_PERCEPTRON__BATCH_SIZE = ML2_MODEL_ALGORITHM_FEATURE_COUNT + 5;
 
   /**
 	 * The number of structural features of the '<em>NN Multilayer Perceptron</em>' class.
@@ -2461,146 +2360,7 @@ public interface ThingMLPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-  int NN_MULTILAYER_PERCEPTRON_FEATURE_COUNT = ML2_MODEL_ALGORITHM_FEATURE_COUNT + 5;
-
-  /**
-	 * The meta object id for the '{@link org.thingml.xtext.thingML.impl.DenoisingAutoencodersImpl <em>Denoising Autoencoders</em>}' class.
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @see org.thingml.xtext.thingML.impl.DenoisingAutoencodersImpl
-	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getDenoisingAutoencoders()
-	 * @generated
-	 */
-  int DENOISING_AUTOENCODERS = 43;
-
-  /**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-  int DENOISING_AUTOENCODERS__NAME = ML2_MODEL_ALGORITHM__NAME;
-
-  /**
-	 * The feature id for the '<em><b>Loss function</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-  int DENOISING_AUTOENCODERS__LOSS_FUNCTION = ML2_MODEL_ALGORITHM_FEATURE_COUNT + 0;
-
-  /**
-	 * The feature id for the '<em><b>Optimizer</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-  int DENOISING_AUTOENCODERS__OPTIMIZER = ML2_MODEL_ALGORITHM_FEATURE_COUNT + 1;
-
-  /**
-	 * The feature id for the '<em><b>Learning rate</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-  int DENOISING_AUTOENCODERS__LEARNING_RATE = ML2_MODEL_ALGORITHM_FEATURE_COUNT + 2;
-
-  /**
-	 * The feature id for the '<em><b>Sequence length</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-  int DENOISING_AUTOENCODERS__SEQUENCE_LENGTH = ML2_MODEL_ALGORITHM_FEATURE_COUNT + 3;
-
-  /**
-	 * The number of structural features of the '<em>Denoising Autoencoders</em>' class.
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-  int DENOISING_AUTOENCODERS_FEATURE_COUNT = ML2_MODEL_ALGORITHM_FEATURE_COUNT + 4;
-
-  /**
-	 * The meta object id for the '{@link org.thingml.xtext.thingML.impl.FactorialHiddenMarkovModelImpl <em>Factorial Hidden Markov Model</em>}' class.
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @see org.thingml.xtext.thingML.impl.FactorialHiddenMarkovModelImpl
-	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getFactorialHiddenMarkovModel()
-	 * @generated
-	 */
-  int FACTORIAL_HIDDEN_MARKOV_MODEL = 44;
-
-  /**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-  int FACTORIAL_HIDDEN_MARKOV_MODEL__NAME = ML2_MODEL_ALGORITHM__NAME;
-
-  /**
-	 * The number of structural features of the '<em>Factorial Hidden Markov Model</em>' class.
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-  int FACTORIAL_HIDDEN_MARKOV_MODEL_FEATURE_COUNT = ML2_MODEL_ALGORITHM_FEATURE_COUNT + 0;
-
-  /**
-	 * The meta object id for the '{@link org.thingml.xtext.thingML.impl.CombinatorialOptimizationImpl <em>Combinatorial Optimization</em>}' class.
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @see org.thingml.xtext.thingML.impl.CombinatorialOptimizationImpl
-	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getCombinatorialOptimization()
-	 * @generated
-	 */
-  int COMBINATORIAL_OPTIMIZATION = 45;
-
-  /**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-  int COMBINATORIAL_OPTIMIZATION__NAME = ML2_MODEL_ALGORITHM__NAME;
-
-  /**
-	 * The number of structural features of the '<em>Combinatorial Optimization</em>' class.
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-  int COMBINATORIAL_OPTIMIZATION_FEATURE_COUNT = ML2_MODEL_ALGORITHM_FEATURE_COUNT + 0;
-
-  /**
-	 * The meta object id for the '{@link org.thingml.xtext.thingML.impl.MinSamplesSplitImpl <em>Min Samples Split</em>}' class.
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @see org.thingml.xtext.thingML.impl.MinSamplesSplitImpl
-	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getMinSamplesSplit()
-	 * @generated
-	 */
-  int MIN_SAMPLES_SPLIT = 46;
-
-  /**
-	 * The number of structural features of the '<em>Min Samples Split</em>' class.
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-  int MIN_SAMPLES_SPLIT_FEATURE_COUNT = 0;
+  int NN_MULTILAYER_PERCEPTRON_FEATURE_COUNT = ML2_MODEL_ALGORITHM_FEATURE_COUNT + 6;
 
   /**
 	 * The meta object id for the '{@link org.thingml.xtext.thingML.impl.EventImpl <em>Event</em>}' class.
@@ -2610,7 +2370,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getEvent()
 	 * @generated
 	 */
-  int EVENT = 47;
+  int EVENT = 41;
 
   /**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -2638,7 +2398,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getReceiveMessage()
 	 * @generated
 	 */
-  int RECEIVE_MESSAGE = 48;
+  int RECEIVE_MESSAGE = 42;
 
   /**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -2684,7 +2444,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getAction()
 	 * @generated
 	 */
-  int ACTION = 49;
+  int ACTION = 43;
 
   /**
 	 * The number of structural features of the '<em>Action</em>' class.
@@ -2703,7 +2463,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getActionBlock()
 	 * @generated
 	 */
-  int ACTION_BLOCK = 50;
+  int ACTION_BLOCK = 44;
 
   /**
 	 * The feature id for the '<em><b>Actions</b></em>' containment reference list.
@@ -2731,7 +2491,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getExternStatement()
 	 * @generated
 	 */
-  int EXTERN_STATEMENT = 51;
+  int EXTERN_STATEMENT = 45;
 
   /**
 	 * The feature id for the '<em><b>Statement</b></em>' attribute.
@@ -2768,7 +2528,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getLocalVariable()
 	 * @generated
 	 */
-  int LOCAL_VARIABLE = 52;
+  int LOCAL_VARIABLE = 46;
 
   /**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -2832,7 +2592,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getSendAction()
 	 * @generated
 	 */
-  int SEND_ACTION = 53;
+  int SEND_ACTION = 47;
 
   /**
 	 * The feature id for the '<em><b>Port</b></em>' reference.
@@ -2878,7 +2638,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getVariableAssignment()
 	 * @generated
 	 */
-  int VARIABLE_ASSIGNMENT = 54;
+  int VARIABLE_ASSIGNMENT = 48;
 
   /**
 	 * The feature id for the '<em><b>Property</b></em>' reference.
@@ -2924,7 +2684,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getIncrement()
 	 * @generated
 	 */
-  int INCREMENT = 55;
+  int INCREMENT = 49;
 
   /**
 	 * The feature id for the '<em><b>Var</b></em>' reference.
@@ -2952,7 +2712,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getDecrement()
 	 * @generated
 	 */
-  int DECREMENT = 56;
+  int DECREMENT = 50;
 
   /**
 	 * The feature id for the '<em><b>Var</b></em>' reference.
@@ -2980,7 +2740,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getForAction()
 	 * @generated
 	 */
-  int FOR_ACTION = 57;
+  int FOR_ACTION = 51;
 
   /**
 	 * The feature id for the '<em><b>Variable</b></em>' containment reference.
@@ -3035,7 +2795,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getLoopAction()
 	 * @generated
 	 */
-  int LOOP_ACTION = 58;
+  int LOOP_ACTION = 52;
 
   /**
 	 * The feature id for the '<em><b>Condition</b></em>' containment reference.
@@ -3072,7 +2832,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getConditionalAction()
 	 * @generated
 	 */
-  int CONDITIONAL_ACTION = 59;
+  int CONDITIONAL_ACTION = 53;
 
   /**
 	 * The feature id for the '<em><b>Condition</b></em>' containment reference.
@@ -3118,7 +2878,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getReturnAction()
 	 * @generated
 	 */
-  int RETURN_ACTION = 60;
+  int RETURN_ACTION = 54;
 
   /**
 	 * The feature id for the '<em><b>Exp</b></em>' containment reference.
@@ -3146,7 +2906,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getPrintAction()
 	 * @generated
 	 */
-  int PRINT_ACTION = 61;
+  int PRINT_ACTION = 55;
 
   /**
 	 * The feature id for the '<em><b>Line</b></em>' attribute.
@@ -3183,7 +2943,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getErrorAction()
 	 * @generated
 	 */
-  int ERROR_ACTION = 62;
+  int ERROR_ACTION = 56;
 
   /**
 	 * The feature id for the '<em><b>Line</b></em>' attribute.
@@ -3220,7 +2980,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getStartSession()
 	 * @generated
 	 */
-  int START_SESSION = 63;
+  int START_SESSION = 57;
 
   /**
 	 * The feature id for the '<em><b>Session</b></em>' reference.
@@ -3248,7 +3008,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getFunctionCallStatement()
 	 * @generated
 	 */
-  int FUNCTION_CALL_STATEMENT = 64;
+  int FUNCTION_CALL_STATEMENT = 58;
 
   /**
 	 * The feature id for the '<em><b>Function</b></em>' reference.
@@ -3285,7 +3045,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getDASaveAction()
 	 * @generated
 	 */
-  int DA_SAVE_ACTION = 65;
+  int DA_SAVE_ACTION = 59;
 
   /**
 	 * The feature id for the '<em><b>Data Analytics</b></em>' reference.
@@ -3313,7 +3073,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getDAPreprocessAction()
 	 * @generated
 	 */
-  int DA_PREPROCESS_ACTION = 66;
+  int DA_PREPROCESS_ACTION = 60;
 
   /**
 	 * The feature id for the '<em><b>Data Analytics</b></em>' reference.
@@ -3341,7 +3101,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getDATrainAction()
 	 * @generated
 	 */
-  int DA_TRAIN_ACTION = 67;
+  int DA_TRAIN_ACTION = 61;
 
   /**
 	 * The feature id for the '<em><b>Data Analytics</b></em>' reference.
@@ -3369,7 +3129,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getDAPredictAction()
 	 * @generated
 	 */
-  int DA_PREDICT_ACTION = 68;
+  int DA_PREDICT_ACTION = 62;
 
   /**
 	 * The feature id for the '<em><b>Data Analytics</b></em>' reference.
@@ -3406,7 +3166,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getExpression()
 	 * @generated
 	 */
-  int EXPRESSION = 69;
+  int EXPRESSION = 63;
 
   /**
 	 * The number of structural features of the '<em>Expression</em>' class.
@@ -3425,7 +3185,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getExternExpression()
 	 * @generated
 	 */
-  int EXTERN_EXPRESSION = 70;
+  int EXTERN_EXPRESSION = 64;
 
   /**
 	 * The feature id for the '<em><b>Expression</b></em>' attribute.
@@ -3462,7 +3222,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getLiteral()
 	 * @generated
 	 */
-  int LITERAL = 71;
+  int LITERAL = 65;
 
   /**
 	 * The number of structural features of the '<em>Literal</em>' class.
@@ -3481,7 +3241,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getArrayInit()
 	 * @generated
 	 */
-  int ARRAY_INIT = 72;
+  int ARRAY_INIT = 66;
 
   /**
 	 * The feature id for the '<em><b>Values</b></em>' containment reference list.
@@ -3509,7 +3269,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getEnumLiteralRef()
 	 * @generated
 	 */
-  int ENUM_LITERAL_REF = 73;
+  int ENUM_LITERAL_REF = 67;
 
   /**
 	 * The feature id for the '<em><b>Enum</b></em>' reference.
@@ -3546,7 +3306,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getByteLiteral()
 	 * @generated
 	 */
-  int BYTE_LITERAL = 74;
+  int BYTE_LITERAL = 68;
 
   /**
 	 * The feature id for the '<em><b>Byte Value</b></em>' attribute.
@@ -3574,7 +3334,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getCharLiteral()
 	 * @generated
 	 */
-  int CHAR_LITERAL = 75;
+  int CHAR_LITERAL = 69;
 
   /**
 	 * The feature id for the '<em><b>Char Value</b></em>' attribute.
@@ -3602,7 +3362,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getIntegerLiteral()
 	 * @generated
 	 */
-  int INTEGER_LITERAL = 76;
+  int INTEGER_LITERAL = 70;
 
   /**
 	 * The feature id for the '<em><b>Int Value</b></em>' attribute.
@@ -3630,7 +3390,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getBooleanLiteral()
 	 * @generated
 	 */
-  int BOOLEAN_LITERAL = 77;
+  int BOOLEAN_LITERAL = 71;
 
   /**
 	 * The feature id for the '<em><b>Bool Value</b></em>' attribute.
@@ -3658,7 +3418,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getStringLiteral()
 	 * @generated
 	 */
-  int STRING_LITERAL = 78;
+  int STRING_LITERAL = 72;
 
   /**
 	 * The feature id for the '<em><b>String Value</b></em>' attribute.
@@ -3686,7 +3446,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getDoubleLiteral()
 	 * @generated
 	 */
-  int DOUBLE_LITERAL = 79;
+  int DOUBLE_LITERAL = 73;
 
   /**
 	 * The feature id for the '<em><b>Double Value</b></em>' attribute.
@@ -3714,7 +3474,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getPropertyReference()
 	 * @generated
 	 */
-  int PROPERTY_REFERENCE = 80;
+  int PROPERTY_REFERENCE = 74;
 
   /**
 	 * The feature id for the '<em><b>Property</b></em>' reference.
@@ -3742,7 +3502,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getEventReference()
 	 * @generated
 	 */
-  int EVENT_REFERENCE = 81;
+  int EVENT_REFERENCE = 75;
 
   /**
 	 * The feature id for the '<em><b>Receive Msg</b></em>' reference.
@@ -3779,7 +3539,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getFunctionCallExpression()
 	 * @generated
 	 */
-  int FUNCTION_CALL_EXPRESSION = 82;
+  int FUNCTION_CALL_EXPRESSION = 76;
 
   /**
 	 * The feature id for the '<em><b>Function</b></em>' reference.
@@ -3816,7 +3576,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getConfiguration()
 	 * @generated
 	 */
-  int CONFIGURATION = 83;
+  int CONFIGURATION = 77;
 
   /**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -3880,7 +3640,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getInstance()
 	 * @generated
 	 */
-  int INSTANCE = 84;
+  int INSTANCE = 78;
 
   /**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -3926,7 +3686,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getConfigPropertyAssign()
 	 * @generated
 	 */
-  int CONFIG_PROPERTY_ASSIGN = 85;
+  int CONFIG_PROPERTY_ASSIGN = 79;
 
   /**
 	 * The feature id for the '<em><b>Instance</b></em>' reference.
@@ -3990,7 +3750,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getAbstractConnector()
 	 * @generated
 	 */
-  int ABSTRACT_CONNECTOR = 86;
+  int ABSTRACT_CONNECTOR = 80;
 
   /**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -4027,7 +3787,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getConnector()
 	 * @generated
 	 */
-  int CONNECTOR = 87;
+  int CONNECTOR = 81;
 
   /**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -4100,7 +3860,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getExternalConnector()
 	 * @generated
 	 */
-  int EXTERNAL_CONNECTOR = 88;
+  int EXTERNAL_CONNECTOR = 82;
 
   /**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -4164,7 +3924,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getOrExpression()
 	 * @generated
 	 */
-  int OR_EXPRESSION = 89;
+  int OR_EXPRESSION = 83;
 
   /**
 	 * The feature id for the '<em><b>Lhs</b></em>' containment reference.
@@ -4201,7 +3961,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getAndExpression()
 	 * @generated
 	 */
-  int AND_EXPRESSION = 90;
+  int AND_EXPRESSION = 84;
 
   /**
 	 * The feature id for the '<em><b>Lhs</b></em>' containment reference.
@@ -4238,7 +3998,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getEqualsExpression()
 	 * @generated
 	 */
-  int EQUALS_EXPRESSION = 91;
+  int EQUALS_EXPRESSION = 85;
 
   /**
 	 * The feature id for the '<em><b>Lhs</b></em>' containment reference.
@@ -4275,7 +4035,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getNotEqualsExpression()
 	 * @generated
 	 */
-  int NOT_EQUALS_EXPRESSION = 92;
+  int NOT_EQUALS_EXPRESSION = 86;
 
   /**
 	 * The feature id for the '<em><b>Lhs</b></em>' containment reference.
@@ -4312,7 +4072,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getGreaterExpression()
 	 * @generated
 	 */
-  int GREATER_EXPRESSION = 93;
+  int GREATER_EXPRESSION = 87;
 
   /**
 	 * The feature id for the '<em><b>Lhs</b></em>' containment reference.
@@ -4349,7 +4109,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getLowerExpression()
 	 * @generated
 	 */
-  int LOWER_EXPRESSION = 94;
+  int LOWER_EXPRESSION = 88;
 
   /**
 	 * The feature id for the '<em><b>Lhs</b></em>' containment reference.
@@ -4386,7 +4146,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getGreaterOrEqualExpression()
 	 * @generated
 	 */
-  int GREATER_OR_EQUAL_EXPRESSION = 95;
+  int GREATER_OR_EQUAL_EXPRESSION = 89;
 
   /**
 	 * The feature id for the '<em><b>Lhs</b></em>' containment reference.
@@ -4423,7 +4183,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getLowerOrEqualExpression()
 	 * @generated
 	 */
-  int LOWER_OR_EQUAL_EXPRESSION = 96;
+  int LOWER_OR_EQUAL_EXPRESSION = 90;
 
   /**
 	 * The feature id for the '<em><b>Lhs</b></em>' containment reference.
@@ -4460,7 +4220,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getPlusExpression()
 	 * @generated
 	 */
-  int PLUS_EXPRESSION = 97;
+  int PLUS_EXPRESSION = 91;
 
   /**
 	 * The feature id for the '<em><b>Lhs</b></em>' containment reference.
@@ -4497,7 +4257,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getMinusExpression()
 	 * @generated
 	 */
-  int MINUS_EXPRESSION = 98;
+  int MINUS_EXPRESSION = 92;
 
   /**
 	 * The feature id for the '<em><b>Lhs</b></em>' containment reference.
@@ -4534,7 +4294,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getTimesExpression()
 	 * @generated
 	 */
-  int TIMES_EXPRESSION = 99;
+  int TIMES_EXPRESSION = 93;
 
   /**
 	 * The feature id for the '<em><b>Lhs</b></em>' containment reference.
@@ -4571,7 +4331,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getDivExpression()
 	 * @generated
 	 */
-  int DIV_EXPRESSION = 100;
+  int DIV_EXPRESSION = 94;
 
   /**
 	 * The feature id for the '<em><b>Lhs</b></em>' containment reference.
@@ -4608,7 +4368,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getModExpression()
 	 * @generated
 	 */
-  int MOD_EXPRESSION = 101;
+  int MOD_EXPRESSION = 95;
 
   /**
 	 * The feature id for the '<em><b>Lhs</b></em>' containment reference.
@@ -4645,7 +4405,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getCastExpression()
 	 * @generated
 	 */
-  int CAST_EXPRESSION = 102;
+  int CAST_EXPRESSION = 96;
 
   /**
 	 * The feature id for the '<em><b>Term</b></em>' containment reference.
@@ -4691,7 +4451,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getExpressionGroup()
 	 * @generated
 	 */
-  int EXPRESSION_GROUP = 103;
+  int EXPRESSION_GROUP = 97;
 
   /**
 	 * The feature id for the '<em><b>Term</b></em>' containment reference.
@@ -4719,7 +4479,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getNotExpression()
 	 * @generated
 	 */
-  int NOT_EXPRESSION = 104;
+  int NOT_EXPRESSION = 98;
 
   /**
 	 * The feature id for the '<em><b>Term</b></em>' containment reference.
@@ -4747,7 +4507,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getUnaryMinus()
 	 * @generated
 	 */
-  int UNARY_MINUS = 105;
+  int UNARY_MINUS = 99;
 
   /**
 	 * The feature id for the '<em><b>Term</b></em>' containment reference.
@@ -4775,7 +4535,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getArrayIndex()
 	 * @generated
 	 */
-  int ARRAY_INDEX = 106;
+  int ARRAY_INDEX = 100;
 
   /**
 	 * The feature id for the '<em><b>Array</b></em>' containment reference.
@@ -4812,7 +4572,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getSequential()
 	 * @generated
 	 */
-  int SEQUENTIAL = 107;
+  int SEQUENTIAL = 101;
 
   /**
 	 * The meta object id for the '{@link org.thingml.xtext.thingML.Timestamps <em>Timestamps</em>}' enum.
@@ -4822,7 +4582,7 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getTimestamps()
 	 * @generated
 	 */
-  int TIMESTAMPS = 108;
+  int TIMESTAMPS = 102;
 
   /**
 	 * The meta object id for the '{@link org.thingml.xtext.thingML.Labels <em>Labels</em>}' enum.
@@ -4832,7 +4592,37 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getLabels()
 	 * @generated
 	 */
-  int LABELS = 109;
+  int LABELS = 103;
+
+  /**
+	 * The meta object id for the '{@link org.thingml.xtext.thingML.DecisionTreeCriterion <em>Decision Tree Criterion</em>}' enum.
+	 * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+	 * @see org.thingml.xtext.thingML.DecisionTreeCriterion
+	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getDecisionTreeCriterion()
+	 * @generated
+	 */
+  int DECISION_TREE_CRITERION = 104;
+
+  /**
+	 * The meta object id for the '{@link org.thingml.xtext.thingML.RandomForestCriterion <em>Random Forest Criterion</em>}' enum.
+	 * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+	 * @see org.thingml.xtext.thingML.RandomForestCriterion
+	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getRandomForestCriterion()
+	 * @generated
+	 */
+  int RANDOM_FOREST_CRITERION = 105;
+
+  /**
+	 * The meta object id for the '{@link org.thingml.xtext.thingML.Activation <em>Activation</em>}' enum.
+	 * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+	 * @see org.thingml.xtext.thingML.Activation
+	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getActivation()
+	 * @generated
+	 */
+  int ACTIVATION = 106;
 
   /**
 	 * The meta object id for the '{@link org.thingml.xtext.thingML.Optimizer <em>Optimizer</em>}' enum.
@@ -4842,17 +4632,17 @@ public interface ThingMLPackage extends EPackage
 	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getOptimizer()
 	 * @generated
 	 */
-  int OPTIMIZER = 110;
+  int OPTIMIZER = 107;
 
   /**
-	 * The meta object id for the '{@link org.thingml.xtext.thingML.LossFunction <em>Loss Function</em>}' enum.
+	 * The meta object id for the '{@link org.thingml.xtext.thingML.Loss <em>Loss</em>}' enum.
 	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @see org.thingml.xtext.thingML.LossFunction
-	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getLossFunction()
+	 * @see org.thingml.xtext.thingML.Loss
+	 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getLoss()
 	 * @generated
 	 */
-  int LOSS_FUNCTION = 111;
+  int LOSS = 108;
 
 
   /**
@@ -5972,26 +5762,26 @@ public interface ThingMLPackage extends EPackage
   EClass getDecisionTree();
 
   /**
-	 * Returns the meta object for the attribute '{@link org.thingml.xtext.thingML.DecisionTree#getLossFunction <em>Loss Function</em>}'.
+	 * Returns the meta object for the attribute '{@link org.thingml.xtext.thingML.DecisionTree#getDecisionTreeCriterion <em>Decision Tree Criterion</em>}'.
 	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Loss Function</em>'.
-	 * @see org.thingml.xtext.thingML.DecisionTree#getLossFunction()
+	 * @return the meta object for the attribute '<em>Decision Tree Criterion</em>'.
+	 * @see org.thingml.xtext.thingML.DecisionTree#getDecisionTreeCriterion()
 	 * @see #getDecisionTree()
 	 * @generated
 	 */
-  EAttribute getDecisionTree_LossFunction();
+  EAttribute getDecisionTree_DecisionTreeCriterion();
 
   /**
-	 * Returns the meta object for the containment reference '{@link org.thingml.xtext.thingML.DecisionTree#getMin_samples_split <em>Min samples split</em>}'.
+	 * Returns the meta object for the attribute '{@link org.thingml.xtext.thingML.DecisionTree#getMin_samples_split <em>Min samples split</em>}'.
 	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Min samples split</em>'.
+	 * @return the meta object for the attribute '<em>Min samples split</em>'.
 	 * @see org.thingml.xtext.thingML.DecisionTree#getMin_samples_split()
 	 * @see #getDecisionTree()
 	 * @generated
 	 */
-  EReference getDecisionTree_Min_samples_split();
+  EAttribute getDecisionTree_Min_samples_split();
 
   /**
 	 * Returns the meta object for class '{@link org.thingml.xtext.thingML.RandomForest <em>Random Forest</em>}'.
@@ -6004,112 +5794,26 @@ public interface ThingMLPackage extends EPackage
   EClass getRandomForest();
 
   /**
-	 * Returns the meta object for the attribute '{@link org.thingml.xtext.thingML.RandomForest#getLossFunction <em>Loss Function</em>}'.
+	 * Returns the meta object for the attribute '{@link org.thingml.xtext.thingML.RandomForest#getRandomForestCriterion <em>Random Forest Criterion</em>}'.
 	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Loss Function</em>'.
-	 * @see org.thingml.xtext.thingML.RandomForest#getLossFunction()
+	 * @return the meta object for the attribute '<em>Random Forest Criterion</em>'.
+	 * @see org.thingml.xtext.thingML.RandomForest#getRandomForestCriterion()
 	 * @see #getRandomForest()
 	 * @generated
 	 */
-  EAttribute getRandomForest_LossFunction();
+  EAttribute getRandomForest_RandomForestCriterion();
 
   /**
-	 * Returns the meta object for the containment reference '{@link org.thingml.xtext.thingML.RandomForest#getMin_samples_split <em>Min samples split</em>}'.
+	 * Returns the meta object for the attribute '{@link org.thingml.xtext.thingML.RandomForest#getMin_samples_split <em>Min samples split</em>}'.
 	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Min samples split</em>'.
+	 * @return the meta object for the attribute '<em>Min samples split</em>'.
 	 * @see org.thingml.xtext.thingML.RandomForest#getMin_samples_split()
 	 * @see #getRandomForest()
 	 * @generated
 	 */
-  EReference getRandomForest_Min_samples_split();
-
-  /**
-	 * Returns the meta object for class '{@link org.thingml.xtext.thingML.GatedRecurrentUnits <em>Gated Recurrent Units</em>}'.
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Gated Recurrent Units</em>'.
-	 * @see org.thingml.xtext.thingML.GatedRecurrentUnits
-	 * @generated
-	 */
-  EClass getGatedRecurrentUnits();
-
-  /**
-	 * Returns the meta object for the attribute '{@link org.thingml.xtext.thingML.GatedRecurrentUnits#getLoss_function <em>Loss function</em>}'.
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Loss function</em>'.
-	 * @see org.thingml.xtext.thingML.GatedRecurrentUnits#getLoss_function()
-	 * @see #getGatedRecurrentUnits()
-	 * @generated
-	 */
-  EAttribute getGatedRecurrentUnits_Loss_function();
-
-  /**
-	 * Returns the meta object for the attribute '{@link org.thingml.xtext.thingML.GatedRecurrentUnits#getOptimizer <em>Optimizer</em>}'.
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Optimizer</em>'.
-	 * @see org.thingml.xtext.thingML.GatedRecurrentUnits#getOptimizer()
-	 * @see #getGatedRecurrentUnits()
-	 * @generated
-	 */
-  EAttribute getGatedRecurrentUnits_Optimizer();
-
-  /**
-	 * Returns the meta object for the attribute '{@link org.thingml.xtext.thingML.GatedRecurrentUnits#getLearning_rate <em>Learning rate</em>}'.
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Learning rate</em>'.
-	 * @see org.thingml.xtext.thingML.GatedRecurrentUnits#getLearning_rate()
-	 * @see #getGatedRecurrentUnits()
-	 * @generated
-	 */
-  EAttribute getGatedRecurrentUnits_Learning_rate();
-
-  /**
-	 * Returns the meta object for class '{@link org.thingml.xtext.thingML.LongShortTermMemory <em>Long Short Term Memory</em>}'.
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Long Short Term Memory</em>'.
-	 * @see org.thingml.xtext.thingML.LongShortTermMemory
-	 * @generated
-	 */
-  EClass getLongShortTermMemory();
-
-  /**
-	 * Returns the meta object for the attribute '{@link org.thingml.xtext.thingML.LongShortTermMemory#getLoss_function <em>Loss function</em>}'.
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Loss function</em>'.
-	 * @see org.thingml.xtext.thingML.LongShortTermMemory#getLoss_function()
-	 * @see #getLongShortTermMemory()
-	 * @generated
-	 */
-  EAttribute getLongShortTermMemory_Loss_function();
-
-  /**
-	 * Returns the meta object for the attribute '{@link org.thingml.xtext.thingML.LongShortTermMemory#getOptimizer <em>Optimizer</em>}'.
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Optimizer</em>'.
-	 * @see org.thingml.xtext.thingML.LongShortTermMemory#getOptimizer()
-	 * @see #getLongShortTermMemory()
-	 * @generated
-	 */
-  EAttribute getLongShortTermMemory_Optimizer();
-
-  /**
-	 * Returns the meta object for the attribute '{@link org.thingml.xtext.thingML.LongShortTermMemory#getLearning_rate <em>Learning rate</em>}'.
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Learning rate</em>'.
-	 * @see org.thingml.xtext.thingML.LongShortTermMemory#getLearning_rate()
-	 * @see #getLongShortTermMemory()
-	 * @generated
-	 */
-  EAttribute getLongShortTermMemory_Learning_rate();
+  EAttribute getRandomForest_Min_samples_split();
 
   /**
 	 * Returns the meta object for class '{@link org.thingml.xtext.thingML.NN_MultilayerPerceptron <em>NN Multilayer Perceptron</em>}'.
@@ -6122,15 +5826,26 @@ public interface ThingMLPackage extends EPackage
   EClass getNN_MultilayerPerceptron();
 
   /**
-	 * Returns the meta object for the attribute '{@link org.thingml.xtext.thingML.NN_MultilayerPerceptron#getLoss_function <em>Loss function</em>}'.
+	 * Returns the meta object for the attribute '{@link org.thingml.xtext.thingML.NN_MultilayerPerceptron#getNo_hidden_layers <em>No hidden layers</em>}'.
 	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Loss function</em>'.
-	 * @see org.thingml.xtext.thingML.NN_MultilayerPerceptron#getLoss_function()
+	 * @return the meta object for the attribute '<em>No hidden layers</em>'.
+	 * @see org.thingml.xtext.thingML.NN_MultilayerPerceptron#getNo_hidden_layers()
 	 * @see #getNN_MultilayerPerceptron()
 	 * @generated
 	 */
-  EAttribute getNN_MultilayerPerceptron_Loss_function();
+  EAttribute getNN_MultilayerPerceptron_No_hidden_layers();
+
+  /**
+	 * Returns the meta object for the attribute '{@link org.thingml.xtext.thingML.NN_MultilayerPerceptron#getActivation <em>Activation</em>}'.
+	 * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Activation</em>'.
+	 * @see org.thingml.xtext.thingML.NN_MultilayerPerceptron#getActivation()
+	 * @see #getNN_MultilayerPerceptron()
+	 * @generated
+	 */
+  EAttribute getNN_MultilayerPerceptron_Activation();
 
   /**
 	 * Returns the meta object for the attribute '{@link org.thingml.xtext.thingML.NN_MultilayerPerceptron#getOptimizer <em>Optimizer</em>}'.
@@ -6144,121 +5859,37 @@ public interface ThingMLPackage extends EPackage
   EAttribute getNN_MultilayerPerceptron_Optimizer();
 
   /**
-	 * Returns the meta object for the attribute '{@link org.thingml.xtext.thingML.NN_MultilayerPerceptron#getLearning_rate <em>Learning rate</em>}'.
+	 * Returns the meta object for the attribute '{@link org.thingml.xtext.thingML.NN_MultilayerPerceptron#getLoss <em>Loss</em>}'.
 	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Learning rate</em>'.
-	 * @see org.thingml.xtext.thingML.NN_MultilayerPerceptron#getLearning_rate()
+	 * @return the meta object for the attribute '<em>Loss</em>'.
+	 * @see org.thingml.xtext.thingML.NN_MultilayerPerceptron#getLoss()
 	 * @see #getNN_MultilayerPerceptron()
 	 * @generated
 	 */
-  EAttribute getNN_MultilayerPerceptron_Learning_rate();
+  EAttribute getNN_MultilayerPerceptron_Loss();
 
   /**
-	 * Returns the meta object for the attribute '{@link org.thingml.xtext.thingML.NN_MultilayerPerceptron#getNo_layers <em>No layers</em>}'.
+	 * Returns the meta object for the attribute '{@link org.thingml.xtext.thingML.NN_MultilayerPerceptron#getEpochs <em>Epochs</em>}'.
 	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>No layers</em>'.
-	 * @see org.thingml.xtext.thingML.NN_MultilayerPerceptron#getNo_layers()
+	 * @return the meta object for the attribute '<em>Epochs</em>'.
+	 * @see org.thingml.xtext.thingML.NN_MultilayerPerceptron#getEpochs()
 	 * @see #getNN_MultilayerPerceptron()
 	 * @generated
 	 */
-  EAttribute getNN_MultilayerPerceptron_No_layers();
+  EAttribute getNN_MultilayerPerceptron_Epochs();
 
   /**
-	 * Returns the meta object for the attribute '{@link org.thingml.xtext.thingML.NN_MultilayerPerceptron#getDropout_probability <em>Dropout probability</em>}'.
+	 * Returns the meta object for the attribute '{@link org.thingml.xtext.thingML.NN_MultilayerPerceptron#getBatch_size <em>Batch size</em>}'.
 	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Dropout probability</em>'.
-	 * @see org.thingml.xtext.thingML.NN_MultilayerPerceptron#getDropout_probability()
+	 * @return the meta object for the attribute '<em>Batch size</em>'.
+	 * @see org.thingml.xtext.thingML.NN_MultilayerPerceptron#getBatch_size()
 	 * @see #getNN_MultilayerPerceptron()
 	 * @generated
 	 */
-  EAttribute getNN_MultilayerPerceptron_Dropout_probability();
-
-  /**
-	 * Returns the meta object for class '{@link org.thingml.xtext.thingML.DenoisingAutoencoders <em>Denoising Autoencoders</em>}'.
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Denoising Autoencoders</em>'.
-	 * @see org.thingml.xtext.thingML.DenoisingAutoencoders
-	 * @generated
-	 */
-  EClass getDenoisingAutoencoders();
-
-  /**
-	 * Returns the meta object for the attribute '{@link org.thingml.xtext.thingML.DenoisingAutoencoders#getLoss_function <em>Loss function</em>}'.
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Loss function</em>'.
-	 * @see org.thingml.xtext.thingML.DenoisingAutoencoders#getLoss_function()
-	 * @see #getDenoisingAutoencoders()
-	 * @generated
-	 */
-  EAttribute getDenoisingAutoencoders_Loss_function();
-
-  /**
-	 * Returns the meta object for the attribute '{@link org.thingml.xtext.thingML.DenoisingAutoencoders#getOptimizer <em>Optimizer</em>}'.
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Optimizer</em>'.
-	 * @see org.thingml.xtext.thingML.DenoisingAutoencoders#getOptimizer()
-	 * @see #getDenoisingAutoencoders()
-	 * @generated
-	 */
-  EAttribute getDenoisingAutoencoders_Optimizer();
-
-  /**
-	 * Returns the meta object for the attribute '{@link org.thingml.xtext.thingML.DenoisingAutoencoders#getLearning_rate <em>Learning rate</em>}'.
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Learning rate</em>'.
-	 * @see org.thingml.xtext.thingML.DenoisingAutoencoders#getLearning_rate()
-	 * @see #getDenoisingAutoencoders()
-	 * @generated
-	 */
-  EAttribute getDenoisingAutoencoders_Learning_rate();
-
-  /**
-	 * Returns the meta object for the attribute '{@link org.thingml.xtext.thingML.DenoisingAutoencoders#getSequence_length <em>Sequence length</em>}'.
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Sequence length</em>'.
-	 * @see org.thingml.xtext.thingML.DenoisingAutoencoders#getSequence_length()
-	 * @see #getDenoisingAutoencoders()
-	 * @generated
-	 */
-  EAttribute getDenoisingAutoencoders_Sequence_length();
-
-  /**
-	 * Returns the meta object for class '{@link org.thingml.xtext.thingML.FactorialHiddenMarkovModel <em>Factorial Hidden Markov Model</em>}'.
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Factorial Hidden Markov Model</em>'.
-	 * @see org.thingml.xtext.thingML.FactorialHiddenMarkovModel
-	 * @generated
-	 */
-  EClass getFactorialHiddenMarkovModel();
-
-  /**
-	 * Returns the meta object for class '{@link org.thingml.xtext.thingML.CombinatorialOptimization <em>Combinatorial Optimization</em>}'.
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Combinatorial Optimization</em>'.
-	 * @see org.thingml.xtext.thingML.CombinatorialOptimization
-	 * @generated
-	 */
-  EClass getCombinatorialOptimization();
-
-  /**
-	 * Returns the meta object for class '{@link org.thingml.xtext.thingML.MinSamplesSplit <em>Min Samples Split</em>}'.
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Min Samples Split</em>'.
-	 * @see org.thingml.xtext.thingML.MinSamplesSplit
-	 * @generated
-	 */
-  EClass getMinSamplesSplit();
+  EAttribute getNN_MultilayerPerceptron_Batch_size();
 
   /**
 	 * Returns the meta object for class '{@link org.thingml.xtext.thingML.Event <em>Event</em>}'.
@@ -8024,6 +7655,36 @@ public interface ThingMLPackage extends EPackage
   EEnum getLabels();
 
   /**
+	 * Returns the meta object for enum '{@link org.thingml.xtext.thingML.DecisionTreeCriterion <em>Decision Tree Criterion</em>}'.
+	 * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Decision Tree Criterion</em>'.
+	 * @see org.thingml.xtext.thingML.DecisionTreeCriterion
+	 * @generated
+	 */
+  EEnum getDecisionTreeCriterion();
+
+  /**
+	 * Returns the meta object for enum '{@link org.thingml.xtext.thingML.RandomForestCriterion <em>Random Forest Criterion</em>}'.
+	 * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Random Forest Criterion</em>'.
+	 * @see org.thingml.xtext.thingML.RandomForestCriterion
+	 * @generated
+	 */
+  EEnum getRandomForestCriterion();
+
+  /**
+	 * Returns the meta object for enum '{@link org.thingml.xtext.thingML.Activation <em>Activation</em>}'.
+	 * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Activation</em>'.
+	 * @see org.thingml.xtext.thingML.Activation
+	 * @generated
+	 */
+  EEnum getActivation();
+
+  /**
 	 * Returns the meta object for enum '{@link org.thingml.xtext.thingML.Optimizer <em>Optimizer</em>}'.
 	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -8034,14 +7695,14 @@ public interface ThingMLPackage extends EPackage
   EEnum getOptimizer();
 
   /**
-	 * Returns the meta object for enum '{@link org.thingml.xtext.thingML.LossFunction <em>Loss Function</em>}'.
+	 * Returns the meta object for enum '{@link org.thingml.xtext.thingML.Loss <em>Loss</em>}'.
 	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @return the meta object for enum '<em>Loss Function</em>'.
-	 * @see org.thingml.xtext.thingML.LossFunction
+	 * @return the meta object for enum '<em>Loss</em>'.
+	 * @see org.thingml.xtext.thingML.Loss
 	 * @generated
 	 */
-  EEnum getLossFunction();
+  EEnum getLoss();
 
   /**
 	 * Returns the factory that creates the instances of the model.
@@ -8985,20 +8646,20 @@ public interface ThingMLPackage extends EPackage
     EClass DECISION_TREE = eINSTANCE.getDecisionTree();
 
     /**
-		 * The meta object literal for the '<em><b>Loss Function</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Decision Tree Criterion</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 		 * @generated
 		 */
-    EAttribute DECISION_TREE__LOSS_FUNCTION = eINSTANCE.getDecisionTree_LossFunction();
+    EAttribute DECISION_TREE__DECISION_TREE_CRITERION = eINSTANCE.getDecisionTree_DecisionTreeCriterion();
 
     /**
-		 * The meta object literal for the '<em><b>Min samples split</b></em>' containment reference feature.
+		 * The meta object literal for the '<em><b>Min samples split</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 		 * @generated
 		 */
-    EReference DECISION_TREE__MIN_SAMPLES_SPLIT = eINSTANCE.getDecisionTree_Min_samples_split();
+    EAttribute DECISION_TREE__MIN_SAMPLES_SPLIT = eINSTANCE.getDecisionTree_Min_samples_split();
 
     /**
 		 * The meta object literal for the '{@link org.thingml.xtext.thingML.impl.RandomForestImpl <em>Random Forest</em>}' class.
@@ -9011,88 +8672,20 @@ public interface ThingMLPackage extends EPackage
     EClass RANDOM_FOREST = eINSTANCE.getRandomForest();
 
     /**
-		 * The meta object literal for the '<em><b>Loss Function</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Random Forest Criterion</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 		 * @generated
 		 */
-    EAttribute RANDOM_FOREST__LOSS_FUNCTION = eINSTANCE.getRandomForest_LossFunction();
+    EAttribute RANDOM_FOREST__RANDOM_FOREST_CRITERION = eINSTANCE.getRandomForest_RandomForestCriterion();
 
     /**
-		 * The meta object literal for the '<em><b>Min samples split</b></em>' containment reference feature.
+		 * The meta object literal for the '<em><b>Min samples split</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 		 * @generated
 		 */
-    EReference RANDOM_FOREST__MIN_SAMPLES_SPLIT = eINSTANCE.getRandomForest_Min_samples_split();
-
-    /**
-		 * The meta object literal for the '{@link org.thingml.xtext.thingML.impl.GatedRecurrentUnitsImpl <em>Gated Recurrent Units</em>}' class.
-		 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-		 * @see org.thingml.xtext.thingML.impl.GatedRecurrentUnitsImpl
-		 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getGatedRecurrentUnits()
-		 * @generated
-		 */
-    EClass GATED_RECURRENT_UNITS = eINSTANCE.getGatedRecurrentUnits();
-
-    /**
-		 * The meta object literal for the '<em><b>Loss function</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-		 * @generated
-		 */
-    EAttribute GATED_RECURRENT_UNITS__LOSS_FUNCTION = eINSTANCE.getGatedRecurrentUnits_Loss_function();
-
-    /**
-		 * The meta object literal for the '<em><b>Optimizer</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-		 * @generated
-		 */
-    EAttribute GATED_RECURRENT_UNITS__OPTIMIZER = eINSTANCE.getGatedRecurrentUnits_Optimizer();
-
-    /**
-		 * The meta object literal for the '<em><b>Learning rate</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-		 * @generated
-		 */
-    EAttribute GATED_RECURRENT_UNITS__LEARNING_RATE = eINSTANCE.getGatedRecurrentUnits_Learning_rate();
-
-    /**
-		 * The meta object literal for the '{@link org.thingml.xtext.thingML.impl.LongShortTermMemoryImpl <em>Long Short Term Memory</em>}' class.
-		 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-		 * @see org.thingml.xtext.thingML.impl.LongShortTermMemoryImpl
-		 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getLongShortTermMemory()
-		 * @generated
-		 */
-    EClass LONG_SHORT_TERM_MEMORY = eINSTANCE.getLongShortTermMemory();
-
-    /**
-		 * The meta object literal for the '<em><b>Loss function</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-		 * @generated
-		 */
-    EAttribute LONG_SHORT_TERM_MEMORY__LOSS_FUNCTION = eINSTANCE.getLongShortTermMemory_Loss_function();
-
-    /**
-		 * The meta object literal for the '<em><b>Optimizer</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-		 * @generated
-		 */
-    EAttribute LONG_SHORT_TERM_MEMORY__OPTIMIZER = eINSTANCE.getLongShortTermMemory_Optimizer();
-
-    /**
-		 * The meta object literal for the '<em><b>Learning rate</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-		 * @generated
-		 */
-    EAttribute LONG_SHORT_TERM_MEMORY__LEARNING_RATE = eINSTANCE.getLongShortTermMemory_Learning_rate();
+    EAttribute RANDOM_FOREST__MIN_SAMPLES_SPLIT = eINSTANCE.getRandomForest_Min_samples_split();
 
     /**
 		 * The meta object literal for the '{@link org.thingml.xtext.thingML.impl.NN_MultilayerPerceptronImpl <em>NN Multilayer Perceptron</em>}' class.
@@ -9105,12 +8698,20 @@ public interface ThingMLPackage extends EPackage
     EClass NN_MULTILAYER_PERCEPTRON = eINSTANCE.getNN_MultilayerPerceptron();
 
     /**
-		 * The meta object literal for the '<em><b>Loss function</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>No hidden layers</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 		 * @generated
 		 */
-    EAttribute NN_MULTILAYER_PERCEPTRON__LOSS_FUNCTION = eINSTANCE.getNN_MultilayerPerceptron_Loss_function();
+    EAttribute NN_MULTILAYER_PERCEPTRON__NO_HIDDEN_LAYERS = eINSTANCE.getNN_MultilayerPerceptron_No_hidden_layers();
+
+    /**
+		 * The meta object literal for the '<em><b>Activation</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+		 * @generated
+		 */
+    EAttribute NN_MULTILAYER_PERCEPTRON__ACTIVATION = eINSTANCE.getNN_MultilayerPerceptron_Activation();
 
     /**
 		 * The meta object literal for the '<em><b>Optimizer</b></em>' attribute feature.
@@ -9121,100 +8722,28 @@ public interface ThingMLPackage extends EPackage
     EAttribute NN_MULTILAYER_PERCEPTRON__OPTIMIZER = eINSTANCE.getNN_MultilayerPerceptron_Optimizer();
 
     /**
-		 * The meta object literal for the '<em><b>Learning rate</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Loss</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 		 * @generated
 		 */
-    EAttribute NN_MULTILAYER_PERCEPTRON__LEARNING_RATE = eINSTANCE.getNN_MultilayerPerceptron_Learning_rate();
+    EAttribute NN_MULTILAYER_PERCEPTRON__LOSS = eINSTANCE.getNN_MultilayerPerceptron_Loss();
 
     /**
-		 * The meta object literal for the '<em><b>No layers</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Epochs</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 		 * @generated
 		 */
-    EAttribute NN_MULTILAYER_PERCEPTRON__NO_LAYERS = eINSTANCE.getNN_MultilayerPerceptron_No_layers();
+    EAttribute NN_MULTILAYER_PERCEPTRON__EPOCHS = eINSTANCE.getNN_MultilayerPerceptron_Epochs();
 
     /**
-		 * The meta object literal for the '<em><b>Dropout probability</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Batch size</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 		 * @generated
 		 */
-    EAttribute NN_MULTILAYER_PERCEPTRON__DROPOUT_PROBABILITY = eINSTANCE.getNN_MultilayerPerceptron_Dropout_probability();
-
-    /**
-		 * The meta object literal for the '{@link org.thingml.xtext.thingML.impl.DenoisingAutoencodersImpl <em>Denoising Autoencoders</em>}' class.
-		 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-		 * @see org.thingml.xtext.thingML.impl.DenoisingAutoencodersImpl
-		 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getDenoisingAutoencoders()
-		 * @generated
-		 */
-    EClass DENOISING_AUTOENCODERS = eINSTANCE.getDenoisingAutoencoders();
-
-    /**
-		 * The meta object literal for the '<em><b>Loss function</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-		 * @generated
-		 */
-    EAttribute DENOISING_AUTOENCODERS__LOSS_FUNCTION = eINSTANCE.getDenoisingAutoencoders_Loss_function();
-
-    /**
-		 * The meta object literal for the '<em><b>Optimizer</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-		 * @generated
-		 */
-    EAttribute DENOISING_AUTOENCODERS__OPTIMIZER = eINSTANCE.getDenoisingAutoencoders_Optimizer();
-
-    /**
-		 * The meta object literal for the '<em><b>Learning rate</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-		 * @generated
-		 */
-    EAttribute DENOISING_AUTOENCODERS__LEARNING_RATE = eINSTANCE.getDenoisingAutoencoders_Learning_rate();
-
-    /**
-		 * The meta object literal for the '<em><b>Sequence length</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-		 * @generated
-		 */
-    EAttribute DENOISING_AUTOENCODERS__SEQUENCE_LENGTH = eINSTANCE.getDenoisingAutoencoders_Sequence_length();
-
-    /**
-		 * The meta object literal for the '{@link org.thingml.xtext.thingML.impl.FactorialHiddenMarkovModelImpl <em>Factorial Hidden Markov Model</em>}' class.
-		 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-		 * @see org.thingml.xtext.thingML.impl.FactorialHiddenMarkovModelImpl
-		 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getFactorialHiddenMarkovModel()
-		 * @generated
-		 */
-    EClass FACTORIAL_HIDDEN_MARKOV_MODEL = eINSTANCE.getFactorialHiddenMarkovModel();
-
-    /**
-		 * The meta object literal for the '{@link org.thingml.xtext.thingML.impl.CombinatorialOptimizationImpl <em>Combinatorial Optimization</em>}' class.
-		 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-		 * @see org.thingml.xtext.thingML.impl.CombinatorialOptimizationImpl
-		 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getCombinatorialOptimization()
-		 * @generated
-		 */
-    EClass COMBINATORIAL_OPTIMIZATION = eINSTANCE.getCombinatorialOptimization();
-
-    /**
-		 * The meta object literal for the '{@link org.thingml.xtext.thingML.impl.MinSamplesSplitImpl <em>Min Samples Split</em>}' class.
-		 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-		 * @see org.thingml.xtext.thingML.impl.MinSamplesSplitImpl
-		 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getMinSamplesSplit()
-		 * @generated
-		 */
-    EClass MIN_SAMPLES_SPLIT = eINSTANCE.getMinSamplesSplit();
+    EAttribute NN_MULTILAYER_PERCEPTRON__BATCH_SIZE = eINSTANCE.getNN_MultilayerPerceptron_Batch_size();
 
     /**
 		 * The meta object literal for the '{@link org.thingml.xtext.thingML.impl.EventImpl <em>Event</em>}' class.
@@ -10671,6 +10200,36 @@ public interface ThingMLPackage extends EPackage
     EEnum LABELS = eINSTANCE.getLabels();
 
     /**
+		 * The meta object literal for the '{@link org.thingml.xtext.thingML.DecisionTreeCriterion <em>Decision Tree Criterion</em>}' enum.
+		 * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+		 * @see org.thingml.xtext.thingML.DecisionTreeCriterion
+		 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getDecisionTreeCriterion()
+		 * @generated
+		 */
+    EEnum DECISION_TREE_CRITERION = eINSTANCE.getDecisionTreeCriterion();
+
+    /**
+		 * The meta object literal for the '{@link org.thingml.xtext.thingML.RandomForestCriterion <em>Random Forest Criterion</em>}' enum.
+		 * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+		 * @see org.thingml.xtext.thingML.RandomForestCriterion
+		 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getRandomForestCriterion()
+		 * @generated
+		 */
+    EEnum RANDOM_FOREST_CRITERION = eINSTANCE.getRandomForestCriterion();
+
+    /**
+		 * The meta object literal for the '{@link org.thingml.xtext.thingML.Activation <em>Activation</em>}' enum.
+		 * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+		 * @see org.thingml.xtext.thingML.Activation
+		 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getActivation()
+		 * @generated
+		 */
+    EEnum ACTIVATION = eINSTANCE.getActivation();
+
+    /**
 		 * The meta object literal for the '{@link org.thingml.xtext.thingML.Optimizer <em>Optimizer</em>}' enum.
 		 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -10681,14 +10240,14 @@ public interface ThingMLPackage extends EPackage
     EEnum OPTIMIZER = eINSTANCE.getOptimizer();
 
     /**
-		 * The meta object literal for the '{@link org.thingml.xtext.thingML.LossFunction <em>Loss Function</em>}' enum.
+		 * The meta object literal for the '{@link org.thingml.xtext.thingML.Loss <em>Loss</em>}' enum.
 		 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-		 * @see org.thingml.xtext.thingML.LossFunction
-		 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getLossFunction()
+		 * @see org.thingml.xtext.thingML.Loss
+		 * @see org.thingml.xtext.thingML.impl.ThingMLPackageImpl#getLoss()
 		 * @generated
 		 */
-    EEnum LOSS_FUNCTION = eINSTANCE.getLossFunction();
+    EEnum LOSS = eINSTANCE.getLoss();
 
   }
 

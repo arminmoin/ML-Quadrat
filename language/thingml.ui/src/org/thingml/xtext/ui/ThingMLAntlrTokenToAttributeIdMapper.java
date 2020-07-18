@@ -55,12 +55,11 @@ public class ThingMLAntlrTokenToAttributeIdMapper extends AbstractAntlrTokenToAt
 					, "'pmml'", "'pfa'", "'path'"
 					, "'decision_tree'", "'criterion'", "'min_samples_split'"
 					, "'random_forest'"
-					, "'gated_recurrent_units'", "'optimizer'", "'learning_rate'", "'loss_function'"
-					, "'long_short_term_memory'"
-					, "'nn_multilayer_perceptron'", "'no_layers'", "'dropout_probability'"
-					, "'denoising_autoencoders'", "'sequence_length'"
-					, "'factorial_hidden_markov_model'"
-					, "'combinatorial_optimization'"
+					, "'nn_multilayer_perceptron'", "'no_hidden_layers'", "'activation'", "'optimizer'", "'loss'", "'epochs'", "'batch_size'"
+					, "'NO_IDEA'", "'MSE'", "'FRIEDMAN_MSE'", "'MAE'", "'GINI'", "'ENTROPY'"
+					, "'relu'", "'sigmoid'", "'softmax'", "'softplus'", "'softsign'", "'tanh'", "'selu'", "'elu'", "'exponential'"
+					, "'SGD'", "'RMSprop'", "'Adam'", "'Adadelta'", "'Adagrad'", "'Adamax'", "'Nadam'", "'Ftrl'"
+					, "'sparse_categorical_crossentropy'", "'categorical_crossentropy'"
 			}));
 
 	

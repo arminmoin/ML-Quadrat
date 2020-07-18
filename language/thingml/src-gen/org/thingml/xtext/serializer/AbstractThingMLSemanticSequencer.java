@@ -37,7 +37,6 @@ import org.thingml.xtext.thingML.BooleanLiteral;
 import org.thingml.xtext.thingML.ByteLiteral;
 import org.thingml.xtext.thingML.CastExpression;
 import org.thingml.xtext.thingML.CharLiteral;
-import org.thingml.xtext.thingML.CombinatorialOptimization;
 import org.thingml.xtext.thingML.CompositeState;
 import org.thingml.xtext.thingML.ConditionalAction;
 import org.thingml.xtext.thingML.ConfigPropertyAssign;
@@ -50,7 +49,6 @@ import org.thingml.xtext.thingML.DATrainAction;
 import org.thingml.xtext.thingML.DataAnalytics;
 import org.thingml.xtext.thingML.DecisionTree;
 import org.thingml.xtext.thingML.Decrement;
-import org.thingml.xtext.thingML.DenoisingAutoencoders;
 import org.thingml.xtext.thingML.DivExpression;
 import org.thingml.xtext.thingML.DoubleLiteral;
 import org.thingml.xtext.thingML.EnumLiteralRef;
@@ -63,13 +61,11 @@ import org.thingml.xtext.thingML.ExpressionGroup;
 import org.thingml.xtext.thingML.ExternExpression;
 import org.thingml.xtext.thingML.ExternStatement;
 import org.thingml.xtext.thingML.ExternalConnector;
-import org.thingml.xtext.thingML.FactorialHiddenMarkovModel;
 import org.thingml.xtext.thingML.FinalState;
 import org.thingml.xtext.thingML.ForAction;
 import org.thingml.xtext.thingML.Function;
 import org.thingml.xtext.thingML.FunctionCallExpression;
 import org.thingml.xtext.thingML.FunctionCallStatement;
-import org.thingml.xtext.thingML.GatedRecurrentUnits;
 import org.thingml.xtext.thingML.GreaterExpression;
 import org.thingml.xtext.thingML.GreaterOrEqualExpression;
 import org.thingml.xtext.thingML.Import;
@@ -79,7 +75,6 @@ import org.thingml.xtext.thingML.IntegerLiteral;
 import org.thingml.xtext.thingML.InternalPort;
 import org.thingml.xtext.thingML.InternalTransition;
 import org.thingml.xtext.thingML.LocalVariable;
-import org.thingml.xtext.thingML.LongShortTermMemory;
 import org.thingml.xtext.thingML.LoopAction;
 import org.thingml.xtext.thingML.LowerExpression;
 import org.thingml.xtext.thingML.LowerOrEqualExpression;
@@ -165,9 +160,6 @@ public abstract class AbstractThingMLSemanticSequencer extends AbstractDelegatin
 			case ThingMLPackage.CHAR_LITERAL:
 				sequence_CharLiteral(context, (CharLiteral) semanticObject); 
 				return; 
-			case ThingMLPackage.COMBINATORIAL_OPTIMIZATION:
-				sequence_CombinatorialOptimization(context, (CombinatorialOptimization) semanticObject); 
-				return; 
 			case ThingMLPackage.COMPOSITE_STATE:
 				if (rule == grammarAccess.getCompositeStateRule()
 						|| rule == grammarAccess.getStateContainerRule()) {
@@ -218,9 +210,6 @@ public abstract class AbstractThingMLSemanticSequencer extends AbstractDelegatin
 			case ThingMLPackage.DECREMENT:
 				sequence_Decrement(context, (Decrement) semanticObject); 
 				return; 
-			case ThingMLPackage.DENOISING_AUTOENCODERS:
-				sequence_DenoisingAutoencoders(context, (DenoisingAutoencoders) semanticObject); 
-				return; 
 			case ThingMLPackage.DIV_EXPRESSION:
 				sequence_Multiplication(context, (DivExpression) semanticObject); 
 				return; 
@@ -257,9 +246,6 @@ public abstract class AbstractThingMLSemanticSequencer extends AbstractDelegatin
 			case ThingMLPackage.EXTERNAL_CONNECTOR:
 				sequence_ExternalConnector(context, (ExternalConnector) semanticObject); 
 				return; 
-			case ThingMLPackage.FACTORIAL_HIDDEN_MARKOV_MODEL:
-				sequence_FactorialHiddenMarkovModel(context, (FactorialHiddenMarkovModel) semanticObject); 
-				return; 
 			case ThingMLPackage.FINAL_STATE:
 				sequence_FinalState(context, (FinalState) semanticObject); 
 				return; 
@@ -283,9 +269,6 @@ public abstract class AbstractThingMLSemanticSequencer extends AbstractDelegatin
 				return; 
 			case ThingMLPackage.FUNCTION_CALL_STATEMENT:
 				sequence_FunctionCallStatement(context, (FunctionCallStatement) semanticObject); 
-				return; 
-			case ThingMLPackage.GATED_RECURRENT_UNITS:
-				sequence_GatedRecurrentUnits(context, (GatedRecurrentUnits) semanticObject); 
 				return; 
 			case ThingMLPackage.GREATER_EXPRESSION:
 				sequence_Comparaison(context, (GreaterExpression) semanticObject); 
@@ -313,9 +296,6 @@ public abstract class AbstractThingMLSemanticSequencer extends AbstractDelegatin
 				return; 
 			case ThingMLPackage.LOCAL_VARIABLE:
 				sequence_LocalVariable(context, (LocalVariable) semanticObject); 
-				return; 
-			case ThingMLPackage.LONG_SHORT_TERM_MEMORY:
-				sequence_LongShortTermMemory(context, (LongShortTermMemory) semanticObject); 
 				return; 
 			case ThingMLPackage.LOOP_ACTION:
 				sequence_LoopAction(context, (LoopAction) semanticObject); 
@@ -847,26 +827,6 @@ public abstract class AbstractThingMLSemanticSequencer extends AbstractDelegatin
 	
 	/**
 	 * Contexts:
-	 *     DataAnalyticsModelAlgorithm returns CombinatorialOptimization
-	 *     ML2_ModelAlgorithm returns CombinatorialOptimization
-	 *     CombinatorialOptimization returns CombinatorialOptimization
-	 *
-	 * Constraint:
-	 *     name=ID
-	 */
-	protected void sequence_CombinatorialOptimization(ISerializationContext context, CombinatorialOptimization semanticObject) {
-		if (errorAcceptor != null) {
-			if (transientValues.isValueTransient(semanticObject, ThingMLPackage.Literals.DATA_ANALYTICS_MODEL_ALGORITHM__NAME) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ThingMLPackage.Literals.DATA_ANALYTICS_MODEL_ALGORITHM__NAME));
-		}
-		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
-		feeder.accept(grammarAccess.getCombinatorialOptimizationAccess().getNameIDTerminalRuleCall_1_0(), semanticObject.getName());
-		feeder.finish();
-	}
-	
-	
-	/**
-	 * Contexts:
 	 *     Expression returns GreaterExpression
 	 *     OrExpression returns GreaterExpression
 	 *     OrExpression.OrExpression_1_0 returns GreaterExpression
@@ -1040,8 +1000,8 @@ public abstract class AbstractThingMLSemanticSequencer extends AbstractDelegatin
 	 *             history?='history'? 
 	 *             annotations+=PlatformAnnotation* 
 	 *             properties+=Property* 
-	 *             outgoing+=Transition? 
-	 *             ((entry=Action | exit=Action | properties+=Property | substate+=State | internal+=InternalTransition)? outgoing+=Transition?)* 
+	 *             internal+=InternalTransition? 
+	 *             ((entry=Action | exit=Action | properties+=Property | substate+=State | outgoing+=Transition)? internal+=InternalTransition?)* 
 	 *             (region+=Region | session+=Session)*
 	 *         ) | 
 	 *         (
@@ -1226,7 +1186,7 @@ public abstract class AbstractThingMLSemanticSequencer extends AbstractDelegatin
 	 *     DecisionTree returns DecisionTree
 	 *
 	 * Constraint:
-	 *     (name=ID lossFunction=LossFunction? min_samples_split=MinSamplesSplit?)
+	 *     (name=ID decisionTreeCriterion=DecisionTreeCriterion? min_samples_split=Min_samples_split_type?)
 	 */
 	protected void sequence_DecisionTree(ISerializationContext context, DecisionTree semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -1249,20 +1209,6 @@ public abstract class AbstractThingMLSemanticSequencer extends AbstractDelegatin
 		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
 		feeder.accept(grammarAccess.getDecrementAccess().getVarVariableIDTerminalRuleCall_0_0_1(), semanticObject.eGet(ThingMLPackage.Literals.DECREMENT__VAR, false));
 		feeder.finish();
-	}
-	
-	
-	/**
-	 * Contexts:
-	 *     DataAnalyticsModelAlgorithm returns DenoisingAutoencoders
-	 *     ML2_ModelAlgorithm returns DenoisingAutoencoders
-	 *     DenoisingAutoencoders returns DenoisingAutoencoders
-	 *
-	 * Constraint:
-	 *     (name=ID loss_function=LossFunction? optimizer=Optimizer? learning_rate=FLOAT? sequence_length=INT?)
-	 */
-	protected void sequence_DenoisingAutoencoders(ISerializationContext context, DenoisingAutoencoders semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
@@ -1572,26 +1518,6 @@ public abstract class AbstractThingMLSemanticSequencer extends AbstractDelegatin
 	
 	/**
 	 * Contexts:
-	 *     DataAnalyticsModelAlgorithm returns FactorialHiddenMarkovModel
-	 *     ML2_ModelAlgorithm returns FactorialHiddenMarkovModel
-	 *     FactorialHiddenMarkovModel returns FactorialHiddenMarkovModel
-	 *
-	 * Constraint:
-	 *     name=ID
-	 */
-	protected void sequence_FactorialHiddenMarkovModel(ISerializationContext context, FactorialHiddenMarkovModel semanticObject) {
-		if (errorAcceptor != null) {
-			if (transientValues.isValueTransient(semanticObject, ThingMLPackage.Literals.DATA_ANALYTICS_MODEL_ALGORITHM__NAME) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ThingMLPackage.Literals.DATA_ANALYTICS_MODEL_ALGORITHM__NAME));
-		}
-		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
-		feeder.accept(grammarAccess.getFactorialHiddenMarkovModelAccess().getNameIDTerminalRuleCall_1_0(), semanticObject.getName());
-		feeder.finish();
-	}
-	
-	
-	/**
-	 * Contexts:
 	 *     NamedElement returns FinalState
 	 *     AnnotatedElement returns FinalState
 	 *     State returns FinalState
@@ -1665,20 +1591,6 @@ public abstract class AbstractThingMLSemanticSequencer extends AbstractDelegatin
 	 *     (function=[Function|ID] (parameters+=Expression parameters+=Expression*)?)
 	 */
 	protected void sequence_FunctionCallStatement(ISerializationContext context, FunctionCallStatement semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
-	}
-	
-	
-	/**
-	 * Contexts:
-	 *     DataAnalyticsModelAlgorithm returns GatedRecurrentUnits
-	 *     ML2_ModelAlgorithm returns GatedRecurrentUnits
-	 *     GatedRecurrentUnits returns GatedRecurrentUnits
-	 *
-	 * Constraint:
-	 *     (name=ID loss_function=LossFunction? optimizer=Optimizer? learning_rate=FLOAT?)
-	 */
-	protected void sequence_GatedRecurrentUnits(ISerializationContext context, GatedRecurrentUnits semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
@@ -1815,20 +1727,6 @@ public abstract class AbstractThingMLSemanticSequencer extends AbstractDelegatin
 	 *     (readonly?='readonly'? name=ID typeRef=TypeRef init=Expression? annotations+=PlatformAnnotation*)
 	 */
 	protected void sequence_LocalVariable(ISerializationContext context, LocalVariable semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
-	}
-	
-	
-	/**
-	 * Contexts:
-	 *     DataAnalyticsModelAlgorithm returns LongShortTermMemory
-	 *     ML2_ModelAlgorithm returns LongShortTermMemory
-	 *     LongShortTermMemory returns LongShortTermMemory
-	 *
-	 * Constraint:
-	 *     (name=ID loss_function=LossFunction? optimizer=Optimizer? learning_rate=FLOAT?)
-	 */
-	protected void sequence_LongShortTermMemory(ISerializationContext context, LongShortTermMemory semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
@@ -1999,11 +1897,12 @@ public abstract class AbstractThingMLSemanticSequencer extends AbstractDelegatin
 	 * Constraint:
 	 *     (
 	 *         name=ID 
-	 *         loss_function=LossFunction? 
+	 *         no_hidden_layers=INT? 
+	 *         activation=Activation? 
 	 *         optimizer=Optimizer? 
-	 *         learning_rate=FLOAT? 
-	 *         no_layers=INT? 
-	 *         dropout_probability=FLOAT?
+	 *         loss=Loss? 
+	 *         epochs=INT? 
+	 *         batch_size=INT?
 	 *     )
 	 */
 	protected void sequence_NN_MultilayerPerceptron(ISerializationContext context, NN_MultilayerPerceptron semanticObject) {
@@ -2395,7 +2294,7 @@ public abstract class AbstractThingMLSemanticSequencer extends AbstractDelegatin
 	 *     RandomForest returns RandomForest
 	 *
 	 * Constraint:
-	 *     (name=ID lossFunction=LossFunction? min_samples_split=MinSamplesSplit?)
+	 *     (name=ID randomForestCriterion=RandomForestCriterion? min_samples_split=Min_samples_split_type?)
 	 */
 	protected void sequence_RandomForest(ISerializationContext context, RandomForest semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);

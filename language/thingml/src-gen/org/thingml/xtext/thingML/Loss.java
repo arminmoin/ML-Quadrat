@@ -24,15 +24,45 @@ import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the literals of the enumeration '<em><b>Loss Function</b></em>',
+ * A representation of the literals of the enumeration '<em><b>Loss</b></em>',
  * and utility methods for working with them.
  * <!-- end-user-doc -->
- * @see org.thingml.xtext.thingML.ThingMLPackage#getLossFunction()
+ * @see org.thingml.xtext.thingML.ThingMLPackage#getLoss()
  * @model
  * @generated
  */
-public enum LossFunction implements Enumerator
+public enum Loss implements Enumerator
 {
+  /**
+	 * The '<em><b>NO IDEA</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+	 * @see #NO_IDEA_VALUE
+	 * @generated
+	 * @ordered
+	 */
+  NO_IDEA(0, "NO_IDEA", "NO_IDEA"),
+
+  /**
+	 * The '<em><b>SPARSE CATEGORICAL CROSSENTROPY</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+	 * @see #SPARSE_CATEGORICAL_CROSSENTROPY_VALUE
+	 * @generated
+	 * @ordered
+	 */
+  SPARSE_CATEGORICAL_CROSSENTROPY(1, "SPARSE_CATEGORICAL_CROSSENTROPY", "sparse_categorical_crossentropy"),
+
+  /**
+	 * The '<em><b>CATEGORICAL CROSSENTROPY</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+	 * @see #CATEGORICAL_CROSSENTROPY_VALUE
+	 * @generated
+	 * @ordered
+	 */
+  CATEGORICAL_CROSSENTROPY(2, "CATEGORICAL_CROSSENTROPY", "categorical_crossentropy"),
+
   /**
 	 * The '<em><b>MSE</b></em>' literal object.
 	 * <!-- begin-user-doc -->
@@ -41,27 +71,52 @@ public enum LossFunction implements Enumerator
 	 * @generated
 	 * @ordered
 	 */
-  MSE(0, "MSE", "MSE"),
+  MSE(3, "MSE", "MSE");
 
   /**
-	 * The '<em><b>FRIEDMAN MSE</b></em>' literal object.
+	 * The '<em><b>NO IDEA</b></em>' literal value.
 	 * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of '<em><b>NO IDEA</b></em>' literal object isn't clear,
+   * there really should be more of a description here...
+   * </p>
    * <!-- end-user-doc -->
-	 * @see #FRIEDMAN_MSE_VALUE
+	 * @see #NO_IDEA
+	 * @model
 	 * @generated
 	 * @ordered
 	 */
-  FRIEDMAN_MSE(1, "FRIEDMAN_MSE", "FRIEDMAN_MSE"),
+  public static final int NO_IDEA_VALUE = 0;
 
   /**
-	 * The '<em><b>MAE</b></em>' literal object.
+	 * The '<em><b>SPARSE CATEGORICAL CROSSENTROPY</b></em>' literal value.
 	 * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of '<em><b>SPARSE CATEGORICAL CROSSENTROPY</b></em>' literal object isn't clear,
+   * there really should be more of a description here...
+   * </p>
    * <!-- end-user-doc -->
-	 * @see #MAE_VALUE
+	 * @see #SPARSE_CATEGORICAL_CROSSENTROPY
+	 * @model literal="sparse_categorical_crossentropy"
 	 * @generated
 	 * @ordered
 	 */
-  MAE(2, "MAE", "MAE");
+  public static final int SPARSE_CATEGORICAL_CROSSENTROPY_VALUE = 1;
+
+  /**
+	 * The '<em><b>CATEGORICAL CROSSENTROPY</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of '<em><b>CATEGORICAL CROSSENTROPY</b></em>' literal object isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+	 * @see #CATEGORICAL_CROSSENTROPY
+	 * @model literal="categorical_crossentropy"
+	 * @generated
+	 * @ordered
+	 */
+  public static final int CATEGORICAL_CROSSENTROPY_VALUE = 2;
 
   /**
 	 * The '<em><b>MSE</b></em>' literal value.
@@ -76,71 +131,42 @@ public enum LossFunction implements Enumerator
 	 * @generated
 	 * @ordered
 	 */
-  public static final int MSE_VALUE = 0;
+  public static final int MSE_VALUE = 3;
 
   /**
-	 * The '<em><b>FRIEDMAN MSE</b></em>' literal value.
-	 * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of '<em><b>FRIEDMAN MSE</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
-   * <!-- end-user-doc -->
-	 * @see #FRIEDMAN_MSE
-	 * @model
-	 * @generated
-	 * @ordered
-	 */
-  public static final int FRIEDMAN_MSE_VALUE = 1;
-
-  /**
-	 * The '<em><b>MAE</b></em>' literal value.
-	 * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of '<em><b>MAE</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
-   * <!-- end-user-doc -->
-	 * @see #MAE
-	 * @model
-	 * @generated
-	 * @ordered
-	 */
-  public static final int MAE_VALUE = 2;
-
-  /**
-	 * An array of all the '<em><b>Loss Function</b></em>' enumerators.
+	 * An array of all the '<em><b>Loss</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
 	 * @generated
 	 */
-  private static final LossFunction[] VALUES_ARRAY =
-    new LossFunction[] {
+  private static final Loss[] VALUES_ARRAY =
+    new Loss[] {
+			NO_IDEA,
+			SPARSE_CATEGORICAL_CROSSENTROPY,
+			CATEGORICAL_CROSSENTROPY,
 			MSE,
-			FRIEDMAN_MSE,
-			MAE,
 		};
 
   /**
-	 * A public read-only list of all the '<em><b>Loss Function</b></em>' enumerators.
+	 * A public read-only list of all the '<em><b>Loss</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
 	 * @generated
 	 */
-  public static final List<LossFunction> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+  public static final List<Loss> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
   /**
-	 * Returns the '<em><b>Loss Function</b></em>' literal with the specified literal value.
+	 * Returns the '<em><b>Loss</b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
 	 * @param literal the literal.
 	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
-  public static LossFunction get(String literal)
+  public static Loss get(String literal)
   {
 		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-			LossFunction result = VALUES_ARRAY[i];
+			Loss result = VALUES_ARRAY[i];
 			if (result.toString().equals(literal)) {
 				return result;
 			}
@@ -149,17 +175,17 @@ public enum LossFunction implements Enumerator
 	}
 
   /**
-	 * Returns the '<em><b>Loss Function</b></em>' literal with the specified name.
+	 * Returns the '<em><b>Loss</b></em>' literal with the specified name.
 	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
 	 * @param name the name.
 	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
-  public static LossFunction getByName(String name)
+  public static Loss getByName(String name)
   {
 		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-			LossFunction result = VALUES_ARRAY[i];
+			Loss result = VALUES_ARRAY[i];
 			if (result.getName().equals(name)) {
 				return result;
 			}
@@ -168,19 +194,20 @@ public enum LossFunction implements Enumerator
 	}
 
   /**
-	 * Returns the '<em><b>Loss Function</b></em>' literal with the specified integer value.
+	 * Returns the '<em><b>Loss</b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
 	 * @param value the integer value.
 	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
-  public static LossFunction get(int value)
+  public static Loss get(int value)
   {
 		switch (value) {
+			case NO_IDEA_VALUE: return NO_IDEA;
+			case SPARSE_CATEGORICAL_CROSSENTROPY_VALUE: return SPARSE_CATEGORICAL_CROSSENTROPY;
+			case CATEGORICAL_CROSSENTROPY_VALUE: return CATEGORICAL_CROSSENTROPY;
 			case MSE_VALUE: return MSE;
-			case FRIEDMAN_MSE_VALUE: return FRIEDMAN_MSE;
-			case MAE_VALUE: return MAE;
 		}
 		return null;
 	}
@@ -212,7 +239,7 @@ public enum LossFunction implements Enumerator
    * <!-- end-user-doc -->
 	 * @generated
 	 */
-  private LossFunction(int value, String name, String literal)
+  private Loss(int value, String name, String literal)
   {
 		this.value = value;
 		this.name = name;
@@ -264,4 +291,4 @@ public enum LossFunction implements Enumerator
 		return literal;
 	}
   
-} //LossFunction
+} //Loss

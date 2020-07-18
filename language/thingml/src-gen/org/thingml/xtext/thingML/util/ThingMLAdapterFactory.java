@@ -245,32 +245,8 @@ public class ThingMLAdapterFactory extends AdapterFactoryImpl
 				return createRandomForestAdapter();
 			}
 			@Override
-			public Adapter caseGatedRecurrentUnits(GatedRecurrentUnits object) {
-				return createGatedRecurrentUnitsAdapter();
-			}
-			@Override
-			public Adapter caseLongShortTermMemory(LongShortTermMemory object) {
-				return createLongShortTermMemoryAdapter();
-			}
-			@Override
 			public Adapter caseNN_MultilayerPerceptron(NN_MultilayerPerceptron object) {
 				return createNN_MultilayerPerceptronAdapter();
-			}
-			@Override
-			public Adapter caseDenoisingAutoencoders(DenoisingAutoencoders object) {
-				return createDenoisingAutoencodersAdapter();
-			}
-			@Override
-			public Adapter caseFactorialHiddenMarkovModel(FactorialHiddenMarkovModel object) {
-				return createFactorialHiddenMarkovModelAdapter();
-			}
-			@Override
-			public Adapter caseCombinatorialOptimization(CombinatorialOptimization object) {
-				return createCombinatorialOptimizationAdapter();
-			}
-			@Override
-			public Adapter caseMinSamplesSplit(MinSamplesSplit object) {
-				return createMinSamplesSplitAdapter();
 			}
 			@Override
 			public Adapter caseEvent(Event object) {
@@ -1134,36 +1110,6 @@ public class ThingMLAdapterFactory extends AdapterFactoryImpl
 	}
 
   /**
-	 * Creates a new adapter for an object of class '{@link org.thingml.xtext.thingML.GatedRecurrentUnits <em>Gated Recurrent Units</em>}'.
-	 * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.thingml.xtext.thingML.GatedRecurrentUnits
-	 * @generated
-	 */
-  public Adapter createGatedRecurrentUnitsAdapter()
-  {
-		return null;
-	}
-
-  /**
-	 * Creates a new adapter for an object of class '{@link org.thingml.xtext.thingML.LongShortTermMemory <em>Long Short Term Memory</em>}'.
-	 * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.thingml.xtext.thingML.LongShortTermMemory
-	 * @generated
-	 */
-  public Adapter createLongShortTermMemoryAdapter()
-  {
-		return null;
-	}
-
-  /**
 	 * Creates a new adapter for an object of class '{@link org.thingml.xtext.thingML.NN_MultilayerPerceptron <em>NN Multilayer Perceptron</em>}'.
 	 * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
@@ -1174,66 +1120,6 @@ public class ThingMLAdapterFactory extends AdapterFactoryImpl
 	 * @generated
 	 */
   public Adapter createNN_MultilayerPerceptronAdapter()
-  {
-		return null;
-	}
-
-  /**
-	 * Creates a new adapter for an object of class '{@link org.thingml.xtext.thingML.DenoisingAutoencoders <em>Denoising Autoencoders</em>}'.
-	 * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.thingml.xtext.thingML.DenoisingAutoencoders
-	 * @generated
-	 */
-  public Adapter createDenoisingAutoencodersAdapter()
-  {
-		return null;
-	}
-
-  /**
-	 * Creates a new adapter for an object of class '{@link org.thingml.xtext.thingML.FactorialHiddenMarkovModel <em>Factorial Hidden Markov Model</em>}'.
-	 * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.thingml.xtext.thingML.FactorialHiddenMarkovModel
-	 * @generated
-	 */
-  public Adapter createFactorialHiddenMarkovModelAdapter()
-  {
-		return null;
-	}
-
-  /**
-	 * Creates a new adapter for an object of class '{@link org.thingml.xtext.thingML.CombinatorialOptimization <em>Combinatorial Optimization</em>}'.
-	 * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.thingml.xtext.thingML.CombinatorialOptimization
-	 * @generated
-	 */
-  public Adapter createCombinatorialOptimizationAdapter()
-  {
-		return null;
-	}
-
-  /**
-	 * Creates a new adapter for an object of class '{@link org.thingml.xtext.thingML.MinSamplesSplit <em>Min Samples Split</em>}'.
-	 * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.thingml.xtext.thingML.MinSamplesSplit
-	 * @generated
-	 */
-  public Adapter createMinSamplesSplitAdapter()
   {
 		return null;
 	}

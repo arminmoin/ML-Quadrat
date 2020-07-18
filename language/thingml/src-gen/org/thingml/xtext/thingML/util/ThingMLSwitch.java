@@ -402,57 +402,11 @@ public class ThingMLSwitch<T> extends Switch<T>
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ThingMLPackage.GATED_RECURRENT_UNITS: {
-				GatedRecurrentUnits gatedRecurrentUnits = (GatedRecurrentUnits)theEObject;
-				T result = caseGatedRecurrentUnits(gatedRecurrentUnits);
-				if (result == null) result = caseML2_ModelAlgorithm(gatedRecurrentUnits);
-				if (result == null) result = caseDataAnalyticsModelAlgorithm(gatedRecurrentUnits);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case ThingMLPackage.LONG_SHORT_TERM_MEMORY: {
-				LongShortTermMemory longShortTermMemory = (LongShortTermMemory)theEObject;
-				T result = caseLongShortTermMemory(longShortTermMemory);
-				if (result == null) result = caseML2_ModelAlgorithm(longShortTermMemory);
-				if (result == null) result = caseDataAnalyticsModelAlgorithm(longShortTermMemory);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case ThingMLPackage.NN_MULTILAYER_PERCEPTRON: {
 				NN_MultilayerPerceptron nN_MultilayerPerceptron = (NN_MultilayerPerceptron)theEObject;
 				T result = caseNN_MultilayerPerceptron(nN_MultilayerPerceptron);
 				if (result == null) result = caseML2_ModelAlgorithm(nN_MultilayerPerceptron);
 				if (result == null) result = caseDataAnalyticsModelAlgorithm(nN_MultilayerPerceptron);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case ThingMLPackage.DENOISING_AUTOENCODERS: {
-				DenoisingAutoencoders denoisingAutoencoders = (DenoisingAutoencoders)theEObject;
-				T result = caseDenoisingAutoencoders(denoisingAutoencoders);
-				if (result == null) result = caseML2_ModelAlgorithm(denoisingAutoencoders);
-				if (result == null) result = caseDataAnalyticsModelAlgorithm(denoisingAutoencoders);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case ThingMLPackage.FACTORIAL_HIDDEN_MARKOV_MODEL: {
-				FactorialHiddenMarkovModel factorialHiddenMarkovModel = (FactorialHiddenMarkovModel)theEObject;
-				T result = caseFactorialHiddenMarkovModel(factorialHiddenMarkovModel);
-				if (result == null) result = caseML2_ModelAlgorithm(factorialHiddenMarkovModel);
-				if (result == null) result = caseDataAnalyticsModelAlgorithm(factorialHiddenMarkovModel);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case ThingMLPackage.COMBINATORIAL_OPTIMIZATION: {
-				CombinatorialOptimization combinatorialOptimization = (CombinatorialOptimization)theEObject;
-				T result = caseCombinatorialOptimization(combinatorialOptimization);
-				if (result == null) result = caseML2_ModelAlgorithm(combinatorialOptimization);
-				if (result == null) result = caseDataAnalyticsModelAlgorithm(combinatorialOptimization);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case ThingMLPackage.MIN_SAMPLES_SPLIT: {
-				MinSamplesSplit minSamplesSplit = (MinSamplesSplit)theEObject;
-				T result = caseMinSamplesSplit(minSamplesSplit);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -1536,38 +1490,6 @@ public class ThingMLSwitch<T> extends Switch<T>
 	}
 
   /**
-	 * Returns the result of interpreting the object as an instance of '<em>Gated Recurrent Units</em>'.
-	 * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Gated Recurrent Units</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-  public T caseGatedRecurrentUnits(GatedRecurrentUnits object)
-  {
-		return null;
-	}
-
-  /**
-	 * Returns the result of interpreting the object as an instance of '<em>Long Short Term Memory</em>'.
-	 * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Long Short Term Memory</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-  public T caseLongShortTermMemory(LongShortTermMemory object)
-  {
-		return null;
-	}
-
-  /**
 	 * Returns the result of interpreting the object as an instance of '<em>NN Multilayer Perceptron</em>'.
 	 * <!-- begin-user-doc -->
    * This implementation returns null;
@@ -1579,70 +1501,6 @@ public class ThingMLSwitch<T> extends Switch<T>
 	 * @generated
 	 */
   public T caseNN_MultilayerPerceptron(NN_MultilayerPerceptron object)
-  {
-		return null;
-	}
-
-  /**
-	 * Returns the result of interpreting the object as an instance of '<em>Denoising Autoencoders</em>'.
-	 * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Denoising Autoencoders</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-  public T caseDenoisingAutoencoders(DenoisingAutoencoders object)
-  {
-		return null;
-	}
-
-  /**
-	 * Returns the result of interpreting the object as an instance of '<em>Factorial Hidden Markov Model</em>'.
-	 * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Factorial Hidden Markov Model</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-  public T caseFactorialHiddenMarkovModel(FactorialHiddenMarkovModel object)
-  {
-		return null;
-	}
-
-  /**
-	 * Returns the result of interpreting the object as an instance of '<em>Combinatorial Optimization</em>'.
-	 * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Combinatorial Optimization</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-  public T caseCombinatorialOptimization(CombinatorialOptimization object)
-  {
-		return null;
-	}
-
-  /**
-	 * Returns the result of interpreting the object as an instance of '<em>Min Samples Split</em>'.
-	 * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Min Samples Split</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-  public T caseMinSamplesSplit(MinSamplesSplit object)
   {
 		return null;
 	}

@@ -1,16 +1,17 @@
 /**
+ * *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ *  *
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ *  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
+ *  *
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
  */
@@ -1006,52 +1007,6 @@ public class ThingMLItemProviderAdapterFactory extends ThingMLAdapterFactory imp
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.thingml.xtext.thingML.GatedRecurrentUnits} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected GatedRecurrentUnitsItemProvider gatedRecurrentUnitsItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link org.thingml.xtext.thingML.GatedRecurrentUnits}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createGatedRecurrentUnitsAdapter() {
-		if (gatedRecurrentUnitsItemProvider == null) {
-			gatedRecurrentUnitsItemProvider = new GatedRecurrentUnitsItemProvider(this);
-		}
-
-		return gatedRecurrentUnitsItemProvider;
-	}
-
-	/**
-	 * This keeps track of the one adapter used for all {@link org.thingml.xtext.thingML.LongShortTermMemory} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected LongShortTermMemoryItemProvider longShortTermMemoryItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link org.thingml.xtext.thingML.LongShortTermMemory}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createLongShortTermMemoryAdapter() {
-		if (longShortTermMemoryItemProvider == null) {
-			longShortTermMemoryItemProvider = new LongShortTermMemoryItemProvider(this);
-		}
-
-		return longShortTermMemoryItemProvider;
-	}
-
-	/**
 	 * This keeps track of the one adapter used for all {@link org.thingml.xtext.thingML.NN_MultilayerPerceptron} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1072,98 +1027,6 @@ public class ThingMLItemProviderAdapterFactory extends ThingMLAdapterFactory imp
 		}
 
 		return nN_MultilayerPerceptronItemProvider;
-	}
-
-	/**
-	 * This keeps track of the one adapter used for all {@link org.thingml.xtext.thingML.DenoisingAutoencoders} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected DenoisingAutoencodersItemProvider denoisingAutoencodersItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link org.thingml.xtext.thingML.DenoisingAutoencoders}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createDenoisingAutoencodersAdapter() {
-		if (denoisingAutoencodersItemProvider == null) {
-			denoisingAutoencodersItemProvider = new DenoisingAutoencodersItemProvider(this);
-		}
-
-		return denoisingAutoencodersItemProvider;
-	}
-
-	/**
-	 * This keeps track of the one adapter used for all {@link org.thingml.xtext.thingML.FactorialHiddenMarkovModel} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected FactorialHiddenMarkovModelItemProvider factorialHiddenMarkovModelItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link org.thingml.xtext.thingML.FactorialHiddenMarkovModel}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createFactorialHiddenMarkovModelAdapter() {
-		if (factorialHiddenMarkovModelItemProvider == null) {
-			factorialHiddenMarkovModelItemProvider = new FactorialHiddenMarkovModelItemProvider(this);
-		}
-
-		return factorialHiddenMarkovModelItemProvider;
-	}
-
-	/**
-	 * This keeps track of the one adapter used for all {@link org.thingml.xtext.thingML.CombinatorialOptimization} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected CombinatorialOptimizationItemProvider combinatorialOptimizationItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link org.thingml.xtext.thingML.CombinatorialOptimization}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createCombinatorialOptimizationAdapter() {
-		if (combinatorialOptimizationItemProvider == null) {
-			combinatorialOptimizationItemProvider = new CombinatorialOptimizationItemProvider(this);
-		}
-
-		return combinatorialOptimizationItemProvider;
-	}
-
-	/**
-	 * This keeps track of the one adapter used for all {@link org.thingml.xtext.thingML.MinSamplesSplit} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected MinSamplesSplitItemProvider minSamplesSplitItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link org.thingml.xtext.thingML.MinSamplesSplit}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createMinSamplesSplitAdapter() {
-		if (minSamplesSplitItemProvider == null) {
-			minSamplesSplitItemProvider = new MinSamplesSplitItemProvider(this);
-		}
-
-		return minSamplesSplitItemProvider;
 	}
 
 	/**
@@ -2691,13 +2554,7 @@ public class ThingMLItemProviderAdapterFactory extends ThingMLAdapterFactory imp
 		if (ml2_ModelAlgorithmItemProvider != null) ml2_ModelAlgorithmItemProvider.dispose();
 		if (decisionTreeItemProvider != null) decisionTreeItemProvider.dispose();
 		if (randomForestItemProvider != null) randomForestItemProvider.dispose();
-		if (gatedRecurrentUnitsItemProvider != null) gatedRecurrentUnitsItemProvider.dispose();
-		if (longShortTermMemoryItemProvider != null) longShortTermMemoryItemProvider.dispose();
 		if (nN_MultilayerPerceptronItemProvider != null) nN_MultilayerPerceptronItemProvider.dispose();
-		if (denoisingAutoencodersItemProvider != null) denoisingAutoencodersItemProvider.dispose();
-		if (factorialHiddenMarkovModelItemProvider != null) factorialHiddenMarkovModelItemProvider.dispose();
-		if (combinatorialOptimizationItemProvider != null) combinatorialOptimizationItemProvider.dispose();
-		if (minSamplesSplitItemProvider != null) minSamplesSplitItemProvider.dispose();
 		if (eventItemProvider != null) eventItemProvider.dispose();
 		if (receiveMessageItemProvider != null) receiveMessageItemProvider.dispose();
 		if (actionItemProvider != null) actionItemProvider.dispose();

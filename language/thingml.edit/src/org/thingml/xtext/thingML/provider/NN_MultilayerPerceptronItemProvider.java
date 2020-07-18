@@ -1,16 +1,17 @@
 /**
+ * *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ *  *
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ *  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
+ *  *
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
  */
@@ -59,29 +60,52 @@ public class NN_MultilayerPerceptronItemProvider extends ML2_ModelAlgorithmItemP
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addLoss_functionPropertyDescriptor(object);
+			addNo_hidden_layersPropertyDescriptor(object);
+			addActivationPropertyDescriptor(object);
 			addOptimizerPropertyDescriptor(object);
-			addLearning_ratePropertyDescriptor(object);
-			addNo_layersPropertyDescriptor(object);
-			addDropout_probabilityPropertyDescriptor(object);
+			addLossPropertyDescriptor(object);
+			addEpochsPropertyDescriptor(object);
+			addBatch_sizePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the Loss function feature.
+	 * This adds a property descriptor for the No hidden layers feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addLoss_functionPropertyDescriptor(Object object) {
+	protected void addNo_hidden_layersPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_NN_MultilayerPerceptron_loss_function_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_NN_MultilayerPerceptron_loss_function_feature", "_UI_NN_MultilayerPerceptron_type"),
-				 ThingMLPackage.Literals.NN_MULTILAYER_PERCEPTRON__LOSS_FUNCTION,
+				 getString("_UI_NN_MultilayerPerceptron_no_hidden_layers_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_NN_MultilayerPerceptron_no_hidden_layers_feature", "_UI_NN_MultilayerPerceptron_type"),
+				 ThingMLPackage.Literals.NN_MULTILAYER_PERCEPTRON__NO_HIDDEN_LAYERS,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Activation feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addActivationPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_NN_MultilayerPerceptron_activation_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_NN_MultilayerPerceptron_activation_feature", "_UI_NN_MultilayerPerceptron_type"),
+				 ThingMLPackage.Literals.NN_MULTILAYER_PERCEPTRON__ACTIVATION,
 				 true,
 				 false,
 				 false,
@@ -113,41 +137,41 @@ public class NN_MultilayerPerceptronItemProvider extends ML2_ModelAlgorithmItemP
 	}
 
 	/**
-	 * This adds a property descriptor for the Learning rate feature.
+	 * This adds a property descriptor for the Loss feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addLearning_ratePropertyDescriptor(Object object) {
+	protected void addLossPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_NN_MultilayerPerceptron_learning_rate_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_NN_MultilayerPerceptron_learning_rate_feature", "_UI_NN_MultilayerPerceptron_type"),
-				 ThingMLPackage.Literals.NN_MULTILAYER_PERCEPTRON__LEARNING_RATE,
+				 getString("_UI_NN_MultilayerPerceptron_loss_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_NN_MultilayerPerceptron_loss_feature", "_UI_NN_MultilayerPerceptron_type"),
+				 ThingMLPackage.Literals.NN_MULTILAYER_PERCEPTRON__LOSS,
 				 true,
 				 false,
 				 false,
-				 ItemPropertyDescriptor.REAL_VALUE_IMAGE,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
 				 null,
 				 null));
 	}
 
 	/**
-	 * This adds a property descriptor for the No layers feature.
+	 * This adds a property descriptor for the Epochs feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addNo_layersPropertyDescriptor(Object object) {
+	protected void addEpochsPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_NN_MultilayerPerceptron_no_layers_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_NN_MultilayerPerceptron_no_layers_feature", "_UI_NN_MultilayerPerceptron_type"),
-				 ThingMLPackage.Literals.NN_MULTILAYER_PERCEPTRON__NO_LAYERS,
+				 getString("_UI_NN_MultilayerPerceptron_epochs_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_NN_MultilayerPerceptron_epochs_feature", "_UI_NN_MultilayerPerceptron_type"),
+				 ThingMLPackage.Literals.NN_MULTILAYER_PERCEPTRON__EPOCHS,
 				 true,
 				 false,
 				 false,
@@ -157,23 +181,23 @@ public class NN_MultilayerPerceptronItemProvider extends ML2_ModelAlgorithmItemP
 	}
 
 	/**
-	 * This adds a property descriptor for the Dropout probability feature.
+	 * This adds a property descriptor for the Batch size feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addDropout_probabilityPropertyDescriptor(Object object) {
+	protected void addBatch_sizePropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_NN_MultilayerPerceptron_dropout_probability_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_NN_MultilayerPerceptron_dropout_probability_feature", "_UI_NN_MultilayerPerceptron_type"),
-				 ThingMLPackage.Literals.NN_MULTILAYER_PERCEPTRON__DROPOUT_PROBABILITY,
+				 getString("_UI_NN_MultilayerPerceptron_batch_size_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_NN_MultilayerPerceptron_batch_size_feature", "_UI_NN_MultilayerPerceptron_type"),
+				 ThingMLPackage.Literals.NN_MULTILAYER_PERCEPTRON__BATCH_SIZE,
 				 true,
 				 false,
 				 false,
-				 ItemPropertyDescriptor.REAL_VALUE_IMAGE,
+				 ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
 				 null,
 				 null));
 	}
@@ -216,11 +240,12 @@ public class NN_MultilayerPerceptronItemProvider extends ML2_ModelAlgorithmItemP
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(NN_MultilayerPerceptron.class)) {
-			case ThingMLPackage.NN_MULTILAYER_PERCEPTRON__LOSS_FUNCTION:
+			case ThingMLPackage.NN_MULTILAYER_PERCEPTRON__NO_HIDDEN_LAYERS:
+			case ThingMLPackage.NN_MULTILAYER_PERCEPTRON__ACTIVATION:
 			case ThingMLPackage.NN_MULTILAYER_PERCEPTRON__OPTIMIZER:
-			case ThingMLPackage.NN_MULTILAYER_PERCEPTRON__LEARNING_RATE:
-			case ThingMLPackage.NN_MULTILAYER_PERCEPTRON__NO_LAYERS:
-			case ThingMLPackage.NN_MULTILAYER_PERCEPTRON__DROPOUT_PROBABILITY:
+			case ThingMLPackage.NN_MULTILAYER_PERCEPTRON__LOSS:
+			case ThingMLPackage.NN_MULTILAYER_PERCEPTRON__EPOCHS:
+			case ThingMLPackage.NN_MULTILAYER_PERCEPTRON__BATCH_SIZE:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}

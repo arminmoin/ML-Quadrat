@@ -235,17 +235,11 @@ enum Labels:
 
 // Models and algorithms for data analytics (specifically Machine Learning) may have any of the following types:
 // 1. They can conform to the PMML standard. 
-// 2. They can conform to the PFA standard.
-// 3. If they do not conform to the above-mentioned standards, they may be one of the choices offered here by ML2:
+// 2. They can conform to the PFA standard (not yet supported).
+// 3. If they do not conform to the above-mentioned standards, they may be one of the choices offered here by ML2 (the list will be extended):
 //  DecisionTreeRegressor
 //	RandomForestRegressor
-//	GatedRecurrentUnits 
-//	LongShortTermMemory 
 //	NN_MultilayerPerceptron 
-//	DenoisingAutoencoders 
-//	FactorialHiddenMarkovModel 
-//	CombinatorialOptimization
-
 
 DataAnalyticsModelAlgorithm returns DataAnalyticsModelAlgorithm:
 	PMML_ModelAlgorithm | PFA_ModelAlgorithm | ML2_ModelAlgorithm;
@@ -260,6 +254,7 @@ PMML_ModelAlgorithm returns PMML_ModelAlgorithm:
 ;
 
 // 2. The PFA Standard (see http://dmg.org/pfa/)
+//TODO To be supported
 PFA_ModelAlgorithm returns PFA_ModelAlgorithm:
 	'pfa' name=ID
 	'('
@@ -267,109 +262,73 @@ PFA_ModelAlgorithm returns PFA_ModelAlgorithm:
 	')'
 ;
 
-// 3. Non-standard ML2 models and algorithms
+// 3. ML2 models and algorithms
+//TODO To be extended
 
 ML2_ModelAlgorithm returns ML2_ModelAlgorithm:
 	DecisionTree | 
 	RandomForest | 
-	GatedRecurrentUnits | 
-	LongShortTermMemory | 
-	NN_MultilayerPerceptron | 
-	DenoisingAutoencoders | 
-	FactorialHiddenMarkovModel | 
-	CombinatorialOptimization 
+	NN_MultilayerPerceptron
 ;
 
 DecisionTree returns DecisionTree:
 	'decision_tree' name=ID
 	'('
-	('loss_function' lossFunction=LossFunction)?
+	('criterion' decisionTreeCriterion=DecisionTreeCriterion)?
 	(',')?
-	('min_samples_split' min_samples_split=MinSamplesSplit)?
+	('min_samples_split' min_samples_split=Min_samples_split_type
+	)?
 	')'
 ;
 
 RandomForest returns RandomForest:
 	'random_forest' name=ID
 	'('
-	('loss_function' lossFunction=LossFunction)?
+	('criterion' randomForestCriterion=RandomForestCriterion)?
 	(',')?
-	('min_samples_split' min_samples_split=MinSamplesSplit)?
-	')'
-;
-
-GatedRecurrentUnits returns GatedRecurrentUnits:
-	'gated_recurrent_units' name=ID
-	'('
-	('loss_function' loss_function=LossFunction)?
-	(',')?
-	('optimizer' optimizer=Optimizer)?
-	(',')?
-	('learning_rate' learning_rate=FLOAT)?	
-	')'
-;
-
-LongShortTermMemory returns LongShortTermMemory:
-	'long_short_term_memory' name=ID
-	'('
-	('loss_function' loss_function=LossFunction)?
-	(',')?
-	('optimizer' optimizer=Optimizer)?
-	(',')?
-	('learning_rate' learning_rate=FLOAT)?
+	('min_samples_split' min_samples_split=Min_samples_split_type)?
 	')'
 ;
 
 NN_MultilayerPerceptron returns NN_MultilayerPerceptron:
 	'nn_multilayer_perceptron' name=ID
 	'('
-	('loss_function' loss_function=LossFunction)?
+	('no_hidden_layers' no_hidden_layers=INT)?
+	(',')?
+	('activation' activation=Activation)?
 	(',')?
 	('optimizer' optimizer=Optimizer)?
 	(',')?
-	('learning_rate' learning_rate=FLOAT)?
+	('loss' loss=Loss)?
 	(',')?
-	('no_layers' no_layers=INT)?
+	('epochs' epochs=INT)?
 	(',')?
-	('dropout_probability' dropout_probability=FLOAT)?
+	('batch_size' batch_size=INT)?
 	')'
 ;
 
-DenoisingAutoencoders returns DenoisingAutoencoders:
-	'denoising_autoencoders' name=ID
-	'('
-	('loss_function' loss_function=LossFunction)?
-	(',')?
-	('optimizer' optimizer=Optimizer)?
-	(',')?
-	('learning_rate' learning_rate=FLOAT)?
-	(',')?
-	('sequence_length' sequence_length=INT)?
-	')'
-;
-
-FactorialHiddenMarkovModel returns FactorialHiddenMarkovModel:
-	'factorial_hidden_markov_model' name=ID
-	'('
-	')'
-;
-
-CombinatorialOptimization returns CombinatorialOptimization:
-	'combinatorial_optimization' name=ID
-	'('
-	')'
-;
-
-MinSamplesSplit returns MinSamplesSplit:
+Min_samples_split_type:
 	INT | FLOAT
 ;
 
-enum Optimizer:
-	ADAM='Adam' | Nadam='Nadam' | RMSPROP='RMSprop'
+enum DecisionTreeCriterion:
+	NO_IDEA='NO_IDEA'| MSE='MSE' | FRIEDMAN_MSE='FRIEDMAN_MSE'| MAE='MAE' | GINI="GINI" | ENTROPY="ENTROPY"
 ;
 
-enum LossFunction:
-	MSE='MSE' | FRIEDMAN_MSE='FRIEDMAN_MSE'| MAE='MAE'
+enum RandomForestCriterion:
+	NO_IDEA='NO_IDEA'| MSE='MSE' | MAE='MAE' | GINI="GINI" | ENTROPY="ENTROPY"
+;
+
+enum Activation:
+	NO_IDEA='NO_IDEA'| RELU='relu' | SIGMOID='sigmoid' | SOFTMAX='softmax' | SOFTPLUS='softplus' | SOFTSIGN='softsign' | TANH='tanh' | SELU='selu' | ELU='elu' | EXPONENTIAL='exponential'
+;
+
+enum Optimizer:
+	NO_IDEA='NO_IDEA'| SGD='SGD' | RMSPROP='RMSprop' | ADAM='Adam' | ADADELTA='Adadelta' | ADAGRAD='Adagrad' | ADAMAX='Adamax' | NADAM='Nadam' | FTRL='Ftrl'
+;
+
+enum Loss:
+	NO_IDEA='NO_IDEA'| SPARSE_CATEGORICAL_CROSSENTROPY='sparse_categorical_crossentropy' | CATEGORICAL_CROSSENTROPY='categorical_crossentropy' | MSE="MSE"
 ;
 
 

@@ -4783,56 +4783,11 @@ ruleML2_ModelAlgorithm returns [EObject current=null]
 		}
 		    |
 		{
-			newCompositeNode(grammarAccess.getML2_ModelAlgorithmAccess().getGatedRecurrentUnitsParserRuleCall_2());
+			newCompositeNode(grammarAccess.getML2_ModelAlgorithmAccess().getNN_MultilayerPerceptronParserRuleCall_2());
 		}
-		this_GatedRecurrentUnits_2=ruleGatedRecurrentUnits
+		this_NN_MultilayerPerceptron_2=ruleNN_MultilayerPerceptron
 		{
-			$current = $this_GatedRecurrentUnits_2.current;
-			afterParserOrEnumRuleCall();
-		}
-		    |
-		{
-			newCompositeNode(grammarAccess.getML2_ModelAlgorithmAccess().getLongShortTermMemoryParserRuleCall_3());
-		}
-		this_LongShortTermMemory_3=ruleLongShortTermMemory
-		{
-			$current = $this_LongShortTermMemory_3.current;
-			afterParserOrEnumRuleCall();
-		}
-		    |
-		{
-			newCompositeNode(grammarAccess.getML2_ModelAlgorithmAccess().getNN_MultilayerPerceptronParserRuleCall_4());
-		}
-		this_NN_MultilayerPerceptron_4=ruleNN_MultilayerPerceptron
-		{
-			$current = $this_NN_MultilayerPerceptron_4.current;
-			afterParserOrEnumRuleCall();
-		}
-		    |
-		{
-			newCompositeNode(grammarAccess.getML2_ModelAlgorithmAccess().getDenoisingAutoencodersParserRuleCall_5());
-		}
-		this_DenoisingAutoencoders_5=ruleDenoisingAutoencoders
-		{
-			$current = $this_DenoisingAutoencoders_5.current;
-			afterParserOrEnumRuleCall();
-		}
-		    |
-		{
-			newCompositeNode(grammarAccess.getML2_ModelAlgorithmAccess().getFactorialHiddenMarkovModelParserRuleCall_6());
-		}
-		this_FactorialHiddenMarkovModel_6=ruleFactorialHiddenMarkovModel
-		{
-			$current = $this_FactorialHiddenMarkovModel_6.current;
-			afterParserOrEnumRuleCall();
-		}
-		    |
-		{
-			newCompositeNode(grammarAccess.getML2_ModelAlgorithmAccess().getCombinatorialOptimizationParserRuleCall_7());
-		}
-		this_CombinatorialOptimization_7=ruleCombinatorialOptimization
-		{
-			$current = $this_CombinatorialOptimization_7.current;
+			$current = $this_NN_MultilayerPerceptron_2.current;
 			afterParserOrEnumRuleCall();
 		}
 	)
@@ -4881,25 +4836,25 @@ ruleDecisionTree returns [EObject current=null]
 			newLeafNode(otherlv_2, grammarAccess.getDecisionTreeAccess().getLeftParenthesisKeyword_2());
 		}
 		(
-			otherlv_3='loss_function'
+			otherlv_3='criterion'
 			{
-				newLeafNode(otherlv_3, grammarAccess.getDecisionTreeAccess().getLoss_functionKeyword_3_0());
+				newLeafNode(otherlv_3, grammarAccess.getDecisionTreeAccess().getCriterionKeyword_3_0());
 			}
 			(
 				(
 					{
-						newCompositeNode(grammarAccess.getDecisionTreeAccess().getLossFunctionLossFunctionEnumRuleCall_3_1_0());
+						newCompositeNode(grammarAccess.getDecisionTreeAccess().getDecisionTreeCriterionDecisionTreeCriterionEnumRuleCall_3_1_0());
 					}
-					lv_lossFunction_4_0=ruleLossFunction
+					lv_decisionTreeCriterion_4_0=ruleDecisionTreeCriterion
 					{
 						if ($current==null) {
 							$current = createModelElementForParent(grammarAccess.getDecisionTreeRule());
 						}
 						set(
 							$current,
-							"lossFunction",
-							lv_lossFunction_4_0,
-							"org.thingml.xtext.ThingML.LossFunction");
+							"decisionTreeCriterion",
+							lv_decisionTreeCriterion_4_0,
+							"org.thingml.xtext.ThingML.DecisionTreeCriterion");
 						afterParserOrEnumRuleCall();
 					}
 				)
@@ -4919,9 +4874,9 @@ ruleDecisionTree returns [EObject current=null]
 			(
 				(
 					{
-						newCompositeNode(grammarAccess.getDecisionTreeAccess().getMin_samples_splitMinSamplesSplitParserRuleCall_5_1_0());
+						newCompositeNode(grammarAccess.getDecisionTreeAccess().getMin_samples_splitMin_samples_split_typeParserRuleCall_5_1_0());
 					}
-					lv_min_samples_split_7_0=ruleMinSamplesSplit
+					lv_min_samples_split_7_0=ruleMin_samples_split_type
 					{
 						if ($current==null) {
 							$current = createModelElementForParent(grammarAccess.getDecisionTreeRule());
@@ -4930,7 +4885,7 @@ ruleDecisionTree returns [EObject current=null]
 							$current,
 							"min_samples_split",
 							lv_min_samples_split_7_0,
-							"org.thingml.xtext.ThingML.MinSamplesSplit");
+							"org.thingml.xtext.ThingML.Min_samples_split_type");
 						afterParserOrEnumRuleCall();
 					}
 				)
@@ -4986,25 +4941,25 @@ ruleRandomForest returns [EObject current=null]
 			newLeafNode(otherlv_2, grammarAccess.getRandomForestAccess().getLeftParenthesisKeyword_2());
 		}
 		(
-			otherlv_3='loss_function'
+			otherlv_3='criterion'
 			{
-				newLeafNode(otherlv_3, grammarAccess.getRandomForestAccess().getLoss_functionKeyword_3_0());
+				newLeafNode(otherlv_3, grammarAccess.getRandomForestAccess().getCriterionKeyword_3_0());
 			}
 			(
 				(
 					{
-						newCompositeNode(grammarAccess.getRandomForestAccess().getLossFunctionLossFunctionEnumRuleCall_3_1_0());
+						newCompositeNode(grammarAccess.getRandomForestAccess().getRandomForestCriterionRandomForestCriterionEnumRuleCall_3_1_0());
 					}
-					lv_lossFunction_4_0=ruleLossFunction
+					lv_randomForestCriterion_4_0=ruleRandomForestCriterion
 					{
 						if ($current==null) {
 							$current = createModelElementForParent(grammarAccess.getRandomForestRule());
 						}
 						set(
 							$current,
-							"lossFunction",
-							lv_lossFunction_4_0,
-							"org.thingml.xtext.ThingML.LossFunction");
+							"randomForestCriterion",
+							lv_randomForestCriterion_4_0,
+							"org.thingml.xtext.ThingML.RandomForestCriterion");
 						afterParserOrEnumRuleCall();
 					}
 				)
@@ -5024,9 +4979,9 @@ ruleRandomForest returns [EObject current=null]
 			(
 				(
 					{
-						newCompositeNode(grammarAccess.getRandomForestAccess().getMin_samples_splitMinSamplesSplitParserRuleCall_5_1_0());
+						newCompositeNode(grammarAccess.getRandomForestAccess().getMin_samples_splitMin_samples_split_typeParserRuleCall_5_1_0());
 					}
-					lv_min_samples_split_7_0=ruleMinSamplesSplit
+					lv_min_samples_split_7_0=ruleMin_samples_split_type
 					{
 						if ($current==null) {
 							$current = createModelElementForParent(grammarAccess.getRandomForestRule());
@@ -5035,7 +4990,7 @@ ruleRandomForest returns [EObject current=null]
 							$current,
 							"min_samples_split",
 							lv_min_samples_split_7_0,
-							"org.thingml.xtext.ThingML.MinSamplesSplit");
+							"org.thingml.xtext.ThingML.Min_samples_split_type");
 						afterParserOrEnumRuleCall();
 					}
 				)
@@ -5044,276 +4999,6 @@ ruleRandomForest returns [EObject current=null]
 		otherlv_8=')'
 		{
 			newLeafNode(otherlv_8, grammarAccess.getRandomForestAccess().getRightParenthesisKeyword_6());
-		}
-	)
-;
-
-// Entry rule entryRuleGatedRecurrentUnits
-entryRuleGatedRecurrentUnits returns [EObject current=null]:
-	{ newCompositeNode(grammarAccess.getGatedRecurrentUnitsRule()); }
-	iv_ruleGatedRecurrentUnits=ruleGatedRecurrentUnits
-	{ $current=$iv_ruleGatedRecurrentUnits.current; }
-	EOF;
-
-// Rule GatedRecurrentUnits
-ruleGatedRecurrentUnits returns [EObject current=null]
-@init {
-	enterRule();
-}
-@after {
-	leaveRule();
-}:
-	(
-		otherlv_0='gated_recurrent_units'
-		{
-			newLeafNode(otherlv_0, grammarAccess.getGatedRecurrentUnitsAccess().getGated_recurrent_unitsKeyword_0());
-		}
-		(
-			(
-				lv_name_1_0=RULE_ID
-				{
-					newLeafNode(lv_name_1_0, grammarAccess.getGatedRecurrentUnitsAccess().getNameIDTerminalRuleCall_1_0());
-				}
-				{
-					if ($current==null) {
-						$current = createModelElement(grammarAccess.getGatedRecurrentUnitsRule());
-					}
-					setWithLastConsumed(
-						$current,
-						"name",
-						lv_name_1_0,
-						"org.thingml.xtext.ThingML.ID");
-				}
-			)
-		)
-		otherlv_2='('
-		{
-			newLeafNode(otherlv_2, grammarAccess.getGatedRecurrentUnitsAccess().getLeftParenthesisKeyword_2());
-		}
-		(
-			otherlv_3='loss_function'
-			{
-				newLeafNode(otherlv_3, grammarAccess.getGatedRecurrentUnitsAccess().getLoss_functionKeyword_3_0());
-			}
-			(
-				(
-					{
-						newCompositeNode(grammarAccess.getGatedRecurrentUnitsAccess().getLoss_functionLossFunctionEnumRuleCall_3_1_0());
-					}
-					lv_loss_function_4_0=ruleLossFunction
-					{
-						if ($current==null) {
-							$current = createModelElementForParent(grammarAccess.getGatedRecurrentUnitsRule());
-						}
-						set(
-							$current,
-							"loss_function",
-							lv_loss_function_4_0,
-							"org.thingml.xtext.ThingML.LossFunction");
-						afterParserOrEnumRuleCall();
-					}
-				)
-			)
-		)?
-		(
-			otherlv_5=','
-			{
-				newLeafNode(otherlv_5, grammarAccess.getGatedRecurrentUnitsAccess().getCommaKeyword_4());
-			}
-		)?
-		(
-			otherlv_6='optimizer'
-			{
-				newLeafNode(otherlv_6, grammarAccess.getGatedRecurrentUnitsAccess().getOptimizerKeyword_5_0());
-			}
-			(
-				(
-					{
-						newCompositeNode(grammarAccess.getGatedRecurrentUnitsAccess().getOptimizerOptimizerEnumRuleCall_5_1_0());
-					}
-					lv_optimizer_7_0=ruleOptimizer
-					{
-						if ($current==null) {
-							$current = createModelElementForParent(grammarAccess.getGatedRecurrentUnitsRule());
-						}
-						set(
-							$current,
-							"optimizer",
-							lv_optimizer_7_0,
-							"org.thingml.xtext.ThingML.Optimizer");
-						afterParserOrEnumRuleCall();
-					}
-				)
-			)
-		)?
-		(
-			otherlv_8=','
-			{
-				newLeafNode(otherlv_8, grammarAccess.getGatedRecurrentUnitsAccess().getCommaKeyword_6());
-			}
-		)?
-		(
-			otherlv_9='learning_rate'
-			{
-				newLeafNode(otherlv_9, grammarAccess.getGatedRecurrentUnitsAccess().getLearning_rateKeyword_7_0());
-			}
-			(
-				(
-					lv_learning_rate_10_0=RULE_FLOAT
-					{
-						newLeafNode(lv_learning_rate_10_0, grammarAccess.getGatedRecurrentUnitsAccess().getLearning_rateFLOATTerminalRuleCall_7_1_0());
-					}
-					{
-						if ($current==null) {
-							$current = createModelElement(grammarAccess.getGatedRecurrentUnitsRule());
-						}
-						setWithLastConsumed(
-							$current,
-							"learning_rate",
-							lv_learning_rate_10_0,
-							"org.thingml.xtext.ThingML.FLOAT");
-					}
-				)
-			)
-		)?
-		otherlv_11=')'
-		{
-			newLeafNode(otherlv_11, grammarAccess.getGatedRecurrentUnitsAccess().getRightParenthesisKeyword_8());
-		}
-	)
-;
-
-// Entry rule entryRuleLongShortTermMemory
-entryRuleLongShortTermMemory returns [EObject current=null]:
-	{ newCompositeNode(grammarAccess.getLongShortTermMemoryRule()); }
-	iv_ruleLongShortTermMemory=ruleLongShortTermMemory
-	{ $current=$iv_ruleLongShortTermMemory.current; }
-	EOF;
-
-// Rule LongShortTermMemory
-ruleLongShortTermMemory returns [EObject current=null]
-@init {
-	enterRule();
-}
-@after {
-	leaveRule();
-}:
-	(
-		otherlv_0='long_short_term_memory'
-		{
-			newLeafNode(otherlv_0, grammarAccess.getLongShortTermMemoryAccess().getLong_short_term_memoryKeyword_0());
-		}
-		(
-			(
-				lv_name_1_0=RULE_ID
-				{
-					newLeafNode(lv_name_1_0, grammarAccess.getLongShortTermMemoryAccess().getNameIDTerminalRuleCall_1_0());
-				}
-				{
-					if ($current==null) {
-						$current = createModelElement(grammarAccess.getLongShortTermMemoryRule());
-					}
-					setWithLastConsumed(
-						$current,
-						"name",
-						lv_name_1_0,
-						"org.thingml.xtext.ThingML.ID");
-				}
-			)
-		)
-		otherlv_2='('
-		{
-			newLeafNode(otherlv_2, grammarAccess.getLongShortTermMemoryAccess().getLeftParenthesisKeyword_2());
-		}
-		(
-			otherlv_3='loss_function'
-			{
-				newLeafNode(otherlv_3, grammarAccess.getLongShortTermMemoryAccess().getLoss_functionKeyword_3_0());
-			}
-			(
-				(
-					{
-						newCompositeNode(grammarAccess.getLongShortTermMemoryAccess().getLoss_functionLossFunctionEnumRuleCall_3_1_0());
-					}
-					lv_loss_function_4_0=ruleLossFunction
-					{
-						if ($current==null) {
-							$current = createModelElementForParent(grammarAccess.getLongShortTermMemoryRule());
-						}
-						set(
-							$current,
-							"loss_function",
-							lv_loss_function_4_0,
-							"org.thingml.xtext.ThingML.LossFunction");
-						afterParserOrEnumRuleCall();
-					}
-				)
-			)
-		)?
-		(
-			otherlv_5=','
-			{
-				newLeafNode(otherlv_5, grammarAccess.getLongShortTermMemoryAccess().getCommaKeyword_4());
-			}
-		)?
-		(
-			otherlv_6='optimizer'
-			{
-				newLeafNode(otherlv_6, grammarAccess.getLongShortTermMemoryAccess().getOptimizerKeyword_5_0());
-			}
-			(
-				(
-					{
-						newCompositeNode(grammarAccess.getLongShortTermMemoryAccess().getOptimizerOptimizerEnumRuleCall_5_1_0());
-					}
-					lv_optimizer_7_0=ruleOptimizer
-					{
-						if ($current==null) {
-							$current = createModelElementForParent(grammarAccess.getLongShortTermMemoryRule());
-						}
-						set(
-							$current,
-							"optimizer",
-							lv_optimizer_7_0,
-							"org.thingml.xtext.ThingML.Optimizer");
-						afterParserOrEnumRuleCall();
-					}
-				)
-			)
-		)?
-		(
-			otherlv_8=','
-			{
-				newLeafNode(otherlv_8, grammarAccess.getLongShortTermMemoryAccess().getCommaKeyword_6());
-			}
-		)?
-		(
-			otherlv_9='learning_rate'
-			{
-				newLeafNode(otherlv_9, grammarAccess.getLongShortTermMemoryAccess().getLearning_rateKeyword_7_0());
-			}
-			(
-				(
-					lv_learning_rate_10_0=RULE_FLOAT
-					{
-						newLeafNode(lv_learning_rate_10_0, grammarAccess.getLongShortTermMemoryAccess().getLearning_rateFLOATTerminalRuleCall_7_1_0());
-					}
-					{
-						if ($current==null) {
-							$current = createModelElement(grammarAccess.getLongShortTermMemoryRule());
-						}
-						setWithLastConsumed(
-							$current,
-							"learning_rate",
-							lv_learning_rate_10_0,
-							"org.thingml.xtext.ThingML.FLOAT");
-					}
-				)
-			)
-		)?
-		otherlv_11=')'
-		{
-			newLeafNode(otherlv_11, grammarAccess.getLongShortTermMemoryAccess().getRightParenthesisKeyword_8());
 		}
 	)
 ;
@@ -5361,26 +5046,25 @@ ruleNN_MultilayerPerceptron returns [EObject current=null]
 			newLeafNode(otherlv_2, grammarAccess.getNN_MultilayerPerceptronAccess().getLeftParenthesisKeyword_2());
 		}
 		(
-			otherlv_3='loss_function'
+			otherlv_3='no_hidden_layers'
 			{
-				newLeafNode(otherlv_3, grammarAccess.getNN_MultilayerPerceptronAccess().getLoss_functionKeyword_3_0());
+				newLeafNode(otherlv_3, grammarAccess.getNN_MultilayerPerceptronAccess().getNo_hidden_layersKeyword_3_0());
 			}
 			(
 				(
+					lv_no_hidden_layers_4_0=RULE_INT
 					{
-						newCompositeNode(grammarAccess.getNN_MultilayerPerceptronAccess().getLoss_functionLossFunctionEnumRuleCall_3_1_0());
+						newLeafNode(lv_no_hidden_layers_4_0, grammarAccess.getNN_MultilayerPerceptronAccess().getNo_hidden_layersINTTerminalRuleCall_3_1_0());
 					}
-					lv_loss_function_4_0=ruleLossFunction
 					{
 						if ($current==null) {
-							$current = createModelElementForParent(grammarAccess.getNN_MultilayerPerceptronRule());
+							$current = createModelElement(grammarAccess.getNN_MultilayerPerceptronRule());
 						}
-						set(
+						setWithLastConsumed(
 							$current,
-							"loss_function",
-							lv_loss_function_4_0,
-							"org.thingml.xtext.ThingML.LossFunction");
-						afterParserOrEnumRuleCall();
+							"no_hidden_layers",
+							lv_no_hidden_layers_4_0,
+							"org.thingml.xtext.ThingML.INT");
 					}
 				)
 			)
@@ -5392,25 +5076,25 @@ ruleNN_MultilayerPerceptron returns [EObject current=null]
 			}
 		)?
 		(
-			otherlv_6='optimizer'
+			otherlv_6='activation'
 			{
-				newLeafNode(otherlv_6, grammarAccess.getNN_MultilayerPerceptronAccess().getOptimizerKeyword_5_0());
+				newLeafNode(otherlv_6, grammarAccess.getNN_MultilayerPerceptronAccess().getActivationKeyword_5_0());
 			}
 			(
 				(
 					{
-						newCompositeNode(grammarAccess.getNN_MultilayerPerceptronAccess().getOptimizerOptimizerEnumRuleCall_5_1_0());
+						newCompositeNode(grammarAccess.getNN_MultilayerPerceptronAccess().getActivationActivationEnumRuleCall_5_1_0());
 					}
-					lv_optimizer_7_0=ruleOptimizer
+					lv_activation_7_0=ruleActivation
 					{
 						if ($current==null) {
 							$current = createModelElementForParent(grammarAccess.getNN_MultilayerPerceptronRule());
 						}
 						set(
 							$current,
-							"optimizer",
-							lv_optimizer_7_0,
-							"org.thingml.xtext.ThingML.Optimizer");
+							"activation",
+							lv_activation_7_0,
+							"org.thingml.xtext.ThingML.Activation");
 						afterParserOrEnumRuleCall();
 					}
 				)
@@ -5423,25 +5107,26 @@ ruleNN_MultilayerPerceptron returns [EObject current=null]
 			}
 		)?
 		(
-			otherlv_9='learning_rate'
+			otherlv_9='optimizer'
 			{
-				newLeafNode(otherlv_9, grammarAccess.getNN_MultilayerPerceptronAccess().getLearning_rateKeyword_7_0());
+				newLeafNode(otherlv_9, grammarAccess.getNN_MultilayerPerceptronAccess().getOptimizerKeyword_7_0());
 			}
 			(
 				(
-					lv_learning_rate_10_0=RULE_FLOAT
 					{
-						newLeafNode(lv_learning_rate_10_0, grammarAccess.getNN_MultilayerPerceptronAccess().getLearning_rateFLOATTerminalRuleCall_7_1_0());
+						newCompositeNode(grammarAccess.getNN_MultilayerPerceptronAccess().getOptimizerOptimizerEnumRuleCall_7_1_0());
 					}
+					lv_optimizer_10_0=ruleOptimizer
 					{
 						if ($current==null) {
-							$current = createModelElement(grammarAccess.getNN_MultilayerPerceptronRule());
+							$current = createModelElementForParent(grammarAccess.getNN_MultilayerPerceptronRule());
 						}
-						setWithLastConsumed(
+						set(
 							$current,
-							"learning_rate",
-							lv_learning_rate_10_0,
-							"org.thingml.xtext.ThingML.FLOAT");
+							"optimizer",
+							lv_optimizer_10_0,
+							"org.thingml.xtext.ThingML.Optimizer");
+						afterParserOrEnumRuleCall();
 					}
 				)
 			)
@@ -5453,25 +5138,26 @@ ruleNN_MultilayerPerceptron returns [EObject current=null]
 			}
 		)?
 		(
-			otherlv_12='no_layers'
+			otherlv_12='loss'
 			{
-				newLeafNode(otherlv_12, grammarAccess.getNN_MultilayerPerceptronAccess().getNo_layersKeyword_9_0());
+				newLeafNode(otherlv_12, grammarAccess.getNN_MultilayerPerceptronAccess().getLossKeyword_9_0());
 			}
 			(
 				(
-					lv_no_layers_13_0=RULE_INT
 					{
-						newLeafNode(lv_no_layers_13_0, grammarAccess.getNN_MultilayerPerceptronAccess().getNo_layersINTTerminalRuleCall_9_1_0());
+						newCompositeNode(grammarAccess.getNN_MultilayerPerceptronAccess().getLossLossEnumRuleCall_9_1_0());
 					}
+					lv_loss_13_0=ruleLoss
 					{
 						if ($current==null) {
-							$current = createModelElement(grammarAccess.getNN_MultilayerPerceptronRule());
+							$current = createModelElementForParent(grammarAccess.getNN_MultilayerPerceptronRule());
 						}
-						setWithLastConsumed(
+						set(
 							$current,
-							"no_layers",
-							lv_no_layers_13_0,
-							"org.thingml.xtext.ThingML.INT");
+							"loss",
+							lv_loss_13_0,
+							"org.thingml.xtext.ThingML.Loss");
+						afterParserOrEnumRuleCall();
 					}
 				)
 			)
@@ -5483,15 +5169,15 @@ ruleNN_MultilayerPerceptron returns [EObject current=null]
 			}
 		)?
 		(
-			otherlv_15='dropout_probability'
+			otherlv_15='epochs'
 			{
-				newLeafNode(otherlv_15, grammarAccess.getNN_MultilayerPerceptronAccess().getDropout_probabilityKeyword_11_0());
+				newLeafNode(otherlv_15, grammarAccess.getNN_MultilayerPerceptronAccess().getEpochsKeyword_11_0());
 			}
 			(
 				(
-					lv_dropout_probability_16_0=RULE_FLOAT
+					lv_epochs_16_0=RULE_INT
 					{
-						newLeafNode(lv_dropout_probability_16_0, grammarAccess.getNN_MultilayerPerceptronAccess().getDropout_probabilityFLOATTerminalRuleCall_11_1_0());
+						newLeafNode(lv_epochs_16_0, grammarAccess.getNN_MultilayerPerceptronAccess().getEpochsINTTerminalRuleCall_11_1_0());
 					}
 					{
 						if ($current==null) {
@@ -5499,292 +5185,59 @@ ruleNN_MultilayerPerceptron returns [EObject current=null]
 						}
 						setWithLastConsumed(
 							$current,
-							"dropout_probability",
-							lv_dropout_probability_16_0,
-							"org.thingml.xtext.ThingML.FLOAT");
-					}
-				)
-			)
-		)?
-		otherlv_17=')'
-		{
-			newLeafNode(otherlv_17, grammarAccess.getNN_MultilayerPerceptronAccess().getRightParenthesisKeyword_12());
-		}
-	)
-;
-
-// Entry rule entryRuleDenoisingAutoencoders
-entryRuleDenoisingAutoencoders returns [EObject current=null]:
-	{ newCompositeNode(grammarAccess.getDenoisingAutoencodersRule()); }
-	iv_ruleDenoisingAutoencoders=ruleDenoisingAutoencoders
-	{ $current=$iv_ruleDenoisingAutoencoders.current; }
-	EOF;
-
-// Rule DenoisingAutoencoders
-ruleDenoisingAutoencoders returns [EObject current=null]
-@init {
-	enterRule();
-}
-@after {
-	leaveRule();
-}:
-	(
-		otherlv_0='denoising_autoencoders'
-		{
-			newLeafNode(otherlv_0, grammarAccess.getDenoisingAutoencodersAccess().getDenoising_autoencodersKeyword_0());
-		}
-		(
-			(
-				lv_name_1_0=RULE_ID
-				{
-					newLeafNode(lv_name_1_0, grammarAccess.getDenoisingAutoencodersAccess().getNameIDTerminalRuleCall_1_0());
-				}
-				{
-					if ($current==null) {
-						$current = createModelElement(grammarAccess.getDenoisingAutoencodersRule());
-					}
-					setWithLastConsumed(
-						$current,
-						"name",
-						lv_name_1_0,
-						"org.thingml.xtext.ThingML.ID");
-				}
-			)
-		)
-		otherlv_2='('
-		{
-			newLeafNode(otherlv_2, grammarAccess.getDenoisingAutoencodersAccess().getLeftParenthesisKeyword_2());
-		}
-		(
-			otherlv_3='loss_function'
-			{
-				newLeafNode(otherlv_3, grammarAccess.getDenoisingAutoencodersAccess().getLoss_functionKeyword_3_0());
-			}
-			(
-				(
-					{
-						newCompositeNode(grammarAccess.getDenoisingAutoencodersAccess().getLoss_functionLossFunctionEnumRuleCall_3_1_0());
-					}
-					lv_loss_function_4_0=ruleLossFunction
-					{
-						if ($current==null) {
-							$current = createModelElementForParent(grammarAccess.getDenoisingAutoencodersRule());
-						}
-						set(
-							$current,
-							"loss_function",
-							lv_loss_function_4_0,
-							"org.thingml.xtext.ThingML.LossFunction");
-						afterParserOrEnumRuleCall();
-					}
-				)
-			)
-		)?
-		(
-			otherlv_5=','
-			{
-				newLeafNode(otherlv_5, grammarAccess.getDenoisingAutoencodersAccess().getCommaKeyword_4());
-			}
-		)?
-		(
-			otherlv_6='optimizer'
-			{
-				newLeafNode(otherlv_6, grammarAccess.getDenoisingAutoencodersAccess().getOptimizerKeyword_5_0());
-			}
-			(
-				(
-					{
-						newCompositeNode(grammarAccess.getDenoisingAutoencodersAccess().getOptimizerOptimizerEnumRuleCall_5_1_0());
-					}
-					lv_optimizer_7_0=ruleOptimizer
-					{
-						if ($current==null) {
-							$current = createModelElementForParent(grammarAccess.getDenoisingAutoencodersRule());
-						}
-						set(
-							$current,
-							"optimizer",
-							lv_optimizer_7_0,
-							"org.thingml.xtext.ThingML.Optimizer");
-						afterParserOrEnumRuleCall();
-					}
-				)
-			)
-		)?
-		(
-			otherlv_8=','
-			{
-				newLeafNode(otherlv_8, grammarAccess.getDenoisingAutoencodersAccess().getCommaKeyword_6());
-			}
-		)?
-		(
-			otherlv_9='learning_rate'
-			{
-				newLeafNode(otherlv_9, grammarAccess.getDenoisingAutoencodersAccess().getLearning_rateKeyword_7_0());
-			}
-			(
-				(
-					lv_learning_rate_10_0=RULE_FLOAT
-					{
-						newLeafNode(lv_learning_rate_10_0, grammarAccess.getDenoisingAutoencodersAccess().getLearning_rateFLOATTerminalRuleCall_7_1_0());
-					}
-					{
-						if ($current==null) {
-							$current = createModelElement(grammarAccess.getDenoisingAutoencodersRule());
-						}
-						setWithLastConsumed(
-							$current,
-							"learning_rate",
-							lv_learning_rate_10_0,
-							"org.thingml.xtext.ThingML.FLOAT");
-					}
-				)
-			)
-		)?
-		(
-			otherlv_11=','
-			{
-				newLeafNode(otherlv_11, grammarAccess.getDenoisingAutoencodersAccess().getCommaKeyword_8());
-			}
-		)?
-		(
-			otherlv_12='sequence_length'
-			{
-				newLeafNode(otherlv_12, grammarAccess.getDenoisingAutoencodersAccess().getSequence_lengthKeyword_9_0());
-			}
-			(
-				(
-					lv_sequence_length_13_0=RULE_INT
-					{
-						newLeafNode(lv_sequence_length_13_0, grammarAccess.getDenoisingAutoencodersAccess().getSequence_lengthINTTerminalRuleCall_9_1_0());
-					}
-					{
-						if ($current==null) {
-							$current = createModelElement(grammarAccess.getDenoisingAutoencodersRule());
-						}
-						setWithLastConsumed(
-							$current,
-							"sequence_length",
-							lv_sequence_length_13_0,
+							"epochs",
+							lv_epochs_16_0,
 							"org.thingml.xtext.ThingML.INT");
 					}
 				)
 			)
 		)?
-		otherlv_14=')'
-		{
-			newLeafNode(otherlv_14, grammarAccess.getDenoisingAutoencodersAccess().getRightParenthesisKeyword_10());
-		}
-	)
-;
-
-// Entry rule entryRuleFactorialHiddenMarkovModel
-entryRuleFactorialHiddenMarkovModel returns [EObject current=null]:
-	{ newCompositeNode(grammarAccess.getFactorialHiddenMarkovModelRule()); }
-	iv_ruleFactorialHiddenMarkovModel=ruleFactorialHiddenMarkovModel
-	{ $current=$iv_ruleFactorialHiddenMarkovModel.current; }
-	EOF;
-
-// Rule FactorialHiddenMarkovModel
-ruleFactorialHiddenMarkovModel returns [EObject current=null]
-@init {
-	enterRule();
-}
-@after {
-	leaveRule();
-}:
-	(
-		otherlv_0='factorial_hidden_markov_model'
-		{
-			newLeafNode(otherlv_0, grammarAccess.getFactorialHiddenMarkovModelAccess().getFactorial_hidden_markov_modelKeyword_0());
-		}
 		(
-			(
-				lv_name_1_0=RULE_ID
-				{
-					newLeafNode(lv_name_1_0, grammarAccess.getFactorialHiddenMarkovModelAccess().getNameIDTerminalRuleCall_1_0());
-				}
-				{
-					if ($current==null) {
-						$current = createModelElement(grammarAccess.getFactorialHiddenMarkovModelRule());
-					}
-					setWithLastConsumed(
-						$current,
-						"name",
-						lv_name_1_0,
-						"org.thingml.xtext.ThingML.ID");
-				}
-			)
-		)
-		otherlv_2='('
-		{
-			newLeafNode(otherlv_2, grammarAccess.getFactorialHiddenMarkovModelAccess().getLeftParenthesisKeyword_2());
-		}
-		otherlv_3=')'
-		{
-			newLeafNode(otherlv_3, grammarAccess.getFactorialHiddenMarkovModelAccess().getRightParenthesisKeyword_3());
-		}
-	)
-;
-
-// Entry rule entryRuleCombinatorialOptimization
-entryRuleCombinatorialOptimization returns [EObject current=null]:
-	{ newCompositeNode(grammarAccess.getCombinatorialOptimizationRule()); }
-	iv_ruleCombinatorialOptimization=ruleCombinatorialOptimization
-	{ $current=$iv_ruleCombinatorialOptimization.current; }
-	EOF;
-
-// Rule CombinatorialOptimization
-ruleCombinatorialOptimization returns [EObject current=null]
-@init {
-	enterRule();
-}
-@after {
-	leaveRule();
-}:
-	(
-		otherlv_0='combinatorial_optimization'
-		{
-			newLeafNode(otherlv_0, grammarAccess.getCombinatorialOptimizationAccess().getCombinatorial_optimizationKeyword_0());
-		}
+			otherlv_17=','
+			{
+				newLeafNode(otherlv_17, grammarAccess.getNN_MultilayerPerceptronAccess().getCommaKeyword_12());
+			}
+		)?
 		(
+			otherlv_18='batch_size'
+			{
+				newLeafNode(otherlv_18, grammarAccess.getNN_MultilayerPerceptronAccess().getBatch_sizeKeyword_13_0());
+			}
 			(
-				lv_name_1_0=RULE_ID
-				{
-					newLeafNode(lv_name_1_0, grammarAccess.getCombinatorialOptimizationAccess().getNameIDTerminalRuleCall_1_0());
-				}
-				{
-					if ($current==null) {
-						$current = createModelElement(grammarAccess.getCombinatorialOptimizationRule());
+				(
+					lv_batch_size_19_0=RULE_INT
+					{
+						newLeafNode(lv_batch_size_19_0, grammarAccess.getNN_MultilayerPerceptronAccess().getBatch_sizeINTTerminalRuleCall_13_1_0());
 					}
-					setWithLastConsumed(
-						$current,
-						"name",
-						lv_name_1_0,
-						"org.thingml.xtext.ThingML.ID");
-				}
+					{
+						if ($current==null) {
+							$current = createModelElement(grammarAccess.getNN_MultilayerPerceptronRule());
+						}
+						setWithLastConsumed(
+							$current,
+							"batch_size",
+							lv_batch_size_19_0,
+							"org.thingml.xtext.ThingML.INT");
+					}
+				)
 			)
-		)
-		otherlv_2='('
+		)?
+		otherlv_20=')'
 		{
-			newLeafNode(otherlv_2, grammarAccess.getCombinatorialOptimizationAccess().getLeftParenthesisKeyword_2());
-		}
-		otherlv_3=')'
-		{
-			newLeafNode(otherlv_3, grammarAccess.getCombinatorialOptimizationAccess().getRightParenthesisKeyword_3());
+			newLeafNode(otherlv_20, grammarAccess.getNN_MultilayerPerceptronAccess().getRightParenthesisKeyword_14());
 		}
 	)
 ;
 
-// Entry rule entryRuleMinSamplesSplit
-entryRuleMinSamplesSplit returns [EObject current=null]:
-	{ newCompositeNode(grammarAccess.getMinSamplesSplitRule()); }
-	iv_ruleMinSamplesSplit=ruleMinSamplesSplit
-	{ $current=$iv_ruleMinSamplesSplit.current; }
+// Entry rule entryRuleMin_samples_split_type
+entryRuleMin_samples_split_type returns [String current=null]:
+	{ newCompositeNode(grammarAccess.getMin_samples_split_typeRule()); }
+	iv_ruleMin_samples_split_type=ruleMin_samples_split_type
+	{ $current=$iv_ruleMin_samples_split_type.current.getText(); }
 	EOF;
 
-// Rule MinSamplesSplit
-ruleMinSamplesSplit returns [EObject current=null]
+// Rule Min_samples_split_type
+ruleMin_samples_split_type returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()]
 @init {
 	enterRule();
 }
@@ -5794,12 +5247,18 @@ ruleMinSamplesSplit returns [EObject current=null]
 	(
 		this_INT_0=RULE_INT
 		{
-			newLeafNode(this_INT_0, grammarAccess.getMinSamplesSplitAccess().getINTTerminalRuleCall_0());
+			$current.merge(this_INT_0);
+		}
+		{
+			newLeafNode(this_INT_0, grammarAccess.getMin_samples_split_typeAccess().getINTTerminalRuleCall_0());
 		}
 		    |
 		this_FLOAT_1=RULE_FLOAT
 		{
-			newLeafNode(this_FLOAT_1, grammarAccess.getMinSamplesSplitAccess().getFLOATTerminalRuleCall_1());
+			$current.merge(this_FLOAT_1);
+		}
+		{
+			newLeafNode(this_FLOAT_1, grammarAccess.getMin_samples_split_typeAccess().getFLOATTerminalRuleCall_1());
 		}
 	)
 ;
@@ -9687,6 +9146,207 @@ ruleLabels returns [Enumerator current=null]
 	)
 ;
 
+// Rule DecisionTreeCriterion
+ruleDecisionTreeCriterion returns [Enumerator current=null]
+@init {
+	enterRule();
+}
+@after {
+	leaveRule();
+}:
+	(
+		(
+			enumLiteral_0='NO_IDEA'
+			{
+				$current = grammarAccess.getDecisionTreeCriterionAccess().getNO_IDEAEnumLiteralDeclaration_0().getEnumLiteral().getInstance();
+				newLeafNode(enumLiteral_0, grammarAccess.getDecisionTreeCriterionAccess().getNO_IDEAEnumLiteralDeclaration_0());
+			}
+		)
+		    |
+		(
+			enumLiteral_1='MSE'
+			{
+				$current = grammarAccess.getDecisionTreeCriterionAccess().getMSEEnumLiteralDeclaration_1().getEnumLiteral().getInstance();
+				newLeafNode(enumLiteral_1, grammarAccess.getDecisionTreeCriterionAccess().getMSEEnumLiteralDeclaration_1());
+			}
+		)
+		    |
+		(
+			enumLiteral_2='FRIEDMAN_MSE'
+			{
+				$current = grammarAccess.getDecisionTreeCriterionAccess().getFRIEDMAN_MSEEnumLiteralDeclaration_2().getEnumLiteral().getInstance();
+				newLeafNode(enumLiteral_2, grammarAccess.getDecisionTreeCriterionAccess().getFRIEDMAN_MSEEnumLiteralDeclaration_2());
+			}
+		)
+		    |
+		(
+			enumLiteral_3='MAE'
+			{
+				$current = grammarAccess.getDecisionTreeCriterionAccess().getMAEEnumLiteralDeclaration_3().getEnumLiteral().getInstance();
+				newLeafNode(enumLiteral_3, grammarAccess.getDecisionTreeCriterionAccess().getMAEEnumLiteralDeclaration_3());
+			}
+		)
+		    |
+		(
+			enumLiteral_4='GINI'
+			{
+				$current = grammarAccess.getDecisionTreeCriterionAccess().getGINIEnumLiteralDeclaration_4().getEnumLiteral().getInstance();
+				newLeafNode(enumLiteral_4, grammarAccess.getDecisionTreeCriterionAccess().getGINIEnumLiteralDeclaration_4());
+			}
+		)
+		    |
+		(
+			enumLiteral_5='ENTROPY'
+			{
+				$current = grammarAccess.getDecisionTreeCriterionAccess().getENTROPYEnumLiteralDeclaration_5().getEnumLiteral().getInstance();
+				newLeafNode(enumLiteral_5, grammarAccess.getDecisionTreeCriterionAccess().getENTROPYEnumLiteralDeclaration_5());
+			}
+		)
+	)
+;
+
+// Rule RandomForestCriterion
+ruleRandomForestCriterion returns [Enumerator current=null]
+@init {
+	enterRule();
+}
+@after {
+	leaveRule();
+}:
+	(
+		(
+			enumLiteral_0='NO_IDEA'
+			{
+				$current = grammarAccess.getRandomForestCriterionAccess().getNO_IDEAEnumLiteralDeclaration_0().getEnumLiteral().getInstance();
+				newLeafNode(enumLiteral_0, grammarAccess.getRandomForestCriterionAccess().getNO_IDEAEnumLiteralDeclaration_0());
+			}
+		)
+		    |
+		(
+			enumLiteral_1='MSE'
+			{
+				$current = grammarAccess.getRandomForestCriterionAccess().getMSEEnumLiteralDeclaration_1().getEnumLiteral().getInstance();
+				newLeafNode(enumLiteral_1, grammarAccess.getRandomForestCriterionAccess().getMSEEnumLiteralDeclaration_1());
+			}
+		)
+		    |
+		(
+			enumLiteral_2='MAE'
+			{
+				$current = grammarAccess.getRandomForestCriterionAccess().getMAEEnumLiteralDeclaration_2().getEnumLiteral().getInstance();
+				newLeafNode(enumLiteral_2, grammarAccess.getRandomForestCriterionAccess().getMAEEnumLiteralDeclaration_2());
+			}
+		)
+		    |
+		(
+			enumLiteral_3='GINI'
+			{
+				$current = grammarAccess.getRandomForestCriterionAccess().getGINIEnumLiteralDeclaration_3().getEnumLiteral().getInstance();
+				newLeafNode(enumLiteral_3, grammarAccess.getRandomForestCriterionAccess().getGINIEnumLiteralDeclaration_3());
+			}
+		)
+		    |
+		(
+			enumLiteral_4='ENTROPY'
+			{
+				$current = grammarAccess.getRandomForestCriterionAccess().getENTROPYEnumLiteralDeclaration_4().getEnumLiteral().getInstance();
+				newLeafNode(enumLiteral_4, grammarAccess.getRandomForestCriterionAccess().getENTROPYEnumLiteralDeclaration_4());
+			}
+		)
+	)
+;
+
+// Rule Activation
+ruleActivation returns [Enumerator current=null]
+@init {
+	enterRule();
+}
+@after {
+	leaveRule();
+}:
+	(
+		(
+			enumLiteral_0='NO_IDEA'
+			{
+				$current = grammarAccess.getActivationAccess().getNO_IDEAEnumLiteralDeclaration_0().getEnumLiteral().getInstance();
+				newLeafNode(enumLiteral_0, grammarAccess.getActivationAccess().getNO_IDEAEnumLiteralDeclaration_0());
+			}
+		)
+		    |
+		(
+			enumLiteral_1='relu'
+			{
+				$current = grammarAccess.getActivationAccess().getRELUEnumLiteralDeclaration_1().getEnumLiteral().getInstance();
+				newLeafNode(enumLiteral_1, grammarAccess.getActivationAccess().getRELUEnumLiteralDeclaration_1());
+			}
+		)
+		    |
+		(
+			enumLiteral_2='sigmoid'
+			{
+				$current = grammarAccess.getActivationAccess().getSIGMOIDEnumLiteralDeclaration_2().getEnumLiteral().getInstance();
+				newLeafNode(enumLiteral_2, grammarAccess.getActivationAccess().getSIGMOIDEnumLiteralDeclaration_2());
+			}
+		)
+		    |
+		(
+			enumLiteral_3='softmax'
+			{
+				$current = grammarAccess.getActivationAccess().getSOFTMAXEnumLiteralDeclaration_3().getEnumLiteral().getInstance();
+				newLeafNode(enumLiteral_3, grammarAccess.getActivationAccess().getSOFTMAXEnumLiteralDeclaration_3());
+			}
+		)
+		    |
+		(
+			enumLiteral_4='softplus'
+			{
+				$current = grammarAccess.getActivationAccess().getSOFTPLUSEnumLiteralDeclaration_4().getEnumLiteral().getInstance();
+				newLeafNode(enumLiteral_4, grammarAccess.getActivationAccess().getSOFTPLUSEnumLiteralDeclaration_4());
+			}
+		)
+		    |
+		(
+			enumLiteral_5='softsign'
+			{
+				$current = grammarAccess.getActivationAccess().getSOFTSIGNEnumLiteralDeclaration_5().getEnumLiteral().getInstance();
+				newLeafNode(enumLiteral_5, grammarAccess.getActivationAccess().getSOFTSIGNEnumLiteralDeclaration_5());
+			}
+		)
+		    |
+		(
+			enumLiteral_6='tanh'
+			{
+				$current = grammarAccess.getActivationAccess().getTANHEnumLiteralDeclaration_6().getEnumLiteral().getInstance();
+				newLeafNode(enumLiteral_6, grammarAccess.getActivationAccess().getTANHEnumLiteralDeclaration_6());
+			}
+		)
+		    |
+		(
+			enumLiteral_7='selu'
+			{
+				$current = grammarAccess.getActivationAccess().getSELUEnumLiteralDeclaration_7().getEnumLiteral().getInstance();
+				newLeafNode(enumLiteral_7, grammarAccess.getActivationAccess().getSELUEnumLiteralDeclaration_7());
+			}
+		)
+		    |
+		(
+			enumLiteral_8='elu'
+			{
+				$current = grammarAccess.getActivationAccess().getELUEnumLiteralDeclaration_8().getEnumLiteral().getInstance();
+				newLeafNode(enumLiteral_8, grammarAccess.getActivationAccess().getELUEnumLiteralDeclaration_8());
+			}
+		)
+		    |
+		(
+			enumLiteral_9='exponential'
+			{
+				$current = grammarAccess.getActivationAccess().getEXPONENTIALEnumLiteralDeclaration_9().getEnumLiteral().getInstance();
+				newLeafNode(enumLiteral_9, grammarAccess.getActivationAccess().getEXPONENTIALEnumLiteralDeclaration_9());
+			}
+		)
+	)
+;
+
 // Rule Optimizer
 ruleOptimizer returns [Enumerator current=null]
 @init {
@@ -9697,18 +9357,18 @@ ruleOptimizer returns [Enumerator current=null]
 }:
 	(
 		(
-			enumLiteral_0='Adam'
+			enumLiteral_0='NO_IDEA'
 			{
-				$current = grammarAccess.getOptimizerAccess().getADAMEnumLiteralDeclaration_0().getEnumLiteral().getInstance();
-				newLeafNode(enumLiteral_0, grammarAccess.getOptimizerAccess().getADAMEnumLiteralDeclaration_0());
+				$current = grammarAccess.getOptimizerAccess().getNO_IDEAEnumLiteralDeclaration_0().getEnumLiteral().getInstance();
+				newLeafNode(enumLiteral_0, grammarAccess.getOptimizerAccess().getNO_IDEAEnumLiteralDeclaration_0());
 			}
 		)
 		    |
 		(
-			enumLiteral_1='Nadam'
+			enumLiteral_1='SGD'
 			{
-				$current = grammarAccess.getOptimizerAccess().getNadamEnumLiteralDeclaration_1().getEnumLiteral().getInstance();
-				newLeafNode(enumLiteral_1, grammarAccess.getOptimizerAccess().getNadamEnumLiteralDeclaration_1());
+				$current = grammarAccess.getOptimizerAccess().getSGDEnumLiteralDeclaration_1().getEnumLiteral().getInstance();
+				newLeafNode(enumLiteral_1, grammarAccess.getOptimizerAccess().getSGDEnumLiteralDeclaration_1());
 			}
 		)
 		    |
@@ -9719,11 +9379,59 @@ ruleOptimizer returns [Enumerator current=null]
 				newLeafNode(enumLiteral_2, grammarAccess.getOptimizerAccess().getRMSPROPEnumLiteralDeclaration_2());
 			}
 		)
+		    |
+		(
+			enumLiteral_3='Adam'
+			{
+				$current = grammarAccess.getOptimizerAccess().getADAMEnumLiteralDeclaration_3().getEnumLiteral().getInstance();
+				newLeafNode(enumLiteral_3, grammarAccess.getOptimizerAccess().getADAMEnumLiteralDeclaration_3());
+			}
+		)
+		    |
+		(
+			enumLiteral_4='Adadelta'
+			{
+				$current = grammarAccess.getOptimizerAccess().getADADELTAEnumLiteralDeclaration_4().getEnumLiteral().getInstance();
+				newLeafNode(enumLiteral_4, grammarAccess.getOptimizerAccess().getADADELTAEnumLiteralDeclaration_4());
+			}
+		)
+		    |
+		(
+			enumLiteral_5='Adagrad'
+			{
+				$current = grammarAccess.getOptimizerAccess().getADAGRADEnumLiteralDeclaration_5().getEnumLiteral().getInstance();
+				newLeafNode(enumLiteral_5, grammarAccess.getOptimizerAccess().getADAGRADEnumLiteralDeclaration_5());
+			}
+		)
+		    |
+		(
+			enumLiteral_6='Adamax'
+			{
+				$current = grammarAccess.getOptimizerAccess().getADAMAXEnumLiteralDeclaration_6().getEnumLiteral().getInstance();
+				newLeafNode(enumLiteral_6, grammarAccess.getOptimizerAccess().getADAMAXEnumLiteralDeclaration_6());
+			}
+		)
+		    |
+		(
+			enumLiteral_7='Nadam'
+			{
+				$current = grammarAccess.getOptimizerAccess().getNADAMEnumLiteralDeclaration_7().getEnumLiteral().getInstance();
+				newLeafNode(enumLiteral_7, grammarAccess.getOptimizerAccess().getNADAMEnumLiteralDeclaration_7());
+			}
+		)
+		    |
+		(
+			enumLiteral_8='Ftrl'
+			{
+				$current = grammarAccess.getOptimizerAccess().getFTRLEnumLiteralDeclaration_8().getEnumLiteral().getInstance();
+				newLeafNode(enumLiteral_8, grammarAccess.getOptimizerAccess().getFTRLEnumLiteralDeclaration_8());
+			}
+		)
 	)
 ;
 
-// Rule LossFunction
-ruleLossFunction returns [Enumerator current=null]
+// Rule Loss
+ruleLoss returns [Enumerator current=null]
 @init {
 	enterRule();
 }
@@ -9732,26 +9440,34 @@ ruleLossFunction returns [Enumerator current=null]
 }:
 	(
 		(
-			enumLiteral_0='MSE'
+			enumLiteral_0='NO_IDEA'
 			{
-				$current = grammarAccess.getLossFunctionAccess().getMSEEnumLiteralDeclaration_0().getEnumLiteral().getInstance();
-				newLeafNode(enumLiteral_0, grammarAccess.getLossFunctionAccess().getMSEEnumLiteralDeclaration_0());
+				$current = grammarAccess.getLossAccess().getNO_IDEAEnumLiteralDeclaration_0().getEnumLiteral().getInstance();
+				newLeafNode(enumLiteral_0, grammarAccess.getLossAccess().getNO_IDEAEnumLiteralDeclaration_0());
 			}
 		)
 		    |
 		(
-			enumLiteral_1='FRIEDMAN_MSE'
+			enumLiteral_1='sparse_categorical_crossentropy'
 			{
-				$current = grammarAccess.getLossFunctionAccess().getFRIEDMAN_MSEEnumLiteralDeclaration_1().getEnumLiteral().getInstance();
-				newLeafNode(enumLiteral_1, grammarAccess.getLossFunctionAccess().getFRIEDMAN_MSEEnumLiteralDeclaration_1());
+				$current = grammarAccess.getLossAccess().getSPARSE_CATEGORICAL_CROSSENTROPYEnumLiteralDeclaration_1().getEnumLiteral().getInstance();
+				newLeafNode(enumLiteral_1, grammarAccess.getLossAccess().getSPARSE_CATEGORICAL_CROSSENTROPYEnumLiteralDeclaration_1());
 			}
 		)
 		    |
 		(
-			enumLiteral_2='MAE'
+			enumLiteral_2='categorical_crossentropy'
 			{
-				$current = grammarAccess.getLossFunctionAccess().getMAEEnumLiteralDeclaration_2().getEnumLiteral().getInstance();
-				newLeafNode(enumLiteral_2, grammarAccess.getLossFunctionAccess().getMAEEnumLiteralDeclaration_2());
+				$current = grammarAccess.getLossAccess().getCATEGORICAL_CROSSENTROPYEnumLiteralDeclaration_2().getEnumLiteral().getInstance();
+				newLeafNode(enumLiteral_2, grammarAccess.getLossAccess().getCATEGORICAL_CROSSENTROPYEnumLiteralDeclaration_2());
+			}
+		)
+		    |
+		(
+			enumLiteral_3='MSE'
+			{
+				$current = grammarAccess.getLossAccess().getMSEEnumLiteralDeclaration_3().getEnumLiteral().getInstance();
+				newLeafNode(enumLiteral_3, grammarAccess.getLossAccess().getMSEEnumLiteralDeclaration_3());
 			}
 		)
 	)

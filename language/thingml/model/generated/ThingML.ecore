@@ -187,50 +187,66 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ML2_ModelAlgorithm" eSuperTypes="#//DataAnalyticsModelAlgorithm"/>
   <eClassifiers xsi:type="ecore:EClass" name="DecisionTree" eSuperTypes="#//ML2_ModelAlgorithm">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lossFunction" eType="#//LossFunction"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="min_samples_split" eType="#//MinSamplesSplit"
-        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="decisionTreeCriterion"
+        eType="#//DecisionTreeCriterion"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="min_samples_split" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="RandomForest" eSuperTypes="#//ML2_ModelAlgorithm">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lossFunction" eType="#//LossFunction"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="min_samples_split" eType="#//MinSamplesSplit"
-        containment="true"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="GatedRecurrentUnits" eSuperTypes="#//ML2_ModelAlgorithm">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="loss_function" eType="#//LossFunction"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="optimizer" eType="#//Optimizer"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="learning_rate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="LongShortTermMemory" eSuperTypes="#//ML2_ModelAlgorithm">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="loss_function" eType="#//LossFunction"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="optimizer" eType="#//Optimizer"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="learning_rate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="randomForestCriterion"
+        eType="#//RandomForestCriterion"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="min_samples_split" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="NN_MultilayerPerceptron" eSuperTypes="#//ML2_ModelAlgorithm">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="loss_function" eType="#//LossFunction"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="no_hidden_layers" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="activation" eType="#//Activation"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="optimizer" eType="#//Optimizer"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="learning_rate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="no_layers" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dropout_probability" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="loss" eType="#//Loss"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="epochs" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="batch_size" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="DenoisingAutoencoders" eSuperTypes="#//ML2_ModelAlgorithm">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="loss_function" eType="#//LossFunction"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="optimizer" eType="#//Optimizer"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="learning_rate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sequence_length" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="DecisionTreeCriterion">
+    <eLiterals name="NO_IDEA" literal="NO_IDEA"/>
+    <eLiterals name="MSE" value="1" literal="MSE"/>
+    <eLiterals name="FRIEDMAN_MSE" value="2" literal="FRIEDMAN_MSE"/>
+    <eLiterals name="MAE" value="3" literal="MAE"/>
+    <eLiterals name="GINI" value="4" literal="GINI"/>
+    <eLiterals name="ENTROPY" value="5" literal="ENTROPY"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="FactorialHiddenMarkovModel" eSuperTypes="#//ML2_ModelAlgorithm"/>
-  <eClassifiers xsi:type="ecore:EClass" name="CombinatorialOptimization" eSuperTypes="#//ML2_ModelAlgorithm"/>
-  <eClassifiers xsi:type="ecore:EClass" name="MinSamplesSplit"/>
-  <eClassifiers xsi:type="ecore:EEnum" name="Optimizer">
-    <eLiterals name="ADAM" literal="Adam"/>
-    <eLiterals name="Nadam" value="1" literal="Nadam"/>
-    <eLiterals name="RMSPROP" value="2" literal="RMSprop"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EEnum" name="LossFunction">
-    <eLiterals name="MSE" literal="MSE"/>
-    <eLiterals name="FRIEDMAN_MSE" value="1" literal="FRIEDMAN_MSE"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="RandomForestCriterion">
+    <eLiterals name="NO_IDEA" literal="NO_IDEA"/>
+    <eLiterals name="MSE" value="1" literal="MSE"/>
     <eLiterals name="MAE" value="2" literal="MAE"/>
+    <eLiterals name="GINI" value="3" literal="GINI"/>
+    <eLiterals name="ENTROPY" value="4" literal="ENTROPY"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Activation">
+    <eLiterals name="NO_IDEA" literal="NO_IDEA"/>
+    <eLiterals name="RELU" value="1" literal="relu"/>
+    <eLiterals name="SIGMOID" value="2" literal="sigmoid"/>
+    <eLiterals name="SOFTMAX" value="3" literal="softmax"/>
+    <eLiterals name="SOFTPLUS" value="4" literal="softplus"/>
+    <eLiterals name="SOFTSIGN" value="5" literal="softsign"/>
+    <eLiterals name="TANH" value="6" literal="tanh"/>
+    <eLiterals name="SELU" value="7" literal="selu"/>
+    <eLiterals name="ELU" value="8" literal="elu"/>
+    <eLiterals name="EXPONENTIAL" value="9" literal="exponential"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Optimizer">
+    <eLiterals name="NO_IDEA" literal="NO_IDEA"/>
+    <eLiterals name="SGD" value="1" literal="SGD"/>
+    <eLiterals name="RMSPROP" value="2" literal="RMSprop"/>
+    <eLiterals name="ADAM" value="3" literal="Adam"/>
+    <eLiterals name="ADADELTA" value="4" literal="Adadelta"/>
+    <eLiterals name="ADAGRAD" value="5" literal="Adagrad"/>
+    <eLiterals name="ADAMAX" value="6" literal="Adamax"/>
+    <eLiterals name="NADAM" value="7" literal="Nadam"/>
+    <eLiterals name="FTRL" value="8" literal="Ftrl"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Loss">
+    <eLiterals name="NO_IDEA" literal="NO_IDEA"/>
+    <eLiterals name="SPARSE_CATEGORICAL_CROSSENTROPY" value="1" literal="sparse_categorical_crossentropy"/>
+    <eLiterals name="CATEGORICAL_CROSSENTROPY" value="2" literal="categorical_crossentropy"/>
+    <eLiterals name="MSE" value="3" literal="MSE"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Event" eSuperTypes="#//NamedElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="ReceiveMessage" eSuperTypes="#//Event">

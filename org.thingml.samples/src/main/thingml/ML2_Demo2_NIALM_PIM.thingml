@@ -190,25 +190,10 @@ thing NIALMDataAnalytics includes NIALMMsgs, TimerMsgs {
 		timestamps ON
 		labels ON
 		features aggregated_load, disaggregated_loads_1
-		////model_algorithm gated_recurrent_units my_gru(
-			////loss_function MSE, optimizer Adam, learning_rate 0.00001
-		////)
-		model_algorithm decision_tree my_dt()
+		//model_algorithm decision_tree my_dt()
+		model_algorithm nn_multilayer_perceptron my_nn_mlp()
 		training_results "data/training_da1.txt"		
 		prediction_results disaggregated_loads_1
-	}
-	
-	data_analytics da2 {
-		dataset "data/nialm.csv"
-		sequential TRUE
-		timestamps ON
-		labels ON
-		features aggregated_load, disaggregated_loads_2
-		model_algorithm long_short_term_memory my_lstm(
-			learning_rate 0.0000001
-		)
-		training_results "data/training_da2.txt"		
-		prediction_results disaggregated_loads_2
 	}
 
 	statechart NIALMDataAnalyticsBehavior init Preprocess {

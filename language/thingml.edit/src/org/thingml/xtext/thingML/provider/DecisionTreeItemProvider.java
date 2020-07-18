@@ -1,16 +1,17 @@
 /**
+ * *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ *  *
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ *  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
+ *  *
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
  */
@@ -23,15 +24,12 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 
-import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
 import org.thingml.xtext.thingML.DecisionTree;
-import org.thingml.xtext.thingML.ThingMLFactory;
 import org.thingml.xtext.thingML.ThingMLPackage;
 
 /**
@@ -62,25 +60,26 @@ public class DecisionTreeItemProvider extends ML2_ModelAlgorithmItemProvider {
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addLossFunctionPropertyDescriptor(object);
+			addDecisionTreeCriterionPropertyDescriptor(object);
+			addMin_samples_splitPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the Loss Function feature.
+	 * This adds a property descriptor for the Decision Tree Criterion feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addLossFunctionPropertyDescriptor(Object object) {
+	protected void addDecisionTreeCriterionPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_DecisionTree_lossFunction_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_DecisionTree_lossFunction_feature", "_UI_DecisionTree_type"),
-				 ThingMLPackage.Literals.DECISION_TREE__LOSS_FUNCTION,
+				 getString("_UI_DecisionTree_decisionTreeCriterion_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_DecisionTree_decisionTreeCriterion_feature", "_UI_DecisionTree_type"),
+				 ThingMLPackage.Literals.DECISION_TREE__DECISION_TREE_CRITERION,
 				 true,
 				 false,
 				 false,
@@ -90,33 +89,25 @@ public class DecisionTreeItemProvider extends ML2_ModelAlgorithmItemProvider {
 	}
 
 	/**
-	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
-	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
-	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
+	 * This adds a property descriptor for the Min samples split feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
-		if (childrenFeatures == null) {
-			super.getChildrenFeatures(object);
-			childrenFeatures.add(ThingMLPackage.Literals.DECISION_TREE__MIN_SAMPLES_SPLIT);
-		}
-		return childrenFeatures;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected EStructuralFeature getChildFeature(Object object, Object child) {
-		// Check the type of the specified child object and return the proper feature to use for
-		// adding (see {@link AddCommand}) it as a child.
-
-		return super.getChildFeature(object, child);
+	protected void addMin_samples_splitPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_DecisionTree_min_samples_split_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_DecisionTree_min_samples_split_feature", "_UI_DecisionTree_type"),
+				 ThingMLPackage.Literals.DECISION_TREE__MIN_SAMPLES_SPLIT,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
@@ -157,11 +148,9 @@ public class DecisionTreeItemProvider extends ML2_ModelAlgorithmItemProvider {
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(DecisionTree.class)) {
-			case ThingMLPackage.DECISION_TREE__LOSS_FUNCTION:
-				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
-				return;
+			case ThingMLPackage.DECISION_TREE__DECISION_TREE_CRITERION:
 			case ThingMLPackage.DECISION_TREE__MIN_SAMPLES_SPLIT:
-				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}
 		super.notifyChanged(notification);
@@ -177,11 +166,6 @@ public class DecisionTreeItemProvider extends ML2_ModelAlgorithmItemProvider {
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
-
-		newChildDescriptors.add
-			(createChildParameter
-				(ThingMLPackage.Literals.DECISION_TREE__MIN_SAMPLES_SPLIT,
-				 ThingMLFactory.eINSTANCE.createMinSamplesSplit()));
 	}
 
 }

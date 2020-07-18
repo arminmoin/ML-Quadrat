@@ -34,24 +34,24 @@ import org.eclipse.emf.common.util.Enumerator;
 public enum Optimizer implements Enumerator
 {
   /**
-	 * The '<em><b>ADAM</b></em>' literal object.
+	 * The '<em><b>NO IDEA</b></em>' literal object.
 	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @see #ADAM_VALUE
+	 * @see #NO_IDEA_VALUE
 	 * @generated
 	 * @ordered
 	 */
-  ADAM(0, "ADAM", "Adam"),
+  NO_IDEA(0, "NO_IDEA", "NO_IDEA"),
 
   /**
-	 * The '<em><b>Nadam</b></em>' literal object.
+	 * The '<em><b>SGD</b></em>' literal object.
 	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @see #NADAM_VALUE
+	 * @see #SGD_VALUE
 	 * @generated
 	 * @ordered
 	 */
-  NADAM(1, "Nadam", "Nadam"),
+  SGD(1, "SGD", "SGD"),
 
   /**
 	 * The '<em><b>RMSPROP</b></em>' literal object.
@@ -61,37 +61,97 @@ public enum Optimizer implements Enumerator
 	 * @generated
 	 * @ordered
 	 */
-  RMSPROP(2, "RMSPROP", "RMSprop");
+  RMSPROP(2, "RMSPROP", "RMSprop"),
 
   /**
-	 * The '<em><b>ADAM</b></em>' literal value.
+	 * The '<em><b>ADAM</b></em>' literal object.
 	 * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of '<em><b>ADAM</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
-	 * @see #ADAM
-	 * @model literal="Adam"
+	 * @see #ADAM_VALUE
 	 * @generated
 	 * @ordered
 	 */
-  public static final int ADAM_VALUE = 0;
+  ADAM(3, "ADAM", "Adam"),
 
   /**
-	 * The '<em><b>Nadam</b></em>' literal value.
+	 * The '<em><b>ADADELTA</b></em>' literal object.
 	 * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of '<em><b>Nadam</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
-	 * @see #NADAM
-	 * @model name="Nadam"
+	 * @see #ADADELTA_VALUE
 	 * @generated
 	 * @ordered
 	 */
-  public static final int NADAM_VALUE = 1;
+  ADADELTA(4, "ADADELTA", "Adadelta"),
+
+  /**
+	 * The '<em><b>ADAGRAD</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+	 * @see #ADAGRAD_VALUE
+	 * @generated
+	 * @ordered
+	 */
+  ADAGRAD(5, "ADAGRAD", "Adagrad"),
+
+  /**
+	 * The '<em><b>ADAMAX</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+	 * @see #ADAMAX_VALUE
+	 * @generated
+	 * @ordered
+	 */
+  ADAMAX(6, "ADAMAX", "Adamax"),
+
+  /**
+	 * The '<em><b>NADAM</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+	 * @see #NADAM_VALUE
+	 * @generated
+	 * @ordered
+	 */
+  NADAM(7, "NADAM", "Nadam"),
+
+  /**
+	 * The '<em><b>FTRL</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+	 * @see #FTRL_VALUE
+	 * @generated
+	 * @ordered
+	 */
+  FTRL(8, "FTRL", "Ftrl");
+
+  /**
+	 * The '<em><b>NO IDEA</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of '<em><b>NO IDEA</b></em>' literal object isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+	 * @see #NO_IDEA
+	 * @model
+	 * @generated
+	 * @ordered
+	 */
+  public static final int NO_IDEA_VALUE = 0;
+
+  /**
+	 * The '<em><b>SGD</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of '<em><b>SGD</b></em>' literal object isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+	 * @see #SGD
+	 * @model
+	 * @generated
+	 * @ordered
+	 */
+  public static final int SGD_VALUE = 1;
 
   /**
 	 * The '<em><b>RMSPROP</b></em>' literal value.
@@ -109,6 +169,96 @@ public enum Optimizer implements Enumerator
   public static final int RMSPROP_VALUE = 2;
 
   /**
+	 * The '<em><b>ADAM</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of '<em><b>ADAM</b></em>' literal object isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+	 * @see #ADAM
+	 * @model literal="Adam"
+	 * @generated
+	 * @ordered
+	 */
+  public static final int ADAM_VALUE = 3;
+
+  /**
+	 * The '<em><b>ADADELTA</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of '<em><b>ADADELTA</b></em>' literal object isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+	 * @see #ADADELTA
+	 * @model literal="Adadelta"
+	 * @generated
+	 * @ordered
+	 */
+  public static final int ADADELTA_VALUE = 4;
+
+  /**
+	 * The '<em><b>ADAGRAD</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of '<em><b>ADAGRAD</b></em>' literal object isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+	 * @see #ADAGRAD
+	 * @model literal="Adagrad"
+	 * @generated
+	 * @ordered
+	 */
+  public static final int ADAGRAD_VALUE = 5;
+
+  /**
+	 * The '<em><b>ADAMAX</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of '<em><b>ADAMAX</b></em>' literal object isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+	 * @see #ADAMAX
+	 * @model literal="Adamax"
+	 * @generated
+	 * @ordered
+	 */
+  public static final int ADAMAX_VALUE = 6;
+
+  /**
+	 * The '<em><b>NADAM</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of '<em><b>NADAM</b></em>' literal object isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+	 * @see #NADAM
+	 * @model literal="Nadam"
+	 * @generated
+	 * @ordered
+	 */
+  public static final int NADAM_VALUE = 7;
+
+  /**
+	 * The '<em><b>FTRL</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of '<em><b>FTRL</b></em>' literal object isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+	 * @see #FTRL
+	 * @model literal="Ftrl"
+	 * @generated
+	 * @ordered
+	 */
+  public static final int FTRL_VALUE = 8;
+
+  /**
 	 * An array of all the '<em><b>Optimizer</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -116,9 +266,15 @@ public enum Optimizer implements Enumerator
 	 */
   private static final Optimizer[] VALUES_ARRAY =
     new Optimizer[] {
-			ADAM,
-			NADAM,
+			NO_IDEA,
+			SGD,
 			RMSPROP,
+			ADAM,
+			ADADELTA,
+			ADAGRAD,
+			ADAMAX,
+			NADAM,
+			FTRL,
 		};
 
   /**
@@ -178,9 +334,15 @@ public enum Optimizer implements Enumerator
   public static Optimizer get(int value)
   {
 		switch (value) {
-			case ADAM_VALUE: return ADAM;
-			case NADAM_VALUE: return NADAM;
+			case NO_IDEA_VALUE: return NO_IDEA;
+			case SGD_VALUE: return SGD;
 			case RMSPROP_VALUE: return RMSPROP;
+			case ADAM_VALUE: return ADAM;
+			case ADADELTA_VALUE: return ADADELTA;
+			case ADAGRAD_VALUE: return ADAGRAD;
+			case ADAMAX_VALUE: return ADAMAX;
+			case NADAM_VALUE: return NADAM;
+			case FTRL_VALUE: return FTRL;
 		}
 		return null;
 	}

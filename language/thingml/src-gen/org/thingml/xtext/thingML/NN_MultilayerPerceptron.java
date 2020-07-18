@@ -26,11 +26,12 @@ package org.thingml.xtext.thingML;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link org.thingml.xtext.thingML.NN_MultilayerPerceptron#getLoss_function <em>Loss function</em>}</li>
+ *   <li>{@link org.thingml.xtext.thingML.NN_MultilayerPerceptron#getNo_hidden_layers <em>No hidden layers</em>}</li>
+ *   <li>{@link org.thingml.xtext.thingML.NN_MultilayerPerceptron#getActivation <em>Activation</em>}</li>
  *   <li>{@link org.thingml.xtext.thingML.NN_MultilayerPerceptron#getOptimizer <em>Optimizer</em>}</li>
- *   <li>{@link org.thingml.xtext.thingML.NN_MultilayerPerceptron#getLearning_rate <em>Learning rate</em>}</li>
- *   <li>{@link org.thingml.xtext.thingML.NN_MultilayerPerceptron#getNo_layers <em>No layers</em>}</li>
- *   <li>{@link org.thingml.xtext.thingML.NN_MultilayerPerceptron#getDropout_probability <em>Dropout probability</em>}</li>
+ *   <li>{@link org.thingml.xtext.thingML.NN_MultilayerPerceptron#getLoss <em>Loss</em>}</li>
+ *   <li>{@link org.thingml.xtext.thingML.NN_MultilayerPerceptron#getEpochs <em>Epochs</em>}</li>
+ *   <li>{@link org.thingml.xtext.thingML.NN_MultilayerPerceptron#getBatch_size <em>Batch size</em>}</li>
  * </ul>
  *
  * @see org.thingml.xtext.thingML.ThingMLPackage#getNN_MultilayerPerceptron()
@@ -40,33 +41,59 @@ package org.thingml.xtext.thingML;
 public interface NN_MultilayerPerceptron extends ML2_ModelAlgorithm
 {
   /**
-	 * Returns the value of the '<em><b>Loss function</b></em>' attribute.
-	 * The literals are from the enumeration {@link org.thingml.xtext.thingML.LossFunction}.
+	 * Returns the value of the '<em><b>No hidden layers</b></em>' attribute.
 	 * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Loss function</em>' attribute isn't clear,
+   * If the meaning of the '<em>No hidden layers</em>' attribute isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-	 * @return the value of the '<em>Loss function</em>' attribute.
-	 * @see org.thingml.xtext.thingML.LossFunction
-	 * @see #setLoss_function(LossFunction)
-	 * @see org.thingml.xtext.thingML.ThingMLPackage#getNN_MultilayerPerceptron_Loss_function()
+	 * @return the value of the '<em>No hidden layers</em>' attribute.
+	 * @see #setNo_hidden_layers(long)
+	 * @see org.thingml.xtext.thingML.ThingMLPackage#getNN_MultilayerPerceptron_No_hidden_layers()
 	 * @model
 	 * @generated
 	 */
-  LossFunction getLoss_function();
+  long getNo_hidden_layers();
 
   /**
-	 * Sets the value of the '{@link org.thingml.xtext.thingML.NN_MultilayerPerceptron#getLoss_function <em>Loss function</em>}' attribute.
+	 * Sets the value of the '{@link org.thingml.xtext.thingML.NN_MultilayerPerceptron#getNo_hidden_layers <em>No hidden layers</em>}' attribute.
 	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Loss function</em>' attribute.
-	 * @see org.thingml.xtext.thingML.LossFunction
-	 * @see #getLoss_function()
+	 * @param value the new value of the '<em>No hidden layers</em>' attribute.
+	 * @see #getNo_hidden_layers()
 	 * @generated
 	 */
-  void setLoss_function(LossFunction value);
+  void setNo_hidden_layers(long value);
+
+  /**
+	 * Returns the value of the '<em><b>Activation</b></em>' attribute.
+	 * The literals are from the enumeration {@link org.thingml.xtext.thingML.Activation}.
+	 * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Activation</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+	 * @return the value of the '<em>Activation</em>' attribute.
+	 * @see org.thingml.xtext.thingML.Activation
+	 * @see #setActivation(Activation)
+	 * @see org.thingml.xtext.thingML.ThingMLPackage#getNN_MultilayerPerceptron_Activation()
+	 * @model
+	 * @generated
+	 */
+  Activation getActivation();
+
+  /**
+	 * Sets the value of the '{@link org.thingml.xtext.thingML.NN_MultilayerPerceptron#getActivation <em>Activation</em>}' attribute.
+	 * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Activation</em>' attribute.
+	 * @see org.thingml.xtext.thingML.Activation
+	 * @see #getActivation()
+	 * @generated
+	 */
+  void setActivation(Activation value);
 
   /**
 	 * Returns the value of the '<em><b>Optimizer</b></em>' attribute.
@@ -98,81 +125,84 @@ public interface NN_MultilayerPerceptron extends ML2_ModelAlgorithm
   void setOptimizer(Optimizer value);
 
   /**
-	 * Returns the value of the '<em><b>Learning rate</b></em>' attribute.
+	 * Returns the value of the '<em><b>Loss</b></em>' attribute.
+	 * The literals are from the enumeration {@link org.thingml.xtext.thingML.Loss}.
 	 * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Learning rate</em>' attribute isn't clear,
+   * If the meaning of the '<em>Loss</em>' attribute isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-	 * @return the value of the '<em>Learning rate</em>' attribute.
-	 * @see #setLearning_rate(double)
-	 * @see org.thingml.xtext.thingML.ThingMLPackage#getNN_MultilayerPerceptron_Learning_rate()
+	 * @return the value of the '<em>Loss</em>' attribute.
+	 * @see org.thingml.xtext.thingML.Loss
+	 * @see #setLoss(Loss)
+	 * @see org.thingml.xtext.thingML.ThingMLPackage#getNN_MultilayerPerceptron_Loss()
 	 * @model
 	 * @generated
 	 */
-  double getLearning_rate();
+  Loss getLoss();
 
   /**
-	 * Sets the value of the '{@link org.thingml.xtext.thingML.NN_MultilayerPerceptron#getLearning_rate <em>Learning rate</em>}' attribute.
+	 * Sets the value of the '{@link org.thingml.xtext.thingML.NN_MultilayerPerceptron#getLoss <em>Loss</em>}' attribute.
 	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Learning rate</em>' attribute.
-	 * @see #getLearning_rate()
+	 * @param value the new value of the '<em>Loss</em>' attribute.
+	 * @see org.thingml.xtext.thingML.Loss
+	 * @see #getLoss()
 	 * @generated
 	 */
-  void setLearning_rate(double value);
+  void setLoss(Loss value);
 
   /**
-	 * Returns the value of the '<em><b>No layers</b></em>' attribute.
+	 * Returns the value of the '<em><b>Epochs</b></em>' attribute.
 	 * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>No layers</em>' attribute isn't clear,
+   * If the meaning of the '<em>Epochs</em>' attribute isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-	 * @return the value of the '<em>No layers</em>' attribute.
-	 * @see #setNo_layers(long)
-	 * @see org.thingml.xtext.thingML.ThingMLPackage#getNN_MultilayerPerceptron_No_layers()
+	 * @return the value of the '<em>Epochs</em>' attribute.
+	 * @see #setEpochs(long)
+	 * @see org.thingml.xtext.thingML.ThingMLPackage#getNN_MultilayerPerceptron_Epochs()
 	 * @model
 	 * @generated
 	 */
-  long getNo_layers();
+  long getEpochs();
 
   /**
-	 * Sets the value of the '{@link org.thingml.xtext.thingML.NN_MultilayerPerceptron#getNo_layers <em>No layers</em>}' attribute.
+	 * Sets the value of the '{@link org.thingml.xtext.thingML.NN_MultilayerPerceptron#getEpochs <em>Epochs</em>}' attribute.
 	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>No layers</em>' attribute.
-	 * @see #getNo_layers()
+	 * @param value the new value of the '<em>Epochs</em>' attribute.
+	 * @see #getEpochs()
 	 * @generated
 	 */
-  void setNo_layers(long value);
+  void setEpochs(long value);
 
   /**
-	 * Returns the value of the '<em><b>Dropout probability</b></em>' attribute.
+	 * Returns the value of the '<em><b>Batch size</b></em>' attribute.
 	 * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Dropout probability</em>' attribute isn't clear,
+   * If the meaning of the '<em>Batch size</em>' attribute isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-	 * @return the value of the '<em>Dropout probability</em>' attribute.
-	 * @see #setDropout_probability(double)
-	 * @see org.thingml.xtext.thingML.ThingMLPackage#getNN_MultilayerPerceptron_Dropout_probability()
+	 * @return the value of the '<em>Batch size</em>' attribute.
+	 * @see #setBatch_size(long)
+	 * @see org.thingml.xtext.thingML.ThingMLPackage#getNN_MultilayerPerceptron_Batch_size()
 	 * @model
 	 * @generated
 	 */
-  double getDropout_probability();
+  long getBatch_size();
 
   /**
-	 * Sets the value of the '{@link org.thingml.xtext.thingML.NN_MultilayerPerceptron#getDropout_probability <em>Dropout probability</em>}' attribute.
+	 * Sets the value of the '{@link org.thingml.xtext.thingML.NN_MultilayerPerceptron#getBatch_size <em>Batch size</em>}' attribute.
 	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Dropout probability</em>' attribute.
-	 * @see #getDropout_probability()
+	 * @param value the new value of the '<em>Batch size</em>' attribute.
+	 * @see #getBatch_size()
 	 * @generated
 	 */
-  void setDropout_probability(double value);
+  void setBatch_size(long value);
 
 } // NN_MultilayerPerceptron

@@ -27,6 +27,7 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.thingml.xtext.thingML.AbstractConnector;
 import org.thingml.xtext.thingML.Action;
 import org.thingml.xtext.thingML.ActionBlock;
+import org.thingml.xtext.thingML.Activation;
 import org.thingml.xtext.thingML.AndExpression;
 import org.thingml.xtext.thingML.AnnotatedElement;
 import org.thingml.xtext.thingML.ArrayIndex;
@@ -35,7 +36,6 @@ import org.thingml.xtext.thingML.BooleanLiteral;
 import org.thingml.xtext.thingML.ByteLiteral;
 import org.thingml.xtext.thingML.CastExpression;
 import org.thingml.xtext.thingML.CharLiteral;
-import org.thingml.xtext.thingML.CombinatorialOptimization;
 import org.thingml.xtext.thingML.CompositeState;
 import org.thingml.xtext.thingML.ConditionalAction;
 import org.thingml.xtext.thingML.ConfigPropertyAssign;
@@ -48,8 +48,8 @@ import org.thingml.xtext.thingML.DATrainAction;
 import org.thingml.xtext.thingML.DataAnalytics;
 import org.thingml.xtext.thingML.DataAnalyticsModelAlgorithm;
 import org.thingml.xtext.thingML.DecisionTree;
+import org.thingml.xtext.thingML.DecisionTreeCriterion;
 import org.thingml.xtext.thingML.Decrement;
-import org.thingml.xtext.thingML.DenoisingAutoencoders;
 import org.thingml.xtext.thingML.DivExpression;
 import org.thingml.xtext.thingML.DoubleLiteral;
 import org.thingml.xtext.thingML.EnumLiteralRef;
@@ -64,13 +64,11 @@ import org.thingml.xtext.thingML.ExpressionGroup;
 import org.thingml.xtext.thingML.ExternExpression;
 import org.thingml.xtext.thingML.ExternStatement;
 import org.thingml.xtext.thingML.ExternalConnector;
-import org.thingml.xtext.thingML.FactorialHiddenMarkovModel;
 import org.thingml.xtext.thingML.FinalState;
 import org.thingml.xtext.thingML.ForAction;
 import org.thingml.xtext.thingML.Function;
 import org.thingml.xtext.thingML.FunctionCallExpression;
 import org.thingml.xtext.thingML.FunctionCallStatement;
-import org.thingml.xtext.thingML.GatedRecurrentUnits;
 import org.thingml.xtext.thingML.GreaterExpression;
 import org.thingml.xtext.thingML.GreaterOrEqualExpression;
 import org.thingml.xtext.thingML.Handler;
@@ -83,15 +81,13 @@ import org.thingml.xtext.thingML.InternalTransition;
 import org.thingml.xtext.thingML.Labels;
 import org.thingml.xtext.thingML.Literal;
 import org.thingml.xtext.thingML.LocalVariable;
-import org.thingml.xtext.thingML.LongShortTermMemory;
 import org.thingml.xtext.thingML.LoopAction;
-import org.thingml.xtext.thingML.LossFunction;
+import org.thingml.xtext.thingML.Loss;
 import org.thingml.xtext.thingML.LowerExpression;
 import org.thingml.xtext.thingML.LowerOrEqualExpression;
 import org.thingml.xtext.thingML.ML2_ModelAlgorithm;
 import org.thingml.xtext.thingML.Message;
 import org.thingml.xtext.thingML.MessageParameter;
-import org.thingml.xtext.thingML.MinSamplesSplit;
 import org.thingml.xtext.thingML.MinusExpression;
 import org.thingml.xtext.thingML.ModExpression;
 import org.thingml.xtext.thingML.NN_MultilayerPerceptron;
@@ -115,6 +111,7 @@ import org.thingml.xtext.thingML.PropertyReference;
 import org.thingml.xtext.thingML.Protocol;
 import org.thingml.xtext.thingML.ProvidedPort;
 import org.thingml.xtext.thingML.RandomForest;
+import org.thingml.xtext.thingML.RandomForestCriterion;
 import org.thingml.xtext.thingML.ReceiveMessage;
 import org.thingml.xtext.thingML.Region;
 import org.thingml.xtext.thingML.RequiredPort;
@@ -432,49 +429,7 @@ public class ThingMLPackageImpl extends EPackageImpl implements ThingMLPackage
    * <!-- end-user-doc -->
 	 * @generated
 	 */
-  private EClass gatedRecurrentUnitsEClass = null;
-
-  /**
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @generated
-	 */
-  private EClass longShortTermMemoryEClass = null;
-
-  /**
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @generated
-	 */
   private EClass nN_MultilayerPerceptronEClass = null;
-
-  /**
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @generated
-	 */
-  private EClass denoisingAutoencodersEClass = null;
-
-  /**
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @generated
-	 */
-  private EClass factorialHiddenMarkovModelEClass = null;
-
-  /**
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @generated
-	 */
-  private EClass combinatorialOptimizationEClass = null;
-
-  /**
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @generated
-	 */
-  private EClass minSamplesSplitEClass = null;
 
   /**
 	 * <!-- begin-user-doc -->
@@ -922,6 +877,27 @@ public class ThingMLPackageImpl extends EPackageImpl implements ThingMLPackage
    * <!-- end-user-doc -->
 	 * @generated
 	 */
+  private EEnum decisionTreeCriterionEEnum = null;
+
+  /**
+	 * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+	 * @generated
+	 */
+  private EEnum randomForestCriterionEEnum = null;
+
+  /**
+	 * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+	 * @generated
+	 */
+  private EEnum activationEEnum = null;
+
+  /**
+	 * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+	 * @generated
+	 */
   private EEnum optimizerEEnum = null;
 
   /**
@@ -929,7 +905,7 @@ public class ThingMLPackageImpl extends EPackageImpl implements ThingMLPackage
    * <!-- end-user-doc -->
 	 * @generated
 	 */
-  private EEnum lossFunctionEEnum = null;
+  private EEnum lossEEnum = null;
 
   /**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -2155,7 +2131,7 @@ public class ThingMLPackageImpl extends EPackageImpl implements ThingMLPackage
 	 * @generated
 	 */
   @Override
-		public EAttribute getDecisionTree_LossFunction()
+		public EAttribute getDecisionTree_DecisionTreeCriterion()
   {
 		return (EAttribute)decisionTreeEClass.getEStructuralFeatures().get(0);
 	}
@@ -2166,9 +2142,9 @@ public class ThingMLPackageImpl extends EPackageImpl implements ThingMLPackage
 	 * @generated
 	 */
   @Override
-		public EReference getDecisionTree_Min_samples_split()
+		public EAttribute getDecisionTree_Min_samples_split()
   {
-		return (EReference)decisionTreeEClass.getEStructuralFeatures().get(1);
+		return (EAttribute)decisionTreeEClass.getEStructuralFeatures().get(1);
 	}
 
   /**
@@ -2188,7 +2164,7 @@ public class ThingMLPackageImpl extends EPackageImpl implements ThingMLPackage
 	 * @generated
 	 */
   @Override
-		public EAttribute getRandomForest_LossFunction()
+		public EAttribute getRandomForest_RandomForestCriterion()
   {
 		return (EAttribute)randomForestEClass.getEStructuralFeatures().get(0);
 	}
@@ -2199,97 +2175,9 @@ public class ThingMLPackageImpl extends EPackageImpl implements ThingMLPackage
 	 * @generated
 	 */
   @Override
-		public EReference getRandomForest_Min_samples_split()
+		public EAttribute getRandomForest_Min_samples_split()
   {
-		return (EReference)randomForestEClass.getEStructuralFeatures().get(1);
-	}
-
-  /**
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @generated
-	 */
-  @Override
-		public EClass getGatedRecurrentUnits()
-  {
-		return gatedRecurrentUnitsEClass;
-	}
-
-  /**
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @generated
-	 */
-  @Override
-		public EAttribute getGatedRecurrentUnits_Loss_function()
-  {
-		return (EAttribute)gatedRecurrentUnitsEClass.getEStructuralFeatures().get(0);
-	}
-
-  /**
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @generated
-	 */
-  @Override
-		public EAttribute getGatedRecurrentUnits_Optimizer()
-  {
-		return (EAttribute)gatedRecurrentUnitsEClass.getEStructuralFeatures().get(1);
-	}
-
-  /**
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @generated
-	 */
-  @Override
-		public EAttribute getGatedRecurrentUnits_Learning_rate()
-  {
-		return (EAttribute)gatedRecurrentUnitsEClass.getEStructuralFeatures().get(2);
-	}
-
-  /**
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @generated
-	 */
-  @Override
-		public EClass getLongShortTermMemory()
-  {
-		return longShortTermMemoryEClass;
-	}
-
-  /**
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @generated
-	 */
-  @Override
-		public EAttribute getLongShortTermMemory_Loss_function()
-  {
-		return (EAttribute)longShortTermMemoryEClass.getEStructuralFeatures().get(0);
-	}
-
-  /**
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @generated
-	 */
-  @Override
-		public EAttribute getLongShortTermMemory_Optimizer()
-  {
-		return (EAttribute)longShortTermMemoryEClass.getEStructuralFeatures().get(1);
-	}
-
-  /**
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @generated
-	 */
-  @Override
-		public EAttribute getLongShortTermMemory_Learning_rate()
-  {
-		return (EAttribute)longShortTermMemoryEClass.getEStructuralFeatures().get(2);
+		return (EAttribute)randomForestEClass.getEStructuralFeatures().get(1);
 	}
 
   /**
@@ -2309,7 +2197,7 @@ public class ThingMLPackageImpl extends EPackageImpl implements ThingMLPackage
 	 * @generated
 	 */
   @Override
-		public EAttribute getNN_MultilayerPerceptron_Loss_function()
+		public EAttribute getNN_MultilayerPerceptron_No_hidden_layers()
   {
 		return (EAttribute)nN_MultilayerPerceptronEClass.getEStructuralFeatures().get(0);
 	}
@@ -2320,7 +2208,7 @@ public class ThingMLPackageImpl extends EPackageImpl implements ThingMLPackage
 	 * @generated
 	 */
   @Override
-		public EAttribute getNN_MultilayerPerceptron_Optimizer()
+		public EAttribute getNN_MultilayerPerceptron_Activation()
   {
 		return (EAttribute)nN_MultilayerPerceptronEClass.getEStructuralFeatures().get(1);
 	}
@@ -2331,7 +2219,7 @@ public class ThingMLPackageImpl extends EPackageImpl implements ThingMLPackage
 	 * @generated
 	 */
   @Override
-		public EAttribute getNN_MultilayerPerceptron_Learning_rate()
+		public EAttribute getNN_MultilayerPerceptron_Optimizer()
   {
 		return (EAttribute)nN_MultilayerPerceptronEClass.getEStructuralFeatures().get(2);
 	}
@@ -2342,7 +2230,7 @@ public class ThingMLPackageImpl extends EPackageImpl implements ThingMLPackage
 	 * @generated
 	 */
   @Override
-		public EAttribute getNN_MultilayerPerceptron_No_layers()
+		public EAttribute getNN_MultilayerPerceptron_Loss()
   {
 		return (EAttribute)nN_MultilayerPerceptronEClass.getEStructuralFeatures().get(3);
 	}
@@ -2353,7 +2241,7 @@ public class ThingMLPackageImpl extends EPackageImpl implements ThingMLPackage
 	 * @generated
 	 */
   @Override
-		public EAttribute getNN_MultilayerPerceptron_Dropout_probability()
+		public EAttribute getNN_MultilayerPerceptron_Epochs()
   {
 		return (EAttribute)nN_MultilayerPerceptronEClass.getEStructuralFeatures().get(4);
 	}
@@ -2364,86 +2252,9 @@ public class ThingMLPackageImpl extends EPackageImpl implements ThingMLPackage
 	 * @generated
 	 */
   @Override
-		public EClass getDenoisingAutoencoders()
+		public EAttribute getNN_MultilayerPerceptron_Batch_size()
   {
-		return denoisingAutoencodersEClass;
-	}
-
-  /**
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @generated
-	 */
-  @Override
-		public EAttribute getDenoisingAutoencoders_Loss_function()
-  {
-		return (EAttribute)denoisingAutoencodersEClass.getEStructuralFeatures().get(0);
-	}
-
-  /**
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @generated
-	 */
-  @Override
-		public EAttribute getDenoisingAutoencoders_Optimizer()
-  {
-		return (EAttribute)denoisingAutoencodersEClass.getEStructuralFeatures().get(1);
-	}
-
-  /**
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @generated
-	 */
-  @Override
-		public EAttribute getDenoisingAutoencoders_Learning_rate()
-  {
-		return (EAttribute)denoisingAutoencodersEClass.getEStructuralFeatures().get(2);
-	}
-
-  /**
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @generated
-	 */
-  @Override
-		public EAttribute getDenoisingAutoencoders_Sequence_length()
-  {
-		return (EAttribute)denoisingAutoencodersEClass.getEStructuralFeatures().get(3);
-	}
-
-  /**
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @generated
-	 */
-  @Override
-		public EClass getFactorialHiddenMarkovModel()
-  {
-		return factorialHiddenMarkovModelEClass;
-	}
-
-  /**
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @generated
-	 */
-  @Override
-		public EClass getCombinatorialOptimization()
-  {
-		return combinatorialOptimizationEClass;
-	}
-
-  /**
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @generated
-	 */
-  @Override
-		public EClass getMinSamplesSplit()
-  {
-		return minSamplesSplitEClass;
+		return (EAttribute)nN_MultilayerPerceptronEClass.getEStructuralFeatures().get(5);
 	}
 
   /**
@@ -4278,6 +4089,39 @@ public class ThingMLPackageImpl extends EPackageImpl implements ThingMLPackage
 	 * @generated
 	 */
   @Override
+		public EEnum getDecisionTreeCriterion()
+  {
+		return decisionTreeCriterionEEnum;
+	}
+
+  /**
+	 * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+	 * @generated
+	 */
+  @Override
+		public EEnum getRandomForestCriterion()
+  {
+		return randomForestCriterionEEnum;
+	}
+
+  /**
+	 * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+	 * @generated
+	 */
+  @Override
+		public EEnum getActivation()
+  {
+		return activationEEnum;
+	}
+
+  /**
+	 * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+	 * @generated
+	 */
+  @Override
 		public EEnum getOptimizer()
   {
 		return optimizerEEnum;
@@ -4289,9 +4133,9 @@ public class ThingMLPackageImpl extends EPackageImpl implements ThingMLPackage
 	 * @generated
 	 */
   @Override
-		public EEnum getLossFunction()
+		public EEnum getLoss()
   {
-		return lossFunctionEEnum;
+		return lossEEnum;
 	}
 
   /**
@@ -4468,41 +4312,20 @@ public class ThingMLPackageImpl extends EPackageImpl implements ThingMLPackage
 		ml2_ModelAlgorithmEClass = createEClass(ML2_MODEL_ALGORITHM);
 
 		decisionTreeEClass = createEClass(DECISION_TREE);
-		createEAttribute(decisionTreeEClass, DECISION_TREE__LOSS_FUNCTION);
-		createEReference(decisionTreeEClass, DECISION_TREE__MIN_SAMPLES_SPLIT);
+		createEAttribute(decisionTreeEClass, DECISION_TREE__DECISION_TREE_CRITERION);
+		createEAttribute(decisionTreeEClass, DECISION_TREE__MIN_SAMPLES_SPLIT);
 
 		randomForestEClass = createEClass(RANDOM_FOREST);
-		createEAttribute(randomForestEClass, RANDOM_FOREST__LOSS_FUNCTION);
-		createEReference(randomForestEClass, RANDOM_FOREST__MIN_SAMPLES_SPLIT);
-
-		gatedRecurrentUnitsEClass = createEClass(GATED_RECURRENT_UNITS);
-		createEAttribute(gatedRecurrentUnitsEClass, GATED_RECURRENT_UNITS__LOSS_FUNCTION);
-		createEAttribute(gatedRecurrentUnitsEClass, GATED_RECURRENT_UNITS__OPTIMIZER);
-		createEAttribute(gatedRecurrentUnitsEClass, GATED_RECURRENT_UNITS__LEARNING_RATE);
-
-		longShortTermMemoryEClass = createEClass(LONG_SHORT_TERM_MEMORY);
-		createEAttribute(longShortTermMemoryEClass, LONG_SHORT_TERM_MEMORY__LOSS_FUNCTION);
-		createEAttribute(longShortTermMemoryEClass, LONG_SHORT_TERM_MEMORY__OPTIMIZER);
-		createEAttribute(longShortTermMemoryEClass, LONG_SHORT_TERM_MEMORY__LEARNING_RATE);
+		createEAttribute(randomForestEClass, RANDOM_FOREST__RANDOM_FOREST_CRITERION);
+		createEAttribute(randomForestEClass, RANDOM_FOREST__MIN_SAMPLES_SPLIT);
 
 		nN_MultilayerPerceptronEClass = createEClass(NN_MULTILAYER_PERCEPTRON);
-		createEAttribute(nN_MultilayerPerceptronEClass, NN_MULTILAYER_PERCEPTRON__LOSS_FUNCTION);
+		createEAttribute(nN_MultilayerPerceptronEClass, NN_MULTILAYER_PERCEPTRON__NO_HIDDEN_LAYERS);
+		createEAttribute(nN_MultilayerPerceptronEClass, NN_MULTILAYER_PERCEPTRON__ACTIVATION);
 		createEAttribute(nN_MultilayerPerceptronEClass, NN_MULTILAYER_PERCEPTRON__OPTIMIZER);
-		createEAttribute(nN_MultilayerPerceptronEClass, NN_MULTILAYER_PERCEPTRON__LEARNING_RATE);
-		createEAttribute(nN_MultilayerPerceptronEClass, NN_MULTILAYER_PERCEPTRON__NO_LAYERS);
-		createEAttribute(nN_MultilayerPerceptronEClass, NN_MULTILAYER_PERCEPTRON__DROPOUT_PROBABILITY);
-
-		denoisingAutoencodersEClass = createEClass(DENOISING_AUTOENCODERS);
-		createEAttribute(denoisingAutoencodersEClass, DENOISING_AUTOENCODERS__LOSS_FUNCTION);
-		createEAttribute(denoisingAutoencodersEClass, DENOISING_AUTOENCODERS__OPTIMIZER);
-		createEAttribute(denoisingAutoencodersEClass, DENOISING_AUTOENCODERS__LEARNING_RATE);
-		createEAttribute(denoisingAutoencodersEClass, DENOISING_AUTOENCODERS__SEQUENCE_LENGTH);
-
-		factorialHiddenMarkovModelEClass = createEClass(FACTORIAL_HIDDEN_MARKOV_MODEL);
-
-		combinatorialOptimizationEClass = createEClass(COMBINATORIAL_OPTIMIZATION);
-
-		minSamplesSplitEClass = createEClass(MIN_SAMPLES_SPLIT);
+		createEAttribute(nN_MultilayerPerceptronEClass, NN_MULTILAYER_PERCEPTRON__LOSS);
+		createEAttribute(nN_MultilayerPerceptronEClass, NN_MULTILAYER_PERCEPTRON__EPOCHS);
+		createEAttribute(nN_MultilayerPerceptronEClass, NN_MULTILAYER_PERCEPTRON__BATCH_SIZE);
 
 		eventEClass = createEClass(EVENT);
 
@@ -4731,8 +4554,11 @@ public class ThingMLPackageImpl extends EPackageImpl implements ThingMLPackage
 		sequentialEEnum = createEEnum(SEQUENTIAL);
 		timestampsEEnum = createEEnum(TIMESTAMPS);
 		labelsEEnum = createEEnum(LABELS);
+		decisionTreeCriterionEEnum = createEEnum(DECISION_TREE_CRITERION);
+		randomForestCriterionEEnum = createEEnum(RANDOM_FOREST_CRITERION);
+		activationEEnum = createEEnum(ACTIVATION);
 		optimizerEEnum = createEEnum(OPTIMIZER);
-		lossFunctionEEnum = createEEnum(LOSS_FUNCTION);
+		lossEEnum = createEEnum(LOSS);
 	}
 
   /**
@@ -4812,12 +4638,7 @@ public class ThingMLPackageImpl extends EPackageImpl implements ThingMLPackage
 		ml2_ModelAlgorithmEClass.getESuperTypes().add(this.getDataAnalyticsModelAlgorithm());
 		decisionTreeEClass.getESuperTypes().add(this.getML2_ModelAlgorithm());
 		randomForestEClass.getESuperTypes().add(this.getML2_ModelAlgorithm());
-		gatedRecurrentUnitsEClass.getESuperTypes().add(this.getML2_ModelAlgorithm());
-		longShortTermMemoryEClass.getESuperTypes().add(this.getML2_ModelAlgorithm());
 		nN_MultilayerPerceptronEClass.getESuperTypes().add(this.getML2_ModelAlgorithm());
-		denoisingAutoencodersEClass.getESuperTypes().add(this.getML2_ModelAlgorithm());
-		factorialHiddenMarkovModelEClass.getESuperTypes().add(this.getML2_ModelAlgorithm());
-		combinatorialOptimizationEClass.getESuperTypes().add(this.getML2_ModelAlgorithm());
 		eventEClass.getESuperTypes().add(this.getNamedElement());
 		receiveMessageEClass.getESuperTypes().add(this.getEvent());
 		actionBlockEClass.getESuperTypes().add(this.getAction());
@@ -5024,41 +4845,20 @@ public class ThingMLPackageImpl extends EPackageImpl implements ThingMLPackage
 		initEClass(ml2_ModelAlgorithmEClass, ML2_ModelAlgorithm.class, "ML2_ModelAlgorithm", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(decisionTreeEClass, DecisionTree.class, "DecisionTree", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getDecisionTree_LossFunction(), this.getLossFunction(), "lossFunction", null, 0, 1, DecisionTree.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getDecisionTree_Min_samples_split(), this.getMinSamplesSplit(), null, "min_samples_split", null, 0, 1, DecisionTree.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getDecisionTree_DecisionTreeCriterion(), this.getDecisionTreeCriterion(), "decisionTreeCriterion", null, 0, 1, DecisionTree.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getDecisionTree_Min_samples_split(), ecorePackage.getEString(), "min_samples_split", null, 0, 1, DecisionTree.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(randomForestEClass, RandomForest.class, "RandomForest", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getRandomForest_LossFunction(), this.getLossFunction(), "lossFunction", null, 0, 1, RandomForest.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getRandomForest_Min_samples_split(), this.getMinSamplesSplit(), null, "min_samples_split", null, 0, 1, RandomForest.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(gatedRecurrentUnitsEClass, GatedRecurrentUnits.class, "GatedRecurrentUnits", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getGatedRecurrentUnits_Loss_function(), this.getLossFunction(), "loss_function", null, 0, 1, GatedRecurrentUnits.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getGatedRecurrentUnits_Optimizer(), this.getOptimizer(), "optimizer", null, 0, 1, GatedRecurrentUnits.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getGatedRecurrentUnits_Learning_rate(), ecorePackage.getEDouble(), "learning_rate", null, 0, 1, GatedRecurrentUnits.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(longShortTermMemoryEClass, LongShortTermMemory.class, "LongShortTermMemory", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getLongShortTermMemory_Loss_function(), this.getLossFunction(), "loss_function", null, 0, 1, LongShortTermMemory.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getLongShortTermMemory_Optimizer(), this.getOptimizer(), "optimizer", null, 0, 1, LongShortTermMemory.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getLongShortTermMemory_Learning_rate(), ecorePackage.getEDouble(), "learning_rate", null, 0, 1, LongShortTermMemory.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRandomForest_RandomForestCriterion(), this.getRandomForestCriterion(), "randomForestCriterion", null, 0, 1, RandomForest.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRandomForest_Min_samples_split(), ecorePackage.getEString(), "min_samples_split", null, 0, 1, RandomForest.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(nN_MultilayerPerceptronEClass, NN_MultilayerPerceptron.class, "NN_MultilayerPerceptron", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getNN_MultilayerPerceptron_Loss_function(), this.getLossFunction(), "loss_function", null, 0, 1, NN_MultilayerPerceptron.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getNN_MultilayerPerceptron_No_hidden_layers(), ecorePackage.getELong(), "no_hidden_layers", null, 0, 1, NN_MultilayerPerceptron.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getNN_MultilayerPerceptron_Activation(), this.getActivation(), "activation", null, 0, 1, NN_MultilayerPerceptron.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getNN_MultilayerPerceptron_Optimizer(), this.getOptimizer(), "optimizer", null, 0, 1, NN_MultilayerPerceptron.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getNN_MultilayerPerceptron_Learning_rate(), ecorePackage.getEDouble(), "learning_rate", null, 0, 1, NN_MultilayerPerceptron.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getNN_MultilayerPerceptron_No_layers(), ecorePackage.getELong(), "no_layers", null, 0, 1, NN_MultilayerPerceptron.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getNN_MultilayerPerceptron_Dropout_probability(), ecorePackage.getEDouble(), "dropout_probability", null, 0, 1, NN_MultilayerPerceptron.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(denoisingAutoencodersEClass, DenoisingAutoencoders.class, "DenoisingAutoencoders", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getDenoisingAutoencoders_Loss_function(), this.getLossFunction(), "loss_function", null, 0, 1, DenoisingAutoencoders.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getDenoisingAutoencoders_Optimizer(), this.getOptimizer(), "optimizer", null, 0, 1, DenoisingAutoencoders.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getDenoisingAutoencoders_Learning_rate(), ecorePackage.getEDouble(), "learning_rate", null, 0, 1, DenoisingAutoencoders.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getDenoisingAutoencoders_Sequence_length(), ecorePackage.getELong(), "sequence_length", null, 0, 1, DenoisingAutoencoders.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(factorialHiddenMarkovModelEClass, FactorialHiddenMarkovModel.class, "FactorialHiddenMarkovModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEClass(combinatorialOptimizationEClass, CombinatorialOptimization.class, "CombinatorialOptimization", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEClass(minSamplesSplitEClass, MinSamplesSplit.class, "MinSamplesSplit", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getNN_MultilayerPerceptron_Loss(), this.getLoss(), "loss", null, 0, 1, NN_MultilayerPerceptron.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getNN_MultilayerPerceptron_Epochs(), ecorePackage.getELong(), "epochs", null, 0, 1, NN_MultilayerPerceptron.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getNN_MultilayerPerceptron_Batch_size(), ecorePackage.getELong(), "batch_size", null, 0, 1, NN_MultilayerPerceptron.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(eventEClass, Event.class, "Event", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -5296,15 +5096,49 @@ public class ThingMLPackageImpl extends EPackageImpl implements ThingMLPackage
 		addEEnumLiteral(labelsEEnum, Labels.ON);
 		addEEnumLiteral(labelsEEnum, Labels.OFF);
 
-		initEEnum(optimizerEEnum, Optimizer.class, "Optimizer");
-		addEEnumLiteral(optimizerEEnum, Optimizer.ADAM);
-		addEEnumLiteral(optimizerEEnum, Optimizer.NADAM);
-		addEEnumLiteral(optimizerEEnum, Optimizer.RMSPROP);
+		initEEnum(decisionTreeCriterionEEnum, DecisionTreeCriterion.class, "DecisionTreeCriterion");
+		addEEnumLiteral(decisionTreeCriterionEEnum, DecisionTreeCriterion.NO_IDEA);
+		addEEnumLiteral(decisionTreeCriterionEEnum, DecisionTreeCriterion.MSE);
+		addEEnumLiteral(decisionTreeCriterionEEnum, DecisionTreeCriterion.FRIEDMAN_MSE);
+		addEEnumLiteral(decisionTreeCriterionEEnum, DecisionTreeCriterion.MAE);
+		addEEnumLiteral(decisionTreeCriterionEEnum, DecisionTreeCriterion.GINI);
+		addEEnumLiteral(decisionTreeCriterionEEnum, DecisionTreeCriterion.ENTROPY);
 
-		initEEnum(lossFunctionEEnum, LossFunction.class, "LossFunction");
-		addEEnumLiteral(lossFunctionEEnum, LossFunction.MSE);
-		addEEnumLiteral(lossFunctionEEnum, LossFunction.FRIEDMAN_MSE);
-		addEEnumLiteral(lossFunctionEEnum, LossFunction.MAE);
+		initEEnum(randomForestCriterionEEnum, RandomForestCriterion.class, "RandomForestCriterion");
+		addEEnumLiteral(randomForestCriterionEEnum, RandomForestCriterion.NO_IDEA);
+		addEEnumLiteral(randomForestCriterionEEnum, RandomForestCriterion.MSE);
+		addEEnumLiteral(randomForestCriterionEEnum, RandomForestCriterion.MAE);
+		addEEnumLiteral(randomForestCriterionEEnum, RandomForestCriterion.GINI);
+		addEEnumLiteral(randomForestCriterionEEnum, RandomForestCriterion.ENTROPY);
+
+		initEEnum(activationEEnum, Activation.class, "Activation");
+		addEEnumLiteral(activationEEnum, Activation.NO_IDEA);
+		addEEnumLiteral(activationEEnum, Activation.RELU);
+		addEEnumLiteral(activationEEnum, Activation.SIGMOID);
+		addEEnumLiteral(activationEEnum, Activation.SOFTMAX);
+		addEEnumLiteral(activationEEnum, Activation.SOFTPLUS);
+		addEEnumLiteral(activationEEnum, Activation.SOFTSIGN);
+		addEEnumLiteral(activationEEnum, Activation.TANH);
+		addEEnumLiteral(activationEEnum, Activation.SELU);
+		addEEnumLiteral(activationEEnum, Activation.ELU);
+		addEEnumLiteral(activationEEnum, Activation.EXPONENTIAL);
+
+		initEEnum(optimizerEEnum, Optimizer.class, "Optimizer");
+		addEEnumLiteral(optimizerEEnum, Optimizer.NO_IDEA);
+		addEEnumLiteral(optimizerEEnum, Optimizer.SGD);
+		addEEnumLiteral(optimizerEEnum, Optimizer.RMSPROP);
+		addEEnumLiteral(optimizerEEnum, Optimizer.ADAM);
+		addEEnumLiteral(optimizerEEnum, Optimizer.ADADELTA);
+		addEEnumLiteral(optimizerEEnum, Optimizer.ADAGRAD);
+		addEEnumLiteral(optimizerEEnum, Optimizer.ADAMAX);
+		addEEnumLiteral(optimizerEEnum, Optimizer.NADAM);
+		addEEnumLiteral(optimizerEEnum, Optimizer.FTRL);
+
+		initEEnum(lossEEnum, Loss.class, "Loss");
+		addEEnumLiteral(lossEEnum, Loss.NO_IDEA);
+		addEEnumLiteral(lossEEnum, Loss.SPARSE_CATEGORICAL_CROSSENTROPY);
+		addEEnumLiteral(lossEEnum, Loss.CATEGORICAL_CROSSENTROPY);
+		addEEnumLiteral(lossEEnum, Loss.MSE);
 
 		// Create resource
 		createResource(eNS_URI);

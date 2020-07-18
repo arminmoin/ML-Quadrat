@@ -397,24 +397,6 @@ public interface ThingMLFactory extends EFactory
   RandomForest createRandomForest();
 
   /**
-	 * Returns a new object of class '<em>Gated Recurrent Units</em>'.
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Gated Recurrent Units</em>'.
-	 * @generated
-	 */
-  GatedRecurrentUnits createGatedRecurrentUnits();
-
-  /**
-	 * Returns a new object of class '<em>Long Short Term Memory</em>'.
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Long Short Term Memory</em>'.
-	 * @generated
-	 */
-  LongShortTermMemory createLongShortTermMemory();
-
-  /**
 	 * Returns a new object of class '<em>NN Multilayer Perceptron</em>'.
 	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -422,42 +404,6 @@ public interface ThingMLFactory extends EFactory
 	 * @generated
 	 */
   NN_MultilayerPerceptron createNN_MultilayerPerceptron();
-
-  /**
-	 * Returns a new object of class '<em>Denoising Autoencoders</em>'.
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Denoising Autoencoders</em>'.
-	 * @generated
-	 */
-  DenoisingAutoencoders createDenoisingAutoencoders();
-
-  /**
-	 * Returns a new object of class '<em>Factorial Hidden Markov Model</em>'.
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Factorial Hidden Markov Model</em>'.
-	 * @generated
-	 */
-  FactorialHiddenMarkovModel createFactorialHiddenMarkovModel();
-
-  /**
-	 * Returns a new object of class '<em>Combinatorial Optimization</em>'.
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Combinatorial Optimization</em>'.
-	 * @generated
-	 */
-  CombinatorialOptimization createCombinatorialOptimization();
-
-  /**
-	 * Returns a new object of class '<em>Min Samples Split</em>'.
-	 * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Min Samples Split</em>'.
-	 * @generated
-	 */
-  MinSamplesSplit createMinSamplesSplit();
 
   /**
 	 * Returns a new object of class '<em>Event</em>'.

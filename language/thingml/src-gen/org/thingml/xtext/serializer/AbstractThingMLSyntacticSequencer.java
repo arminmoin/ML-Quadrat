@@ -23,7 +23,6 @@ import org.eclipse.xtext.IGrammarAccess;
 import org.eclipse.xtext.RuleCall;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.serializer.analysis.GrammarAlias.AbstractElementAlias;
-import org.eclipse.xtext.serializer.analysis.GrammarAlias.AlternativeAlias;
 import org.eclipse.xtext.serializer.analysis.GrammarAlias.TokenAlias;
 import org.eclipse.xtext.serializer.analysis.ISyntacticSequencerPDAProvider.ISynNavigable;
 import org.eclipse.xtext.serializer.analysis.ISyntacticSequencerPDAProvider.ISynTransition;
@@ -35,16 +34,9 @@ public abstract class AbstractThingMLSyntacticSequencer extends AbstractSyntacti
 
 	protected ThingMLGrammarAccess grammarAccess;
 	protected AbstractElementAlias match_DecisionTree_CommaKeyword_4_q;
-	protected AbstractElementAlias match_DenoisingAutoencoders_CommaKeyword_4_q;
-	protected AbstractElementAlias match_DenoisingAutoencoders_CommaKeyword_6_q;
-	protected AbstractElementAlias match_DenoisingAutoencoders_CommaKeyword_8_q;
-	protected AbstractElementAlias match_GatedRecurrentUnits_CommaKeyword_4_q;
-	protected AbstractElementAlias match_GatedRecurrentUnits_CommaKeyword_6_q;
-	protected AbstractElementAlias match_LongShortTermMemory_CommaKeyword_4_q;
-	protected AbstractElementAlias match_LongShortTermMemory_CommaKeyword_6_q;
 	protected AbstractElementAlias match_Message_SemicolonKeyword_6_q;
-	protected AbstractElementAlias match_MinSamplesSplit_FLOATTerminalRuleCall_1_or_INTTerminalRuleCall_0;
 	protected AbstractElementAlias match_NN_MultilayerPerceptron_CommaKeyword_10_q;
+	protected AbstractElementAlias match_NN_MultilayerPerceptron_CommaKeyword_12_q;
 	protected AbstractElementAlias match_NN_MultilayerPerceptron_CommaKeyword_4_q;
 	protected AbstractElementAlias match_NN_MultilayerPerceptron_CommaKeyword_6_q;
 	protected AbstractElementAlias match_NN_MultilayerPerceptron_CommaKeyword_8_q;
@@ -57,16 +49,9 @@ public abstract class AbstractThingMLSyntacticSequencer extends AbstractSyntacti
 	protected void init(IGrammarAccess access) {
 		grammarAccess = (ThingMLGrammarAccess) access;
 		match_DecisionTree_CommaKeyword_4_q = new TokenAlias(false, true, grammarAccess.getDecisionTreeAccess().getCommaKeyword_4());
-		match_DenoisingAutoencoders_CommaKeyword_4_q = new TokenAlias(false, true, grammarAccess.getDenoisingAutoencodersAccess().getCommaKeyword_4());
-		match_DenoisingAutoencoders_CommaKeyword_6_q = new TokenAlias(false, true, grammarAccess.getDenoisingAutoencodersAccess().getCommaKeyword_6());
-		match_DenoisingAutoencoders_CommaKeyword_8_q = new TokenAlias(false, true, grammarAccess.getDenoisingAutoencodersAccess().getCommaKeyword_8());
-		match_GatedRecurrentUnits_CommaKeyword_4_q = new TokenAlias(false, true, grammarAccess.getGatedRecurrentUnitsAccess().getCommaKeyword_4());
-		match_GatedRecurrentUnits_CommaKeyword_6_q = new TokenAlias(false, true, grammarAccess.getGatedRecurrentUnitsAccess().getCommaKeyword_6());
-		match_LongShortTermMemory_CommaKeyword_4_q = new TokenAlias(false, true, grammarAccess.getLongShortTermMemoryAccess().getCommaKeyword_4());
-		match_LongShortTermMemory_CommaKeyword_6_q = new TokenAlias(false, true, grammarAccess.getLongShortTermMemoryAccess().getCommaKeyword_6());
 		match_Message_SemicolonKeyword_6_q = new TokenAlias(false, true, grammarAccess.getMessageAccess().getSemicolonKeyword_6());
-		match_MinSamplesSplit_FLOATTerminalRuleCall_1_or_INTTerminalRuleCall_0 = new AlternativeAlias(false, false, new TokenAlias(false, false, grammarAccess.getMinSamplesSplitAccess().getFLOATTerminalRuleCall_1()), new TokenAlias(false, false, grammarAccess.getMinSamplesSplitAccess().getINTTerminalRuleCall_0()));
 		match_NN_MultilayerPerceptron_CommaKeyword_10_q = new TokenAlias(false, true, grammarAccess.getNN_MultilayerPerceptronAccess().getCommaKeyword_10());
+		match_NN_MultilayerPerceptron_CommaKeyword_12_q = new TokenAlias(false, true, grammarAccess.getNN_MultilayerPerceptronAccess().getCommaKeyword_12());
 		match_NN_MultilayerPerceptron_CommaKeyword_4_q = new TokenAlias(false, true, grammarAccess.getNN_MultilayerPerceptronAccess().getCommaKeyword_4());
 		match_NN_MultilayerPerceptron_CommaKeyword_6_q = new TokenAlias(false, true, grammarAccess.getNN_MultilayerPerceptronAccess().getCommaKeyword_6());
 		match_NN_MultilayerPerceptron_CommaKeyword_8_q = new TokenAlias(false, true, grammarAccess.getNN_MultilayerPerceptronAccess().getCommaKeyword_8());
@@ -78,33 +63,9 @@ public abstract class AbstractThingMLSyntacticSequencer extends AbstractSyntacti
 	
 	@Override
 	protected String getUnassignedRuleCallToken(EObject semanticObject, RuleCall ruleCall, INode node) {
-		if (ruleCall.getRule() == grammarAccess.getFLOATRule())
-			return getFLOATToken(semanticObject, ruleCall, node);
-		else if (ruleCall.getRule() == grammarAccess.getINTRule())
-			return getINTToken(semanticObject, ruleCall, node);
 		return "";
 	}
 	
-	/**
-	 * terminal FLOAT returns ecore::EDouble :
-	 * ('0'..'9')+ '.' ('0'..'9')* (('e'|'E') ('+' | '-')? ('0'..'9')+)?
-	 * | '.' ('0'..'9')+ (('e'|'E') ('+' | '-')? ('0'..'9')+)?
-	 * | ('0'..'9')+ ('e'|'E') ('+' | '-')? ('0'..'9')+;
-	 */
-	protected String getFLOATToken(EObject semanticObject, RuleCall ruleCall, INode node) {
-		if (node != null)
-			return getTokenText(node);
-		return ".";
-	}
-	
-	/**
-	 * terminal INT returns ecore::ELong: ('0'..'9')+;
-	 */
-	protected String getINTToken(EObject semanticObject, RuleCall ruleCall, INode node) {
-		if (node != null)
-			return getTokenText(node);
-		return "";
-	}
 	
 	@Override
 	protected void emitUnassignedTokens(EObject semanticObject, ISynTransition transition, INode fromNode, INode toNode) {
@@ -114,26 +75,12 @@ public abstract class AbstractThingMLSyntacticSequencer extends AbstractSyntacti
 			List<INode> syntaxNodes = getNodesFor(transitionNodes, syntax);
 			if (match_DecisionTree_CommaKeyword_4_q.equals(syntax))
 				emit_DecisionTree_CommaKeyword_4_q(semanticObject, getLastNavigableState(), syntaxNodes);
-			else if (match_DenoisingAutoencoders_CommaKeyword_4_q.equals(syntax))
-				emit_DenoisingAutoencoders_CommaKeyword_4_q(semanticObject, getLastNavigableState(), syntaxNodes);
-			else if (match_DenoisingAutoencoders_CommaKeyword_6_q.equals(syntax))
-				emit_DenoisingAutoencoders_CommaKeyword_6_q(semanticObject, getLastNavigableState(), syntaxNodes);
-			else if (match_DenoisingAutoencoders_CommaKeyword_8_q.equals(syntax))
-				emit_DenoisingAutoencoders_CommaKeyword_8_q(semanticObject, getLastNavigableState(), syntaxNodes);
-			else if (match_GatedRecurrentUnits_CommaKeyword_4_q.equals(syntax))
-				emit_GatedRecurrentUnits_CommaKeyword_4_q(semanticObject, getLastNavigableState(), syntaxNodes);
-			else if (match_GatedRecurrentUnits_CommaKeyword_6_q.equals(syntax))
-				emit_GatedRecurrentUnits_CommaKeyword_6_q(semanticObject, getLastNavigableState(), syntaxNodes);
-			else if (match_LongShortTermMemory_CommaKeyword_4_q.equals(syntax))
-				emit_LongShortTermMemory_CommaKeyword_4_q(semanticObject, getLastNavigableState(), syntaxNodes);
-			else if (match_LongShortTermMemory_CommaKeyword_6_q.equals(syntax))
-				emit_LongShortTermMemory_CommaKeyword_6_q(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if (match_Message_SemicolonKeyword_6_q.equals(syntax))
 				emit_Message_SemicolonKeyword_6_q(semanticObject, getLastNavigableState(), syntaxNodes);
-			else if (match_MinSamplesSplit_FLOATTerminalRuleCall_1_or_INTTerminalRuleCall_0.equals(syntax))
-				emit_MinSamplesSplit_FLOATTerminalRuleCall_1_or_INTTerminalRuleCall_0(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if (match_NN_MultilayerPerceptron_CommaKeyword_10_q.equals(syntax))
 				emit_NN_MultilayerPerceptron_CommaKeyword_10_q(semanticObject, getLastNavigableState(), syntaxNodes);
+			else if (match_NN_MultilayerPerceptron_CommaKeyword_12_q.equals(syntax))
+				emit_NN_MultilayerPerceptron_CommaKeyword_12_q(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if (match_NN_MultilayerPerceptron_CommaKeyword_4_q.equals(syntax))
 				emit_NN_MultilayerPerceptron_CommaKeyword_4_q(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if (match_NN_MultilayerPerceptron_CommaKeyword_6_q.equals(syntax))
@@ -157,131 +104,12 @@ public abstract class AbstractThingMLSyntacticSequencer extends AbstractSyntacti
 	 *     ','?
 	 *
 	 * This ambiguous syntax occurs at:
-	 *     lossFunction=LossFunction (ambiguity) ')' (rule end)
-	 *     lossFunction=LossFunction (ambiguity) 'min_samples_split' min_samples_split=MinSamplesSplit
+	 *     decisionTreeCriterion=DecisionTreeCriterion (ambiguity) ')' (rule end)
+	 *     decisionTreeCriterion=DecisionTreeCriterion (ambiguity) 'min_samples_split' min_samples_split=Min_samples_split_type
 	 *     name=ID '(' (ambiguity) ')' (rule end)
-	 *     name=ID '(' (ambiguity) 'min_samples_split' min_samples_split=MinSamplesSplit
+	 *     name=ID '(' (ambiguity) 'min_samples_split' min_samples_split=Min_samples_split_type
 	 */
 	protected void emit_DecisionTree_CommaKeyword_4_q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
-		acceptNodes(transition, nodes);
-	}
-	
-	/**
-	 * Ambiguous syntax:
-	 *     ','?
-	 *
-	 * This ambiguous syntax occurs at:
-	 *     loss_function=LossFunction (ambiguity) ','? ','? ')' (rule end)
-	 *     loss_function=LossFunction (ambiguity) ','? ','? 'sequence_length' sequence_length=INT
-	 *     loss_function=LossFunction (ambiguity) ','? 'learning_rate' learning_rate=FLOAT
-	 *     loss_function=LossFunction (ambiguity) 'optimizer' optimizer=Optimizer
-	 *     name=ID '(' (ambiguity) ','? ','? ')' (rule end)
-	 *     name=ID '(' (ambiguity) ','? ','? 'sequence_length' sequence_length=INT
-	 *     name=ID '(' (ambiguity) ','? 'learning_rate' learning_rate=FLOAT
-	 *     name=ID '(' (ambiguity) 'optimizer' optimizer=Optimizer
-	 */
-	protected void emit_DenoisingAutoencoders_CommaKeyword_4_q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
-		acceptNodes(transition, nodes);
-	}
-	
-	/**
-	 * Ambiguous syntax:
-	 *     ','?
-	 *
-	 * This ambiguous syntax occurs at:
-	 *     loss_function=LossFunction ','? (ambiguity) ','? ')' (rule end)
-	 *     loss_function=LossFunction ','? (ambiguity) ','? 'sequence_length' sequence_length=INT
-	 *     loss_function=LossFunction ','? (ambiguity) 'learning_rate' learning_rate=FLOAT
-	 *     name=ID '(' ','? (ambiguity) ','? ')' (rule end)
-	 *     name=ID '(' ','? (ambiguity) ','? 'sequence_length' sequence_length=INT
-	 *     name=ID '(' ','? (ambiguity) 'learning_rate' learning_rate=FLOAT
-	 *     optimizer=Optimizer (ambiguity) ','? ')' (rule end)
-	 *     optimizer=Optimizer (ambiguity) ','? 'sequence_length' sequence_length=INT
-	 *     optimizer=Optimizer (ambiguity) 'learning_rate' learning_rate=FLOAT
-	 */
-	protected void emit_DenoisingAutoencoders_CommaKeyword_6_q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
-		acceptNodes(transition, nodes);
-	}
-	
-	/**
-	 * Ambiguous syntax:
-	 *     ','?
-	 *
-	 * This ambiguous syntax occurs at:
-	 *     learning_rate=FLOAT (ambiguity) ')' (rule end)
-	 *     learning_rate=FLOAT (ambiguity) 'sequence_length' sequence_length=INT
-	 *     loss_function=LossFunction ','? ','? (ambiguity) ')' (rule end)
-	 *     loss_function=LossFunction ','? ','? (ambiguity) 'sequence_length' sequence_length=INT
-	 *     name=ID '(' ','? ','? (ambiguity) ')' (rule end)
-	 *     name=ID '(' ','? ','? (ambiguity) 'sequence_length' sequence_length=INT
-	 *     optimizer=Optimizer ','? (ambiguity) ')' (rule end)
-	 *     optimizer=Optimizer ','? (ambiguity) 'sequence_length' sequence_length=INT
-	 */
-	protected void emit_DenoisingAutoencoders_CommaKeyword_8_q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
-		acceptNodes(transition, nodes);
-	}
-	
-	/**
-	 * Ambiguous syntax:
-	 *     ','?
-	 *
-	 * This ambiguous syntax occurs at:
-	 *     loss_function=LossFunction (ambiguity) ','? ')' (rule end)
-	 *     loss_function=LossFunction (ambiguity) ','? 'learning_rate' learning_rate=FLOAT
-	 *     loss_function=LossFunction (ambiguity) 'optimizer' optimizer=Optimizer
-	 *     name=ID '(' (ambiguity) ','? ')' (rule end)
-	 *     name=ID '(' (ambiguity) ','? 'learning_rate' learning_rate=FLOAT
-	 *     name=ID '(' (ambiguity) 'optimizer' optimizer=Optimizer
-	 */
-	protected void emit_GatedRecurrentUnits_CommaKeyword_4_q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
-		acceptNodes(transition, nodes);
-	}
-	
-	/**
-	 * Ambiguous syntax:
-	 *     ','?
-	 *
-	 * This ambiguous syntax occurs at:
-	 *     loss_function=LossFunction ','? (ambiguity) ')' (rule end)
-	 *     loss_function=LossFunction ','? (ambiguity) 'learning_rate' learning_rate=FLOAT
-	 *     name=ID '(' ','? (ambiguity) ')' (rule end)
-	 *     name=ID '(' ','? (ambiguity) 'learning_rate' learning_rate=FLOAT
-	 *     optimizer=Optimizer (ambiguity) ')' (rule end)
-	 *     optimizer=Optimizer (ambiguity) 'learning_rate' learning_rate=FLOAT
-	 */
-	protected void emit_GatedRecurrentUnits_CommaKeyword_6_q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
-		acceptNodes(transition, nodes);
-	}
-	
-	/**
-	 * Ambiguous syntax:
-	 *     ','?
-	 *
-	 * This ambiguous syntax occurs at:
-	 *     loss_function=LossFunction (ambiguity) ','? ')' (rule end)
-	 *     loss_function=LossFunction (ambiguity) ','? 'learning_rate' learning_rate=FLOAT
-	 *     loss_function=LossFunction (ambiguity) 'optimizer' optimizer=Optimizer
-	 *     name=ID '(' (ambiguity) ','? ')' (rule end)
-	 *     name=ID '(' (ambiguity) ','? 'learning_rate' learning_rate=FLOAT
-	 *     name=ID '(' (ambiguity) 'optimizer' optimizer=Optimizer
-	 */
-	protected void emit_LongShortTermMemory_CommaKeyword_4_q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
-		acceptNodes(transition, nodes);
-	}
-	
-	/**
-	 * Ambiguous syntax:
-	 *     ','?
-	 *
-	 * This ambiguous syntax occurs at:
-	 *     loss_function=LossFunction ','? (ambiguity) ')' (rule end)
-	 *     loss_function=LossFunction ','? (ambiguity) 'learning_rate' learning_rate=FLOAT
-	 *     name=ID '(' ','? (ambiguity) ')' (rule end)
-	 *     name=ID '(' ','? (ambiguity) 'learning_rate' learning_rate=FLOAT
-	 *     optimizer=Optimizer (ambiguity) ')' (rule end)
-	 *     optimizer=Optimizer (ambiguity) 'learning_rate' learning_rate=FLOAT
-	 */
-	protected void emit_LongShortTermMemory_CommaKeyword_6_q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
 		acceptNodes(transition, nodes);
 	}
 	
@@ -300,30 +128,24 @@ public abstract class AbstractThingMLSyntacticSequencer extends AbstractSyntacti
 	
 	/**
 	 * Ambiguous syntax:
-	 *     INT | FLOAT
-	 *
-	 * This ambiguous syntax occurs at:
-	 *     (rule start) (ambiguity) (rule start)
-	 */
-	protected void emit_MinSamplesSplit_FLOATTerminalRuleCall_1_or_INTTerminalRuleCall_0(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
-		acceptNodes(transition, nodes);
-	}
-	
-	/**
-	 * Ambiguous syntax:
 	 *     ','?
 	 *
 	 * This ambiguous syntax occurs at:
-	 *     learning_rate=FLOAT ','? (ambiguity) ')' (rule end)
-	 *     learning_rate=FLOAT ','? (ambiguity) 'dropout_probability' dropout_probability=FLOAT
-	 *     loss_function=LossFunction ','? ','? ','? (ambiguity) ')' (rule end)
-	 *     loss_function=LossFunction ','? ','? ','? (ambiguity) 'dropout_probability' dropout_probability=FLOAT
-	 *     name=ID '(' ','? ','? ','? (ambiguity) ')' (rule end)
-	 *     name=ID '(' ','? ','? ','? (ambiguity) 'dropout_probability' dropout_probability=FLOAT
-	 *     no_layers=INT (ambiguity) ')' (rule end)
-	 *     no_layers=INT (ambiguity) 'dropout_probability' dropout_probability=FLOAT
-	 *     optimizer=Optimizer ','? ','? (ambiguity) ')' (rule end)
-	 *     optimizer=Optimizer ','? ','? (ambiguity) 'dropout_probability' dropout_probability=FLOAT
+	 *     activation=Activation ','? ','? (ambiguity) ','? ')' (rule end)
+	 *     activation=Activation ','? ','? (ambiguity) ','? 'batch_size' batch_size=INT
+	 *     activation=Activation ','? ','? (ambiguity) 'epochs' epochs=INT
+	 *     loss=Loss (ambiguity) ','? ')' (rule end)
+	 *     loss=Loss (ambiguity) ','? 'batch_size' batch_size=INT
+	 *     loss=Loss (ambiguity) 'epochs' epochs=INT
+	 *     name=ID '(' ','? ','? ','? (ambiguity) ','? ')' (rule end)
+	 *     name=ID '(' ','? ','? ','? (ambiguity) ','? 'batch_size' batch_size=INT
+	 *     name=ID '(' ','? ','? ','? (ambiguity) 'epochs' epochs=INT
+	 *     no_hidden_layers=INT ','? ','? ','? (ambiguity) ','? ')' (rule end)
+	 *     no_hidden_layers=INT ','? ','? ','? (ambiguity) ','? 'batch_size' batch_size=INT
+	 *     no_hidden_layers=INT ','? ','? ','? (ambiguity) 'epochs' epochs=INT
+	 *     optimizer=Optimizer ','? (ambiguity) ','? ')' (rule end)
+	 *     optimizer=Optimizer ','? (ambiguity) ','? 'batch_size' batch_size=INT
+	 *     optimizer=Optimizer ','? (ambiguity) 'epochs' epochs=INT
 	 */
 	protected void emit_NN_MultilayerPerceptron_CommaKeyword_10_q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
 		acceptNodes(transition, nodes);
@@ -334,16 +156,40 @@ public abstract class AbstractThingMLSyntacticSequencer extends AbstractSyntacti
 	 *     ','?
 	 *
 	 * This ambiguous syntax occurs at:
-	 *     loss_function=LossFunction (ambiguity) ','? ','? ','? ')' (rule end)
-	 *     loss_function=LossFunction (ambiguity) ','? ','? ','? 'dropout_probability' dropout_probability=FLOAT
-	 *     loss_function=LossFunction (ambiguity) ','? ','? 'no_layers' no_layers=INT
-	 *     loss_function=LossFunction (ambiguity) ','? 'learning_rate' learning_rate=FLOAT
-	 *     loss_function=LossFunction (ambiguity) 'optimizer' optimizer=Optimizer
-	 *     name=ID '(' (ambiguity) ','? ','? ','? ')' (rule end)
-	 *     name=ID '(' (ambiguity) ','? ','? ','? 'dropout_probability' dropout_probability=FLOAT
-	 *     name=ID '(' (ambiguity) ','? ','? 'no_layers' no_layers=INT
-	 *     name=ID '(' (ambiguity) ','? 'learning_rate' learning_rate=FLOAT
-	 *     name=ID '(' (ambiguity) 'optimizer' optimizer=Optimizer
+	 *     activation=Activation ','? ','? ','? (ambiguity) ')' (rule end)
+	 *     activation=Activation ','? ','? ','? (ambiguity) 'batch_size' batch_size=INT
+	 *     epochs=INT (ambiguity) ')' (rule end)
+	 *     epochs=INT (ambiguity) 'batch_size' batch_size=INT
+	 *     loss=Loss ','? (ambiguity) ')' (rule end)
+	 *     loss=Loss ','? (ambiguity) 'batch_size' batch_size=INT
+	 *     name=ID '(' ','? ','? ','? ','? (ambiguity) ')' (rule end)
+	 *     name=ID '(' ','? ','? ','? ','? (ambiguity) 'batch_size' batch_size=INT
+	 *     no_hidden_layers=INT ','? ','? ','? ','? (ambiguity) ')' (rule end)
+	 *     no_hidden_layers=INT ','? ','? ','? ','? (ambiguity) 'batch_size' batch_size=INT
+	 *     optimizer=Optimizer ','? ','? (ambiguity) ')' (rule end)
+	 *     optimizer=Optimizer ','? ','? (ambiguity) 'batch_size' batch_size=INT
+	 */
+	protected void emit_NN_MultilayerPerceptron_CommaKeyword_12_q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
+		acceptNodes(transition, nodes);
+	}
+	
+	/**
+	 * Ambiguous syntax:
+	 *     ','?
+	 *
+	 * This ambiguous syntax occurs at:
+	 *     name=ID '(' (ambiguity) ','? ','? ','? ','? ')' (rule end)
+	 *     name=ID '(' (ambiguity) ','? ','? ','? ','? 'batch_size' batch_size=INT
+	 *     name=ID '(' (ambiguity) ','? ','? ','? 'epochs' epochs=INT
+	 *     name=ID '(' (ambiguity) ','? ','? 'loss' loss=Loss
+	 *     name=ID '(' (ambiguity) ','? 'optimizer' optimizer=Optimizer
+	 *     name=ID '(' (ambiguity) 'activation' activation=Activation
+	 *     no_hidden_layers=INT (ambiguity) ','? ','? ','? ','? ')' (rule end)
+	 *     no_hidden_layers=INT (ambiguity) ','? ','? ','? ','? 'batch_size' batch_size=INT
+	 *     no_hidden_layers=INT (ambiguity) ','? ','? ','? 'epochs' epochs=INT
+	 *     no_hidden_layers=INT (ambiguity) ','? ','? 'loss' loss=Loss
+	 *     no_hidden_layers=INT (ambiguity) ','? 'optimizer' optimizer=Optimizer
+	 *     no_hidden_layers=INT (ambiguity) 'activation' activation=Activation
 	 */
 	protected void emit_NN_MultilayerPerceptron_CommaKeyword_4_q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
 		acceptNodes(transition, nodes);
@@ -354,18 +200,21 @@ public abstract class AbstractThingMLSyntacticSequencer extends AbstractSyntacti
 	 *     ','?
 	 *
 	 * This ambiguous syntax occurs at:
-	 *     loss_function=LossFunction ','? (ambiguity) ','? ','? ')' (rule end)
-	 *     loss_function=LossFunction ','? (ambiguity) ','? ','? 'dropout_probability' dropout_probability=FLOAT
-	 *     loss_function=LossFunction ','? (ambiguity) ','? 'no_layers' no_layers=INT
-	 *     loss_function=LossFunction ','? (ambiguity) 'learning_rate' learning_rate=FLOAT
-	 *     name=ID '(' ','? (ambiguity) ','? ','? ')' (rule end)
-	 *     name=ID '(' ','? (ambiguity) ','? ','? 'dropout_probability' dropout_probability=FLOAT
-	 *     name=ID '(' ','? (ambiguity) ','? 'no_layers' no_layers=INT
-	 *     name=ID '(' ','? (ambiguity) 'learning_rate' learning_rate=FLOAT
-	 *     optimizer=Optimizer (ambiguity) ','? ','? ')' (rule end)
-	 *     optimizer=Optimizer (ambiguity) ','? ','? 'dropout_probability' dropout_probability=FLOAT
-	 *     optimizer=Optimizer (ambiguity) ','? 'no_layers' no_layers=INT
-	 *     optimizer=Optimizer (ambiguity) 'learning_rate' learning_rate=FLOAT
+	 *     activation=Activation (ambiguity) ','? ','? ','? ')' (rule end)
+	 *     activation=Activation (ambiguity) ','? ','? ','? 'batch_size' batch_size=INT
+	 *     activation=Activation (ambiguity) ','? ','? 'epochs' epochs=INT
+	 *     activation=Activation (ambiguity) ','? 'loss' loss=Loss
+	 *     activation=Activation (ambiguity) 'optimizer' optimizer=Optimizer
+	 *     name=ID '(' ','? (ambiguity) ','? ','? ','? ')' (rule end)
+	 *     name=ID '(' ','? (ambiguity) ','? ','? ','? 'batch_size' batch_size=INT
+	 *     name=ID '(' ','? (ambiguity) ','? ','? 'epochs' epochs=INT
+	 *     name=ID '(' ','? (ambiguity) ','? 'loss' loss=Loss
+	 *     name=ID '(' ','? (ambiguity) 'optimizer' optimizer=Optimizer
+	 *     no_hidden_layers=INT ','? (ambiguity) ','? ','? ','? ')' (rule end)
+	 *     no_hidden_layers=INT ','? (ambiguity) ','? ','? ','? 'batch_size' batch_size=INT
+	 *     no_hidden_layers=INT ','? (ambiguity) ','? ','? 'epochs' epochs=INT
+	 *     no_hidden_layers=INT ','? (ambiguity) ','? 'loss' loss=Loss
+	 *     no_hidden_layers=INT ','? (ambiguity) 'optimizer' optimizer=Optimizer
 	 */
 	protected void emit_NN_MultilayerPerceptron_CommaKeyword_6_q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
 		acceptNodes(transition, nodes);
@@ -376,18 +225,22 @@ public abstract class AbstractThingMLSyntacticSequencer extends AbstractSyntacti
 	 *     ','?
 	 *
 	 * This ambiguous syntax occurs at:
-	 *     learning_rate=FLOAT (ambiguity) ','? ')' (rule end)
-	 *     learning_rate=FLOAT (ambiguity) ','? 'dropout_probability' dropout_probability=FLOAT
-	 *     learning_rate=FLOAT (ambiguity) 'no_layers' no_layers=INT
-	 *     loss_function=LossFunction ','? ','? (ambiguity) ','? ')' (rule end)
-	 *     loss_function=LossFunction ','? ','? (ambiguity) ','? 'dropout_probability' dropout_probability=FLOAT
-	 *     loss_function=LossFunction ','? ','? (ambiguity) 'no_layers' no_layers=INT
-	 *     name=ID '(' ','? ','? (ambiguity) ','? ')' (rule end)
-	 *     name=ID '(' ','? ','? (ambiguity) ','? 'dropout_probability' dropout_probability=FLOAT
-	 *     name=ID '(' ','? ','? (ambiguity) 'no_layers' no_layers=INT
-	 *     optimizer=Optimizer ','? (ambiguity) ','? ')' (rule end)
-	 *     optimizer=Optimizer ','? (ambiguity) ','? 'dropout_probability' dropout_probability=FLOAT
-	 *     optimizer=Optimizer ','? (ambiguity) 'no_layers' no_layers=INT
+	 *     activation=Activation ','? (ambiguity) ','? ','? ')' (rule end)
+	 *     activation=Activation ','? (ambiguity) ','? ','? 'batch_size' batch_size=INT
+	 *     activation=Activation ','? (ambiguity) ','? 'epochs' epochs=INT
+	 *     activation=Activation ','? (ambiguity) 'loss' loss=Loss
+	 *     name=ID '(' ','? ','? (ambiguity) ','? ','? ')' (rule end)
+	 *     name=ID '(' ','? ','? (ambiguity) ','? ','? 'batch_size' batch_size=INT
+	 *     name=ID '(' ','? ','? (ambiguity) ','? 'epochs' epochs=INT
+	 *     name=ID '(' ','? ','? (ambiguity) 'loss' loss=Loss
+	 *     no_hidden_layers=INT ','? ','? (ambiguity) ','? ','? ')' (rule end)
+	 *     no_hidden_layers=INT ','? ','? (ambiguity) ','? ','? 'batch_size' batch_size=INT
+	 *     no_hidden_layers=INT ','? ','? (ambiguity) ','? 'epochs' epochs=INT
+	 *     no_hidden_layers=INT ','? ','? (ambiguity) 'loss' loss=Loss
+	 *     optimizer=Optimizer (ambiguity) ','? ','? ')' (rule end)
+	 *     optimizer=Optimizer (ambiguity) ','? ','? 'batch_size' batch_size=INT
+	 *     optimizer=Optimizer (ambiguity) ','? 'epochs' epochs=INT
+	 *     optimizer=Optimizer (ambiguity) 'loss' loss=Loss
 	 */
 	protected void emit_NN_MultilayerPerceptron_CommaKeyword_8_q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
 		acceptNodes(transition, nodes);
@@ -434,10 +287,10 @@ public abstract class AbstractThingMLSyntacticSequencer extends AbstractSyntacti
 	 *     ','?
 	 *
 	 * This ambiguous syntax occurs at:
-	 *     lossFunction=LossFunction (ambiguity) ')' (rule end)
-	 *     lossFunction=LossFunction (ambiguity) 'min_samples_split' min_samples_split=MinSamplesSplit
 	 *     name=ID '(' (ambiguity) ')' (rule end)
-	 *     name=ID '(' (ambiguity) 'min_samples_split' min_samples_split=MinSamplesSplit
+	 *     name=ID '(' (ambiguity) 'min_samples_split' min_samples_split=Min_samples_split_type
+	 *     randomForestCriterion=RandomForestCriterion (ambiguity) ')' (rule end)
+	 *     randomForestCriterion=RandomForestCriterion (ambiguity) 'min_samples_split' min_samples_split=Min_samples_split_type
 	 */
 	protected void emit_RandomForest_CommaKeyword_4_q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
 		acceptNodes(transition, nodes);

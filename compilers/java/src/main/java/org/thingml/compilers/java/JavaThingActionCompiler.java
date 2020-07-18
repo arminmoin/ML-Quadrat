@@ -27,6 +27,7 @@ import java.io.BufferedWriter;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -40,6 +41,7 @@ import org.thingml.xtext.helpers.AnnotatedElementHelper;
 import org.thingml.xtext.helpers.ConfigurationHelper;
 import org.thingml.xtext.helpers.ThingHelper;
 import org.thingml.xtext.helpers.TyperHelper;
+import org.thingml.xtext.thingML.Activation;
 import org.thingml.xtext.thingML.ArrayInit;
 import org.thingml.xtext.thingML.DAPredictAction;
 import org.thingml.xtext.thingML.DAPreprocessAction;
@@ -47,6 +49,10 @@ import org.thingml.xtext.thingML.DASaveAction;
 import org.thingml.xtext.thingML.DATrainAction;
 import org.thingml.xtext.thingML.DataAnalyticsModelAlgorithm;
 import org.thingml.xtext.thingML.DecisionTree;
+import org.thingml.xtext.thingML.DecisionTreeCriterion;
+import org.thingml.xtext.thingML.RandomForest;
+import org.thingml.xtext.thingML.RandomForestCriterion;
+import org.thingml.xtext.thingML.NN_MultilayerPerceptron;
 import org.thingml.xtext.thingML.Decrement;
 import org.thingml.xtext.thingML.EnumLiteralRef;
 import org.thingml.xtext.thingML.Enumeration;
@@ -63,8 +69,10 @@ import org.thingml.xtext.thingML.Increment;
 import org.thingml.xtext.thingML.IntegerLiteral;
 import org.thingml.xtext.thingML.Labels;
 import org.thingml.xtext.thingML.LocalVariable;
+import org.thingml.xtext.thingML.Loss;
 import org.thingml.xtext.thingML.ML2_ModelAlgorithm;
 import org.thingml.xtext.thingML.NotEqualsExpression;
+import org.thingml.xtext.thingML.Optimizer;
 import org.thingml.xtext.thingML.Parameter;
 import org.thingml.xtext.thingML.PrimitiveType;
 import org.thingml.xtext.thingML.PrintAction;
@@ -815,26 +823,241 @@ public class JavaThingActionCompiler extends CommonThingActionCompiler {
 		if(dataAnalyticsModelAlgorithm instanceof ML2_ModelAlgorithm) {
 			if(action.getDataAnalytics().getLabels()==Labels.ON) {
 				//Supervised ML
-				if(dataAnalyticsModelAlgorithm instanceof DecisionTree) {
+				if(dataAnalyticsModelAlgorithm instanceof DecisionTree) { //DecisionTree
 					if(action.getDataAnalytics().getPredictionResults().get(0).getTypeRef()==Types.REAL_TYPEREF
 							|| action.getDataAnalytics().getPredictionResults().get(0).getTypeRef()==Types.ARRAY_REAL_TYPEREF) {
 						//Regression
 						pythonScriptStringBuilder.append("from sklearn.tree import DecisionTreeRegressor\n");
-						pythonScriptStringBuilder.append("dtr = DecisionTreeRegressor()\n");
+						if(((DecisionTree)(action.getDataAnalytics().getModelAlgorithm())).getDecisionTreeCriterion().getValue()==DecisionTreeCriterion.NO_IDEA_VALUE
+								&& ((DecisionTree)(action.getDataAnalytics().getModelAlgorithm())).getMin_samples_split()==null
+								)
+							pythonScriptStringBuilder.append("dtr = DecisionTreeRegressor()\n");
+						else if(((DecisionTree)(action.getDataAnalytics().getModelAlgorithm())).getDecisionTreeCriterion().getValue()!=DecisionTreeCriterion.NO_IDEA_VALUE
+								&& ((DecisionTree)(action.getDataAnalytics().getModelAlgorithm())).getMin_samples_split()==null							
+								)
+							pythonScriptStringBuilder.append("dtr = DecisionTreeRegressor(criterion=\"" + ((DecisionTree)(action.getDataAnalytics().getModelAlgorithm())).getDecisionTreeCriterion().getLiteral() +"\")\n");
+						else if(((DecisionTree)(action.getDataAnalytics().getModelAlgorithm())).getDecisionTreeCriterion().getValue()==DecisionTreeCriterion.NO_IDEA_VALUE
+								&& ((DecisionTree)(action.getDataAnalytics().getModelAlgorithm())).getMin_samples_split()!=null								
+								)
+							pythonScriptStringBuilder.append("dtr = DecisionTreeRegressor(min_samples_split=" + ((DecisionTree)(action.getDataAnalytics().getModelAlgorithm())).getMin_samples_split() +")\n");
+						else if(((DecisionTree)(action.getDataAnalytics().getModelAlgorithm())).getDecisionTreeCriterion().getValue()!=DecisionTreeCriterion.NO_IDEA_VALUE
+								&& ((DecisionTree)(action.getDataAnalytics().getModelAlgorithm())).getMin_samples_split()!=null							
+								)
+							pythonScriptStringBuilder.append("dtr = DecisionTreeRegressor(criterion=\"" + ((DecisionTree)(action.getDataAnalytics().getModelAlgorithm())).getDecisionTreeCriterion().getLiteral() + "\", min_samples_split=" + ((DecisionTree)(action.getDataAnalytics().getModelAlgorithm())).getMin_samples_split() +")\n");
+						
 						pythonScriptStringBuilder.append("dtr = dtr.fit(X_train,y_train)\n");
 						pythonScriptStringBuilder.append("with open('" + path_str + "/python-scripts/pickles/" + "train_model_dtr.pickle', 'wb') as pickle_file:\n");
 						pythonScriptStringBuilder.append("    pickle.dump(dtr, pickle_file)\n\n");
 					} else {
 						//Classification				
-						pythonScriptStringBuilder.append("from sklearn.tree import DecisionTreeClassifier\n");
-						pythonScriptStringBuilder.append("dtc = DecisionTreeClassifier()\n");
+						pythonScriptStringBuilder.append("from sklearn.tree import DecisionTreeClassifier\n");						
+						if(((DecisionTree)(action.getDataAnalytics().getModelAlgorithm())).getDecisionTreeCriterion().getValue()==DecisionTreeCriterion.NO_IDEA_VALUE
+								&& ((DecisionTree)(action.getDataAnalytics().getModelAlgorithm())).getMin_samples_split()==null
+								)
+							pythonScriptStringBuilder.append("dtc = DecisionTreeClassifier()\n");
+						else if(((DecisionTree)(action.getDataAnalytics().getModelAlgorithm())).getDecisionTreeCriterion().getValue()!=DecisionTreeCriterion.NO_IDEA_VALUE
+								&& ((DecisionTree)(action.getDataAnalytics().getModelAlgorithm())).getMin_samples_split()==null								
+								)
+							pythonScriptStringBuilder.append("dtc = DecisionTreeClassifier(criterion=\"" + ((DecisionTree)(action.getDataAnalytics().getModelAlgorithm())).getDecisionTreeCriterion().getLiteral() +"\")\n");
+						else if(((DecisionTree)(action.getDataAnalytics().getModelAlgorithm())).getDecisionTreeCriterion().getValue()==DecisionTreeCriterion.NO_IDEA_VALUE
+								&& ((DecisionTree)(action.getDataAnalytics().getModelAlgorithm())).getMin_samples_split()!=null							
+								)
+							pythonScriptStringBuilder.append("dtc = DecisionTreeClassifier(min_samples_split=" + ((DecisionTree)(action.getDataAnalytics().getModelAlgorithm())).getMin_samples_split() +")\n");
+						else if(((DecisionTree)(action.getDataAnalytics().getModelAlgorithm())).getDecisionTreeCriterion().getValue()!=DecisionTreeCriterion.NO_IDEA_VALUE
+								&& ((DecisionTree)(action.getDataAnalytics().getModelAlgorithm())).getMin_samples_split()!=null								
+								)
+							pythonScriptStringBuilder.append("dtc = DecisionTreeClassifier(criterion=\"" + ((DecisionTree)(action.getDataAnalytics().getModelAlgorithm())).getDecisionTreeCriterion().getLiteral() + "\", min_samples_split=" + ((DecisionTree)(action.getDataAnalytics().getModelAlgorithm())).getMin_samples_split() +")\n");
+												
 						pythonScriptStringBuilder.append("dtc = dtc.fit(X_train,y_train)\n");
 						pythonScriptStringBuilder.append("with open('" + path_str + "/python-scripts/pickles/" + "train_model_dtc.pickle', 'wb') as pickle_file:\n");
 						pythonScriptStringBuilder.append("    pickle.dump(dtc, pickle_file)\n\n");
 					}
 				}
+				if(dataAnalyticsModelAlgorithm instanceof RandomForest) { // RandomForest
+					if(action.getDataAnalytics().getPredictionResults().get(0).getTypeRef()==Types.REAL_TYPEREF
+							|| action.getDataAnalytics().getPredictionResults().get(0).getTypeRef()==Types.ARRAY_REAL_TYPEREF) {
+						//Regression
+						pythonScriptStringBuilder.append("from sklearn.ensemble import RandomForestRegressor\n");
+						if(((RandomForest)(action.getDataAnalytics().getModelAlgorithm())).getRandomForestCriterion().getValue()==RandomForestCriterion.NO_IDEA_VALUE
+								&& ((RandomForest)(action.getDataAnalytics().getModelAlgorithm())).getMin_samples_split()==null
+								)
+							pythonScriptStringBuilder.append("rfr = RandomForestRegressor()\n");
+						else if(((RandomForest)(action.getDataAnalytics().getModelAlgorithm())).getRandomForestCriterion().getValue()!=RandomForestCriterion.NO_IDEA_VALUE
+								&& ((RandomForest)(action.getDataAnalytics().getModelAlgorithm())).getMin_samples_split()==null							
+								)
+							pythonScriptStringBuilder.append("rfr = RandomForestRegressor(criterion=\"" + ((RandomForest)(action.getDataAnalytics().getModelAlgorithm())).getRandomForestCriterion().getLiteral() +"\")\n");
+						else if(((RandomForest)(action.getDataAnalytics().getModelAlgorithm())).getRandomForestCriterion().getValue()==RandomForestCriterion.NO_IDEA_VALUE
+								&& ((RandomForest)(action.getDataAnalytics().getModelAlgorithm())).getMin_samples_split()!=null								
+								)
+							pythonScriptStringBuilder.append("rfr = RandomForestRegressor(min_samples_split=" + ((RandomForest)(action.getDataAnalytics().getModelAlgorithm())).getMin_samples_split() +")\n");
+						else if(((RandomForest)(action.getDataAnalytics().getModelAlgorithm())).getRandomForestCriterion().getValue()!=RandomForestCriterion.NO_IDEA_VALUE
+								&& ((RandomForest)(action.getDataAnalytics().getModelAlgorithm())).getMin_samples_split()!=null							
+								)
+							pythonScriptStringBuilder.append("rfr = RandomForestRegressor(criterion=\"" + ((RandomForest)(action.getDataAnalytics().getModelAlgorithm())).getRandomForestCriterion().getLiteral() + "\", min_samples_split=" + ((RandomForest)(action.getDataAnalytics().getModelAlgorithm())).getMin_samples_split() +")\n");
+						
+						pythonScriptStringBuilder.append("rfr = rfr.fit(X_train,y_train)\n");
+						pythonScriptStringBuilder.append("with open('" + path_str + "/python-scripts/pickles/" + "train_model_rfr.pickle', 'wb') as pickle_file:\n");
+						pythonScriptStringBuilder.append("    pickle.dump(rfr, pickle_file)\n\n");
+					} else {
+						//Classification				
+						pythonScriptStringBuilder.append("from sklearn.ensemble import RandomForestClassifier\n");
+						if(((RandomForest)(action.getDataAnalytics().getModelAlgorithm())).getRandomForestCriterion().getValue()==RandomForestCriterion.NO_IDEA_VALUE
+								&& ((RandomForest)(action.getDataAnalytics().getModelAlgorithm())).getMin_samples_split()==null
+								)
+							pythonScriptStringBuilder.append("rfc = RandomForestClassifier()\n");
+						else if(((RandomForest)(action.getDataAnalytics().getModelAlgorithm())).getRandomForestCriterion().getValue()!=RandomForestCriterion.NO_IDEA_VALUE
+								&& ((RandomForest)(action.getDataAnalytics().getModelAlgorithm())).getMin_samples_split()==null								
+								)
+							pythonScriptStringBuilder.append("rfc = RandomForestClassifier(criterion=\"" + ((RandomForest)(action.getDataAnalytics().getModelAlgorithm())).getRandomForestCriterion().getLiteral() +"\")\n");
+						else if(((RandomForest)(action.getDataAnalytics().getModelAlgorithm())).getRandomForestCriterion().getValue()==RandomForestCriterion.NO_IDEA_VALUE
+								&& ((RandomForest)(action.getDataAnalytics().getModelAlgorithm())).getMin_samples_split()!=null							
+								)
+							pythonScriptStringBuilder.append("rfc = RandomForestClassifier(min_samples_split=" + ((RandomForest)(action.getDataAnalytics().getModelAlgorithm())).getMin_samples_split() +")\n");
+						else if(((RandomForest)(action.getDataAnalytics().getModelAlgorithm())).getRandomForestCriterion().getValue()!=RandomForestCriterion.NO_IDEA_VALUE
+								&& ((RandomForest)(action.getDataAnalytics().getModelAlgorithm())).getMin_samples_split()!=null								
+								)
+							pythonScriptStringBuilder.append("rfc = RandomForestClassifier(criterion=\"" + ((RandomForest)(action.getDataAnalytics().getModelAlgorithm())).getRandomForestCriterion().getLiteral() + "\", min_samples_split=" + ((RandomForest)(action.getDataAnalytics().getModelAlgorithm())).getMin_samples_split() +")\n");
+												
+						pythonScriptStringBuilder.append("rfc = rfc.fit(X_train,y_train)\n");
+						pythonScriptStringBuilder.append("with open('" + path_str + "/python-scripts/pickles/" + "train_model_rfc.pickle', 'wb') as pickle_file:\n");
+						pythonScriptStringBuilder.append("    pickle.dump(rfc, pickle_file)\n\n");
+					}
+				}
+				if(dataAnalyticsModelAlgorithm instanceof NN_MultilayerPerceptron) { // NN_MultilayerPerceptron
+					if(action.getDataAnalytics().getPredictionResults().get(0).getTypeRef()==Types.REAL_TYPEREF
+							|| action.getDataAnalytics().getPredictionResults().get(0).getTypeRef()==Types.ARRAY_REAL_TYPEREF) {
+						//Regression
+						//TODO
+					
+					} else {
+						//Classification
+						pythonScriptStringBuilder.append("import pandas as pd\n");
+						pythonScriptStringBuilder.append("import numpy as np\n");
+						pythonScriptStringBuilder.append("from sklearn.preprocessing import LabelEncoder\n");
+						pythonScriptStringBuilder.append("import re\n\n");
+						
+						pythonScriptStringBuilder.append("import logging, os, sys\n");
+						pythonScriptStringBuilder.append("logging.disable(logging.WARNING)\n");
+						pythonScriptStringBuilder.append("os.environ[\"TF_CPP_MIN_LOG_LEVEL\"] = \"3\"\n");
+						pythonScriptStringBuilder.append("stderr = sys.stderr\n");
+						pythonScriptStringBuilder.append("sys.stderr = open(os.devnull, 'w')\n");
+						pythonScriptStringBuilder.append("from keras.models import Sequential\n");
+						pythonScriptStringBuilder.append("from keras.layers.core import Dense, Activation, Dropout\n");
+						pythonScriptStringBuilder.append("sys.stderr = stderr\n\n");
+						
+						pythonScriptStringBuilder.append("#Setting the correct data type, i.e., float32 for numerical features\n");
+						pythonScriptStringBuilder.append("p1 = re.compile(r'\\d+(\\.\\d+)?$')\n");
+						pythonScriptStringBuilder.append("tmp = X_train.iloc[:,1:].apply(lambda x: True if re.match(p1,str(x[0]))!=None else False)\n");
+						pythonScriptStringBuilder.append("numeric_features_list = tmp.index[tmp]\n");
+						pythonScriptStringBuilder.append("X_train[numeric_features_list] = X_train[numeric_features_list].astype(\'float32\')\n\n");
+						
+						pythonScriptStringBuilder.append("#Preparing the class labels\n");
+						pythonScriptStringBuilder.append("le = LabelEncoder()\n");
+						pythonScriptStringBuilder.append("le.fit(y_train)\n");
+						pythonScriptStringBuilder.append("p2 = re.compile(r'[\\d+(\\.\\d+)]')\n");
+						pythonScriptStringBuilder.append("p3 = re.compile(r'\\d+(\\.\\d+)')\n");
+						pythonScriptStringBuilder.append("if(re.match(p2,str(y_train[0:1]))!=None):\n");
+						pythonScriptStringBuilder.append("	y_train = y_train.apply(lambda x: le.transform([x]))\n");
+						pythonScriptStringBuilder.append("if(re.match(p3,str(y_train[0:1]))!=None):\n");
+						pythonScriptStringBuilder.append("	y_train = y_train.apply(lambda x: le.transform(x))\n");
+						pythonScriptStringBuilder.append("with open('" + path_str + "/python-scripts/pickles/" + "y_train_le.pickle', 'wb') as pickle_file:\n");
+						pythonScriptStringBuilder.append("    pickle.dump(le, pickle_file)\n");
+						pythonScriptStringBuilder.append("with open('" + path_str + "/python-scripts/pickles/" + "y_train_categorical.pickle', 'wb') as pickle_file:\n");
+						pythonScriptStringBuilder.append("    pickle.dump(y_train, pickle_file)\n\n");
+						
+						
+						pythonScriptStringBuilder.append("#Standardization/Normalization of numerical features\n");
+						pythonScriptStringBuilder.append("if(len(numeric_features_list)>1):\n");
+						pythonScriptStringBuilder.append("	mean = (X_train[numeric_features_list]).values.mean()\n");
+						pythonScriptStringBuilder.append("	X_train[numeric_features_list] -= mean\n");
+						pythonScriptStringBuilder.append("	std = (X_train[numeric_features_list]).values.std()\n");
+						pythonScriptStringBuilder.append("	if(std!=0):\n");
+						pythonScriptStringBuilder.append("		X_train[numeric_features_list] /= std\n");
+						pythonScriptStringBuilder.append("	else:\n");
+						pythonScriptStringBuilder.append("		max = (X_train[numeric_features_list]).values.max()\n");
+						pythonScriptStringBuilder.append("		if(max!=0):\n");
+						pythonScriptStringBuilder.append("			X_train[numeric_features_list] /= max\n\n");
+						
+						pythonScriptStringBuilder.append("#Creating the model\n");
+						String selected_activation_function = "";
+						if(((NN_MultilayerPerceptron)(action.getDataAnalytics().getModelAlgorithm())).getActivation().getValue()==Activation.NO_IDEA_VALUE) {
+							selected_activation_function = Activation.RELU.getLiteral();
+						} else {
+							selected_activation_function = ((NN_MultilayerPerceptron)(action.getDataAnalytics().getModelAlgorithm())).getActivation().getLiteral();
+						}
+						
+						int no_hidden_layers = 0;
+						if(((NN_MultilayerPerceptron)(action.getDataAnalytics().getModelAlgorithm())).getNo_hidden_layers()==0) {
+							no_hidden_layers = 1;
+						} else {
+							no_hidden_layers = (int)((NN_MultilayerPerceptron)(action.getDataAnalytics().getModelAlgorithm())).getNo_hidden_layers();
+						}
+						
+						pythonScriptStringBuilder.append("import random\n");
+						pythonScriptStringBuilder.append("no_neurons_hidden_layers=random.randint(max(1,(2//3))*min(X_train.shape[1],len(y_train)),max(X_train.shape[1],len(y_train)))\n");
+						
+						pythonScriptStringBuilder.append("model = Sequential([\n");
+						pythonScriptStringBuilder.append("  Dense(no_neurons_hidden_layers, activation='" + selected_activation_function + "', input_shape=(X_train.shape[1],)),\n");
+						for(int i=0; i<no_hidden_layers; i++) {
+							pythonScriptStringBuilder.append("  Dense(no_neurons_hidden_layers, activation='" + selected_activation_function + "'),\n");
+						}
+						pythonScriptStringBuilder.append("  Dense(len(y_train), activation='" + selected_activation_function + "'),\n");
+						pythonScriptStringBuilder.append("])\n\n");
+						
+						String selected_optimizer = "";
+						if(((NN_MultilayerPerceptron)(action.getDataAnalytics().getModelAlgorithm())).getOptimizer().getValue()==Optimizer.NO_IDEA_VALUE) {
+							selected_optimizer = Optimizer.ADAM.getLiteral();
+						} else {
+							selected_optimizer = ((NN_MultilayerPerceptron)(action.getDataAnalytics().getModelAlgorithm())).getOptimizer().getLiteral();
+						}
+						
+						String selected_loss_function = "";
+						if(((NN_MultilayerPerceptron)(action.getDataAnalytics().getModelAlgorithm())).getLoss().getValue()==Loss.NO_IDEA_VALUE) {
+							selected_loss_function = Loss.SPARSE_CATEGORICAL_CROSSENTROPY.getLiteral();
+						} else {
+							selected_loss_function = ((NN_MultilayerPerceptron)(action.getDataAnalytics().getModelAlgorithm())).getLoss().getLiteral();
+						}
+						
+						pythonScriptStringBuilder.append("#Compiling the model\n");
+						pythonScriptStringBuilder.append("model.compile(\n");
+						pythonScriptStringBuilder.append("  optimizer='" + selected_optimizer + "',\n");
+						pythonScriptStringBuilder.append("  loss='" + selected_loss_function + "',\n");
+						pythonScriptStringBuilder.append("  metrics=['accuracy'],\n");
+						pythonScriptStringBuilder.append(")\n\n");
+						
+						int selected_no_epochs = 0;
+						if(((NN_MultilayerPerceptron)(action.getDataAnalytics().getModelAlgorithm())).getEpochs()==0) {
+							selected_no_epochs = 5;
+						} else {
+							selected_no_epochs = (int)((NN_MultilayerPerceptron)(action.getDataAnalytics().getModelAlgorithm())).getEpochs();
+						}
+						
+						int selected_batch_size = 0;
+						if(((NN_MultilayerPerceptron)(action.getDataAnalytics().getModelAlgorithm())).getBatch_size()==0) {
+							selected_batch_size = 1;
+						} else {
+							selected_batch_size = (int)((NN_MultilayerPerceptron)(action.getDataAnalytics().getModelAlgorithm())).getBatch_size();
+						}
+						
+						pythonScriptStringBuilder.append("#Training the model\n");
+						pythonScriptStringBuilder.append("model.fit(\n");
+						pythonScriptStringBuilder.append("  X_train,\n");
+						pythonScriptStringBuilder.append("  y_train,\n");
+						pythonScriptStringBuilder.append("  epochs=" + selected_no_epochs + ",\n");
+						pythonScriptStringBuilder.append("  batch_size=" + selected_batch_size + ",\n");
+						pythonScriptStringBuilder.append("  verbose=0,\n");
+						pythonScriptStringBuilder.append(")\n\n");
+						
+						pythonScriptStringBuilder.append("model.save_weights('" + path_str + "/python-scripts/pickles/" + "train_model_nn_mlp_weights.h5')\n\n");
+						
+					}
+						
+				}
+				
+				
 			} else {
 				// Unsupervised ML / Clustering
+				//TODO
 			}
 		}
 		
@@ -907,7 +1130,7 @@ public class JavaThingActionCompiler extends CommonThingActionCompiler {
 		if(dataAnalyticsModelAlgorithm instanceof ML2_ModelAlgorithm) {
 			if(action.getDataAnalytics().getLabels()==Labels.ON) {
 				//Supervised ML
-				if(dataAnalyticsModelAlgorithm instanceof DecisionTree) {
+				if(dataAnalyticsModelAlgorithm instanceof DecisionTree) {// DecisionTree
 					if(action.getDataAnalytics().getPredictionResults().get(0).getTypeRef()==Types.REAL_TYPEREF
 							|| action.getDataAnalytics().getPredictionResults().get(0).getTypeRef()==Types.ARRAY_REAL_TYPEREF) {
 						//Regression
@@ -921,8 +1144,38 @@ public class JavaThingActionCompiler extends CommonThingActionCompiler {
 						builder.append("	return;\n");
 					}
 				}
+				if(dataAnalyticsModelAlgorithm instanceof RandomForest) {// RandomForest
+					if(action.getDataAnalytics().getPredictionResults().get(0).getTypeRef()==Types.REAL_TYPEREF
+							|| action.getDataAnalytics().getPredictionResults().get(0).getTypeRef()==Types.ARRAY_REAL_TYPEREF) {
+						//Regression
+						builder.append("File train_model_rfr_pickle = new File(\"" + path.toString() + "/src/python-scripts/pickles/train_model_rfr.pickle" + "\");\n");
+						builder.append("if(!train_model_rfr_pickle.exists())\n");
+						builder.append("	return;\n");
+					} else {
+						//Classification				
+						builder.append("File train_model_rfc_pickle = new File(\"" + path.toString() + "/src/python-scripts/pickles/train_model_rfc.pickle" + "\");\n");
+						builder.append("if(!train_model_rfc_pickle.exists())\n");
+						builder.append("	return;\n");
+					}
+				}
+				if(dataAnalyticsModelAlgorithm instanceof NN_MultilayerPerceptron) {// NN_MultilayerPerceptron
+					if(action.getDataAnalytics().getPredictionResults().get(0).getTypeRef()==Types.REAL_TYPEREF
+							|| action.getDataAnalytics().getPredictionResults().get(0).getTypeRef()==Types.ARRAY_REAL_TYPEREF) {
+						//Regression
+						builder.append("File train_model_nn_mlp_weights = new File(\"" + path.toString() + "/src/python-scripts/pickles/train_model_nn_mlp_weights.h5" + "\");\n");
+						builder.append("if(!train_model_nn_mlp_weights.exists())\n");
+						builder.append("	return;\n");
+					} else {
+						//Classification				
+						builder.append("File train_model_nn_mlp_weights = new File(\"" + path.toString() + "/src/python-scripts/pickles/train_model_nn_mlp_weights.h5" + "\");\n");
+						builder.append("if(!train_model_nn_mlp_weights.exists())\n");
+						builder.append("	return;\n");
+					}
+				}
+				
 			} else {
 				// Unsupervised ML / Clustering
+				//TODO
 			}
 		}
 		
@@ -1032,7 +1285,11 @@ public class JavaThingActionCompiler extends CommonThingActionCompiler {
 		pythonScriptStringBuilder.append("timestamp_for_prediction = sys.argv[5]\n\n");
 		
 		pythonScriptStringBuilder.append("with open('" + path_str + "/python-scripts/pickles/" + "preprocess_original_df.pickle', 'rb') as pickle_file:\n");
-		pythonScriptStringBuilder.append("	original_df = pickle.load(pickle_file)\n\n");
+		pythonScriptStringBuilder.append("	original_df = pickle.load(pickle_file)\n");
+		pythonScriptStringBuilder.append("with open('" + path_str + "/python-scripts/pickles/" + "preprocess_X_train.pickle', 'rb') as pickle_file:\n");
+		pythonScriptStringBuilder.append("	X_train = pickle.load(pickle_file)\n");
+		pythonScriptStringBuilder.append("with open('" + path_str + "/python-scripts/pickles/" + "preprocess_y_train.pickle', 'rb') as pickle_file:\n");
+		pythonScriptStringBuilder.append("	y_train = pickle.load(pickle_file)\n");
 		
 		pythonScriptStringBuilder.append("array_features_indexes = list(filter(lambda x: '[' in feature_types[x], range(len(feature_types))))\n");
 		pythonScriptStringBuilder.append("new_feature_values_for_prediction = []\n");
@@ -1071,7 +1328,7 @@ public class JavaThingActionCompiler extends CommonThingActionCompiler {
 		if(dataAnalyticsModelAlgorithm instanceof ML2_ModelAlgorithm) {
 			if(action.getDataAnalytics().getLabels()==Labels.ON) {
 				//Supervised ML
-				if(dataAnalyticsModelAlgorithm instanceof DecisionTree) {
+				if(dataAnalyticsModelAlgorithm instanceof DecisionTree) {// DecisionTree
 					if(action.getDataAnalytics().getPredictionResults().get(0).getTypeRef()==Types.REAL_TYPEREF
 							|| action.getDataAnalytics().getPredictionResults().get(0).getTypeRef()==Types.ARRAY_REAL_TYPEREF) {
 						//Regression
@@ -1085,8 +1342,74 @@ public class JavaThingActionCompiler extends CommonThingActionCompiler {
 						pythonScriptStringBuilder.append("		model = pickle.load(pickle_file)\n\n");
 					}
 				}
+				if(dataAnalyticsModelAlgorithm instanceof RandomForest) {// RandomForest
+					if(action.getDataAnalytics().getPredictionResults().get(0).getTypeRef()==Types.REAL_TYPEREF
+							|| action.getDataAnalytics().getPredictionResults().get(0).getTypeRef()==Types.ARRAY_REAL_TYPEREF) {
+						//Regression
+						pythonScriptStringBuilder.append("	from sklearn.tree import RandomForestRegressor\n");
+						pythonScriptStringBuilder.append("	with open('" + path_str + "/python-scripts/pickles/" + "train_model_rfr.pickle', 'rb') as pickle_file:\n");
+						pythonScriptStringBuilder.append("		model = pickle.load(pickle_file)\n\n");
+					} else {
+						//Classification				
+						pythonScriptStringBuilder.append("	from sklearn.tree import RandomForestClassifier\n");
+						pythonScriptStringBuilder.append("	with open('" + path_str + "/python-scripts/pickles/" + "train_model_rfc.pickle', 'rb') as pickle_file:\n");
+						pythonScriptStringBuilder.append("		model = pickle.load(pickle_file)\n\n");
+					}
+				}
+				if(dataAnalyticsModelAlgorithm instanceof NN_MultilayerPerceptron) {// NN_MultilayerPerceptron
+					if(action.getDataAnalytics().getPredictionResults().get(0).getTypeRef()==Types.REAL_TYPEREF
+							|| action.getDataAnalytics().getPredictionResults().get(0).getTypeRef()==Types.ARRAY_REAL_TYPEREF) {
+						//Regression
+						//TODO
+					} else {
+						//Classification
+						pythonScriptStringBuilder.append("	with open('/home/am/Projects/ML2/GeneratedDemo3/src/python-scripts/pickles/y_train_le.pickle', 'rb') as pickle_file:\n");
+						pythonScriptStringBuilder.append("		y_train_le = pickle.load(pickle_file)\n");
+						pythonScriptStringBuilder.append("	with open('/home/am/Projects/ML2/GeneratedDemo3/src/python-scripts/pickles/y_train_categorical.pickle', 'rb') as pickle_file:\n");
+						pythonScriptStringBuilder.append("		y_train_categorical = pickle.load(pickle_file)\n\n");
+						
+						pythonScriptStringBuilder.append("	import logging, os, sys\n");
+						pythonScriptStringBuilder.append("	logging.disable(logging.WARNING)\n");
+						pythonScriptStringBuilder.append("	os.environ[\"TF_CPP_MIN_LOG_LEVEL\"] = \"3\"\n");
+						pythonScriptStringBuilder.append("	stderr = sys.stderr\n");
+						pythonScriptStringBuilder.append("	sys.stderr = open(os.devnull, 'w')\n");
+						pythonScriptStringBuilder.append("	from keras.models import Sequential\n");
+						pythonScriptStringBuilder.append("	from keras.layers.core import Dense, Activation, Dropout\n");
+						pythonScriptStringBuilder.append("	sys.stderr = stderr\n\n");
+						
+						pythonScriptStringBuilder.append("	#Rebuilding the model\n");
+						String selected_activation_function = "";
+						if(((NN_MultilayerPerceptron)(action.getDataAnalytics().getModelAlgorithm())).getActivation().getValue()==Activation.NO_IDEA_VALUE) {
+							selected_activation_function = Activation.RELU.getLiteral();
+						} else {
+							selected_activation_function = ((NN_MultilayerPerceptron)(action.getDataAnalytics().getModelAlgorithm())).getActivation().getLiteral();
+						}
+						
+						int no_hidden_layers = 0;
+						if(((NN_MultilayerPerceptron)(action.getDataAnalytics().getModelAlgorithm())).getNo_hidden_layers()==0) {
+							no_hidden_layers = 1;
+						} else {
+							no_hidden_layers = (int)((NN_MultilayerPerceptron)(action.getDataAnalytics().getModelAlgorithm())).getNo_hidden_layers();
+						}
+						
+						pythonScriptStringBuilder.append("	import random\n");
+						pythonScriptStringBuilder.append("	no_neurons_hidden_layers=random.randint(max(1,(2//3))*min(X_train.shape[1],len(y_train)),max(X_train.shape[1],len(y_train)))\n");
+						
+						pythonScriptStringBuilder.append("	model = Sequential([\n");
+						pythonScriptStringBuilder.append("		Dense(no_neurons_hidden_layers, activation='" + selected_activation_function + "', input_shape=(X_train.shape[1],)),\n");
+						for(int i=0; i<no_hidden_layers; i++) {
+							pythonScriptStringBuilder.append("		Dense(no_neurons_hidden_layers, activation='" + selected_activation_function + "'),\n");
+						}
+						pythonScriptStringBuilder.append("		Dense(len(y_train), activation='" + selected_activation_function + "'),\n");
+						pythonScriptStringBuilder.append("	])\n\n");
+						
+						pythonScriptStringBuilder.append("	model.load_weights('" + path_str + "/python-scripts/pickles/" + "train_model_nn_mlp_weights.h5')\n\n");
+
+					}
+				}
 			} else {
 				// Unsupervised ML / Clustering
+				//TODO
 			}
 		}		
 		
@@ -1105,7 +1428,13 @@ public class JavaThingActionCompiler extends CommonThingActionCompiler {
 		
 		pythonScriptStringBuilder.append("	df.insert(0,'timestamp', [(datetime.datetime.strptime(timestamp_for_prediction[1:-1], timeformat)-base_time).seconds])\n\n");
 		
-		pythonScriptStringBuilder.append("	print (model.predict(df).item(0))\n\n");		
+		if(dataAnalyticsModelAlgorithm instanceof DecisionTree
+				|| dataAnalyticsModelAlgorithm instanceof RandomForest) {// DecisionTree or RandomForest
+			pythonScriptStringBuilder.append("	print (model.predict(df).item(0))\n\n");		
+		}
+		if(dataAnalyticsModelAlgorithm instanceof NN_MultilayerPerceptron) {// NN_MultilayerPerceptron
+			pythonScriptStringBuilder.append("	print(y_train_le.inverse_transform([int(model.predict(df))]).item(0))\n\n");
+		}
 		
 		pythonScriptStringBuilder.append("#********* ML2 *********\n\n");
 		File pythonScriptsDir = new File(path_str + "/python-scripts");
