@@ -175,7 +175,18 @@ Now, you should be able to run the generated program easily. Please use java -ja
 ```bash
 cd target
 java -jar SmartPingPongCfg-1.0.0-jar-with-dependencies.jar
+```
 
+### How to use ML2 as a Maven dependency?
+
+Add the following to your pom.xml to use the Maven artefact:
+```
+<dependency>
+  <groupId>io.github.arminmoin</groupId>
+  <artifactId>mlquadrat</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <type>pom</type>
+</dependency>
 ```
 
 ## ML2 Developers' Documentation (for Contributors)
