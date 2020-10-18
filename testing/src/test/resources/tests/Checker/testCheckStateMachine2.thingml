@@ -1,8 +1,0 @@
-thing TestCheckStateMachine
-{	
-    statechart TestStateMachine init INIT {
-    	state INIT {
-    		internal action print "error" //should fail as internal transition with no event must be guarded
-    	}
-    }
-}

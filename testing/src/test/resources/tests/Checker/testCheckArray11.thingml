@@ -1,5 +1,0 @@
-import "datatypes.thingml" from stl
-
-thing TestArray {
-	property v : Integer = {0} //an integer array is not an integer
-}

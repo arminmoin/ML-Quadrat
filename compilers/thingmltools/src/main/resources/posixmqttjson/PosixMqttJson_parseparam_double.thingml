@@ -1,2 +1,0 @@
-/*PARAMNAME*/ = `strtod(`&payload&` + tokens[`&__parse_i+1&`].start, NULL)`
-					_found_/*PARAMNAME*/ = true
