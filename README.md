@@ -189,15 +189,17 @@ java -jar SmartPingPongCfg-1.0.0-jar-with-dependencies.jar
 <a name="maven"></a>
 ## How to use ML2 as a Maven dependency?
 
-Add the following to your pom.xml to use the Maven artefact:
+Add the following to your pom.xml:
 ```
 <dependency>
   <groupId>io.github.arminmoin</groupId>
   <artifactId>mlquadrat</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>2.0.0-SNAPSHOT</version>
   <type>pom</type>
 </dependency>
 ```
+See more artifacts at https://oss.sonatype.org.
+
 <a name="dev-doc"></a>
 ## ML2 Developers' Documentation (for Contributors)
 If you are going to contribute to this project, please read the developers' documentation below. Our documentation focuses on Linux and mainly Java. However, a number of other platforms and programming languages may also be used similarly with minor modifications.
