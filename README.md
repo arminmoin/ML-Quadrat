@@ -34,15 +34,14 @@ Make sure that you wait sufficiently long, so that the (sub-/nested) projects ar
 
 3. Build the project using Maven:
 ```bash
-cd ML2
 mvn clean install
-cd language
+cd ML2/language
 mvn clean install
 cd ..
 ```
 
 ### How to create new model instances using ML2?
-Before creating new model instances, you may want to take a look at our samples for 3 use cases: Smart Ping-Pong, Non-Intrusive Appliance Load Monitoring, and Energy Stock Exchange. Please check them out at https://github.com/arminmoin/ML-Quadrat/tree/master/org.thingml.samples/src/main/thingml.
+Before creating new model instances, you may want to take a look at our samples for 3 use cases: Smart Ping-Pong, Non-Intrusive Appliance Load Monitoring, and Energy Stock Exchange. Please check them out at https://github.com/arminmoin/ML-Quadrat/tree/master/ML2/org.thingml.samples/src/main/thingml.
 
 As mentioned above, one may trivially use a text editor and follow the syntax of our DSML (Domain-Specific Modeling Language) to create new model instances with the **.thingml** extension. However, in order to exploit the power of our DSML and modeling tool, one may either employ our graphical tree model editor (EMF-based) or our customized textual model editor (Xtext-based). In what follows, we illustrate both options. Regardless of your choice, you will need to follow the steps below:
 
@@ -72,7 +71,7 @@ There is no universal answer to this question. Some users prefer the textual edi
 
 #### Understanding the data analytics block of ML2 model instances
 
-This is a sample data analytics block in our demo, Smart Ping-Pong, which you may find at https://github.com/arminmoin/ML-Quadrat/tree/master/org.thingml.samples/src/main/thingml:
+This is a sample data analytics block in our demo, Smart Ping-Pong, which you may find at https://github.com/arminmoin/ML-Quadrat/tree/master/ML2/org.thingml.samples/src/main/thingml:
 
 	data_analytics da1 {
 		dataset "data/ip_dataset.csv"
@@ -121,14 +120,14 @@ If you are familiar with the action language of ThingML, you can notice that we 
 
 (iv) da_save: This action leads to saving the prediction (new data) in the dataset. The name of the corresponding data analytics block shall be mentioned after that, e.g., da_save da1.
 
-Please see our examples (ML2 Demos) at https://github.com/arminmoin/ML-Quadrat/tree/master/org.thingml.samples/src/main/thingml.
+Please see our examples (ML2 Demos) at https://github.com/arminmoin/ML-Quadrat/tree/master/ML2/org.thingml.samples/src/main/thingml.
 
 #### How to have the trained data analytics models retrained periodically
 In our sample model instances, we show how to do this. For instance, see this line:
 
 last_training_timer!timer_start(3600000)
 
-in our examples here: https://github.com/arminmoin/ML-Quadrat/tree/master/org.thingml.samples/src/main/thingml. That is the time in milliseconds, thus in this case retraining the data analytics models in 1 hour periods always using the latest data in the CSV file (dataset). This way, we will take new data into account.
+in our examples here: https://github.com/arminmoin/ML-Quadrat/tree/master/ML2/org.thingml.samples/src/main/thingml. That is the time in milliseconds, thus in this case retraining the data analytics models in 1 hour periods always using the latest data in the CSV file (dataset). This way, we will take new data into account.
 
 ### How to generate the target software (IoT service / CPS application) using ML2?
 
@@ -137,15 +136,15 @@ If a model instance is incomplete or not valid according to the syntax and seman
 The command-line interface JAR containing all you need to generate source code for the supported target platforms out of the model instances can be found here:
 
 ```bash
-cd compilers/registry/target
+cd ML2/compilers/registry/target
 java -jar compilers.registry-2.0.0-SNAPSHOT-jar-with-dependencies.jar
 ```
 If you run the JAR file (e.g., with the -h or --help options), you will see the list of all options and commands.
 
-For instance, if you want to generate source code in Java and Python for our samples (you can find our examples Smart Ping-Pong, Non-Intrusive Appliance Load Monitoring, and Energy Stock Exchange at https://github.com/arminmoin/ML-Quadrat/tree/master/org.thingml.samples/src/main/thingml), please use the commands below:
+For instance, if you want to generate source code in Java and Python for our samples (you can find our examples Smart Ping-Pong, Non-Intrusive Appliance Load Monitoring, and Energy Stock Exchange at https://github.com/arminmoin/ML-Quadrat/tree/master/ML2/org.thingml.samples/src/main/thingml), please use the commands below:
 
 ```bash
-cd compilers/registry/target
+cd ML2/compilers/registry/target
 
 java -jar compilers.registry-2.0.0-SNAPSHOT-jar-with-dependencies.jar -c java -s org.thingml.samples/src/main/thingml/ML2_Demo1_PingPong.thingml -o GeneratedDemo1
 
@@ -170,7 +169,7 @@ cd target
 mkdir data
 ```
 
-Please copy a sample CSV file from https://github.com/arminmoin/ML-Quadrat/tree/master/org.thingml.samples/src/main/thingml/ML2_Demos_SampleData into the data directory. For instance, in case of GeneratedDemo1, please use the CSV file called ip_dataset.csv. For GeneratedDemo2 and GeneratedDemo3, please use nialm.csv and esm.csv, respectively.
+Please copy a sample CSV file from https://github.com/arminmoin/ML-Quadrat/tree/master/ML2/org.thingml.samples/src/main/thingml/ML2_Demos_SampleData into the data directory. For instance, in case of GeneratedDemo1, please use the CSV file called ip_dataset.csv. For GeneratedDemo2 and GeneratedDemo3, please use nialm.csv and esm.csv, respectively.
 
 Now, you should be able to run the generated program easily. Please use java -jar to run the generated executable JAR file with all of the required dependencies. For instance, for GeneratedDemo1:
 ```bash
@@ -189,9 +188,8 @@ Our focus is on the Java code generator (model-to-text transformation), which al
 Below, we explain the key sections for making changes to the modeling language. After any modifications, please build the project again using Maven:
 
 ```bash
-cd ML2
 mvn clean install
-cd language
+cd ML2/language
 mvn clean install
 cd ..
 ```
@@ -201,7 +199,7 @@ Also, generate the graphical EMF-based model editor by opening ThingML.genmodel 
 
 This is the core of the Domain-Specific Modeling Language (DSML). Even the Ecore meta-model is generated out of this grammar. You may find the grammar in the following path:
 
-language/thingml/src/org/thingml/xtext/ThingML.xtext
+ML2/language/thingml/src/org/thingml/xtext/ThingML.xtext
 
 If you are not already familiar with Xtext, please read the tutorial here:
 
@@ -211,7 +209,7 @@ https://www.eclipse.org/Xtext/documentation/index.html
 
 You may find this Java class (ThingMLAntlrTokenToAttributeIdMapper) in the following path:
 
-language/thingml.ui/src/org/thingml/xtext/ui/ThingMLAntlrTokenToAttributeIdMapper.java
+ML2/language/thingml.ui/src/org/thingml/xtext/ui/ThingMLAntlrTokenToAttributeIdMapper.java
 
 You can add any new keywords to the corresponding section of that.
 
@@ -219,7 +217,7 @@ You can add any new keywords to the corresponding section of that.
 
 You may find this Xtend class (ThingMLScopeProvider) in the following path:
 
-language/thingml/src/org/thingml/xtext/scoping/ThingMLScopeProvider.xtend
+ML2/language/thingml/src/org/thingml/xtext/scoping/ThingMLScopeProvider.xtend
 
 This shall be used for any possible adjustments of the scoping of the modeling language.
 
@@ -228,8 +226,7 @@ This shall be used for any possible adjustments of the scoping of the modeling l
 Below, we explain the key sections for making changes to the code generation framework (specifically for Java and Python). As mentioned, the code generator for Java also generates the required Python code for covering the Data Analytics and Machine Learning aspects. After any modifications, please build the project again using Maven:
 
 ```bash
-cd ML2
-cd compilers/java
+cd ML2/compilers/java
 mvn clean install
 cd ..
 mvn clean install
@@ -240,12 +237,12 @@ Also, generate the graphical EMF-based model editor by opening ThingML.genmodel 
 
 #### Java Helper
 
-This Java class is located at compilers/java/src/main/java/org/thingml/compilers/java/JavaHelper.java
+This Java class is located at ML2/compilers/java/src/main/java/org/thingml/compilers/java/JavaHelper.java
 
 There, you can add any new Java packages that must be included among the imported packages in the generated Java code.
 
 #### Java Thing Action Compiler
 
-This Java class is located at compilers/java/src/main/java/org/thingml/compilers/java/JavaThingActionCompiler.java
+This Java class is located at ML2/compilers/java/src/main/java/org/thingml/compilers/java/JavaThingActionCompiler.java
 
 This is the core of the code generation mechanism, based on the imperative action language. This is where you can instruct the code generation framework how to generate code for each "action" in a model instance, e.g., da_preprocess, da_train, etc.
