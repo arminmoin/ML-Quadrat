@@ -1,0 +1,18 @@
+thing TestCheckStateMachine
+{
+	message m()
+	provided port p {
+		receives m
+	}
+	
+    statechart TestStateMachine init INIT {
+    	state INIT {
+    		transition -> INIT
+    		event p?m
+    		guard 1+1 == 2
+    		
+    		transition -> INIT //Should fail because the behavior is obviously non-deterministic (p?m can trigger two transitions)
+    		event p?m    		
+    	}
+    }
+}

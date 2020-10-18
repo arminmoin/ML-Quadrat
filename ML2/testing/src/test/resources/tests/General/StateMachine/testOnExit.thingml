@@ -1,0 +1,19 @@
+import "../../thingml.thingml"
+
+thing TestOnExit includes Test 
+@test "t # X(X)?"
+@test "tt # XX(X)?"
+@test "tdfgt # XX(X)?"
+{
+	statechart TestOnExit init I {
+		internal event Test?Done
+		action TestDone()
+	
+		state I {
+			on exit TestOut('X')
+			transition -> I
+			event m : Test?In
+			guard m.c == 't'
+		}
+	}
+}

@@ -1,0 +1,597 @@
+grammar org.thingml.xtext.ThingML hidden(WS, ML_COMMENT, SL_COMMENT)
+
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+
+generate thingML "http://www.thingml.org/xtext/ThingML"
+
+
+ThingMLModel returns ThingMLModel:
+		imports+=Import*
+		(types+=Type | protocols+=Protocol | configs+=Configuration)*;	
+
+
+Import returns Import:
+	"import" importURI=STRING ("from" from=ID)?;
+
+
+PlatformAnnotation returns PlatformAnnotation:
+	name=ANNOTATION_ID (value=EXTERN | value=STRING)?; 
+
+
+NamedElement:
+	Protocol | Function  | Message | Port | Configuration | Handler | State | StateContainer | 
+	Type | Variable | Instance | AbstractConnector | EnumerationLiteral | Event |
+	Parameter | DataAnalytics | //ML2
+	";" name=ID // This is never used, it is just to have the attributes in the superclass
+;
+
+AnnotatedElement:
+	Protocol | Function  | Message | Port | Configuration | Handler | State | StateContainer | 
+	Type | PropertyAssign | Variable | Instance | AbstractConnector | EnumerationLiteral |
+	Parameter | DataAnalytics | //ML2
+	";" ( annotations+=PlatformAnnotation )* // This is never used, it is just to have the attributes in the superclass
+;
+
+Variable:
+	"var" name=ID ':' typeRef=TypeRef | // This is never used, it is just to have the attributes in the superclass
+	LocalVariable | Property | Parameter ;
+
+/*****************************************************************************
+ *       TYPES / ENUMERATIONS                                                *
+ *****************************************************************************/
+
+TypeRef returns TypeRef:
+	type=[Type|ID] (^isArray?='[' (cardinality=(IntegerLiteral|PropertyReference))? ']')?
+;
+
+Type:
+	PrimitiveType | ObjectType | Enumeration | Thing;
+
+PrimitiveType returns PrimitiveType:
+	'datatype' name=ID =>'<' ByteSize=INT '>'	( annotations+=PlatformAnnotation )* (';')?;
+	
+ObjectType returns ObjectType:
+	'object' name=ID ( annotations+=PlatformAnnotation )* (';')?;
+
+Enumeration returns Enumeration:
+	'enumeration' name=ID (=>'as' typeRef=TypeRef)? ( annotations+=PlatformAnnotation )* '{' (literals+=EnumerationLiteral)* '}';
+
+EnumerationLiteral returns EnumerationLiteral:
+	name=ID ('=' init=Literal)? ( annotations+=PlatformAnnotation )* ;
+
+/*****************************************************************************
+ *       THING / COMPONENT MODEL                                             *
+ *****************************************************************************/
+
+Thing returns Thing:
+	'thing' (^fragment?='fragment')? name=ID ('includes' includes+=[Thing|ID] ( "," includes+=[Thing|ID])*)? 
+	( annotations+=PlatformAnnotation )*'{'
+		(messages+=Message | ports += Port | properties+=Property | functions+=Function | assign+=PropertyAssign /* | streams+=Stream*/)*
+		(dataAnalytics+=DataAnalytics)* //ML2
+		(behaviour=StateMachine)?
+	'}';
+
+PropertyAssign returns PropertyAssign:
+	'set' property=[Property|ID] (=>'[' index=Expression ']')? '=' init=Expression ( annotations+=PlatformAnnotation )*;
+
+Protocol returns Protocol:
+	'protocol' name=ID ( annotations+=PlatformAnnotation )* (';')?;
+
+Function returns Function:
+	'function' name=ID '(' (parameters+=Parameter ( "," parameters+=Parameter)* )? ')' (':' typeRef=TypeRef)? 
+							( annotations+=PlatformAnnotation )* body=Action | AbstractFunction
+;
+
+AbstractFunction returns Function:
+	abstract?='abstract' 'function' name=ID '(' (parameters+=Parameter ( "," parameters+=Parameter)* )? ')' (':' typeRef=TypeRef)? 
+							( annotations+=PlatformAnnotation )* 
+;
+
+Property returns Property:
+	(readonly?='readonly')? 'property' name=ID ':' typeRef=TypeRef ( '=' init=Expression)?
+	( annotations+=PlatformAnnotation )*
+;
+
+Message returns Message:
+	'message' name=ID '(' ( parameters+=Parameter ( "," parameters+=Parameter)* )? ')'
+	( annotations+=PlatformAnnotation )* (';')?;
+	
+Parameter returns Parameter:
+	name=ID ':' typeRef=TypeRef ( annotations+=PlatformAnnotation )*
+;
+
+Port returns Port:
+	RequiredPort | ProvidedPort | InternalPort;
+	
+	
+RequiredPort returns RequiredPort:
+	(optional?='optional')? 'required' 'port' name=ID ( annotations+=PlatformAnnotation )* '{'
+		(('sends' sends+=[Message|ID] ( "," sends+=[Message|ID])* ) | 
+		('receives' receives+=[Message|ID] ( "," receives+=[Message|ID])* ))*
+	'}';
+
+ProvidedPort returns ProvidedPort:
+	'provided' 'port' name=ID ( annotations+=PlatformAnnotation )* '{'
+		(('sends' sends+=[Message|ID] ( "," sends+=[Message|ID])* ) | 
+		('receives' receives+=[Message|ID] ( "," receives+=[Message|ID])* ))*
+	'}';
+
+InternalPort returns InternalPort:
+	'internal' 'port' name=ID ( annotations+=PlatformAnnotation )* '{'
+		(('sends' sends+=[Message|ID] ( "," sends+=[Message|ID])* ) | 
+		('receives' receives+=[Message|ID] ( "," receives+=[Message|ID])* ))*
+	'}';
+
+/*****************************************************************************
+ *       STATE MECHINES                                                      *
+ *****************************************************************************/
+
+State returns State:
+	StateMachine | FinalState | CompositeState |
+	'state' name=ID ( annotations+=PlatformAnnotation )* '{'
+		(properties+=Property)*
+		(
+			('on' 'entry' entry=Action)? &
+			('on' 'exit' exit=Action)? &
+			(properties+=Property | internal+=InternalTransition | outgoing+=Transition)*
+		)
+	'}';
+
+Handler:
+	Transition | InternalTransition
+;
+
+Transition returns Transition:
+	'transition' (name=ID)? '->' target=[State|ID] 
+	( annotations+=PlatformAnnotation )*
+	('event' event=Event)?
+	('guard' guard=Expression)?
+	('action' action=Action)?;
+
+InternalTransition returns InternalTransition:
+	{InternalTransition}
+	'internal' (name=ID)?
+	( annotations+=PlatformAnnotation )*
+	('event' event=Event)?
+	('guard' guard=Expression)?
+	('action' action=Action)?;
+
+
+CompositeState returns CompositeState:
+	'composite' 'state' name=ID 'init' initial=[State|ID] ('keeps' history?='history')?	( annotations+=PlatformAnnotation )* '{'
+		(properties+=Property)*
+		(
+			('on' 'entry' entry=Action)? &
+			('on' 'exit' exit=Action)? &
+			(properties+=Property | substate+=State | internal+=InternalTransition | outgoing+=Transition)*
+		)
+		(region+=Region | session+=Session)*
+	'}';
+
+StateMachine returns CompositeState: // Actually only another syntax for a composite state
+	'statechart' (name=ID)? 'init' initial=[State|ID] ('keeps' history?='history')?	( annotations+=PlatformAnnotation )* '{'
+		(properties+=Property)*
+		(
+			('on' 'entry' entry=Action)? &
+			('on' 'exit' exit=Action)? &
+			(properties+=Property | substate+=State | internal+=InternalTransition)*
+		)
+		(region+=Region | session+=Session)*
+	'}';
+
+Session returns Session:
+	'session' name=ID ('<' maxInstances=(IntegerLiteral | PropertyReference) '>')? 'init' initial=[State|ID] ( annotations+=PlatformAnnotation )* '{'
+		(substate+=State)*
+	'}';
+
+Region returns Region:
+	'region' (name=ID)? 'init' initial=[State|ID] ('keeps' history?='history')?	( annotations+=PlatformAnnotation )* '{'
+		(substate+=State)*
+	'}';
+
+FinalState returns FinalState:
+	'final' 'state' name=ID ( annotations+=PlatformAnnotation )* '{' ('on' 'entry' entry=Action)? '}'
+;
+
+StateContainer:
+	CompositeState | Region | Session |
+	'keeps' initial=[State|ID] ('keeps' history?='history')?	 '{' // This is never used, it is just to have the attributes in the superclass
+		(substate+=State)*
+	'}'
+;
+
+/*****************************************************************************
+ *       DATA ANALYTICS          // ML2           Also check out ThingMLScopeProvider at org.thingml.xtext.scoping in thingml and 
+ *                                         			ThingMLAntlrTokenToAttributeIdMapper at org.thingml.xtext.ui in thingml.ui
+ *****************************************************************************/
+
+MessageParameter returns MessageParameter:
+	Message | Parameter
+;
+
+DataAnalytics returns DataAnalytics:
+	'data_analytics' name=ID ( annotations+=PlatformAnnotation )* '{'
+		('dataset' dataset=STRING)
+		('sequential' sequential=Sequential)
+		('timestamps' timestamps=Timestamps)
+		('labels' labels=Labels)
+		('features' features+=[Property|ID] ( "," features+=[Property|ID])*)
+		('model_algorithm' modelAlgorithm=DataAnalyticsModelAlgorithm)
+		('training_results' trainingResults=STRING)
+		('prediction_results' predictionResults+=[Property|ID] ( "," predictionResults+=[Property|ID])*)
+'}';
+
+enum Sequential:
+	TRUE='TRUE' | FALSE='FALSE'
+;
+
+enum Timestamps:
+	ON='ON' | OFF='OFF'
+;
+
+enum Labels:
+	ON='ON' | OFF='OFF'
+;
+
+// Models and algorithms for data analytics (specifically Machine Learning) may have any of the following types:
+// 1. They can conform to the PMML standard. 
+// 2. They can conform to the PFA standard (not yet supported).
+// 3. If they do not conform to the above-mentioned standards, they may be one of the choices offered here by ML2 (the list will be extended):
+//  DecisionTreeRegressor
+//	RandomForestRegressor
+//	NN_MultilayerPerceptron 
+
+DataAnalyticsModelAlgorithm returns DataAnalyticsModelAlgorithm:
+	PMML_ModelAlgorithm | PFA_ModelAlgorithm | ML2_ModelAlgorithm;
+
+
+// 1. The PMML Standard (see http://dmg.org/pmml/v4-4/GeneralStructure.html)
+PMML_ModelAlgorithm returns PMML_ModelAlgorithm:
+	'pmml' name=ID
+	'('
+	('path' pmml_path=STRING)
+	')'
+;
+
+// 2. The PFA Standard (see http://dmg.org/pfa/)
+//TODO To be supported
+PFA_ModelAlgorithm returns PFA_ModelAlgorithm:
+	'pfa' name=ID
+	'('
+	('path' pfa_path=STRING)
+	')'
+;
+
+// 3. ML2 models and algorithms
+//TODO To be extended
+
+ML2_ModelAlgorithm returns ML2_ModelAlgorithm:
+	DecisionTree | 
+	RandomForest | 
+	NN_MultilayerPerceptron
+;
+
+DecisionTree returns DecisionTree:
+	'decision_tree' name=ID
+	'('
+	('criterion' decisionTreeCriterion=DecisionTreeCriterion)?
+	(',')?
+	('min_samples_split' min_samples_split=Min_samples_split_type
+	)?
+	')'
+;
+
+RandomForest returns RandomForest:
+	'random_forest' name=ID
+	'('
+	('criterion' randomForestCriterion=RandomForestCriterion)?
+	(',')?
+	('min_samples_split' min_samples_split=Min_samples_split_type)?
+	')'
+;
+
+NN_MultilayerPerceptron returns NN_MultilayerPerceptron:
+	'nn_multilayer_perceptron' name=ID
+	'('
+	('no_hidden_layers' no_hidden_layers=INT)?
+	(',')?
+	('activation' activation=Activation)?
+	(',')?
+	('optimizer' optimizer=Optimizer)?
+	(',')?
+	('loss' loss=Loss)?
+	(',')?
+	('epochs' epochs=INT)?
+	(',')?
+	('batch_size' batch_size=INT)?
+	')'
+;
+
+Min_samples_split_type:
+	INT | FLOAT
+;
+
+enum DecisionTreeCriterion:
+	NO_IDEA='NO_IDEA'| MSE='MSE' | FRIEDMAN_MSE='FRIEDMAN_MSE'| MAE='MAE' | GINI="GINI" | ENTROPY="ENTROPY"
+;
+
+enum RandomForestCriterion:
+	NO_IDEA='NO_IDEA'| MSE='MSE' | MAE='MAE' | GINI="GINI" | ENTROPY="ENTROPY"
+;
+
+enum Activation:
+	NO_IDEA='NO_IDEA'| RELU='relu' | SIGMOID='sigmoid' | SOFTMAX='softmax' | SOFTPLUS='softplus' | SOFTSIGN='softsign' | TANH='tanh' | SELU='selu' | ELU='elu' | EXPONENTIAL='exponential'
+;
+
+enum Optimizer:
+	NO_IDEA='NO_IDEA'| SGD='SGD' | RMSPROP='RMSprop' | ADAM='Adam' | ADADELTA='Adadelta' | ADAGRAD='Adagrad' | ADAMAX='Adamax' | NADAM='Nadam' | FTRL='Ftrl'
+;
+
+enum Loss:
+	NO_IDEA='NO_IDEA'| SPARSE_CATEGORICAL_CROSSENTROPY='sparse_categorical_crossentropy' | CATEGORICAL_CROSSENTROPY='categorical_crossentropy' | MSE="MSE"
+;
+
+
+/*****************************************************************************
+ *       EVENTS                                                             *
+ *****************************************************************************/
+Event:
+	ReceiveMessage;
+
+ReceiveMessage returns ReceiveMessage:
+	(name=ID ":")? port=[Port|ID]'?'message=[Message|ID];
+
+
+/*****************************************************************************
+ *       ACTIONS                                                             *
+ *****************************************************************************/
+ 
+Action returns Action:
+	ActionBlock | ExternStatement | SendAction | VariableAssignment | Increment | Decrement | LoopAction | ForAction |
+	ConditionalAction | ReturnAction | PrintAction | ErrorAction | StartSession | FunctionCallStatement | LocalVariable |
+	DASaveAction | DAPreprocessAction | DATrainAction | DAPredictAction; //ML2
+
+
+ActionBlock returns ActionBlock:
+	{ActionBlock}
+	'do' (actions+=Action)* 'end';
+
+ExternStatement returns ExternStatement:
+	statement=EXTERN ('&' segments+=Expression)*;
+	
+LocalVariable returns LocalVariable:
+	(readonly?='readonly')? 'var' name=ID ':'  typeRef=TypeRef ( '=' init=Expression)? ( annotations+=PlatformAnnotation )*
+;
+
+SendAction returns SendAction:
+	port=[Port|ID] '!' message=[Message|ID] '(' (parameters+=Expression ( "," parameters+=Expression)*)? ')';
+
+VariableAssignment returns VariableAssignment:
+	property=[Variable|ID] (=>'[' index=Expression ']')? '=' expression=Expression;
+
+Increment returns Increment:
+	var=[Variable|ID] '++';
+
+Decrement returns Decrement:
+	var=[Variable|ID] '--';
+
+ForAction returns ForAction:
+	'for' '(' variable=Parameter (',' index=Parameter)? 'in' array=PropertyReference ')' action=Action;
+
+LoopAction returns LoopAction:
+	'while' '(' condition=Expression ')' action=Action;
+
+ConditionalAction returns ConditionalAction:
+	'if' '(' condition=Expression ')' action=Action (=>'else' elseAction=Action)?;
+
+ReturnAction returns ReturnAction:
+	{ReturnAction} 'return' ( => exp=Expression )?;
+
+PrintAction returns PrintAction:
+	('print' | line ?= 'println') msg+=Expression (',' msg+=Expression)*;
+
+ErrorAction returns ErrorAction:
+	('error' | line ?= 'errorln') msg+=Expression (',' msg+=Expression)*;
+
+StartSession returns StartSession:
+	'fork' session=[Session|ID] ;
+
+FunctionCallStatement returns FunctionCallStatement:
+	function=[Function|ID] '(' (parameters+=Expression ( "," parameters+=Expression)*)? ')';
+
+//ML2 Actions
+DASaveAction returns DASaveAction:
+	'da_save' dataAnalytics=[DataAnalytics|ID];
+
+DAPreprocessAction returns DAPreprocessAction:
+	'da_preprocess' dataAnalytics=[DataAnalytics|ID];
+
+DATrainAction returns DATrainAction:
+	'da_train' dataAnalytics=[DataAnalytics|ID];
+
+DAPredictAction returns DAPredictAction:
+	'da_predict' dataAnalytics=[DataAnalytics|ID] '(' features+=[Property|ID] ( "," features+=[Property|ID])* ')';
+
+/*****************************************************************************
+ *       EXPRESSIONS                                                         *
+ *****************************************************************************/
+
+	//ExternExpression | EnumLiteralRef | IntegerLiteral | BooleanLiteral | StringLiteral | DoubleLiteral | NotExpression | UnaryMinus | 
+	//PlusExpression | MinusExpression | TimesExpression | DivExpression | ModExpression | EqualsExpression | NotEqualsExpression | GreaterExpression | 
+	//LowerExpression | GreaterOrEqualExpression | LowerOrEqualExpression | AndExpression | OrExpression | PropertyReference | ArrayIndex | 
+	//ExpressionGroup | FunctionCallExpression | MessageParameter | Reference;
+
+
+Expression: OrExpression;
+
+OrExpression returns Expression:
+	AndExpression ({OrExpression.lhs=current} "or" rhs=AndExpression)*
+;
+
+AndExpression returns Expression:
+	Equality ({AndExpression.lhs=current} "and" rhs=Equality)*
+;
+
+Equality returns Expression:
+	Comparaison (
+	( {EqualsExpression.lhs=current} "==" rhs=Comparaison ) |
+	( {NotEqualsExpression.lhs=current} "!=" rhs=Comparaison )
+	)*	
+;
+
+Comparaison returns Expression:
+	Addition (
+	( {GreaterExpression.lhs=current} ">" rhs=Addition ) |
+	( {LowerExpression.lhs=current} "<" rhs=Addition ) |
+	( {GreaterOrEqualExpression.lhs=current} ">=" rhs=Addition ) |
+	( {LowerOrEqualExpression.lhs=current} "<=" rhs=Addition )
+	)*
+;
+
+Addition returns Expression:
+	Multiplication (
+	( {PlusExpression.lhs=current} "+" rhs=Multiplication ) |
+	( {MinusExpression.lhs=current} "-" rhs=Multiplication )
+	)*	
+;
+
+Multiplication returns Expression:
+	CastExpression (
+	( {TimesExpression.lhs=current} "*" rhs=CastExpression ) |
+	( {DivExpression.lhs=current} "/" rhs=CastExpression ) |
+	( {ModExpression.lhs=current} "%" rhs=CastExpression)
+	)*	
+;
+
+CastExpression returns Expression:
+	Primary ({CastExpression.term=current} "as" type=[Type|ID] (^isArray?='['']')?)?
+;
+
+Primary returns Expression:
+	{ExpressionGroup} '(' term=Expression ')' |
+	{NotExpression} "not" term=Primary |
+	{UnaryMinus} '-' term=Primary 
+	| ArrayIndexPostfix
+;
+
+
+ArrayIndexPostfix returns Expression:
+	AtomicExpression ( {ArrayIndex.array=current} '[' index=Expression ']')?
+;
+
+
+AtomicExpression returns Expression:
+	ExternExpression | Literal | ArrayInit |  PropertyReference | FunctionCallExpression 
+	 | EventReference 
+;
+
+ExternExpression returns ExternExpression:
+	expression=EXTERN ('&' segments+=Expression)*;
+	
+Literal returns Literal:
+	EnumLiteralRef | ByteLiteral | CharLiteral | IntegerLiteral | BooleanLiteral | StringLiteral | DoubleLiteral
+;
+
+ArrayInit returns ArrayInit:
+	'{' values+=(Expression) (',' values+=(Expression))* '}'
+;
+	
+EnumLiteralRef returns EnumLiteralRef:
+	^enum=[Enumeration|ID] ':' literal=[EnumerationLiteral|ID];
+	
+ByteLiteral returns ByteLiteral:
+	byteValue=BYTE;
+	
+CharLiteral returns CharLiteral:
+	charValue=CHAR;
+
+IntegerLiteral returns IntegerLiteral:
+	intValue=INT;
+
+BooleanLiteral returns BooleanLiteral:
+	(boolValue?='true') | {BooleanLiteral} 'false'
+	;
+
+StringLiteral returns StringLiteral:
+	stringValue=STRING;
+
+DoubleLiteral returns DoubleLiteral:
+	doubleValue = FLOAT;
+
+PropertyReference returns PropertyReference:
+	property=[Variable|ID]
+;
+
+EventReference returns EventReference:
+	receiveMsg=[Event|ID] "." parameter=[Parameter|ID]
+;
+
+FunctionCallExpression returns FunctionCallExpression:
+	function=[Function|ID]'('
+		( parameters+=Expression ( "," parameters+=Expression )* )?
+	')';
+
+
+/*****************************************************************************
+ *       CONFIGURATIONS                                                      *
+ *****************************************************************************/
+
+Configuration returns Configuration:
+	'configuration' name=ID ( annotations+=PlatformAnnotation )* '{'
+	(instances+=Instance | connectors+=AbstractConnector | propassigns+=ConfigPropertyAssign)*
+	'}';
+
+
+Instance returns Instance:
+	'instance' name=ID ':' type=[Thing|ID] ( annotations+=PlatformAnnotation )*;
+
+ConfigPropertyAssign returns ConfigPropertyAssign:
+	'set' instance=[Instance|ID] '.' property=[Property|ID] (=>'[' index=Expression ']')? '=' init=Expression ( annotations+=PlatformAnnotation )*;
+
+
+AbstractConnector:
+	Connector | ExternalConnector;
+	
+Connector returns Connector:
+	'connector'	(name=ID)? cli=[Instance|ID] '.' required=[RequiredPort|ID] '=>' srv=[Instance|ID] '.' provided=[ProvidedPort|ID] ( annotations+=PlatformAnnotation )*;
+
+ExternalConnector returns ExternalConnector:
+	'connector'	(name=ID)? inst=[Instance|ID] '.' port=[Port|ID] 'over' protocol=[Protocol|ID] ( annotations+=PlatformAnnotation )*;
+/* 
+InstanceRef returns InstanceRef:
+	instance=[Instance|ID];
+*/
+
+/*****************************************************************************
+ *       TERMINALS                                                           *
+ *****************************************************************************/
+
+terminal ID  		: '^'?('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')*;
+
+terminal BYTE returns ecore::EByte: "0x" ('0'..'9'|'a'..'f'|'A'..'F') ('0'..'9'|'a'..'f'|'A'..'F');
+
+terminal CHAR returns ecore::EByte: "'" ('\\0'|'\\t'|'\\n'|'\\r'|' '..'&'|'\\\''|'('..'['|'\\\\'|']'..'~') "'";
+
+terminal INT returns ecore::ELong: ('0'..'9')+;
+
+terminal FLOAT returns ecore::EDouble :
+('0'..'9')+ '.' ('0'..'9')* (('e'|'E') ('+' | '-')? ('0'..'9')+)?
+| '.' ('0'..'9')+ (('e'|'E') ('+' | '-')? ('0'..'9')+)?
+| ('0'..'9')+ ('e'|'E') ('+' | '-')? ('0'..'9')+;
+
+
+terminal ANNOTATION_ID:
+	"@" ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')*;
+
+
+terminal STRING: '"' ( '\\' . /* 'b'|'t'|'n'|'f'|'r'|'u'|'"'|"'"|'\\' */ | !('\\'|'"') )* '"';
+			
+terminal EXTERN: '`' ( '\\' . | !('\\'|'`') )* '`';
+
+terminal ML_COMMENT	: '/*' -> '*/';
+terminal SL_COMMENT 	: '//' !('\n'|'\r')* ('\r'? '\n')?;
+
+terminal WS			: (' '|'\t'|'\r'|'\n')+;
+
+terminal ANY_OTHER: .;
+	

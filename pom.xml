@@ -19,25 +19,25 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.thingml</groupId>
-    <artifactId>org.thingml.root</artifactId>
+    <groupId>io.github.arminmoin</groupId>
+    <artifactId>mlquadrat</artifactId>
     <packaging>pom</packaging>
-    <name>ThingML :: Root</name>
-    <url>http://www.thingml.org</url>
+    <name>MLQuadrat</name>
+    <url>https://github.com/arminmoin/ML-Quadrat</url>
 
-    <version>2.0.0-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <thingml.version>${project.version}</thingml.version>
-        <bundle.vendor>Tellu IoT</bundle.vendor>
+        <mlquadrat.version>${project.version}</mlquadrat.version>
+        <bundle.vendor>MLQuadrat</bundle.vendor>
 	<maven.compiler.source>1.8</maven.compiler.source>
 	<maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <organization>
-        <name>ThingML Project</name>
-        <url>http://thingml.org</url>
+        <name>MLQuadrat</name>
+        <url>https://github.com/arminmoin/ML-Quadrat</url>
     </organization>
 
     <licenses>
@@ -50,32 +50,22 @@
     </licenses>
 
     <scm>
-        <connection>scm:git@github.com:TelluIoT/ThingML.git</connection>
-        <developerConnection>scm:git@github.com:TelluIoT/ThingML.git</developerConnection>
-        <url>https://github.com/TelluIoT/ThingML.git</url>
+        <connection>scm:git@github.com:arminmoin/ML-Quadrat.git</connection>
+        <developerConnection>scm:git@github.com:arminmoin/ML-Quadrat.git</developerConnection>
+        <url>https://github.com/arminmoin/ML-Quadrat.git</url>
         <tag>HEAD</tag>
     </scm>
 
     <developers>
         <developer>
-            <name>Franck Fleurey</name>
-            <id>ffleurey</id>
-            <email>first.last@tellu.no</email>
+            <name>Armin Moin</name>
+            <id>arminmoin</id>
+            <email>moin@in.tum.de</email>
             <roles>
                 <role>admin</role>
                 <role>developer</role>
             </roles>
-            <timezone>+1</timezone>
-        </developer>
-        <developer>
-            <name>Brice Morin</name>
-            <id>bmorin</id>
-            <email>first.last@sintef.no</email>
-            <roles>
-                <role>admin</role>
-                <role>developer</role>
-            </roles>
-            <timezone>+1</timezone>
+            <timezone>+2</timezone>
         </developer>
     </developers>
 
@@ -144,7 +134,28 @@
                 <version>3.2.0</version>
                 <extensions>true</extensions>
             </plugin>
-        </plugins>
+    	
+	    <plugin>
+		<groupId>org.sonatype.plugins</groupId>
+   		<artifactId>nexus-staging-maven-plugin</artifactId>
+   		<version>1.5.1</version>
+   		<executions>
+      			<execution>
+         			<id>default-deploy</id>
+         			<phase>deploy</phase>
+         			<goals>
+            				<goal>deploy</goal>
+         			</goals>
+      			</execution>
+   		</executions>
+   		<configuration>
+      			<serverId>nexus</serverId>
+      			<nexusUrl>http://localhost:8081/nexus/</nexusUrl>
+      			<skipStaging>true</skipStaging>
+   		</configuration>
+             </plugin>
+    
+    	</plugins>
         <pluginManagement>
         	<plugins>
         		<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
@@ -181,57 +192,25 @@
         	</plugins>
         </pluginManagement>
     </build>
-
-    <repositories>
-
-        <repository>
-            <id>thingml-snapshot</id>
-            <name>thingml-snapshot</name>
-            <url>http://maven.thingml.org/thingml-snapshot/</url>
-        </repository>
-
-        <repository>
-            <id>thingml-release</id>
-            <name>thingml-release</name>
-            <url>http://maven.thingml.org/thingml-release/</url>
-        </repository>
-
-        <repository>
-            <id>thirdparty</id>
-            <name>thingml-snapshot</name>
-            <url>http://maven.thingml.org/thirdparty/</url>
-        </repository>
-
-    </repositories>
-
+    
     <modules>
-        <module>utilities</module>
-
-		<module>language/thingml.target</module>
-        <module>language/thingml</module>
-
-        <module>compilers</module>
-
-        <module>testing/framework</module>
-        <module>testing/reportbuilder</module>
-
+        <module>ML2</module>
     </modules>
-
+    
     <distributionManagement>
 
         <repository>
-            <id>thingml-release</id>
-            <name>thingml-release</name>
-            <url>http://maven.thingml.org/archiva/repository/thingml-release/</url>
+            <id>mlquadrat-release</id>
+            <name>mlquadrat-release</name>
+	    <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
 
         <snapshotRepository>
-            <id>thingml-snapshot</id>
-            <name>thingml-snapshot</name>
-            <url>http://maven.thingml.org/archiva/repository/thingml-snapshot/</url>
+            <id>mlquadrat-snapshot</id>
+            <name>mlquadrat-snapshot</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
         </snapshotRepository>
 
     </distributionManagement>
-
 
 </project>

@@ -1,0 +1,40 @@
+import "MQTTEchoTestClient.thingml"
+import "TestMQTTReceiverPortJavaMqttJson.thingml"
+import "TestMQTTSenderPortJavaMqttJson.thingml"
+import "../java/JavaMQTTAdapter.thingml"
+
+configuration EchoJavaTestClient
+@compiler "java"
+{
+	instance echo : MQTTEchoTestClient
+	
+	instance timer : TimerJava
+	connector echo.timer => timer.timer
+	
+	instance rx : TestMQTTReceiverPort_JavaMqttJson_Impl
+		set rx.mqtt_topic_name = "ping"
+	connector rx.receiver => echo.sender
+	
+	instance tx : TestMQTTSenderPort_JavaMqttJson_Impl
+		set tx.mqtt_topic_name = "pong"
+	connector echo.receiver => tx.sender
+	
+	
+	instance mqtt : JavaMQTTAdapter
+	
+	connector rx.javamqtt => mqtt.mqtt
+	connector tx.javamqtt => mqtt.mqtt
+	connector echo.mqtt => mqtt.mqtt
+	
+}
+ 
+
+
+
+
+
+
+
+
+ 
+
