@@ -21,9 +21,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     
     <modelVersion>4.0.0</modelVersion>
+    <!--
     <artifactId>utilities</artifactId>
     <packaging>jar</packaging>
     <name>ThingML :: Utilities</name>
+    -->
+    <groupId>io.github.arminmoin</groupId>
+    <artifactId>mlquadrat.utilities</artifactId>
+    <name>MLQuadrat :: Utilities</name>
+    <packaging>jar</packaging>
 
     <parent>
         <groupId>org.thingml</groupId>

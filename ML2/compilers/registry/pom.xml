@@ -20,9 +20,14 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <!--
     <groupId>org.thingml</groupId>
     <artifactId>compilers.registry</artifactId>
     <name>ThingML :: Compilers :: Registry</name>
+    -->
+    <groupId>io.github.arminmoin</groupId>
+    <artifactId>mlquadrat.compilers.registry</artifactId>
+    <name>MLQuadrat :: Compilers :: Registry</name>
     <packaging>jar</packaging>
 
     <parent>

@@ -24,7 +24,14 @@
 		<artifactId>language</artifactId>
 		<version>2.0.0-SNAPSHOT</version>
 	</parent>
+	<!--
 	<artifactId>thingml.ide</artifactId>
+	<name>ThingML :: Language :: Eclipse :: IDE</name>
+	-->
+	<groupId>io.github.arminmoin</groupId>
+	<artifactId>thingml.ide</artifactId>
+    	<name>MLQuadrat :: Language :: Eclipse :: IDE</name>
+
 	<packaging>eclipse-plugin</packaging>
 
 	<build>
@@ -67,5 +74,4 @@
 		</plugins>
 	</build>
 
-	<name>ThingML :: Language :: Eclipse :: IDE</name>
 </project>

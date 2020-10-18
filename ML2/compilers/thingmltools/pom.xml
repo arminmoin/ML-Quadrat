@@ -20,8 +20,13 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <!--
     <artifactId>compilers.thingmltools</artifactId>
     <name>ThingML :: Compilers :: ThingML Tools</name>
+    -->
+    <groupId>io.github.arminmoin</groupId>
+    <artifactId>mlquadrat.compilers.thingmltools</artifactId>
+    <name>MLQuadrat :: Compilers :: ThingML Tools</name>
     <packaging>jar</packaging>
 
     <parent>
