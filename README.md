@@ -5,7 +5,7 @@ ML2 is a free open source Model-Driven Software Engineering (MDSE) tool for crea
 
 1. [Reporting Issues/Bugs and Requests](#issues)
 2. [ML2 Users' Documentation (Tutorial)](#user-doc)
-3. [How to use ML2 as a Maven dependency?](#maven)
+3. [ML2 Maven Artifacts](#maven)
 4. [ML2 Developers' Documentation (for Contributors)](#dev-doc)
 
 
@@ -187,9 +187,9 @@ cd target
 java -jar SmartPingPongCfg-1.0.0-jar-with-dependencies.jar
 ```
 <a name="maven"></a>
-## How to use ML2 as a Maven dependency?
+## ML2 Maven Artifacts
+You can find the Maven artifacts of ML2 at https://oss.sonatype.org (e.g., search for the groupid: io.github.arminmoin). You may add the dependencies to your pom.xml file. For instance, add the following to your pom.xml:
 
-Add the following to your pom.xml:
 ```
 <dependency>
   <groupId>io.github.arminmoin</groupId>
@@ -198,7 +198,6 @@ Add the following to your pom.xml:
   <type>pom</type>
 </dependency>
 ```
-See more artifacts at https://oss.sonatype.org.
 
 <a name="dev-doc"></a>
 ## ML2 Developers' Documentation (for Contributors)
