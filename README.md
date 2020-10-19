@@ -1,5 +1,5 @@
 # ML-Quadrat (ML2)
-ML2 is a free open source Model-Driven Software Engineering (MDSE) tool for creating smart services for the Internet of Things (IoT) and Cyber-Physical Systems (CPS). ML2 is based on [ThingML](https://github.com/TelluIoT/ThingML). Please read the accompanying license agreement (Apache License Version 2.0). 
+ML2 is a free open source Model-Driven Software Engineering (MDSE) tool (a.k.a. "low-code") for creating smart services for the Internet of Things (IoT) and Cyber-Physical Systems (CPS). ML2 is based on [ThingML](https://github.com/TelluIoT/ThingML). The name ML-Quadrat (German word for ML-Square / MLˆ2) refers to the fact that the project is about two MLs: (i) ML for Modeling Language; (ii) ML for Machine Learning. However, in the following documentation and also in the source code comments, we refer to the project name as ML2 for simplicity.
 
 # Table of Contents
 
@@ -7,9 +7,6 @@ ML2 is a free open source Model-Driven Software Engineering (MDSE) tool for crea
 2. [ML2 Users' Documentation (Tutorial)](#user-doc)
 3. [ML2 Maven Artifacts](#maven)
 4. [ML2 Developers' Documentation (for Contributors)](#dev-doc)
-
-
-Note: The name ML-Quadrat (German word for ML-Square / MLˆ2) refers to the fact that the project is about two MLs: (i) ML for Modeling Language; (ii) ML for Machine Learning. However, in the following documentation and also in the source code comments, we refer to the project name as ML2 for simplicity.
 
 <a name="issues"></a>
 ## Reporting Issues/Bugs and Requests
