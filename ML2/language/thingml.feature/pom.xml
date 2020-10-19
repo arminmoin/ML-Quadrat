@@ -20,8 +20,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>org.thingml</groupId>
-		<artifactId>language</artifactId>
+		<groupId>io.github.arminmoin</groupId>
+		<artifactId>mlquadrat.language</artifactId>
 		<version>2.0.0-SNAPSHOT</version>
 	</parent>
 	<!--
@@ -35,8 +35,8 @@
 	<dependencies>
 	
 		<dependency>
-		  <groupId>org.thingml</groupId>
-		  <artifactId>compilers.bundle</artifactId>
+		  <groupId>io.github.arminmoin</groupId>
+		  <artifactId>mlquadrat.compilers.bundle</artifactId>
 		  <version>${thingml.version}</version>
 		</dependency>
 		

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <plugins>
+    <plugin>
+      <name>MLQuadrat :: Testing :: ReportBuilder</name>
+      <prefix>thingmlreport</prefix>
+      <artifactId>mlquadrat.testing.reportbuilder</artifactId>
+    </plugin>
+  </plugins>
+</metadata>
