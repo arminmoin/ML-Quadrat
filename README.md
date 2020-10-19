@@ -146,7 +146,7 @@ The command-line interface JAR containing all you need to generate source code f
 
 ```bash
 cd ML2/compilers/registry/target
-java -jar compilers.registry-2.0.0-SNAPSHOT-jar-with-dependencies.jar
+java -jar mlquadrat.compilers.registry-2.0.0-SNAPSHOT-jar-with-dependencies.jar
 ```
 If you run the JAR file (e.g., with the -h or --help options), you will see the list of all options and commands.
 
@@ -155,11 +155,11 @@ For instance, if you want to generate source code in Java and Python for our sam
 ```bash
 cd ML2/compilers/registry/target
 
-java -jar compilers.registry-2.0.0-SNAPSHOT-jar-with-dependencies.jar -c java -s org.thingml.samples/src/main/thingml/ML2_Demo1_PingPong.thingml -o GeneratedDemo1
+java -jar mlquadrat.compilers.registry-2.0.0-SNAPSHOT-jar-with-dependencies.jar -c java -s org.thingml.samples/src/main/thingml/ML2_Demo1_PingPong.thingml -o GeneratedDemo1
 
-java -jar compilers.registry-2.0.0-SNAPSHOT-jar-with-dependencies.jar -c java -s org.thingml.samples/src/main/thingml/ML2_Demo2_NIALM_PSM_Java.thingml  -o GeneratedDemo2
+java -jar mlquadrat.compilers.registry-2.0.0-SNAPSHOT-jar-with-dependencies.jar -c java -s org.thingml.samples/src/main/thingml/ML2_Demo2_NIALM_PSM_Java.thingml  -o GeneratedDemo2
 
-java -jar compilers.registry-2.0.0-SNAPSHOT-jar-with-dependencies.jar -c java -s org.thingml.samples/src/main/thingml/ML2_Demo3_EnergyStockMarket.thingml  -o GeneratedDemo3 	
+java -jar mlquadrat.compilers.registry-2.0.0-SNAPSHOT-jar-with-dependencies.jar -c java -s org.thingml.samples/src/main/thingml/ML2_Demo3_EnergyStockMarket.thingml  -o GeneratedDemo3 	
 
 ```
 Note that we choose the Java "code generator" (also known as "model-to-code transformation" or "compiler") with the option **-c java** above. However, the framework will generate the Data Analytics part of the source code in Python. The generated Python code will seamlessly integrate with the generated Java code using the Process Builder API in Java.
