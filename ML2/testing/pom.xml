@@ -42,17 +42,17 @@
     <dependencies>
     	<dependency>
             <groupId>io.github.arminmoin</groupId>
-            <artifactId>compilers.framework</artifactId>
+            <artifactId>mlquadrat.compilers.framework</artifactId>
             <version>${thingml.version}</version>
         </dependency>
 	<dependency>
             <groupId>io.github.arminmoin</groupId>
-            <artifactId>compilers.registry</artifactId>
+            <artifactId>mlquadrat.compilers.registry</artifactId>
             <version>${thingml.version}</version>
         </dependency>
         <dependency>
             <groupId>io.github.arminmoin</groupId>
-            <artifactId>official-network-plugins</artifactId>
+            <artifactId>mlquadrat.compilers.official-network-plugins</artifactId>
             <version>${thingml.version}</version>
         </dependency>
         <dependency>
@@ -73,7 +73,7 @@
 		</dependency>
         <dependency>
         	<groupId>io.github.arminmoin</groupId>
-        	<artifactId>testing.framework</artifactId>
+        	<artifactId>mlquadrat.testing.framework</artifactId>
         	<version>${project.version}</version>
         	<scope>test</scope>
         </dependency>

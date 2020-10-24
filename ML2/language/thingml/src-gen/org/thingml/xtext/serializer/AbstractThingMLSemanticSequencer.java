@@ -1000,9 +1000,16 @@ public abstract class AbstractThingMLSemanticSequencer extends AbstractDelegatin
 	 *             history?='history'? 
 	 *             annotations+=PlatformAnnotation* 
 	 *             properties+=Property* 
-	 *             substate+=State? 
-	 *             ((entry=Action | exit=Action | properties+=Property | internal+=InternalTransition | outgoing+=Transition)? substate+=State?)* 
-	 *             (region+=Region | session+=Session)*
+	 *             (
+	 *                 entry=Action | 
+	 *                 exit=Action | 
+	 *                 properties+=Property | 
+	 *                 substate+=State | 
+	 *                 internal+=InternalTransition | 
+	 *                 outgoing+=Transition
+	 *             )* 
+	 *             region+=Region? 
+	 *             (session+=Session? region+=Region?)*
 	 *         ) | 
 	 *         (
 	 *             name=ID? 
@@ -1010,9 +1017,9 @@ public abstract class AbstractThingMLSemanticSequencer extends AbstractDelegatin
 	 *             history?='history'? 
 	 *             annotations+=PlatformAnnotation* 
 	 *             properties+=Property* 
-	 *             (entry=Action | exit=Action | properties+=Property | substate+=State | internal+=InternalTransition)* 
-	 *             region+=Region? 
-	 *             (session+=Session? region+=Region?)*
+	 *             substate+=State? 
+	 *             ((entry=Action | exit=Action | properties+=Property | internal+=InternalTransition)? substate+=State?)* 
+	 *             (region+=Region | session+=Session)*
 	 *         )
 	 *     )
 	 */
