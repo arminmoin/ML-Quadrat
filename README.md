@@ -25,7 +25,7 @@ ThingML and other Model-Driven Software Engineering (MDSE) tools, that we are aw
 
 ### How to install ML2?
 **Prerequisites:**
-You need Git (https://git-scm.com/), Maven (https://maven.apache.org/), the Java Development Kit (JDK) version 8+, Python 3 (Anaconda recommended: https://www.anaconda.com/), Scikit-learn, e.g., version 0.22.1 (https://scikit-learn.org), Tensorflow / TensorFlow-GPU, e.g., version 1.15.0 (https://www.tensorflow.org/), Keras, e.g., version 2.3.1 (https://keras.io/) and Pytorch, e.g., version 1.4.0 (https://pytorch.org/). They are all free open source software. Finally, install the Xtext ANTLR plugin from the following update site in the Eclipse IDE: https://download.itemis.de/updates/releases/2.1.1/
+You need Git (https://git-scm.com/), Maven (https://maven.apache.org/), the Java Development Kit (JDK) version 8+, Python 3 (Anaconda recommended: https://www.anaconda.com/), Scikit-learn, e.g., version 0.22.1 (https://scikit-learn.org), Tensorflow / TensorFlow-GPU, e.g., version 1.15.0 (https://www.tensorflow.org/), Keras, e.g., version 2.3.1 (https://keras.io/) and Pytorch, e.g., version 1.4.0 (https://pytorch.org/). They are all free open source software. Finally, install the Xtext ANTLR plugin from the following update site in the Eclipse IDE: https://download.itemis.de/updates/releases/2.1.1/ and the required google.common.collect dependencies from the following update site: https://download.eclipse.org/modeling/tmf/updates/
 
 Go to the terminal / shell / command line and follow the steps below.
 
