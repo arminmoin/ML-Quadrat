@@ -38,6 +38,16 @@ public class AnnotationRegistry {
 		final Annotation compiler_annotation = new Annotation(compiler_name, compiler_desc, compiler_scope);
 		annotations.put(compiler_name, compiler_annotation);
 		
+		//ML2
+		/** Preferred Data Analytics (DA) & Machine Learning (ML) library/framework (PSM) **/
+		//@dalib
+		final String dalib_name = "dalib";
+		final String dalib_desc = "Specifies the preferred data analytics/machine learning library/framework, whose APIs shall be generated (PSM)";
+		final EClass dalib_scope[] = {ThingMLPackage.eINSTANCE.getDataAnalytics()};
+		final String dalib_values[] = {"auto", "scikit-learn", "keras-tensorflow", "pytorch", "weka"};
+		final Annotation dalib_annotation = new EnumAnnotation(dalib_name, dalib_desc, dalib_scope, dalib_values);
+		annotations.put(dalib_name, dalib_annotation);		
+		
 		final String c_compiler_name = "c_compiler";
 		final String c_compiler_desc = "Specifies an alternative compiler to be used to compile the generated C code e.g. clang";
 		final EClass c_compiler_scope[] = {ThingMLPackage.eINSTANCE.getConfiguration()};

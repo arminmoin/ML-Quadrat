@@ -50,6 +50,12 @@
             <artifactId>mlquadrat.compilers.java</artifactId>
             <version>${thingml.version}</version>
         </dependency>
+        
+        <dependency>
+            <groupId>io.github.arminmoin</groupId>
+            <artifactId>mlquadrat.compilers.python_java</artifactId>
+            <version>${thingml.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>io.github.arminmoin</groupId>

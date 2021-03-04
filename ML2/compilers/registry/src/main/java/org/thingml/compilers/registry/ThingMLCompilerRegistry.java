@@ -35,6 +35,7 @@ import org.thingml.compilers.c.teensy.TeensyCompiler;
 import org.thingml.compilers.cpp.sintefboard.SintefboardCompiler;
 import org.thingml.compilers.java.GraalCompiler;
 import org.thingml.compilers.java.JavaCompiler;
+import org.thingml.compilers.python_java.PythonJavaCompiler;
 import org.thingml.compilers.javascript.browser.BrowserJSCompiler;
 import org.thingml.compilers.javascript.node.NodeJSCompiler;
 import org.thingml.compilers.javascript.react.ReactJSCompiler;
@@ -69,6 +70,7 @@ public class ThingMLCompilerRegistry {
             instance.addCompiler(new TeensyCompiler());
             instance.addCompiler(new SintefboardCompiler());
             instance.addCompiler(new JavaCompiler());
+            instance.addCompiler(new PythonJavaCompiler());
             instance.addCompiler(new GraalCompiler());
             instance.addCompiler(new BrowserJSCompiler());
             instance.addCompiler(new NodeJSCompiler());

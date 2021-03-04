@@ -1,25 +1,29 @@
 object String
     @type_checker "String"
 	@c_type "char *"
-	@c_byte_size "*"
 	@java_type "String"
-    @js_type "String"
-    @SenML_type "String";
+    @js_type "String";
 	
 datatype Boolean<1>
     @type_checker "Boolean"
 	@c_type "uint8_t"
-	@c_byte_size "2"
 	@java_type "boolean"
- 	@js_type "boolean"
-	@java_primitive "true";
+ 	@js_type "boolean";
+ 	
+datatype Int32<4>
+    @type_checker "Integer"
+	@c_type "int32_t"
+	@java_type "int"
+    @js_type "int";
 
 thing fragment PingPongMsgs {
 	
 	message ping(ip: String);
+	//message ping(ip: Int32);
 	message pong();
 	
 	message query(client_ip: String);
+	//message query(client_ip: Int32);
 	message prediction_positive();
 	message prediction_negative();
 	
@@ -31,7 +35,8 @@ thing PingClient includes PingPongMsgs {
 		receives pong
 	}
 		
-	property my_ip_address: String = "192.168.1.1" 
+	property my_ip_address: String = "192.168.1.1"
+	//property my_ip_address: Int32 = 1
 	
 	statechart PingClientBehavior init Ping {
 	
@@ -76,6 +81,7 @@ thing PingServer includes PingPongMsgs {
 	}
 	
 	property client_ip_address: String
+	//property client_ip_address: Int32
 	property malicious_client: Boolean
 	
 	statechart PongServerBehavior init GetPing {
@@ -103,6 +109,7 @@ thing PingServer includes PingPongMsgs {
 			print "Got ping from: " + client_ip_address + "\n"
 			print "Sending Pong...\n"
 			ping_service!pong()
+			malicious_client = false
 			end
 			transition -> GetPing
 		}
@@ -111,6 +118,7 @@ thing PingServer includes PingPongMsgs {
 			on entry do
 			print "Got ping from: " + client_ip_address + "\n"
 			print "Ignoring the ping message, since the client is probably a malicious one...\n"
+			malicious_client = true
 			end
 			transition -> GetPing
 		}
@@ -126,17 +134,25 @@ thing PingPongDataAnalytics includes PingPongMsgs {
 	}
 	
 	property client_ip_address: String
+	//property client_ip_address: Int32
 	property prediction: Boolean = false
 
-	data_analytics da1 {
+	data_analytics da1 
+	//@dalib "scikit-learn" {
+	//@dalib "keras-tensorflow" {
+	{
 		dataset "data/ip_dataset.csv"
+		automl OFF
 		sequential TRUE
 		timestamps ON
 		labels ON
 		features client_ip_address,prediction
-		//model_algorithm decision_tree my_dt()
-		//model_algorithm random_forest my_rf()
-		model_algorithm nn_multilayer_perceptron my_nn_mlp(activation relu optimizer Adam loss sparse_categorical_crossentropy)
+		preprocess_feature_scaling OFF
+		model_algorithm linear_classifier_logistic_regression my_lin_log_reg(fit_intercept true, intercept_scaling 0.2, solver 'liblinear')
+		//model_algorithm naive_bayes_gaussian my_nbg()
+		//model_algorithm decision_tree_classifier my_dtc(random_state 10)
+		//model_algorithm random_forest_classifier my_rfc()
+		//model_algorithm nn_multilayer_perceptron my_nn_mlp(hidden_layer_sizes(100,200) activation relu optimizer Adam loss sparse_categorical_crossentropy)
 		training_results "data/training.txt"		
 		prediction_results prediction
 	}
@@ -185,8 +201,8 @@ thing PingPongDataAnalytics includes PingPongMsgs {
 	}
 }
 
-configuration SmartPingPongCfg {
-		
+configuration SmartPingPongCfg @compiler "python_java" {
+	
     instance pingClient : PingClient
     instance pingServer : PingServer
     instance pingPongDataAnalytics : PingPongDataAnalytics

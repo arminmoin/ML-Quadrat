@@ -1,28 +1,10 @@
 import "thingml/core/timer.thingml"
 
-//datatype Double<4>
-//    @type_checker "Real"
-//	@c_type "double"
-//	@c_byte_size "4"
-//	@java_type "double"
-//  	@js_type "float"
-//	@java_primitive "true";
-//
-//datatype UInt64<8>
-//    @type_checker "Integer"
-//	@c_type "uint64_t"
-//	@c_byte_size "8"
-//	@java_type "long"
-//    @js_type "long"
-//	@java_primitive "true";
-
 object String
     @type_checker "String"
 	@c_type "char *"
-	@c_byte_size "*"
 	@java_type "String"
-    @js_type "String"
-    @SenML_type "String";
+    @js_type "String";
 	
 thing fragment NIALMMsgs {
 	

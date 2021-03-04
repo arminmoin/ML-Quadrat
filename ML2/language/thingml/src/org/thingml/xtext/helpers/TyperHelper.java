@@ -110,4 +110,71 @@ public class TyperHelper {
     	}
         return false;
     }
+  
+    public static boolean isByte(TypeRef self) { // ML2
+    	if(self.getType().getName().equals("Byte")) {
+    		return true;
+    	}
+    	return false;    	
+    }
+    
+    public static boolean isBoolean(TypeRef self) { // ML2
+    	if(self.getType().getName().equals("Boolean")) {
+    		return true;
+    	}
+    	return false;    	
+    }
+    
+    public static boolean isNumeric(TypeRef self) { // ML2
+    	if(self.getType().getName().equals("Integer") ||
+    	self.getType().getName().equals("UInt8") ||
+    	self.getType().getName().equals("Int8") ||	
+    	self.getType().getName().equals("UInt16") ||	
+    	self.getType().getName().equals("Int16") ||	
+    	self.getType().getName().equals("UInt32") ||	
+    	self.getType().getName().equals("Int32") ||	
+    	self.getType().getName().equals("UInt64") ||	
+    	self.getType().getName().equals("Int64") ||	
+    	self.getType().getName().equals("ULong") ||	
+    	self.getType().getName().equals("Long")	||
+    	self.getType().getName().equals("LongLong")	||
+    	self.getType().getName().equals("Double")
+    			) {
+    		return true;
+    	}
+    	return false;    	
+    }
+    
+    public static boolean isDouble(TypeRef self) { // ML2
+    	if(self.getType().getName().equals("Double")
+    			) {
+    		return true;
+    	}
+    	return false;    	
+    }
+  
+    public static boolean isNumericNotDouble(TypeRef self) { // ML2
+    	if(isNumeric(self) &&
+    			!isDouble(self)
+    			) {
+    		return true;
+    	}
+    	return false;    	
+    }
+    
+    public static boolean isChar(TypeRef self) { // ML2
+    	if(self.getType().getName().equals("Char")
+    			) {
+    		return true;
+    	}
+    	return false;    	
+    }
+   
+    public static boolean isString(TypeRef self) { // ML2
+    	if(self.getType().getName().equals("String")
+    			) {
+    		return true;
+    	}
+    	return false;    	
+    }
 }

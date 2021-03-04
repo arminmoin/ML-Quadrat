@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1603538444436
-Build-Jdk: 11.0.8
+Bnd-LastModified: 1614858689460
+Build-Jdk: 11.0.9.1
 Built-By: am
 Bundle-ClassPath: jars/mlquadrat.compilers.official-network-plugins-2.0.
  0-SNAPSHOT.jar,jars/mlquadrat.compilers.c-2.0.0-SNAPSHOT.jar,jars/mlqua
@@ -8,16 +8,17 @@ Bundle-ClassPath: jars/mlquadrat.compilers.official-network-plugins-2.0.
  ipt-2.0.0-SNAPSHOT.jar,jars/minimal-json-0.9.4.jar,jars/mlquadrat.compi
  lers.framework-2.0.0-SNAPSHOT.jar,jars/commons-io-2.6.jar,jars/mlquadra
  t.utilities-2.0.0-SNAPSHOT.jar,jars/mlquadrat.compilers.registry-2.0.0-
- SNAPSHOT.jar,jars/mlquadrat.compilers.uml-2.0.0-SNAPSHOT.jar,jars/mlqua
- drat.compilers.go-2.0.0-SNAPSHOT.jar,jars/mlquadrat.compilers.thingmlto
- ols-2.0.0-SNAPSHOT.jar,jars/jcommander-1.72.jar
+ SNAPSHOT.jar,jars/mlquadrat.compilers.python_java-2.0.0-SNAPSHOT.jar,ja
+ rs/mlquadrat.compilers.uml-2.0.0-SNAPSHOT.jar,jars/mlquadrat.compilers.
+ go-2.0.0-SNAPSHOT.jar,jars/mlquadrat.compilers.thingmltools-2.0.0-SNAPS
+ HOT.jar,jars/jcommander-1.72.jar
 Bundle-DocURL: https://github.com/arminmoin/ML-Quadrat
 Bundle-License: http://www.apache.org/licenses/LICENSE-2.0.txt
 Bundle-ManifestVersion: 2
 Bundle-Name: MLQuadrat :: Compilers :: Bundle
 Bundle-SymbolicName: mlquadrat.compilers.bundle
 Bundle-Vendor: MLQuadrat
-Bundle-Version: 2.0.0.202010241119
+Bundle-Version: 2.0.0.202103041150
 Created-By: Apache Maven Bundle Plugin
 Embed-Dependency: *;scope=compile|runtime;artifactId=!org.eclipse.*|thin
  gml
@@ -38,13 +39,15 @@ Embedded-Artifacts: jars/mlquadrat.compilers.official-network-plugins-2.
  ties-2.0.0-SNAPSHOT.jar;g="io.github.arminmoin";a="mlquadrat.utilities"
  ;v="2.0.0-SNAPSHOT",jars/mlquadrat.compilers.registry-2.0.0-SNAPSHOT.ja
  r;g="io.github.arminmoin";a="mlquadrat.compilers.registry";v="2.0.0-SNA
- PSHOT",jars/mlquadrat.compilers.uml-2.0.0-SNAPSHOT.jar;g="io.github.arm
- inmoin";a="mlquadrat.compilers.uml";v="2.0.0-SNAPSHOT",jars/mlquadrat.c
- ompilers.go-2.0.0-SNAPSHOT.jar;g="io.github.arminmoin";a="mlquadrat.com
- pilers.go";v="2.0.0-SNAPSHOT",jars/mlquadrat.compilers.thingmltools-2.0
- .0-SNAPSHOT.jar;g="io.github.arminmoin";a="mlquadrat.compilers.thingmlt
- ools";v="2.0.0-SNAPSHOT",jars/jcommander-1.72.jar;g="com.beust";a="jcom
- mander";v="1.72"
+ PSHOT",jars/mlquadrat.compilers.python_java-2.0.0-SNAPSHOT.jar;g="io.gi
+ thub.arminmoin";a="mlquadrat.compilers.python_java";v="2.0.0-SNAPSHOT",
+ jars/mlquadrat.compilers.uml-2.0.0-SNAPSHOT.jar;g="io.github.arminmoin"
+ ;a="mlquadrat.compilers.uml";v="2.0.0-SNAPSHOT",jars/mlquadrat.compiler
+ s.go-2.0.0-SNAPSHOT.jar;g="io.github.arminmoin";a="mlquadrat.compilers.
+ go";v="2.0.0-SNAPSHOT",jars/mlquadrat.compilers.thingmltools-2.0.0-SNAP
+ SHOT.jar;g="io.github.arminmoin";a="mlquadrat.compilers.thingmltools";v
+ ="2.0.0-SNAPSHOT",jars/jcommander-1.72.jar;g="com.beust";a="jcommander"
+ ;v="1.72"
 Export-Package: com.beust.jcommander;version="1.72",com.beust.jcommander
  .converters;version="1.72",com.beust.jcommander.defaultprovider;version
  ="1.72",com.beust.jcommander.internal;version="1.72",com.beust.jcommand
@@ -83,21 +86,22 @@ Export-Package: com.beust.jcommander;version="1.72",com.beust.jcommander
  .compilers.javascript;version="2.0.0",org.thingml.compilers.javascript.
  browser;version="2.0.0",org.thingml.compilers.javascript.node;version="
  2.0.0",org.thingml.compilers.javascript.react;version="2.0.0",org.thing
- ml.compilers.registry;version="2.0.0",org.thingml.compilers.spi;version
- ="2.0.0",org.thingml.compilers.thing;version="2.0.0",org.thingml.compil
- ers.thing.common;version="2.0.0",org.thingml.compilers.uml;version="2.0
- .0",org.thingml.compilers.utils;version="2.0.0",org.thingml.generator.g
- o;version="2.0.0",org.thingml.generator.java;version="2.0.0",org.thingm
- l.generator.javascript;version="2.0.0",org.thingml.generator.posix;vers
- ion="2.0.0",org.thingml.monitor;version="2.0.0",org.thingml.networkplug
- ins.c;version="2.0.0",org.thingml.networkplugins.c.arduino;version="2.0
- .0",org.thingml.networkplugins.c.posix;version="2.0.0",org.thingml.netw
- orkplugins.cpp.rcd;version="2.0.0",org.thingml.networkplugins.java;vers
- ion="2.0.0",org.thingml.networkplugins.js;version="2.0.0",org.thingml.t
- estconfigurationgenerator;version="2.0.0",org.thingml.thingmltools;vers
- ion="2.0.0",org.thingml.utilities.logging;version="2.0.0",pomtemplates;
- version="2.0.0",posixmqttjson;version="2.0.0",templates;version="2.0.0"
- ,templates.dnssdparts;version="2.0.0"
+ ml.compilers.python_java;version="2.0.0",org.thingml.compilers.registry
+ ;version="2.0.0",org.thingml.compilers.spi;version="2.0.0",org.thingml.
+ compilers.thing;version="2.0.0",org.thingml.compilers.thing.common;vers
+ ion="2.0.0",org.thingml.compilers.uml;version="2.0.0",org.thingml.compi
+ lers.utils;version="2.0.0",org.thingml.generator.go;version="2.0.0",org
+ .thingml.generator.java;version="2.0.0",org.thingml.generator.javascrip
+ t;version="2.0.0",org.thingml.generator.posix;version="2.0.0",org.thing
+ ml.monitor;version="2.0.0",org.thingml.networkplugins.c;version="2.0.0"
+ ,org.thingml.networkplugins.c.arduino;version="2.0.0",org.thingml.netwo
+ rkplugins.c.posix;version="2.0.0",org.thingml.networkplugins.cpp.rcd;ve
+ rsion="2.0.0",org.thingml.networkplugins.java;version="2.0.0",org.thing
+ ml.networkplugins.js;version="2.0.0",org.thingml.testconfigurationgener
+ ator;version="2.0.0",org.thingml.thingmltools;version="2.0.0",org.thing
+ ml.utilities.logging;version="2.0.0",pomtemplates;version="2.0.0",posix
+ mqttjson;version="2.0.0",templates;version="2.0.0",templates.dnssdparts
+ ;version="2.0.0"
 Import-Package: com.beust.jcommander;version="[1.72,2)",com.beust.jcomma
  nder.converters;version="[1.72,2)",com.beust.jcommander.internal;versio
  n="[1.72,2)",com.beust.jcommander.validators;version="[1.72,2)",com.ecl
@@ -120,15 +124,16 @@ Import-Package: com.beust.jcommander;version="[1.72,2)",com.beust.jcomma
  rduino,org.thingml.compilers.cpp.sintefboard,org.thingml.compilers.inte
  rfaces.c,org.thingml.compilers.java,org.thingml.compilers.javascript,or
  g.thingml.compilers.javascript.browser,org.thingml.compilers.javascript
- .node,org.thingml.compilers.javascript.react,org.thingml.compilers.regi
- stry,org.thingml.compilers.spi,org.thingml.compilers.thing,org.thingml.
- compilers.thing.common,org.thingml.compilers.uml,org.thingml.compilers.
- utils,org.thingml.generator.go,org.thingml.generator.java,org.thingml.g
- enerator.javascript,org.thingml.generator.posix,org.thingml.monitor,org
- .thingml.testconfigurationgenerator,org.thingml.thingmltools,org.thingm
- l.utilities.logging,org.thingml.xtext,org.thingml.xtext.constraints,org
- .thingml.xtext.helpers,org.thingml.xtext.parser.antlr,org.thingml.xtext
- .services,org.thingml.xtext.thingML,org.thingml.xtext.thingML.impl,org.
- thingml.xtext.thingML.util,org.thingml.xtext.validation
+ .node,org.thingml.compilers.javascript.react,org.thingml.compilers.pyth
+ on_java,org.thingml.compilers.registry,org.thingml.compilers.spi,org.th
+ ingml.compilers.thing,org.thingml.compilers.thing.common,org.thingml.co
+ mpilers.uml,org.thingml.compilers.utils,org.thingml.generator.go,org.th
+ ingml.generator.java,org.thingml.generator.javascript,org.thingml.gener
+ ator.posix,org.thingml.monitor,org.thingml.testconfigurationgenerator,o
+ rg.thingml.thingmltools,org.thingml.utilities.logging,org.thingml.xtext
+ ,org.thingml.xtext.constraints,org.thingml.xtext.helpers,org.thingml.xt
+ ext.parser.antlr,org.thingml.xtext.services,org.thingml.xtext.thingML,o
+ rg.thingml.xtext.thingML.impl,org.thingml.xtext.thingML.util,org.thingm
+ l.xtext.validation
 Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.8))"
 Tool: Bnd-3.2.0.201605172007

@@ -43,6 +43,7 @@
     <modules>
         <module>framework</module>
         <module>java</module>
+        <module>python_java</module>
         <module>javascript</module>
         <module>c</module>
         <module>uml</module>

@@ -211,41 +211,69 @@ MessageParameter returns MessageParameter:
 
 DataAnalytics returns DataAnalytics:
 	'data_analytics' name=ID ( annotations+=PlatformAnnotation )* '{'
-		('dataset' dataset=STRING)
-		('sequential' sequential=Sequential)
-		('timestamps' timestamps=Timestamps)
+		('dataset' dataset=STRING)?
+		('automl' autoML=AutoML)?
+		('sequential' sequential=Sequential)?
+		('timestamps' timestamps=Timestamps)?
 		('labels' labels=Labels)
 		('features' features+=[Property|ID] ( "," features+=[Property|ID])*)
-		('model_algorithm' modelAlgorithm=DataAnalyticsModelAlgorithm)
-		('training_results' trainingResults=STRING)
-		('prediction_results' predictionResults+=[Property|ID] ( "," predictionResults+=[Property|ID])*)
+		('preprocess_feature_scaling' preprocess_feature_scaling=Preprocess_feature_scaling)?
+		('model_algorithm' modelAlgorithm=DataAnalyticsModelAlgorithm)?
+		('training_results' trainingResults=STRING)?
+		('prediction_results' predictionResults+=[Property|ID] ( "," predictionResults+=[Property|ID])*)?
 '}';
 
+enum AutoML:
+	NOT_SET='NOT_SET'| OFF='OFF' | ON='ON' 
+;
+
 enum Sequential:
-	TRUE='TRUE' | FALSE='FALSE'
+	NOT_SET='NOT_SET'| FALSE='FALSE'| TRUE='TRUE'
 ;
 
 enum Timestamps:
-	ON='ON' | OFF='OFF'
+	NOT_SET='NOT_SET'| OFF='OFF' | ON='ON'
 ;
 
 enum Labels:
-	ON='ON' | OFF='OFF'
+	NOT_SET='NOT_SET'| OFF='OFF' | ON='ON'
 ;
 
-// Models and algorithms for data analytics (specifically Machine Learning) may have any of the following types:
-// 1. They can conform to the PMML standard. 
-// 2. They can conform to the PFA standard (not yet supported).
-// 3. If they do not conform to the above-mentioned standards, they may be one of the choices offered here by ML2 (the list will be extended):
-//  DecisionTreeRegressor
-//	RandomForestRegressor
-//	NN_MultilayerPerceptron 
+enum Preprocess_feature_scaling:
+	NOT_SET='NOT_SET' | OFF='OFF' | STANDARDIZATION_Z_SCORE_NORMALIZATION='STANDARDIZATION_Z_SCORE_NORMALIZATION' | MIN_MAX_NORMALIZATION='MIN_MAX_NORMALIZATION' | MEAN_NORMALIZATION_MIN_MAX='MEAN_NORMALIZATION_MIN_MAX' | MEAN_NORMALIZATION_L2_NORM='MEAN_NORMALIZATION_L2_NORM' | UNIT_LENGTH_SCALING='UNIT_LENGTH_SCALING' 
+;
 
 DataAnalyticsModelAlgorithm returns DataAnalyticsModelAlgorithm:
-	PMML_ModelAlgorithm | PFA_ModelAlgorithm | ML2_ModelAlgorithm;
+	ML2_ModelAlgorithm | Pretrained_ML_Model | PMML_ModelAlgorithm | PFA_ModelAlgorithm;
 
+// ML2 models and algorithms
+// TODO To be extended
+ML2_ModelAlgorithm returns ML2_ModelAlgorithm:
+	LinearClassifierLogisticRegression |
+	LinearRegression |
+	NaiveBayesGaussian |
+	NaiveBayesMultinomial |
+	NaiveBayesComplement |
+	NaiveBayesBernoulli |
+	NaiveBayesCategorical |
+	DecisionTreeRegressor | 
+	DecisionTreeClassifier |
+	RandomForestRegressor | 
+	RandomForestClassifier |
+	NN_MultilayerPerceptron
+;
 
-// 1. The PMML Standard (see http://dmg.org/pmml/v4-4/GeneralStructure.html)
+// Pre-trained ML Model for the mixed/hybrid MDSE/Non-MDSE approach, i.e., if someone brings his/her own pre-trained ML model 
+// and wants to use that in a software model.
+Pretrained_ML_Model returns Pretrained_ML_Model:
+	'pretrained' name=ID
+	'('
+	('path' pretrained_path=STRING)
+	')'
+;
+
+// The PMML Standard (see http://dmg.org/pmml/v4-4/GeneralStructure.html)
+//TODO To be supported
 PMML_ModelAlgorithm returns PMML_ModelAlgorithm:
 	'pmml' name=ID
 	'('
@@ -253,7 +281,7 @@ PMML_ModelAlgorithm returns PMML_ModelAlgorithm:
 	')'
 ;
 
-// 2. The PFA Standard (see http://dmg.org/pfa/)
+// The PFA Standard (see http://dmg.org/pfa/)
 //TODO To be supported
 PFA_ModelAlgorithm returns PFA_ModelAlgorithm:
 	'pfa' name=ID
@@ -262,73 +290,253 @@ PFA_ModelAlgorithm returns PFA_ModelAlgorithm:
 	')'
 ;
 
-// 3. ML2 models and algorithms
-//TODO To be extended
-
-ML2_ModelAlgorithm returns ML2_ModelAlgorithm:
-	DecisionTree | 
-	RandomForest | 
-	NN_MultilayerPerceptron
-;
-
-DecisionTree returns DecisionTree:
-	'decision_tree' name=ID
+LinearRegression returns LinearRegression: // scikit-learn v0.24.1
+	'linear_regression' name=ID
 	'('
-	('criterion' decisionTreeCriterion=DecisionTreeCriterion)?
-	(',')?
-	('min_samples_split' min_samples_split=Min_samples_split_type
-	)?
+	('fit_intercept' fit_intercept=BooleanLiteral (',')?)?
+	('normalize' normalize=BooleanLiteral (',')?)?
+	('copy_X' copy_X=BooleanLiteral (',')?)?
+	('n_jobs' n_jobs=IntegerLiteral (',')?)?
+	('positive' positive=BooleanLiteral (',')?)?	
 	')'
 ;
 
-RandomForest returns RandomForest:
-	'random_forest' name=ID
+LinearClassifierLogisticRegression returns LinearClassifierLogisticRegression: // scikit-learn v0.24.1
+	'linear_classifier_logistic_regression' name=ID
 	'('
-	('criterion' randomForestCriterion=RandomForestCriterion)?
-	(',')?
-	('min_samples_split' min_samples_split=Min_samples_split_type)?
+	('penalty' penalty=Penalty (',')?)?
+	('dual' dual=BooleanLiteral (',')?)?
+	('tol' tol=DoubleLiteral (',')?)?
+	('C' c=DoubleLiteral (',')?)?
+	('fit_intercept' fit_intercept=BooleanLiteral (',')?)?
+	('intercept_scaling' intercept_scaling=DoubleLiteral (',')?)?
+	('class_weight' class_weight=STRING (',')?)?
+	('random_state' random_state=IntegerLiteral (',')?)?
+	('solver' optimizer=Optimizer (',')?)?
+	('max_iter' max_iter=IntegerLiteral (',')?)?
+	('multi_class' multi_class=Multi_class (',')?)?
+	('verbose' verbose=IntegerLiteral (',')?)?
+	('warm_start' warm_start=BooleanLiteral (',')?)?
+	('n_jobs' n_jobs=IntegerLiteral (',')?)?
+	('l1_ratio' l1_ratio=DoubleLiteral (',')?)?	
 	')'
 ;
 
-NN_MultilayerPerceptron returns NN_MultilayerPerceptron:
+NaiveBayesGaussian returns NaiveBayesGaussian: // scikit-learn v0.24.1
+	'naive_bayes_gaussian' name=ID
+	'('
+	('priors' priors=STRING	(',')?)?
+	('var_smoothing' var_smoothing=DoubleLiteral (',')?)?
+	')'
+;
+
+NaiveBayesMultinomial returns NaiveBayesMultinomial: // scikit-learn v0.24.1
+	'naive_bayes_multinomial' name=ID
+	'('
+	('alpha' alpha=DoubleLiteral (',')?)?
+	('fit_prior' fit_prior=BooleanLiteral (',')?)?	
+	('class_prior' class_prior=STRING (',')?)?
+	')'
+;
+
+NaiveBayesComplement returns NaiveBayesComplement: // scikit-learn v0.24.1
+	'naive_bayes_complement' name=ID
+	'('
+	('alpha' alpha=DoubleLiteral (',')?)?
+	('fit_prior' fit_prior=BooleanLiteral (',')?)?
+	('class_prior' class_prior=STRING (',')?)?
+	('norm' norm=BooleanLiteral (',')?)?
+	')'
+;
+
+NaiveBayesBernoulli returns NaiveBayesBernoulli: // scikit-learn v0.24.1
+	'naive_bayes_bernoulli' name=ID
+	'('
+	('alpha' alpha=DoubleLiteral (',')?)?
+	('binarize' binarize=DoubleLiteral (',')?)?
+	('fit_prior' fit_prior=BooleanLiteral (',')?)?
+	('class_prior' class_prior=STRING (',')?)?
+	')'
+;
+
+NaiveBayesCategorical returns NaiveBayesCategorical: // scikit-learn v0.24.1
+	'naive_bayes_categorical' name=ID
+	'('
+	('alpha' alpha=DoubleLiteral (',')?)?
+	('fit_prior' fit_prior=BooleanLiteral (',')?)?
+	('class_prior' class_prior=STRING (',')?)?
+	('min_categories' min_categories=STRING	(',')?)?
+	')'
+;
+
+DecisionTreeRegressor returns DecisionTreeRegressor: // scikit-learn v0.24.1
+	'decision_tree_regressor' name=ID
+	'('
+	('criterion' decisionTreeRegressorCriterion=DecisionTreeRegressorCriterion (',')?)?
+	('splitter' decisionTreeSplitter=DecisionTreeSplitter (',')?)?
+	('max_depth' max_depth=IntegerLiteral (',')?)?
+	('min_samples_split' min_samples_split=DoubleLiteral (',')?)?
+	('min_samples_leaf' min_samples_leaf=DoubleLiteral (',')?)?
+	('min_weight_fraction_leaf' min_weight_fraction_leaf=DoubleLiteral (',')?)?
+	(('max_features' max_features_numeric=DoubleLiteral) |
+	(('max_features' max_features_enum=Max_features_enum)) (',')?)?
+	('random_state' random_state=IntegerLiteral (',')?)?
+	('max_leaf_nodes' max_leaf_nodes=IntegerLiteral (',')?)?
+	('min_impurity_decrease' min_impurity_decrease=DoubleLiteral (',')?)?
+	('min_impurity_split' min_impurity_split=DoubleLiteral (',')?)?
+	('ccp_alpha' ccp_alpha=DoubleLiteral (',')?)?
+	')'
+;
+
+DecisionTreeClassifier returns DecisionTreeClassifier: // scikit-learn v0.24.1
+	'decision_tree_classifier' name=ID
+	'('
+	('criterion' decisionTreeClassifierCriterion=DecisionTreeClassifierCriterion (',')?)?
+	('splitter' decisionTreeSplitter=DecisionTreeSplitter (',')?)?
+	('max_depth' max_depth=IntegerLiteral (',')?)?
+	('min_samples_split' min_samples_split=DoubleLiteral (',')?)?
+	('min_samples_leaf' min_samples_leaf=DoubleLiteral (',')?)?
+	('min_weight_fraction_leaf' min_weight_fraction_leaf=DoubleLiteral (',')?)?
+	(('max_features' max_features_numeric=DoubleLiteral) |
+	(('max_features' max_features_enum=Max_features_enum)) (',')?)?
+	('random_state' random_state=IntegerLiteral (',')?)?
+	('max_leaf_nodes' max_leaf_nodes=IntegerLiteral (',')?)?
+	('min_impurity_decrease' min_impurity_decrease=DoubleLiteral (',')?)?
+	('min_impurity_split' min_impurity_split=DoubleLiteral (',')?)?
+	('class_weight' class_weight=STRING (',')?)?
+	('ccp_alpha' ccp_alpha=DoubleLiteral (',')?)?
+	')'
+;
+
+RandomForestRegressor returns RandomForestRegressor: // scikit-learn v0.24.1
+	'random_forest_regressor' name=ID
+	'('
+	('n_estimators' n_estimators=IntegerLiteral (',')?)?
+	('criterion' randomForestRegressorCriterion=RandomForestRegressorCriterion (',')?)? 
+	('max_depth' max_depth=IntegerLiteral (',')?)?
+	('min_samples_split' min_samples_split=DoubleLiteral (',')?)?
+	('min_samples_leaf' min_samples_leaf=DoubleLiteral (',')?)?
+	('min_weight_fraction_leaf' min_weight_fraction_leaf=DoubleLiteral (',')?)?
+	(('max_features' max_features_numeric=DoubleLiteral) |
+	(('max_features' max_features_enum=Max_features_enum)) (',')?)?
+	('max_leaf_nodes' max_leaf_nodes=IntegerLiteral (',')?)?
+	('min_impurity_decrease' min_impurity_decrease=DoubleLiteral (',')?)?
+	('min_impurity_split' min_impurity_split=DoubleLiteral (',')?)?
+	('bootstrap' bootstrap=BooleanLiteral (',')?)?
+	('oob_score' oob_score=BooleanLiteral (',')?)?
+	('n_jobs' n_jobs=IntegerLiteral (',')?)?
+	('random_state' random_state=IntegerLiteral (',')?)?
+	('verbose' verbose=IntegerLiteral (',')?)?
+	('warm_start' warm_start=BooleanLiteral (',')?)?
+	('ccp_alpha' ccp_alpha=DoubleLiteral (',')?)?
+	('max_samples' max_samples=DoubleLiteral(',')?)?
+	')'
+;
+
+RandomForestClassifier returns RandomForestClassifier: // scikit-learn v0.24.1
+	'random_forest_classifier' name=ID
+	'('
+	('n_estimators' n_estimators=IntegerLiteral (',')?)?
+	('criterion' randomForestClassifierCriterion=RandomForestClassifierCriterion (',')?)?
+	('max_depth' max_depth=IntegerLiteral (',')?)?
+	('min_samples_split' min_samples_split=DoubleLiteral (',')?)?
+	('min_samples_leaf' min_samples_leaf=DoubleLiteral (',')?)?
+	('min_weight_fraction_leaf' min_weight_fraction_leaf=DoubleLiteral (',')?)?
+	(('max_features' max_features_numeric=DoubleLiteral) |
+	(('max_features' max_features_enum=Max_features_enum)) (',')?)?
+	('max_leaf_nodes' max_leaf_nodes=IntegerLiteral (',')?)? 
+	('min_impurity_decrease' min_impurity_decrease=DoubleLiteral (',')?)?
+	('min_impurity_split' min_impurity_split=DoubleLiteral (',')?)? 
+	('bootstrap' bootstrap=BooleanLiteral (',')?)?
+	('oob_score' oob_score=BooleanLiteral (',')?)?
+	('n_jobs' n_jobs=IntegerLiteral (',')?)?
+	('random_state' random_state=IntegerLiteral (',')?)?
+	('verbose' verbose=IntegerLiteral (',')?)?
+	('warm_start' warm_start=BooleanLiteral (',')?)?
+	('class_weight' class_weight=STRING (',')?)?
+	('ccp_alpha' ccp_alpha=DoubleLiteral (',')?)?
+	('max_samples' max_samples=DoubleLiteral (',')?)? 
+	')'
+;
+
+NN_MultilayerPerceptron returns NN_MultilayerPerceptron: // scikit-learn v0.24.1 and keras (https://keras.io/guides/sequential_model/)
 	'nn_multilayer_perceptron' name=ID
 	'('
-	('no_hidden_layers' no_hidden_layers=INT)?
-	(',')?
-	('activation' activation=Activation)?
-	(',')?
-	('optimizer' optimizer=Optimizer)?
-	(',')?
-	('loss' loss=Loss)?
-	(',')?
-	('epochs' epochs=INT)?
-	(',')?
-	('batch_size' batch_size=INT)?
+	('hidden_layer_sizes' hidden_layer_sizes='(' (hidden_layers+=IntegerLiteral ("," hidden_layers+=IntegerLiteral)* )? ')' (',')?)? // scikit-learn v0.24.1 & keras
+	('activation' activation=Activation (',')?)? // scikit-learn v0.24.1 & keras
+	('optimizer' optimizer=Optimizer (',')?)? // i.e., "solver" in scikit-learn // scikit-learn v0.24.1 & keras
+	('alpha' alpha=DoubleLiteral (',')?)? // i.e., kernel_regularizer in keras // scikit-learn v0.24.1 & keras
+	('batch_size' batch_size=IntegerLiteral (',')?)? // scikit-learn v0.24.1 & keras
+	('learning_rate_mode' learning_rate_mode=Learning_rate_mode (',')?)? // i.e., "learning rate" in scikit-learn v0.24.1 & "lr_schedule" in keras
+	('learning_rate_init' learning_rate_init=STRING (',')?)? // i.e., "initial_learning_rate" in keras // scikit-learn v0.24.1 & keras
+	('power_t' power_t=DoubleLiteral (',')?)?
+	('max_iter' max_iter=IntegerLiteral (',')?)? // specific to sckikit-learn
+	('shuffle' shuffle=BooleanLiteral (',')?)?
+	('random_state' random_state=IntegerLiteral (',')?)? // i.e., numpy seed & tensorflow set_random_seed for keras // scikit-learn v0.24.1 & keras
+	('tol' tol=DoubleLiteral (',')?)?
+	('verbose' verbose=BooleanLiteral (',')?)? // scikit-learn v0.24.1 & keras
+	('warm_start' warm_start=BooleanLiteral (',')?)?
+	('momentum' momentum=DoubleLiteral (',')?)?
+	('nesterovs_momentum' nesterovs_momentum=BooleanLiteral (',')?)?
+	('early_stopping' early_stopping=BooleanLiteral (',')?)?
+	('validation_fraction' validation_fraction=DoubleLiteral (',')?)?
+	('beta_1' beta_1=DoubleLiteral (',')?)?
+	('beta_2' beta_2=DoubleLiteral (',')?)?
+	('epsilon' epsilon=DoubleLiteral (',')?)?
+	('n_iter_no_change' n_iter_no_change=IntegerLiteral (',')?)?
+	('max_fun' max_fun=IntegerLiteral (',')?)? 
+	('loss' loss=Loss (',')?)? 	 // specific to keras-tensorflow (https://keras.io/guides/sequential_model/)
+	('epochs' epochs=IntegerLiteral (',')?)? 	 // specific to keras-tensorflow (https://keras.io/guides/sequential_model/)
 	')'
 ;
 
-Min_samples_split_type:
-	INT | FLOAT
+enum Penalty:
+	NOT_SET='NOT_SET' | L1="'l1'" | L2="'l2'" | ELASTICNET="'elasticnet'" | NONE="'none'"
 ;
 
-enum DecisionTreeCriterion:
-	NO_IDEA='NO_IDEA'| MSE='MSE' | FRIEDMAN_MSE='FRIEDMAN_MSE'| MAE='MAE' | GINI="GINI" | ENTROPY="ENTROPY"
+// Optimizer a.k.a. Solver
+enum Optimizer:
+	NOT_SET='NOT_SET' | NEWTON_CG='newton-cg' | LBFGS='lbfgs' | LIBLINEAR='liblinear' | SAG='sag' | SAGA='saga' | SGD='sgd' | ADAM='adam' | RMSPROP='RMSprop' | ADADELTA='Adadelta' | ADAGRAD='Adagrad' | ADAMAX='Adamax' | NADAM='Nadam' | FTRL='Ftrl'
 ;
 
-enum RandomForestCriterion:
-	NO_IDEA='NO_IDEA'| MSE='MSE' | MAE='MAE' | GINI="GINI" | ENTROPY="ENTROPY"
+enum Multi_class:
+	NOT_SET='NOT_SET' | AUTO="'auto'"| OVR="'ovr'" | MULTINOMIAL="'multinomial'"
+;
+
+enum DecisionTreeRegressorCriterion:
+	NOT_SET='NOT_SET' | MSE="'mse'" | FRIEDMAN_MSE="'friedman_mse'" | MAE="'mae'" | POISSON="'poisson'"
+;
+
+enum DecisionTreeClassifierCriterion:
+	NOT_SET='NOT_SET' | GINI="'gini'" | ENTROPY="'entropy'"
+;
+
+enum DecisionTreeSplitter:
+	NOT_SET='NOT_SET' | BEST="'best'" | RANDOM="'random'"
+;
+
+enum Max_features_enum:
+	NOT_SET='NOT_SET' | AUTO="'auto'" | SQRT="'sqrt'" | LOG2="'log2'"
+;
+
+enum RandomForestRegressorCriterion:
+	NOT_SET='NOT_SET' | MSE="'mse'" | MAE="'mae'"
+;
+
+enum RandomForestClassifierCriterion:
+	NOT_SET='NOT_SET' | GINI="'gini'" | ENTROPY="'entropy'"
 ;
 
 enum Activation:
-	NO_IDEA='NO_IDEA'| RELU='relu' | SIGMOID='sigmoid' | SOFTMAX='softmax' | SOFTPLUS='softplus' | SOFTSIGN='softsign' | TANH='tanh' | SELU='selu' | ELU='elu' | EXPONENTIAL='exponential'
+	NOT_SET='NOT_SET' | RELU='relu' | SIGMOID='sigmoid' | SOFTMAX='softmax' | SOFTPLUS='softplus' | SOFTSIGN='softsign' | TANH='tanh' | SELU='selu' | ELU='elu' | EXPONENTIAL='exponential' | IDENTITY='identity' | LOGISTIC='logistic' 
 ;
 
-enum Optimizer:
-	NO_IDEA='NO_IDEA'| SGD='SGD' | RMSPROP='RMSprop' | ADAM='Adam' | ADADELTA='Adadelta' | ADAGRAD='Adagrad' | ADAMAX='Adamax' | NADAM='Nadam' | FTRL='Ftrl'
+enum Learning_rate_mode returns Learning_rate_mode:
+	NOT_SET='NOT_SET' | CONSTANT="'constant'" | INVSCALING="'invscaling'" | ADAPTIVE="'adaptive'" | EXPONENTIAL_DECAY='ExponentialDecay' | PIECEWISE_CONSTANT_DECAY='PiecewiseConstantDecay' | POLYNOMIAL_DECAY='PolynomialDecay' | INVERSE_TIME_DECAY='InverseTimeDecay'
 ;
 
 enum Loss:
-	NO_IDEA='NO_IDEA'| SPARSE_CATEGORICAL_CROSSENTROPY='sparse_categorical_crossentropy' | CATEGORICAL_CROSSENTROPY='categorical_crossentropy' | MSE="MSE"
+	NOT_SET='NOT_SET' | SPARSE_CATEGORICAL_CROSSENTROPY='SparseCategoricalCrossentropy' | CATEGORICAL_CROSSENTROPY='CategoricalCrossentropy' | MEAN_SQUARED_ERROR='MeanSquaredError'
 ;
 
 

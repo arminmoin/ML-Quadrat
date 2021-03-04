@@ -224,8 +224,9 @@
         <module>compilers</module>
 
         <module>testing/framework</module>
-        <module>testing/reportbuilder</module>
-
+	<!--
+	<module>testing/reportbuilder</module>
+	-->
     </modules>
     <!--
     <distributionManagement>
