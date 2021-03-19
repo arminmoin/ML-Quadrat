@@ -172,8 +172,9 @@ thing NIALMDataAnalytics includes NIALMMsgs, TimerMsgs {
 		timestamps ON
 		labels ON
 		features aggregated_load, disaggregated_loads_1
-		//model_algorithm decision_tree my_dt()
-		model_algorithm nn_multilayer_perceptron my_nn_mlp()
+		preprocess_feature_scaling STANDARDIZATION_Z_SCORE_NORMALIZATION
+		model_algorithm decision_tree_regressor my_dtr()
+		//model_algorithm nn_multilayer_perceptron my_nn_mlp()
 		training_results "data/training_da1.txt"		
 		prediction_results disaggregated_loads_1
 	}

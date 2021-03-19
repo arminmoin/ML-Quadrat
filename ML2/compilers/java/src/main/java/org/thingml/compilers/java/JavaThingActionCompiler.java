@@ -536,9 +536,8 @@ public class JavaThingActionCompiler extends CommonThingActionCompiler {
 																												// Type
 					if (!action.getDataAnalytics().getFeatures().get(i).getTypeRef().isIsArray()) { // This feature is
 																									// not an array
-						str1 = str1 + "String.valueOf("
-								+ ctx.getVariableName(action.getDataAnalytics().getFeatures().get(i)) + ")"
-								+ " + \",\"";
+						str1 = "String.valueOf("
+								+ ctx.getVariableName(action.getDataAnalytics().getFeatures().get(i)) + ")";
 						builder.append("	br.write(" + str1 + ");\n");
 					} else { // This feature is an array
 						builder.append("	String array_var_val_str1 = \"[\";\n");
@@ -565,6 +564,9 @@ public class JavaThingActionCompiler extends CommonThingActionCompiler {
 							+ ", which is not registered as a Java type. Please add the proper annotation: @java_type... ");
 				}
 			}
+			
+			builder.append("	br.write(\",\");\n");
+			
 		}
 
 		// Writing the prediction results to the CSV file
@@ -852,7 +854,7 @@ public class JavaThingActionCompiler extends CommonThingActionCompiler {
 				pythonScriptStringBuilder.append("	else:\n");
 				pythonScriptStringBuilder.append("		if(not((labels.lower() == 'on') and (i == len(features)-1))):\n");
 				pythonScriptStringBuilder
-				.append("			df[features[i]] = df[features[i]].apply(lambda x: (x-df[features[i]].mean())/df[features[i]].std())\n");
+				.append("			df[features[i]] = df[features[i]].apply(lambda x: x if df[features[i]].std()==0 else (x-df[features[i]].mean())/df[features[i]].std())\n");
 			}
 			
 			// MIN_MAX_NORMALIZATION
@@ -860,7 +862,7 @@ public class JavaThingActionCompiler extends CommonThingActionCompiler {
 				pythonScriptStringBuilder.append("	else:\n");
 				pythonScriptStringBuilder.append("		if(not((labels.lower() == 'on') and (i == len(features)-1))):\n");
 				pythonScriptStringBuilder
-				.append("			df[features[i]] = df[features[i]].apply(lambda x: (x-df[features[i]].min())/(df[features[i]].max()-df[features[i]].min()))\n");
+				.append("			df[features[i]] = df[features[i]].apply(lambda x: x if df[features[i]].max()==df[features[i]].min() else (x-df[features[i]].min())/(df[features[i]].max()-df[features[i]].min()))\n");
 			}
 			
 			// MEAN_NORMALIZATION MIN-MAX
@@ -868,7 +870,7 @@ public class JavaThingActionCompiler extends CommonThingActionCompiler {
 				pythonScriptStringBuilder.append("	else:\n");
 				pythonScriptStringBuilder.append("		if(not((labels.lower() == 'on') and (i == len(features)-1))):\n");
 				pythonScriptStringBuilder
-				.append("			df[features[i]] = df[features[i]].apply(lambda x: (x-df[features[i]].mean())/(df[features[i]].max()-df[features[i]].min()))\n");
+				.append("			df[features[i]] = df[features[i]].apply(lambda x: x if df[features[i]].max()==df[features[i]].min() else (x-df[features[i]].mean())/(df[features[i]].max()-df[features[i]].min()))\n");
 			}
 			
 			// MEAN_NORMALIZATION L2-NORM
@@ -876,7 +878,7 @@ public class JavaThingActionCompiler extends CommonThingActionCompiler {
 				pythonScriptStringBuilder.append("	else:\n");
 				pythonScriptStringBuilder.append("		if(not((labels.lower() == 'on') and (i == len(features)-1))):\n");
 				pythonScriptStringBuilder
-				.append("			df[features[i]] = df[features[i]].apply(lambda x: (x-df[features[i]].mean())/(np.linalg.norm(df[features[i]].to_numpy())))\n");
+				.append("			df[features[i]] = df[features[i]].apply(lambda x: x if np.linalg.norm(df[features[i]].to_numpy()==0 else (x-df[features[i]].mean())/(np.linalg.norm(df[features[i]].to_numpy())))\n");
 			}
 			
 			// UNIT_LENGTH_SCALING
@@ -884,7 +886,7 @@ public class JavaThingActionCompiler extends CommonThingActionCompiler {
 				pythonScriptStringBuilder.append("	else:\n");
 				pythonScriptStringBuilder.append("		if(not((labels.lower() == 'on') and (i == len(features)-1))):\n");
 				pythonScriptStringBuilder
-				.append("			df[features[i]] = df[features[i]].apply(lambda x: x/(np.linalg.norm(df[features[i]].to_numpy())))\n");
+				.append("			df[features[i]] = df[features[i]].apply(lambda x: x if np.linalg.norm(df[features[i]].to_numpy()==0 else x/(np.linalg.norm(df[features[i]].to_numpy())))\n");
 			}
 						
 		}
@@ -2341,7 +2343,7 @@ public class JavaThingActionCompiler extends CommonThingActionCompiler {
 			} else if (dataAnalyticsModelAlgorithm instanceof NN_MultilayerPerceptron) { // NN Multi-Layer Perceptron (MLP)
 				
 				if(action.getDataAnalytics().getPreprocess_feature_scaling().getValue() == Preprocess_feature_scaling.OFF_VALUE) {
-					System.err.println("WARNING: For the Neural Network (Multi-Layer Perceptron) model, normalization/standardization of the numerical features is highly recommneded.\n If you have any numerical features, try using the preprocess_feature_scaling parameter in the data analytics section of your model, e.g., preprocess_feature_scaling STANDARDIZATION_Z_SCORE_NORMALIZATION or you may set automl to ON: automl ON. AuoML will take care of that automatically.\n");
+					System.err.println("****************\n WARNING: For the Neural Network (Multi-Layer Perceptron) model, normalization/standardization of the numerical features is highly recommneded.\n If you have any numerical features, try using the preprocess_feature_scaling parameter in the data analytics section of your model, e.g., preprocess_feature_scaling STANDARDIZATION_Z_SCORE_NORMALIZATION or you may set automl to ON: automl ON. AuoML will take care of that automatically.\n ****************\n");
 				}				
 				
 				if (dalib.equals("scikit-learn")) { // scikit-learn v0.24.1
@@ -2404,6 +2406,11 @@ public class JavaThingActionCompiler extends CommonThingActionCompiler {
 							flag = true;
 						}
 					}
+					
+					if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getHidden_layers_activation_functions() != null) {
+						System.err.println("ERROR: Since the chosen DA/ML library is scikit-learn, in the neural network multi-layer perceptron model, parameter hidden_layers_activation_functions may NOT exist. Scikit-learn supports only one type of activation functio for all hidden layers. Please use the activation parameter instead.\n See the API documentation for more information: https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPRegressor.html or https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPClassifier.html\n");
+					}
+					
 					if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getOptimizer().getValue() != Optimizer.NOT_SET_VALUE) {						
 						if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getOptimizer().getValue() != Optimizer.SGD_VALUE ||
 								((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getOptimizer().getValue() != Optimizer.ADAM_VALUE ||
@@ -2479,6 +2486,9 @@ public class JavaThingActionCompiler extends CommonThingActionCompiler {
 							params_without_optimizer += ("learning_rate_init=" + learning_rate_init_str);
 							flag = true;
 						}
+					}
+					if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getPower() != null) {						
+						System.err.println("WARNING: In the neural network multilayer perceptron model, parameter power is present. However, the chosen library for DA/ML (i.e., scikit-learn) supports the power_t parameter, not power. Thus, it will be ignored.\n Please see the API doc for more information: https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPClassifier.html or https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPRegressor.html.\n");
 					}
 					if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getPower_t() != null) {						
 						if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getOptimizer().getValue() != Optimizer.SGD_VALUE) {
@@ -2755,7 +2765,6 @@ public class JavaThingActionCompiler extends CommonThingActionCompiler {
 					
 					int no_hidden_layers = 0;
 					if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getHidden_layer_sizes() == null) {
-						//TODO
 						System.err.println("WARNING: In the neural network multilayer perceptron model, parameter hidden_layer_sizes, which may specify the number of hidden layers and the size of each hidden layer through a tuple, where the ith element represents the number of neurons in the ith hidden layer, is not present.\n Thus, only one hidden layer with a random size will be considered.\n");
 						no_hidden_layers = 1;
 						pythonScriptStringBuilder.append("hidden_layers_size_not_given = True\n");
@@ -2764,27 +2773,65 @@ public class JavaThingActionCompiler extends CommonThingActionCompiler {
 						no_hidden_layers = ((NN_MultilayerPerceptron) action.getDataAnalytics().getModelAlgorithm()).getHidden_layers().size();
 					}
 					
-					String activation_function = "";
-					if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivation().getValue() != Activation.NOT_SET_VALUE) {
-						if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivation().getValue() != Activation.RELU_VALUE ||
-								((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivation().getValue() != Activation.SIGMOID_VALUE ||
-								((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivation().getValue() != Activation.SOFTMAX_VALUE ||
-								((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivation().getValue() != Activation.SOFTPLUS_VALUE ||
-								((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivation().getValue() != Activation.SOFTSIGN_VALUE ||
-								((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivation().getValue() != Activation.TANH_VALUE ||
-								((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivation().getValue() != Activation.SELU_VALUE ||
-								((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivation().getValue() != Activation.ELU_VALUE ||
-								((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivation().getValue() != Activation.EXPONENTIAL_VALUE) {
-						
-							System.err.println("WARNING: In the neural network multilayer perceptron model, parameter activation does not specify a valid activation function for the selected DA/ML library (keras-tensorflow).\n Thus, the default relu activation function will be used. See the API documentation for more information: https://keras.io/api/layers/activations/. \n");
-							activation_function = Activation.RELU.getLiteral();
+					boolean same_activation_all_hidden_layers = false;
+					boolean one_activation_per_hidden_layer = false;
+					
+					if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getHidden_layers_activation_functions() != null) {
+						if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivation().getValue() != Activation.NOT_SET_VALUE) {
+							System.err.println("WARNING: In the neural network multilayer perceptron model, parameters activation and hidden_layers_activation_functions cannot be specified simultaneously. Remove one of them. If you want to use the same activation for all hidden layers, use the activation parameter. Otherwise, use the hidden_layers_activation_functions parameter.\n In the latter case, you should specifiy them through a tuple, where the ith element represents the activation function for the ith hidden layer.\n Currently, your choices will be ignored. Relu will be used by default for all hidden lkayers.\n ");
+							same_activation_all_hidden_layers = true;
 						} else {
-							activation_function = ((NN_MultilayerPerceptron) (action.getDataAnalytics()
-									.getModelAlgorithm())).getActivation().getLiteral();
-						}
+							if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivations().size() != no_hidden_layers) {
+								System.err.println("WARNING: In the neural network multilayer perceptron model, parameter hidden_layers_activation_functions implies a different number of hidden layers than parameter hidden_layer_sizes.\n Either the hidden_layer_sizes parameter does not exist or the size of its tuple is not the same as the size of the tuple of hidden_layers_activation_functions!\n");	
+								same_activation_all_hidden_layers = true;
+							} else {
+								for(int i=0; i<((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivations().size(); i++) {
+									if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivations().get(i).getValue() == Activation.NOT_SET_VALUE) {
+										((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivations().set(i, Activation.RELU);
+										System.err.println("WARNING: In the neural network multilayer perceptron model, parameter hidden_layers_activation_functions includes a NOT_SET activation function, which will be automatically set to RELU.\n");
+									} else if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivations().get(i).getValue() == Activation.RELU_VALUE &&
+											((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivations().get(i).getValue() == Activation.SIGMOID_VALUE &&
+											((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivations().get(i).getValue() == Activation.SOFTMAX_VALUE &&
+											((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivations().get(i).getValue() == Activation.SOFTPLUS_VALUE &&
+											((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivations().get(i).getValue() == Activation.SOFTSIGN_VALUE &&
+											((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivations().get(i).getValue() == Activation.TANH_VALUE &&
+											((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivations().get(i).getValue() == Activation.SELU_VALUE &&
+											((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivations().get(i).getValue() == Activation.ELU_VALUE &&
+											((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivations().get(i).getValue() == Activation.EXPONENTIAL_VALUE) {
+										((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivations().set(i, Activation.RELU);
+										System.err.println("WARNING: In the neural network multilayer perceptron model, parameter hidden_layers_activation_functions includes an invalid activation function, which will be automatically set to RELU. See the API documentation for more information on the valid choices: https://keras.io/api/layers/activations/.\n");
+									}
+								}								
+								one_activation_per_hidden_layer = true;
+							}
+						}						
 					} else {
-						System.err.println("WARNING: In the neural network multilayer perceptron model, parameter activation is not present. Thus, the default relu activation function will be used.\n");
-						activation_function = Activation.RELU.getLiteral();
+						same_activation_all_hidden_layers = true;
+					}
+					
+					String activation_function = "";
+					if(same_activation_all_hidden_layers) {
+						if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivation().getValue() != Activation.NOT_SET_VALUE) {
+							if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivation().getValue() != Activation.RELU_VALUE ||
+									((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivation().getValue() != Activation.SIGMOID_VALUE ||
+									((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivation().getValue() != Activation.SOFTMAX_VALUE ||
+									((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivation().getValue() != Activation.SOFTPLUS_VALUE ||
+									((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivation().getValue() != Activation.SOFTSIGN_VALUE ||
+									((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivation().getValue() != Activation.TANH_VALUE ||
+									((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivation().getValue() != Activation.SELU_VALUE ||
+									((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivation().getValue() != Activation.ELU_VALUE ||
+									((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivation().getValue() != Activation.EXPONENTIAL_VALUE) {
+							
+								System.err.println("WARNING: In the neural network multilayer perceptron model, parameter activation does not specify a valid activation function for the selected DA/ML library (keras-tensorflow).\n Thus, the default relu activation function will be used. See the API documentation for more information: https://keras.io/api/layers/activations/. \n");
+								activation_function = Activation.RELU.getLiteral();
+							} else {
+								activation_function = ((NN_MultilayerPerceptron) (action.getDataAnalytics()
+										.getModelAlgorithm())).getActivation().getLiteral();
+							}
+						} else {
+							System.err.println("WARNING: In the neural network multilayer perceptron model, parameter activation is not present. Thus, the default relu activation function will be used.\n");
+							activation_function = Activation.RELU.getLiteral();
+						}
 					}
 					
 					String optimizer = "";
@@ -2809,7 +2856,7 @@ public class JavaThingActionCompiler extends CommonThingActionCompiler {
 								optimizer = ((NN_MultilayerPerceptron) (action.getDataAnalytics()
 										.getModelAlgorithm())).getOptimizer().getLiteral();
 							}
-						}
+						}					
 					} else {
 						System.err.println("WARNING: In the neural network multilayer perceptron model, parameter optimizer is not present. Thus, the default adam optimizer will be used.\n");
 						optimizer = first_to_upper(Optimizer.ADAM.getLiteral());
@@ -2823,17 +2870,17 @@ public class JavaThingActionCompiler extends CommonThingActionCompiler {
 					}
 					
 					int batch_size = 0;
+					boolean batch_size_not_given = false;
 					if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getBatch_size() != null) {
-						pythonScriptStringBuilder.append("batch_size_not_given = False\n");
 						batch_size = (int) ((NN_MultilayerPerceptron) (action.getDataAnalytics()
 								.getModelAlgorithm())).getBatch_size().getIntValue();
 					} else {
-						pythonScriptStringBuilder.append("batch_size_not_given = True\n");
-						//TODO
+						batch_size_not_given = true;
 						System.err.println("WARNING: In the neural network multilayer perceptron model, parameter batch_size is not present. Thus, the default value min(200, no_of_samples) will be used.\n");
 					}
 					
 					String learning_rate_mode = "";
+					boolean learning_rate_mode_given = false;
 					if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getLearning_rate_mode().getValue() != Learning_rate_mode.NOT_SET_VALUE) {
 						if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getLearning_rate_mode().getValue() != Learning_rate_mode.EXPONENTIAL_DECAY_VALUE &&
 								((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getLearning_rate_mode().getValue() != Learning_rate_mode.PIECEWISE_CONSTANT_DECAY_VALUE &&
@@ -2842,15 +2889,18 @@ public class JavaThingActionCompiler extends CommonThingActionCompiler {
 							System.err.println("WARNING: The chosen library for DA/ML, i.e., keras-tensorflow, only acceptes one of the following choices for the learning_rate_mode (lr_schedule): ExponentialDecay, PiecewiseConstantDecay, PolynomialDecay or InverseTimeDecay.\n However, the chosen one is not supported. Please see the API doc for more information on this: https://keras.io/api/optimizers/learning_rate_schedules/.\n");
 						}
 						learning_rate_mode = ((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getLearning_rate_mode().getLiteral();
+						learning_rate_mode_given = true;
 					}
 					
 					String learning_rate_init = "";
+					boolean learning_rate_init_given = false;
 					if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getLearning_rate_init() != null) {
 						learning_rate_init = ((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getLearning_rate_init().toString();
+						learning_rate_init_given = true;
 					}
 					
 					if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getPower_t() != null) {
-						System.err.println("WARNING: The chosen library for DA/ML, i.e., keras-tensorflow, does not accept parameter power_t. Either remove it or try using another library, e.g., @dalib \"scikit-learn\".\n");
+						System.err.println("WARNING: The chosen library for DA/ML, i.e., keras-tensorflow, does not accept parameter power_t. You may use the power parameter (not power_t) for the PolynomialDecay learning rate schedule.\n See the API doc for more information: https://keras.io/api/optimizers/learning_rate_schedules/polynomial_decay/.\n");
 					}
 					
 					if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getMax_iter() != null) {
@@ -2889,8 +2939,9 @@ public class JavaThingActionCompiler extends CommonThingActionCompiler {
 					pythonScriptStringBuilder.append("stderr = sys.stderr\n");
 					pythonScriptStringBuilder.append("sys.stderr = open(os.devnull, 'w')\n");
 					pythonScriptStringBuilder.append("from keras.models import Sequential\n");
+					pythonScriptStringBuilder.append("from keras import Input\n");
 					pythonScriptStringBuilder.append("from keras.layers.core import Dense, Activation, Dropout\n");
-					pythonScriptStringBuilder.append("sys.stderr = stderr\n\n"); //TODO
+					pythonScriptStringBuilder.append("sys.stderr = stderr\n\n");
 										
 					pythonScriptStringBuilder
 							.append("#Setting the correct data type, i.e., float32 for numerical features\n");
@@ -2900,7 +2951,9 @@ public class JavaThingActionCompiler extends CommonThingActionCompiler {
 					pythonScriptStringBuilder.append("numeric_features_list = tmp.index[tmp]\n");
 					pythonScriptStringBuilder.append(
 							"X_train[numeric_features_list] = X_train[numeric_features_list].astype(\'float32\')\n\n");
+					
 					pythonScriptStringBuilder.append("#Preparing the class labels\n");
+					//TODO
 					pythonScriptStringBuilder.append("le = LabelEncoder()\n");
 					pythonScriptStringBuilder.append("le.fit(y_train)\n");
 					pythonScriptStringBuilder.append("p2 = re.compile(r'[\\d+(\\.\\d+)]')\n");
@@ -2916,40 +2969,53 @@ public class JavaThingActionCompiler extends CommonThingActionCompiler {
 							+ "y_train_categorical.pickle', 'wb') as pickle_file:\n");
 					pythonScriptStringBuilder.append("    pickle.dump(y_train, pickle_file)\n\n");
 
-					pythonScriptStringBuilder.append("#Standardization/Normalization of numerical features\n");
-					pythonScriptStringBuilder.append("if(len(numeric_features_list)>1):\n");
-					pythonScriptStringBuilder.append("	mean = (X_train[numeric_features_list]).values.mean()\n");
-					pythonScriptStringBuilder.append("	X_train[numeric_features_list] -= mean\n");
-					pythonScriptStringBuilder.append("	std = (X_train[numeric_features_list]).values.std()\n");
-					pythonScriptStringBuilder.append("	if(std!=0):\n");
-					pythonScriptStringBuilder.append("		X_train[numeric_features_list] /= std\n");
-					pythonScriptStringBuilder.append("	else:\n");
-					pythonScriptStringBuilder.append("		max = (X_train[numeric_features_list]).values.max()\n");
-					pythonScriptStringBuilder.append("		if(max!=0):\n");
-					pythonScriptStringBuilder.append("			X_train[numeric_features_list] /= max\n\n");
-
 					pythonScriptStringBuilder.append("#Creating the model\n");
-					//TODO if(alpha_given) {from keras.regularizers import l2; params += ", kernel_regularizer=l2(alpha)";}
+					if(alpha_given) {
+						pythonScriptStringBuilder.append("from keras.regularizers import l2\n");
+					}
+					
+					pythonScriptStringBuilder.append("from tf.keras.optimizers import " + optimizer + "\n");
 					
 					pythonScriptStringBuilder.append("no_neurons_hidden_layers = None\n");
 					pythonScriptStringBuilder.append("if(hidden_layers_size_not_given == True):\n");
 					pythonScriptStringBuilder.append("	import random\n");
 					pythonScriptStringBuilder.append(
 							"	no_neurons_hidden_layers=random.randint(max(1,(2//3))*min(X_train.shape[1],len(y_train)),max(X_train.shape[1],len(y_train)))\n");
-
-					pythonScriptStringBuilder.append("model = Sequential([\n");
-					pythonScriptStringBuilder.append("  Dense(no_neurons_hidden_layers, activation='"
-							+ activation_function + "', input_shape=(X_train.shape[1],)),\n");
-					for (int i = 0; i < no_hidden_layers; i++) {
-						pythonScriptStringBuilder.append("  Dense(no_neurons_hidden_layers, activation='"
-								+ activation_function + "'),\n");
+					pythonScriptStringBuilder.append("	model = Sequential()\n");
+					pythonScriptStringBuilder.append("	model.add(Input(shape=(X_train.shape[1],)))\n");
+					if(alpha_given) {
+						pythonScriptStringBuilder.append("	model.add(Dense(no_neurons_hidden_layers, activation='" + activation_function + "', kernel_regularizer=l2(" + alpha + ")))\n");
+					} else {
+						pythonScriptStringBuilder.append("	model.add(Dense(no_neurons_hidden_layers, activation='" + activation_function + "'))\n");
 					}
-					pythonScriptStringBuilder
-							.append("  Dense(len(y_train), activation='" + activation_function + "'),\n");
-					pythonScriptStringBuilder.append("])\n\n");
+					
+					pythonScriptStringBuilder.append("	model.add(Dense(len(y_train)))\n\n");
+					
+					pythonScriptStringBuilder.append("else:\n");
+					pythonScriptStringBuilder.append("	model = Sequential()\n");
+					pythonScriptStringBuilder.append("	model.add(Input(shape=(X_train.shape[1],)))\n");
+					for(int i=0; i<no_hidden_layers; i++) {
+						if(same_activation_all_hidden_layers) {
+							if(alpha_given) {
+								pythonScriptStringBuilder.append("	model.add(Dense(" + String.valueOf(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getHidden_layers().get(i).getIntValue()) + ", activation='" + activation_function + "', kernel_regularizer=l2(" + alpha + ")))\n");
+							} else {
+								pythonScriptStringBuilder.append("	model.add(Dense(" + String.valueOf(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getHidden_layers().get(i).getIntValue()) + ", activation='" + activation_function + "'))\n");
+							}
+							
+						} else if(one_activation_per_hidden_layer) {
+							if(alpha_given) {
+								pythonScriptStringBuilder.append("	model.add(Dense(" + String.valueOf(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getHidden_layers().get(i).getIntValue()) + ", activation='" + ((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivations().get(i).getLiteral() + "', kernel_regularizer=l2(" + alpha + ")))\n");
+							} else {
+								pythonScriptStringBuilder.append("	model.add(Dense(" + String.valueOf(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getHidden_layers().get(i).getIntValue()) + ", activation='" + ((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivations().get(i).getLiteral() + "'))\n");
+							}
+							
+						}
+					}
+					pythonScriptStringBuilder.append("	model.add(Dense(len(y_train)))\n\n");
 
-
-
+					
+					pythonScriptStringBuilder.append("#Compiling the model\n");
+					
 					String loss_function = "";
 					if (((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getLoss()
 							.getValue() == Loss.NOT_SET_VALUE) {
@@ -2958,10 +3024,25 @@ public class JavaThingActionCompiler extends CommonThingActionCompiler {
 						loss_function = ((NN_MultilayerPerceptron) (action.getDataAnalytics()
 								.getModelAlgorithm())).getLoss().getLiteral();
 					}
-
-					pythonScriptStringBuilder.append("#Compiling the model\n");
+					
+					if(learning_rate_mode_given) {
+						pythonScriptStringBuilder.append("from tf.keras.optimizers.schedules import " + learning_rate_mode + "\n");
+					}
+					
 					pythonScriptStringBuilder.append("model.compile(\n");
-					pythonScriptStringBuilder.append("  optimizer='" + optimizer + "',\n");
+					if(learning_rate_mode_given) {
+						if(learning_rate_init_given) {
+							pythonScriptStringBuilder.append("  optimizer=" + optimizer + "(learning_rate=" + learning_rate_mode + "(initial_learning_rate=" + learning_rate_init + ")),\n");
+						} else {
+							pythonScriptStringBuilder.append("  optimizer=" + optimizer + "(learning_rate=" + learning_rate_mode + "()),\n");
+						}						
+					} else {
+						if(learning_rate_init_given) {
+							pythonScriptStringBuilder.append("  optimizer=" + optimizer + "(learning_rate=" + learning_rate_init + "),\n");
+						} else {
+							pythonScriptStringBuilder.append("  optimizer='" + optimizer + "',\n");
+						}						
+					}					
 					pythonScriptStringBuilder.append("  loss='" + loss_function + "',\n");
 					pythonScriptStringBuilder.append("  metrics=['accuracy'],\n");
 					pythonScriptStringBuilder.append(")\n\n");
@@ -2981,7 +3062,11 @@ public class JavaThingActionCompiler extends CommonThingActionCompiler {
 					pythonScriptStringBuilder.append("  X_train,\n");
 					pythonScriptStringBuilder.append("  y_train,\n");
 					pythonScriptStringBuilder.append("  epochs=" + no_epochs + ",\n");
-					pythonScriptStringBuilder.append("  batch_size=" + batch_size + ",\n");
+					if(batch_size_not_given) {
+						pythonScriptStringBuilder.append("  batch_size=min(200,X_train.shape[0]),\n");
+					} else {
+						pythonScriptStringBuilder.append("  batch_size=" + batch_size + ",\n");
+					}
 					pythonScriptStringBuilder.append("  verbose=0,\n");
 					pythonScriptStringBuilder.append(")\n\n");
 
@@ -3252,21 +3337,21 @@ public class JavaThingActionCompiler extends CommonThingActionCompiler {
 		builder.append("list.add(\"" + features_str + "\");\n");
 		builder.append("list.add(\"" + feature_types_str + "\");\n");
 
-		builder.append("list.add(");
+		builder.append("list.add(\"");
 		String feature_values_for_prediction_str = "";
 		for (int i = 0; i < feature_values_for_prediction.size(); i++) {
 			if (feature_values_for_prediction.get(i).getTypeRef().isIsArray()) {
 				builder.append("\"\'\" + Arrays.toString(" + ctx.getVariableName(feature_values_for_prediction.get(i))
 						+ ").replaceAll(\",\",\"\") + \"\'\"");
 			} else {
-				builder.append(ctx.getVariableName(feature_values_for_prediction.get(i)).toString() + "+\"\"");
+				builder.append(ctx.getVariableName(feature_values_for_prediction.get(i)).toString());
 			}
 
 			if (i < feature_values_for_prediction.size() - 1) {
 				builder.append(",");
 			}
 		}
-		builder.append(");\n");
+		builder.append("\");\n");
 
 		builder.append("list.add(\"\'\" + prediction_timestamp + \"\'\");\n");
 

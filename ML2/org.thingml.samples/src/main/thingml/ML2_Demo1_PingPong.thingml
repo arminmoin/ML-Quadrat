@@ -138,21 +138,22 @@ thing PingPongDataAnalytics includes PingPongMsgs {
 	property prediction: Boolean = false
 
 	data_analytics da1 
-	//@dalib "scikit-learn" {
+	@dalib "scikit-learn" {
 	//@dalib "keras-tensorflow" {
-	{
+	//{
 		dataset "data/ip_dataset.csv"
 		automl OFF
 		sequential TRUE
 		timestamps ON
 		labels ON
 		features client_ip_address,prediction
-		preprocess_feature_scaling OFF
-		model_algorithm linear_classifier_logistic_regression my_lin_log_reg(fit_intercept true, intercept_scaling 0.2, solver 'liblinear')
+		preprocess_feature_scaling STANDARDIZATION_Z_SCORE_NORMALIZATION
+		//model_algorithm linear_classifier_logistic_regression my_lin_log_reg(fit_intercept true, intercept_scaling 0.2, solver 'liblinear')
 		//model_algorithm naive_bayes_gaussian my_nbg()
 		//model_algorithm decision_tree_classifier my_dtc(random_state 10)
 		//model_algorithm random_forest_classifier my_rfc()
 		//model_algorithm nn_multilayer_perceptron my_nn_mlp(hidden_layer_sizes(100,200) activation relu optimizer Adam loss sparse_categorical_crossentropy)
+		model_algorithm nn_multilayer_perceptron my_nn_mlp(activation relu, optimizer adam, loss SparseCategoricalCrossentropy)
 		training_results "data/training.txt"		
 		prediction_results prediction
 	}

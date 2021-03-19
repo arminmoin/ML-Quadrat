@@ -200,7 +200,6 @@ thing ESMDataAnalytics includes ESMMsgs, TimerMsgs {
 		////model_algorithm gated_recurrent_units my_gru(
 			////loss_function MSE, optimizer Adam, learning_rate 0.00001
 		////)
-		//model_algorithm decision_tree my_dt()
 		model_algorithm nn_multilayer_perceptron my_nn_mlp(epochs 10)
 		training_results "data/training_da1.txt"		
 		prediction_results future_prices

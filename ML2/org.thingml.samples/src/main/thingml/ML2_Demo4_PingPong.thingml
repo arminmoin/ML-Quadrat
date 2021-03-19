@@ -155,8 +155,9 @@ thing PingPongDataAnalytics includes PingPongMsgs {
 		features client_ip_address,prediction
 		//model_algorithm linear_regression my_lin_reg()
 		//model_algorithm decision_tree_regressor my_dtr()
-		model_algorithm random_forest_regressor my_rfr()
+		//model_algorithm random_forest_regressor my_rfr()
 		//model_algorithm nn_multilayer_perceptron my_nn_mlp(activation relu optimizer Adam loss sparse_categorical_crossentropy)
+		model_algorithm nn_multilayer_perceptron my_nn_mlp()
 		training_results "data/training.txt"		
 		prediction_results prediction
 	}

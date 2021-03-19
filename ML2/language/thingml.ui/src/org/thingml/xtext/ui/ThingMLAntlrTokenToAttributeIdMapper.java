@@ -65,7 +65,7 @@ public class ThingMLAntlrTokenToAttributeIdMapper extends AbstractAntlrTokenToAt
 					, "'decision_tree_classifier'", "'class_weight'"
 					, "'random_forest_regressor'", "'n_estimators'", "'criterion'", "'max_depth'", "'min_samples_split'", "'min_samples_leaf'", "'min_weight_fraction_leaf'", "'max_features'", "'max_leaf_nodes'", "'min_impurity_decrease'", "'min_impurity_split'", "'bootstrap'", "'oob_score'", "'n_jobs'", "'random_state'", "'verbose'", "'warm_start'", "'ccp_alpha'", "'max_samples'"
 					, "'random_forest_classifier'", "'class_weight'"
-					, "'nn_multilayer_perceptron'", "'hidden_layer_sizes'", "'activation'", "'optimizer'", "'alpha'", "'batch_size'", "'learning_rate_mode'", "'learning_rate_init'", "'power_t'", "'max_iter'", "'shuffle'", "'random_state'", "'tol'", "'verbose'", "'warm_start'", "'momentum'", "'nesterovs_momentum'", "'early_stopping'", "'validation_fraction'", "'beta_1'", "'beta_2'", "'epsilon'", "'n_iter_no_change'", "'max_fun'", "'loss'", "'epochs'"
+					, "'nn_multilayer_perceptron'", "'hidden_layer_sizes'", "'activation'", "'hidden_layers_activation_functions'" , "'optimizer'", "'alpha'", "'batch_size'", "'learning_rate_mode'", "'learning_rate_init'", "'power'", "'power_t'", "'max_iter'", "'shuffle'", "'random_state'", "'tol'", "'verbose'", "'warm_start'", "'momentum'", "'nesterovs_momentum'", "'early_stopping'", "'validation_fraction'", "'beta_1'", "'beta_2'", "'epsilon'", "'n_iter_no_change'", "'max_fun'", "'loss'", "'epochs'"
 					, "''l1''", "''l2''", "''elasticnet''", "''none''"
 					, "'newton-cg'", "'lbfgs'", "'liblinear'", "'sag'", "'saga'"
 					, "'sgd'", "'adam'"

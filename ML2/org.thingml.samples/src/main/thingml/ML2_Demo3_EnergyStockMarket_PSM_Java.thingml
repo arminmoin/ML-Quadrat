@@ -1,7 +1,7 @@
 import "ML2_Demo3_EnergyStockMarket_PIM.thingml"
 import "thingml/core/_java/timer.thingml"
 
-configuration ESM_Cfg {
+configuration ESM_Cfg @compiler "python_java" {
 	
 	instance timer : TimerJava
 	instance last_training_timer : TimerJava

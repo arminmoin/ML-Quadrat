@@ -464,13 +464,15 @@ NN_MultilayerPerceptron returns NN_MultilayerPerceptron: // scikit-learn v0.24.1
 	'('
 	('hidden_layer_sizes' hidden_layer_sizes='(' (hidden_layers+=IntegerLiteral ("," hidden_layers+=IntegerLiteral)* )? ')' (',')?)? // scikit-learn v0.24.1 & keras
 	('activation' activation=Activation (',')?)? // scikit-learn v0.24.1 & keras
+	('hidden_layers_activation_functions' hidden_layers_activation_functions='(' (activations+=Activation ("," activations+=Activation)* )? ')' (',')?)? // Specific to keras
 	('optimizer' optimizer=Optimizer (',')?)? // i.e., "solver" in scikit-learn // scikit-learn v0.24.1 & keras
 	('alpha' alpha=DoubleLiteral (',')?)? // i.e., kernel_regularizer in keras // scikit-learn v0.24.1 & keras
 	('batch_size' batch_size=IntegerLiteral (',')?)? // scikit-learn v0.24.1 & keras
 	('learning_rate_mode' learning_rate_mode=Learning_rate_mode (',')?)? // i.e., "learning rate" in scikit-learn v0.24.1 & "lr_schedule" in keras
 	('learning_rate_init' learning_rate_init=STRING (',')?)? // i.e., "initial_learning_rate" in keras // scikit-learn v0.24.1 & keras
-	('power_t' power_t=DoubleLiteral (',')?)?
-	('max_iter' max_iter=IntegerLiteral (',')?)? // specific to sckikit-learn
+	('power' power=DoubleLiteral (',')?)? // specific to keras
+	('power_t' power_t=DoubleLiteral (',')?)? // specific to scikit-learn
+	('max_iter' max_iter=IntegerLiteral (',')?)? // specific to scikit-learn
 	('shuffle' shuffle=BooleanLiteral (',')?)?
 	('random_state' random_state=IntegerLiteral (',')?)? // i.e., numpy seed & tensorflow set_random_seed for keras // scikit-learn v0.24.1 & keras
 	('tol' tol=DoubleLiteral (',')?)?
