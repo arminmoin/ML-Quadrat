@@ -1,3 +1,6 @@
+// Armin Moin, moin@in.tum.de
+// Sample Platform-Independent Model (PIM) instance for the energy stock market example
+
 import "thingml/core/timer.thingml"
 
 object String
@@ -192,17 +195,14 @@ thing ESMDataAnalytics includes ESMMsgs, TimerMsgs {
         set future_prices[9] = 0.0
 
 	data_analytics da1 {
+		labels ON
+		features current_prices, future_prices
+		prediction_results future_prices
 		dataset "data/esm.csv"
 		sequential TRUE
 		timestamps ON
-		labels ON
-		features current_prices, future_prices
-		////model_algorithm gated_recurrent_units my_gru(
-			////loss_function MSE, optimizer Adam, learning_rate 0.00001
-		////)
 		model_algorithm nn_multilayer_perceptron my_nn_mlp(epochs 10)
-		training_results "data/training_da1.txt"		
-		prediction_results future_prices
+		training_results "data/training_da1.txt"
 	}
 
 	statechart ESMDataAnalyticsBehavior init Preprocess {

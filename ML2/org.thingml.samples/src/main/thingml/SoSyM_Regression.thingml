@@ -1,3 +1,6 @@
+// Armin Moin, moin@in.tum.de
+// Sample model instance for regression using the REFIT dataset
+
 import "thingml/core/timer.thingml"
 import "thingml/core/_java/timer.thingml"
 
@@ -118,16 +121,16 @@ thing DAML_Srv includes TimerMsgs {
 	@dalib "scikit-learn" {
 	//@dalib "keras-tensorflow" {
 	//{
+		labels ON
+		features fridge_load, freezer1_load, freezer2_load, washing_machine_load, dishwasher_load, computer_load, television_site_load, electric_heater_load, aggregate_load, washer_dryer_load
+		prediction_results washer_dryer_load
 		dataset "data/REFIT_house1_reordered_regression.csv"
 		automl OFF
 		sequential TRUE
-		timestamps ON
-		labels ON
-		features fridge_load, freezer1_load, freezer2_load, washing_machine_load, dishwasher_load, computer_load, television_site_load, electric_heater_load, aggregate_load, washer_dryer_load
+		timestamps ON		
 		preprocess_feature_scaling STANDARDIZATION_Z_SCORE_NORMALIZATION
 		model_algorithm nn_multilayer_perceptron my_nn_mlp(activation relu, optimizer adam, loss SparseCategoricalCrossentropy)
-		training_results "data/training.txt"		
-		prediction_results washer_dryer_load
+		training_results "data/training.txt"
 	}
 	statechart DAML_SrvBehavior init Preprocess {
 		on entry print "DAML server started!\n"

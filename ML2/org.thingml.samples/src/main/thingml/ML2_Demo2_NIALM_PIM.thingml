@@ -1,3 +1,6 @@
+// Armin Moin, moin@in.tum.de
+// Sample Platform-Independent Model (PIM) instance for the Non-Intrusive Appliance Load Monitoring (NIALM) example
+
 import "thingml/core/timer.thingml"
 
 object String
@@ -167,16 +170,15 @@ thing NIALMDataAnalytics includes NIALMMsgs, TimerMsgs {
         set disaggregated_loads_2[9] = 0.0
 
 	data_analytics da1 {
-		dataset "data/nialm.csv"
-		sequential TRUE
-		timestamps ON
 		labels ON
 		features aggregated_load, disaggregated_loads_1
+		prediction_results disaggregated_loads_1
+		dataset "data/nialm.csv"
+		sequential TRUE
+		timestamps ON		
 		preprocess_feature_scaling STANDARDIZATION_Z_SCORE_NORMALIZATION
 		model_algorithm decision_tree_regressor my_dtr()
-		//model_algorithm nn_multilayer_perceptron my_nn_mlp()
 		training_results "data/training_da1.txt"		
-		prediction_results disaggregated_loads_1
 	}
 
 	statechart NIALMDataAnalyticsBehavior init Preprocess {

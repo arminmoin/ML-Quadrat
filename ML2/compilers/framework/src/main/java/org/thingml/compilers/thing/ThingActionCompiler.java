@@ -14,6 +14,12 @@
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
  */
+
+/**
+ * Extended by Armin Moin, moin@in.tum.de, moin@arminmoin.de
+ * Created by bmori on 01.12.2014.
+ */
+
 package org.thingml.compilers.thing;
 
 import org.thingml.compilers.Context;
@@ -27,6 +33,7 @@ import org.thingml.xtext.thingML.ByteLiteral;
 import org.thingml.xtext.thingML.CastExpression;
 import org.thingml.xtext.thingML.CharLiteral;
 import org.thingml.xtext.thingML.ConditionalAction;
+import org.thingml.xtext.thingML.DAPreTrainedPredictAction;
 import org.thingml.xtext.thingML.DAPredictAction;
 import org.thingml.xtext.thingML.DAPreprocessAction;
 import org.thingml.xtext.thingML.DASaveAction;
@@ -126,6 +133,8 @@ public class ThingActionCompiler {
             generate((DATrainAction) action, builder, ctx);
         else if (action instanceof DAPredictAction) //ML2
             generate((DAPredictAction) action, builder, ctx);
+        else if (action instanceof DAPreTrainedPredictAction) //ML2
+            generate((DAPreTrainedPredictAction) action, builder, ctx);
         else {
             throw (new UnsupportedOperationException("This action (" + action.getClass().getName() + ") is unknown... Please update your action compilers as a new action/expression might have been introduced in ThingML"));
         }
@@ -176,6 +185,10 @@ public class ThingActionCompiler {
 	}
     
     public void generate(DAPredictAction action, StringBuilder builder, Context ctx) { //ML2
+		throw (new UnsupportedOperationException("This action (" + action.getClass().getName() + ") is platform-specific and should be refined!"));
+	}
+    
+    public void generate(DAPreTrainedPredictAction action, StringBuilder builder, Context ctx) { //ML2
 		throw (new UnsupportedOperationException("This action (" + action.getClass().getName() + ") is platform-specific and should be refined!"));
 	}
 

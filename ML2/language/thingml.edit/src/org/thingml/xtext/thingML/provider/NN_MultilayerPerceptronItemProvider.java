@@ -2,15 +2,15 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
  */
@@ -64,6 +64,8 @@ public class NN_MultilayerPerceptronItemProvider extends ML2_ModelAlgorithmItemP
 
 			addHidden_layer_sizesPropertyDescriptor(object);
 			addActivationPropertyDescriptor(object);
+			addHidden_layers_activation_functionsPropertyDescriptor(object);
+			addActivationsPropertyDescriptor(object);
 			addOptimizerPropertyDescriptor(object);
 			addLearning_rate_modePropertyDescriptor(object);
 			addLearning_rate_initPropertyDescriptor(object);
@@ -108,6 +110,50 @@ public class NN_MultilayerPerceptronItemProvider extends ML2_ModelAlgorithmItemP
 				 getString("_UI_NN_MultilayerPerceptron_activation_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_NN_MultilayerPerceptron_activation_feature", "_UI_NN_MultilayerPerceptron_type"),
 				 ThingMLPackage.eINSTANCE.getNN_MultilayerPerceptron_Activation(),
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Hidden layers activation functions feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addHidden_layers_activation_functionsPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_NN_MultilayerPerceptron_hidden_layers_activation_functions_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_NN_MultilayerPerceptron_hidden_layers_activation_functions_feature", "_UI_NN_MultilayerPerceptron_type"),
+				 ThingMLPackage.eINSTANCE.getNN_MultilayerPerceptron_Hidden_layers_activation_functions(),
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Activations feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addActivationsPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_NN_MultilayerPerceptron_activations_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_NN_MultilayerPerceptron_activations_feature", "_UI_NN_MultilayerPerceptron_type"),
+				 ThingMLPackage.eINSTANCE.getNN_MultilayerPerceptron_Activations(),
 				 true,
 				 false,
 				 false,
@@ -219,6 +265,7 @@ public class NN_MultilayerPerceptronItemProvider extends ML2_ModelAlgorithmItemP
 			childrenFeatures.add(ThingMLPackage.eINSTANCE.getNN_MultilayerPerceptron_Hidden_layers());
 			childrenFeatures.add(ThingMLPackage.eINSTANCE.getNN_MultilayerPerceptron_Alpha());
 			childrenFeatures.add(ThingMLPackage.eINSTANCE.getNN_MultilayerPerceptron_Batch_size());
+			childrenFeatures.add(ThingMLPackage.eINSTANCE.getNN_MultilayerPerceptron_Power());
 			childrenFeatures.add(ThingMLPackage.eINSTANCE.getNN_MultilayerPerceptron_Power_t());
 			childrenFeatures.add(ThingMLPackage.eINSTANCE.getNN_MultilayerPerceptron_Max_iter());
 			childrenFeatures.add(ThingMLPackage.eINSTANCE.getNN_MultilayerPerceptron_Shuffle());
@@ -293,6 +340,8 @@ public class NN_MultilayerPerceptronItemProvider extends ML2_ModelAlgorithmItemP
 		switch (notification.getFeatureID(NN_MultilayerPerceptron.class)) {
 			case ThingMLPackage.NN_MULTILAYER_PERCEPTRON__HIDDEN_LAYER_SIZES:
 			case ThingMLPackage.NN_MULTILAYER_PERCEPTRON__ACTIVATION:
+			case ThingMLPackage.NN_MULTILAYER_PERCEPTRON__HIDDEN_LAYERS_ACTIVATION_FUNCTIONS:
+			case ThingMLPackage.NN_MULTILAYER_PERCEPTRON__ACTIVATIONS:
 			case ThingMLPackage.NN_MULTILAYER_PERCEPTRON__OPTIMIZER:
 			case ThingMLPackage.NN_MULTILAYER_PERCEPTRON__LEARNING_RATE_MODE:
 			case ThingMLPackage.NN_MULTILAYER_PERCEPTRON__LEARNING_RATE_INIT:
@@ -302,6 +351,7 @@ public class NN_MultilayerPerceptronItemProvider extends ML2_ModelAlgorithmItemP
 			case ThingMLPackage.NN_MULTILAYER_PERCEPTRON__HIDDEN_LAYERS:
 			case ThingMLPackage.NN_MULTILAYER_PERCEPTRON__ALPHA:
 			case ThingMLPackage.NN_MULTILAYER_PERCEPTRON__BATCH_SIZE:
+			case ThingMLPackage.NN_MULTILAYER_PERCEPTRON__POWER:
 			case ThingMLPackage.NN_MULTILAYER_PERCEPTRON__POWER_T:
 			case ThingMLPackage.NN_MULTILAYER_PERCEPTRON__MAX_ITER:
 			case ThingMLPackage.NN_MULTILAYER_PERCEPTRON__SHUFFLE:
@@ -350,6 +400,11 @@ public class NN_MultilayerPerceptronItemProvider extends ML2_ModelAlgorithmItemP
 			(createChildParameter
 				(ThingMLPackage.eINSTANCE.getNN_MultilayerPerceptron_Batch_size(),
 				 ThingMLFactory.eINSTANCE.createIntegerLiteral()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ThingMLPackage.eINSTANCE.getNN_MultilayerPerceptron_Power(),
+				 ThingMLFactory.eINSTANCE.createDoubleLiteral()));
 
 		newChildDescriptors.add
 			(createChildParameter
@@ -457,6 +512,7 @@ public class NN_MultilayerPerceptronItemProvider extends ML2_ModelAlgorithmItemP
 			childFeature == ThingMLPackage.eINSTANCE.getNN_MultilayerPerceptron_Max_fun() ||
 			childFeature == ThingMLPackage.eINSTANCE.getNN_MultilayerPerceptron_Epochs() ||
 			childFeature == ThingMLPackage.eINSTANCE.getNN_MultilayerPerceptron_Alpha() ||
+			childFeature == ThingMLPackage.eINSTANCE.getNN_MultilayerPerceptron_Power() ||
 			childFeature == ThingMLPackage.eINSTANCE.getNN_MultilayerPerceptron_Power_t() ||
 			childFeature == ThingMLPackage.eINSTANCE.getNN_MultilayerPerceptron_Tol() ||
 			childFeature == ThingMLPackage.eINSTANCE.getNN_MultilayerPerceptron_Momentum() ||

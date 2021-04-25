@@ -46,6 +46,7 @@ import org.thingml.xtext.helpers.TyperHelper;
 import org.thingml.xtext.thingML.Activation;
 import org.thingml.xtext.thingML.ArrayInit;
 import org.thingml.xtext.thingML.AutoML;
+import org.thingml.xtext.thingML.DAPreTrainedPredictAction;
 import org.thingml.xtext.thingML.DAPredictAction;
 import org.thingml.xtext.thingML.DAPreprocessAction;
 import org.thingml.xtext.thingML.DASaveAction;
@@ -109,8 +110,13 @@ import org.thingml.xtext.thingML.Type;
 import org.thingml.xtext.thingML.TypeRef;
 import org.thingml.xtext.validation.TypeChecker;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 /**
- * Created by bmori on 01.12.2014.
+ * Armin Moin, moin@in.tum.de, moin@arminmoin.de
  */
 public class PythonJavaThingActionCompiler extends CommonThingActionCompiler {
 
@@ -748,21 +754,9 @@ public class PythonJavaThingActionCompiler extends CommonThingActionCompiler {
 
 	// ML2: Code generator for the data analytics preprocessing Python script,
 	// preprocess.py
-	public void generatePythonDAPreprocessingScript(String path_str, DAPreprocessAction action) {
-		String dalib = "auto";
-		if (AnnotatedElementHelper.hasAnnotation(action.getDataAnalytics(), "dalib")) {
-			if (action.getDataAnalytics().getAnnotations().get(0).getValue().equals("scikit-learn")
-					|| action.getDataAnalytics().getAnnotations().get(0).getValue().equals("keras-tensorflow")
-					|| action.getDataAnalytics().getAnnotations().get(0).getValue().equals("pytorch")) {
-				dalib = action.getDataAnalytics().getAnnotations().get(0).getValue();
-			} else if (action.getDataAnalytics().getAnnotations().get(0).getValue().equals("weka")) {
-				System.err.println(
-						"ERROR: This compiler/code generator generates Java AND Python code. The data analytics / machine learning part should be generated in Python. However, weka is chosen as the library for data analytics / machine learning in the annotations of the model. Please either change the annotation @dalib to a Python library, e.g., scikit-learn or use the pure Java compiler/code generator!");
-			} else {
-				dalib = "auto";
-			}
-		}
-		
+	private void generatePythonDAPreprocessingScript(String path_str, DAPreprocessAction action) {
+		//Note: Regardless of the chosen library via da_lib, the preprocessing is always carried out using the Scikit-Learn library to make it efficient for large datasets.
+				
 		StringBuilder pythonScriptStringBuilder = new StringBuilder();
 		// pythonScriptStringBuilder.append("#********* ML2 *********\n\n");
 		pythonScriptStringBuilder.append("import sys\n");
@@ -770,20 +764,7 @@ public class PythonJavaThingActionCompiler extends CommonThingActionCompiler {
 		pythonScriptStringBuilder.append("import time, datetime\n");
 		pythonScriptStringBuilder.append("import pandas as pd\n");
 		pythonScriptStringBuilder.append("import numpy as np\n");
-
-		if (dalib.equals("auto") || dalib.equals("scikit-learn")) {
-			pythonScriptStringBuilder.append("from sklearn.preprocessing import LabelEncoder\n\n");
-		} else if (dalib.equals("keras-tensorflow")) {
-			pythonScriptStringBuilder.append("import logging, os, sys\n");
-			pythonScriptStringBuilder.append("logging.disable(logging.WARNING)\n");
-			pythonScriptStringBuilder.append("os.environ[\"TF_CPP_MIN_LOG_LEVEL\"] = \"3\"\n");
-			pythonScriptStringBuilder.append("stderr = sys.stderr\n");
-			pythonScriptStringBuilder.append("sys.stderr = open(os.devnull, 'w')\n");
-			pythonScriptStringBuilder.append("from keras.utils import to_categorical\n\n");
-		} else {
-			System.err.println("ERROR: " + dalib + " not supported as the library for DA/ML.\n"
-					+ "You may try @dalib=\"auto\" instead.\n");
-		}	
+		pythonScriptStringBuilder.append("from sklearn.preprocessing import LabelEncoder\n\n");
 
 		pythonScriptStringBuilder.append("dataset = sys.argv[1]\n");
 		pythonScriptStringBuilder.append("sequential = sys.argv[2]\n");
@@ -792,9 +773,17 @@ public class PythonJavaThingActionCompiler extends CommonThingActionCompiler {
 		pythonScriptStringBuilder.append("feature_types = sys.argv[5].split(',')\n");
 		pythonScriptStringBuilder.append("labels = sys.argv[6]\n\n");
 		pythonScriptStringBuilder.append("col_names = []\n");
+		pythonScriptStringBuilder.append("num_col_names = []\n");
+		pythonScriptStringBuilder.append("cat_col_names = []\n");
 		pythonScriptStringBuilder.append("if(timestamps.lower() == 'on'):\n");
 		pythonScriptStringBuilder.append("    col_names.append('timestamp')\n");
-		pythonScriptStringBuilder.append("for feature in features:\n");
+		pythonScriptStringBuilder.append("for i in range(len(features)):\n");
+		pythonScriptStringBuilder.append("    feature=features[i]\n");
+		pythonScriptStringBuilder.append("    feature_type=feature_types[i]\n");
+		pythonScriptStringBuilder.append("    if((\"String\" in feature_type) or (\"Char\" in feature_type)):\n");
+		pythonScriptStringBuilder.append("        cat_col_names.append(feature)\n");
+		pythonScriptStringBuilder.append("    if((\"Int\" in feature_type) or (\"Long\" in feature_type) or (\"Double\" in feature_type)):\n");
+		pythonScriptStringBuilder.append("        num_col_names.append(feature)\n");
 		pythonScriptStringBuilder.append("    col_names.append(feature)\n\n");
 		pythonScriptStringBuilder
 				.append("df = pd.read_csv(dataset, lineterminator='\\n', names=col_names, header=None)\n");
@@ -802,43 +791,25 @@ public class PythonJavaThingActionCompiler extends CommonThingActionCompiler {
 		pythonScriptStringBuilder.append("with open('" + path_str + "/python-scripts/pickles/"
 				+ "preprocess_original_df.pickle', 'wb') as pickle_file:\n");
 		pythonScriptStringBuilder.append("    pickle.dump(original_df, pickle_file)\n\n");
-		pythonScriptStringBuilder.append("feature_cols = []\n");
 		pythonScriptStringBuilder.append("if(timestamps.lower() == 'on'):\n");
-		pythonScriptStringBuilder.append("	feature_cols.append('timestamp')\n");
 		pythonScriptStringBuilder.append("	timeformat = \"%d-%m-%Y %H:%M:%S\"\n");
 		pythonScriptStringBuilder.append("	with open('" + path_str + "/python-scripts/pickles/"
 				+ "preprocess_timeformat.pickle', 'wb') as pickle_file:\n");
 		pythonScriptStringBuilder.append("		pickle.dump(timeformat, pickle_file)\n");
 		pythonScriptStringBuilder
-				.append("	df.timestamp = df.timestamp.apply(lambda x: datetime.datetime.strptime(x, timeformat))\n");
-		pythonScriptStringBuilder.append("	base_time = df.timestamp.min()\n");
-		pythonScriptStringBuilder.append("	with open('" + path_str + "/python-scripts/pickles/"
-				+ "preprocess_base_time.pickle', 'wb') as pickle_file:\n");
-		pythonScriptStringBuilder.append("		pickle.dump(base_time, pickle_file)\n");
-		pythonScriptStringBuilder.append("	df.timestamp = (df.timestamp - base_time)\n");
-		pythonScriptStringBuilder.append("	df.timestamp = df.timestamp.apply(lambda x: x.seconds)\n\n");
-		pythonScriptStringBuilder.append(
-				"categorical_features_indexes = list(filter(lambda x: feature_types[x] == 'String', range(len(feature_types))))\n\n");
-		pythonScriptStringBuilder.append("for i in range(len(features)):\n");
-		pythonScriptStringBuilder.append("	if i in categorical_features_indexes:\n");
+				.append("	df.timestamp = df.timestamp.apply(lambda x: datetime.datetime.strptime(x, timeformat))\n\n");
 
-		if (dalib.equals("auto") || dalib.equals("scikit-learn")) {
-			pythonScriptStringBuilder.append("		le = LabelEncoder()\n");
-			pythonScriptStringBuilder.append("		le.fit(df[features[i]])\n");
-			pythonScriptStringBuilder
-					.append("		df[features[i]] = df[features[i]].apply(lambda x: le.transform([x]))\n");
-		} else if (dalib.equals("keras-tensorflow")) {
-			pythonScriptStringBuilder.append("		mapping = {}\n");
-			pythonScriptStringBuilder.append("		for x in range(len(df[features[i]])):\n");
-			pythonScriptStringBuilder.append("			mapping[df[features[i]][x]] = x\n");
-			pythonScriptStringBuilder.append("		for x in range(len(df[features[i]])):\n");
-			pythonScriptStringBuilder.append("			df[features[i]][x] = mapping[df[features[i]][x]]\n");
-		} else {
-			System.err.println("ERROR: " + dalib + " not supported as the library for DA/ML.\n"
-					+ "You may try @dalib=\"auto\" instead.\n");
-		}
+		//Handling the categorical values (one-hot encoding)
+		pythonScriptStringBuilder.append("if(len(cat_col_names)!=0):\n");
+		pythonScriptStringBuilder.append("	le = LabelEncoder()\n");
+		pythonScriptStringBuilder.append("	le.fit(df[cat_col_names])\n");
+		pythonScriptStringBuilder
+					.append("	df[cat_col_names] = df[cat_col_names].apply(lambda x: le.transform(x))\n");
+		pythonScriptStringBuilder.append("	with open('" + path_str + "/python-scripts/pickles/"
+				+ "preprocess_label_encoder.pickle', 'wb') as pickle_file:\n");
+		pythonScriptStringBuilder.append("		pickle.dump(le, pickle_file)\n\n");
 		
-		// Possible feature scaling: Normalization / Standardization
+		//Handling the numerical values (possible normalization/standardization)
 		if(action.getDataAnalytics().getPreprocess_feature_scaling().getValue() == Preprocess_feature_scaling.NOT_SET_VALUE) {
 			if(action.getDataAnalytics().getAutoML().getValue() == AutoML.ON_VALUE) {
 				System.err.println("WARNING: Parameter preprocess_feature_scaling not specified in the data analytics section! Since AutoML is on, preprocess_feature_scaling is automatically set to Z-Score Normalization (i.e., Standardization)...\n");
@@ -849,70 +820,69 @@ public class PythonJavaThingActionCompiler extends CommonThingActionCompiler {
 			}
 		}
 		if(action.getDataAnalytics().getPreprocess_feature_scaling().getValue() != Preprocess_feature_scaling.OFF_VALUE) {
-			// STANDARDIZATION_Z_SCORE_NORMALIZATION
+			
+			//STANDARDIZATION (ZSCORE NORMALIZATION), see https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html
 			if(action.getDataAnalytics().getPreprocess_feature_scaling().getValue() == Preprocess_feature_scaling.STANDARDIZATION_ZSCORE_NORMALIZATION_VALUE) {
-				pythonScriptStringBuilder.append("	else:\n");
-				pythonScriptStringBuilder.append("		if(not((labels.lower() == 'on') and (i == len(features)-1))):\n");
-				pythonScriptStringBuilder
-				.append("			df[features[i]] = df[features[i]].apply(lambda x: x if df[features[i]].std()==0 else (x-df[features[i]].mean())/df[features[i]].std())\n");
+				pythonScriptStringBuilder.append("from sklearn.preprocessing import StandardScaler\n");
+				pythonScriptStringBuilder.append("scaler = StandardScaler()\n");
+				pythonScriptStringBuilder.append("scaler.fit(df[num_col_names])\n");
+				pythonScriptStringBuilder.append("df[num_col_names] = scaler.transform(df[num_col_names])\n\n");
 			}
 			
-			// MIN_MAX_NORMALIZATION
-			else if(action.getDataAnalytics().getPreprocess_feature_scaling().getValue() == Preprocess_feature_scaling.MIN_MAX_NORMALIZATION_VALUE) {
-				pythonScriptStringBuilder.append("	else:\n");
-				pythonScriptStringBuilder.append("		if(not((labels.lower() == 'on') and (i == len(features)-1))):\n");
-				pythonScriptStringBuilder
-				.append("			df[features[i]] = df[features[i]].apply(lambda x: x if df[features[i]].max()==df[features[i]].min() else (x-df[features[i]].min())/(df[features[i]].max()-df[features[i]].min()))\n");
+			//MIN_MAX_NORMALIZATION, see https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.MinMaxScaler.html#sklearn.preprocessing.MinMaxScaler
+			if(action.getDataAnalytics().getPreprocess_feature_scaling().getValue() == Preprocess_feature_scaling.MIN_MAX_NORMALIZATION_VALUE) {
+				pythonScriptStringBuilder.append("from sklearn.preprocessing import MinMaxScaler\n");
+				pythonScriptStringBuilder.append("scaler = MinMaxScaler()\n");
+				pythonScriptStringBuilder.append("scaler.fit(df[num_col_names])\n");
+				pythonScriptStringBuilder.append("df[num_col_names] = scaler.transform(df[num_col_names])\n\n");
 			}
 			
-			// MEAN_NORMALIZATION MIN-MAX
-			else if(action.getDataAnalytics().getPreprocess_feature_scaling().getValue() == Preprocess_feature_scaling.MEAN_NORMALIZATION_MIN_MAX_VALUE) {
-				pythonScriptStringBuilder.append("	else:\n");
-				pythonScriptStringBuilder.append("		if(not((labels.lower() == 'on') and (i == len(features)-1))):\n");
-				pythonScriptStringBuilder
-				.append("			df[features[i]] = df[features[i]].apply(lambda x: x if df[features[i]].max()==df[features[i]].min() else (x-df[features[i]].mean())/(df[features[i]].max()-df[features[i]].min()))\n");
+			//ROBUST_SCALER, see https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.RobustScaler.html#sklearn.preprocessing.RobustScaler
+			if(action.getDataAnalytics().getPreprocess_feature_scaling().getValue() == Preprocess_feature_scaling.ROBUST_SCALER_VALUE) {
+				pythonScriptStringBuilder.append("from sklearn.preprocessing import RobustScaler\n");
+				pythonScriptStringBuilder.append("scaler = RobustScaler()\n");
+				pythonScriptStringBuilder.append("scaler.fit(df[num_col_names])\n");
+				pythonScriptStringBuilder.append("df[num_col_names] = scaler.transform(df[num_col_names])\n\n");
 			}
 			
-			// MEAN_NORMALIZATION L2-NORM
-			else if(action.getDataAnalytics().getPreprocess_feature_scaling().getValue() == Preprocess_feature_scaling.MEAN_NORMALIZATION_L2_NORM_VALUE) {
-				pythonScriptStringBuilder.append("	else:\n");
-				pythonScriptStringBuilder.append("		if(not((labels.lower() == 'on') and (i == len(features)-1))):\n");
-				pythonScriptStringBuilder
-				.append("			df[features[i]] = df[features[i]].apply(lambda x: x if np.linalg.norm(df[features[i]].to_numpy()==0 else (x-df[features[i]].mean())/(np.linalg.norm(df[features[i]].to_numpy())))\n");
+			//NORMALIZATION_L2_NORM, see https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.Normalizer.html#sklearn.preprocessing.Normalizer
+			if(action.getDataAnalytics().getPreprocess_feature_scaling().getValue() == Preprocess_feature_scaling.NORMALIZATION_L2_NORM_VALUE) {
+				pythonScriptStringBuilder.append("from sklearn.preprocessing import Normalizer\n");
+				pythonScriptStringBuilder.append("scaler = Normalizer(norm=\'l2\')\n");
+				pythonScriptStringBuilder.append("scaler.fit(df[num_col_names])\n");
+				pythonScriptStringBuilder.append("df[num_col_names] = scaler.transform(df[num_col_names])\n\n");
 			}
 			
-			// UNIT_LENGTH_SCALING
-			else if(action.getDataAnalytics().getPreprocess_feature_scaling().getValue() == Preprocess_feature_scaling.UNIT_LENGTH_SCALING_VALUE) {
-				pythonScriptStringBuilder.append("	else:\n");
-				pythonScriptStringBuilder.append("		if(not((labels.lower() == 'on') and (i == len(features)-1))):\n");
-				pythonScriptStringBuilder
-				.append("			df[features[i]] = df[features[i]].apply(lambda x: x if np.linalg.norm(df[features[i]].to_numpy()==0 else x/(np.linalg.norm(df[features[i]].to_numpy())))\n");
+			//NORMALIZATION_L1_NORM, see https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.Normalizer.html#sklearn.preprocessing.Normalizer
+			if(action.getDataAnalytics().getPreprocess_feature_scaling().getValue() == Preprocess_feature_scaling.NORMALIZATION_L1_NORM_VALUE) {
+				pythonScriptStringBuilder.append("from sklearn.preprocessing import Normalizer\n");
+				pythonScriptStringBuilder.append("scaler = Normalizer(norm=\'l1\')\n");
+				pythonScriptStringBuilder.append("scaler.fit(df[num_col_names])\n");
+				pythonScriptStringBuilder.append("df[num_col_names] = scaler.transform(df[num_col_names])\n\n");
 			}
-						
+			
+			//NORMALIZATION_MAX_NORM, see https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.Normalizer.html#sklearn.preprocessing.Normalizer
+			if(action.getDataAnalytics().getPreprocess_feature_scaling().getValue() == Preprocess_feature_scaling.NORMALIZATION_MAX_NORM_VALUE) {
+				pythonScriptStringBuilder.append("from sklearn.preprocessing import Normalizer\n");
+				pythonScriptStringBuilder.append("scaler = Normalizer(norm=\'max\')\n");
+				pythonScriptStringBuilder.append("scaler.fit(df[num_col_names])\n");
+				pythonScriptStringBuilder.append("df[num_col_names] = scaler.transform(df[num_col_names])\n\n");
+			}
+			
+			
 		}
 		
-		
-		pythonScriptStringBuilder.append("	feature_cols.append(features[i])\n\n");
-		pythonScriptStringBuilder.append("if(len(categorical_features_indexes) != 0):\n");
-
-		if (dalib.equals("auto") || dalib.equals("scikit-learn")) {
-			pythonScriptStringBuilder.append("	with open('" + path_str + "/python-scripts/pickles/"
-					+ "preprocess_label_encoder.pickle', 'wb') as pickle_file:\n");
-			pythonScriptStringBuilder.append("		pickle.dump(le, pickle_file)\n\n");
-		} else if (dalib.equals("keras-tensorflow")) {
-			pythonScriptStringBuilder.append("	with open('" + path_str + "/python-scripts/pickles/"
-					+ "preprocess_mapping.pickle', 'wb') as pickle_file:\n");
-			pythonScriptStringBuilder.append("		pickle.dump(mapping, pickle_file)\n\n");
-		} else {
-			System.err.println("ERROR: " + dalib + " not supported as the library for DA/ML.\n"
-					+ "You may try @dalib=\"auto\" instead.\n");
-		}
-
 		pythonScriptStringBuilder.append("if(labels.lower() == 'on'):\n");
-		pythonScriptStringBuilder.append("	X_train =  df.loc[:,feature_cols[:-1]]\n");
+		pythonScriptStringBuilder.append("	if(timestamps.lower() == 'on'):\n");
+		pythonScriptStringBuilder.append("		X_train =  df.loc[:,col_names[1:-1]]\n");
+		pythonScriptStringBuilder.append("	else:\n");
+		pythonScriptStringBuilder.append("		X_train =  df.loc[:,col_names[:-1]]\n");
 		pythonScriptStringBuilder.append("	y_train = df[features[-1]]\n");
 		pythonScriptStringBuilder.append("else:\n");
-		pythonScriptStringBuilder.append("	X_train =  df.loc[:,feature_cols]\n");
+		pythonScriptStringBuilder.append("	if(timestamps.lower() == 'on'):\n");
+		pythonScriptStringBuilder.append("		X_train =  df.loc[:,col_names[1:]]\n");
+		pythonScriptStringBuilder.append("	else:\n");
+		pythonScriptStringBuilder.append("		X_train =  df.loc[:,col_names[:]]\n");
 		pythonScriptStringBuilder.append("	y_train = []\n\n");
 		// Handling features, which have the array type
 		pythonScriptStringBuilder.append(
@@ -1025,7 +995,7 @@ public class PythonJavaThingActionCompiler extends CommonThingActionCompiler {
 	}
 
 	// ML2: Code generator for the data analytics training Python script, train.py
-	public void generatePythonDATrainScript(String path_str, DATrainAction action) {
+	private void generatePythonDATrainScript(String path_str, DATrainAction action) {
 		DataAnalyticsModelAlgorithm dataAnalyticsModelAlgorithm = action.getDataAnalytics().getModelAlgorithm();
 
 		String dalib = "auto";
@@ -2442,7 +2412,7 @@ public class PythonJavaThingActionCompiler extends CommonThingActionCompiler {
 					}
 					if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getBatch_size() != null) {
 						if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getOptimizer().getValue() == Optimizer.LBFGS_VALUE) {
-							System.err.println("WARNING: In the neural network multilayer perceptron model, parameter batch_size is specified. However, since the optimizer/solver is set to lbfgs, the batch size parameter will be ignored. You may use another optimizer/solver.\n Please see the API doc for more information: https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPClassifier.html or https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPRegressor.html.\n");
+							System.err.println("WARNING: In the neural network multilayer perceptron model, parameter batch_size is specified. However, since the optimizer/solver is set to lbfgs, the batch size parameter will be ignored. You may use another optimizer/solver (a stochasitic one).\n Please see the API doc for more information: https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPClassifier.html or https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPRegressor.html.\n");
 						} else {						
 							batch_size_str = String.valueOf(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getBatch_size().getIntValue());
 							if(flag) {
@@ -2546,15 +2516,20 @@ public class PythonJavaThingActionCompiler extends CommonThingActionCompiler {
 					} else {
 						System.err.println("WARNING: In the neural network multilayer perceptron model, no parameter random_state is provided. Pass an integer for reproducible results across multiple function calls!\n See the API doc for more information: https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPRegressor.html or https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPClassifier.html.\n");
 					}
-					if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getTol() != null) {						
-						tol_str = String.valueOf(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getTol().getDoubleValue());
-						if(flag) {
-							params += ",";
-							params_without_optimizer += ",";	
+					if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getTol() != null) {
+						if((((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getEarly_stopping() == null) ||
+								!(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getEarly_stopping().isBoolValue())) {
+							System.err.println("WARNING: In the neural network multilayer perceptron model, parameter tol is present. However, the early_stopping parameter either does not exist or is False. Please either set early_stopping to True or remove tol.\n See the API doc for more information: https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPRegressor.html or https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPClassifier.html.\n");
+						} else {
+							tol_str = String.valueOf(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getTol().getDoubleValue());
+							if(flag) {
+								params += ",";
+								params_without_optimizer += ",";	
+							}
+							params += ("tol=" + tol_str);
+							params_without_optimizer += ("tol=" + tol_str);
+							flag = true;
 						}
-						params += ("tol=" + tol_str);
-						params_without_optimizer += ("tol=" + tol_str);
-						flag = true;
 					}
 					if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getVerbose() != null) {						
 						verbose_str = first_to_upper(String.valueOf(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getVerbose().isBoolValue()));
@@ -2697,14 +2672,19 @@ public class PythonJavaThingActionCompiler extends CommonThingActionCompiler {
 								((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getOptimizer().getValue() != Optimizer.SGD_VALUE) {
 							System.err.println("WARNING: In the neural network multilayer perceptron model, parameter n_iter_no_change is only supported for the SGD or the adam optimizer/solver in the chosen library for DA/ML (i.e., scikit-learn). Thus, it will be ignored.\n Please see the API doc for more information: https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPClassifier.html or https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPRegressor.html.\n");
 						} else {
-							n_iter_no_change_str = String.valueOf(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getN_iter_no_change().getIntValue());
-							if(flag) {
-								params += ",";
-								params_without_optimizer += ",";	
-							}						
-							params += ("n_iter_no_change=" + n_iter_no_change_str);
-							params_without_optimizer += ("n_iter_no_change=" + n_iter_no_change_str);
-							flag = true;
+							if((((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getEarly_stopping() == null) ||
+									!(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getEarly_stopping().isBoolValue())) {
+								System.err.println("WARNING: In the neural network multilayer perceptron model, parameter n_iter_no_change is present. However, the early_stopping parameter either does not exist or is False. Please either set early_stopping to True or remove n_iter_no_change.\n See the API doc for more information: https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPRegressor.html or https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPClassifier.html.\n");
+							} else {
+								n_iter_no_change_str = String.valueOf(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getN_iter_no_change().getIntValue());
+								if(flag) {
+									params += ",";
+									params_without_optimizer += ",";	
+								}						
+								params += ("n_iter_no_change=" + n_iter_no_change_str);
+								params_without_optimizer += ("n_iter_no_change=" + n_iter_no_change_str);
+								flag = true;
+							}
 						}
 					}
 					if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getMax_fun() != null) {
@@ -2762,15 +2742,16 @@ public class PythonJavaThingActionCompiler extends CommonThingActionCompiler {
 						pythonScriptStringBuilder.append("    pickle.dump(nn_mlp_c, pickle_file)\n\n");
 					}
 				} else if(dalib.equals("auto") || dalib.equals("keras-tensorflow")) {
-					
 					int no_hidden_layers = 0;
+					boolean hidden_layers_size_given = false;
 					if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getHidden_layer_sizes() == null) {
-						System.err.println("WARNING: In the neural network multilayer perceptron model, parameter hidden_layer_sizes, which may specify the number of hidden layers and the size of each hidden layer through a tuple, where the ith element represents the number of neurons in the ith hidden layer, is not present.\n Thus, only one hidden layer with a random size will be considered.\n");
+						System.err.println("WARNING: In the neural network multilayer perceptron model, parameter hidden_layer_sizes, which may specify the number of hidden layers and the size of each hidden layer through a tuple, where the ith element represents the number of neurons in the ith hidden layer, is not present.\n Thus, only one hidden layer with the size of the mean of the input layer size and the output layer size will be considered.\n");
 						no_hidden_layers = 1;
 						pythonScriptStringBuilder.append("hidden_layers_size_not_given = True\n");
 					} else {						
 						pythonScriptStringBuilder.append("hidden_layers_size_not_given = False\n");
 						no_hidden_layers = ((NN_MultilayerPerceptron) action.getDataAnalytics().getModelAlgorithm()).getHidden_layers().size();
+						hidden_layers_size_given = true;
 					}
 					
 					boolean same_activation_all_hidden_layers = false;
@@ -2778,7 +2759,7 @@ public class PythonJavaThingActionCompiler extends CommonThingActionCompiler {
 					
 					if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getHidden_layers_activation_functions() != null) {
 						if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivation().getValue() != Activation.NOT_SET_VALUE) {
-							System.err.println("WARNING: In the neural network multilayer perceptron model, parameters activation and hidden_layers_activation_functions cannot be specified simultaneously. Remove one of them. If you want to use the same activation for all hidden layers, use the activation parameter. Otherwise, use the hidden_layers_activation_functions parameter.\n In the latter case, you should specifiy them through a tuple, where the ith element represents the activation function for the ith hidden layer.\n Currently, your choices will be ignored. Relu will be used by default for all hidden lkayers.\n ");
+							System.err.println("WARNING: In the neural network multilayer perceptron model, parameters activation and hidden_layers_activation_functions cannot be specified simultaneously. Remove one of them. If you want to use the same activation for all hidden layers, use the activation parameter. Otherwise, use the hidden_layers_activation_functions parameter.\n In the latter case, you should specifiy them through a tuple, where the ith element represents the activation function for the ith hidden layer.\n Currently, your choices will be ignored. Relu will be used by default for all hidden layers.\n ");
 							same_activation_all_hidden_layers = true;
 						} else {
 							if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivations().size() != no_hidden_layers) {
@@ -2907,8 +2888,16 @@ public class PythonJavaThingActionCompiler extends CommonThingActionCompiler {
 						System.err.println("WARNING: The chosen library for DA/ML, i.e., keras-tensorflow, does not accept parameter max_iter. Use epochs instead. See the API doc for more information: https://keras.io/api/models/sequential/\n");
 					}
 					
+					String shuffle_str = "";
+					boolean shuffle_given = false;
 					if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getShuffle() != null) {
-						System.err.println("WARNING: The chosen library for DA/ML, i.e., keras-tensorflow, does not accept parameter shuffle. Either remove it or try using another library, e.g., @dalib \"scikit-learn\".\n");
+						if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getShuffle().isBoolValue() &&
+								action.getDataAnalytics().getSequential().getValue() == Sequential.TRUE_VALUE) {
+							System.err.println("WARNING: In the neural network multilayer perceptron model, parameter shuffle is set to true. However, in the data analytics section of the model, it is mentioned that the data are sequential (i.e., sequential is set to true).\n It is not allowed to shuffle time series or any kind of sequential data, since the order of samples does matter! Thus, the shuffle parameter will be ignored.\n");
+						} else {
+							shuffle_str = first_to_upper(String.valueOf(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getShuffle().isBoolValue()));
+							shuffle_given = true;
+						}						
 					}
 					
 					int random_state = 0;
@@ -2918,8 +2907,121 @@ public class PythonJavaThingActionCompiler extends CommonThingActionCompiler {
 						random_state_given = true;
 					}
 					
+					boolean tol_given = false;
+					String tol_str = "";
+					//The tolerance (tol) for the early stopping is called "min_delta" in Keras, see: https://keras.io/api/callbacks/early_stopping/
 					if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getTol() != null) {
-						System.err.println("WARNING: The chosen library for DA/ML, i.e., keras-tensorflow, does not accept parameter shuffle. Either remove it or try using another library, e.g., @dalib \"scikit-learn\".\n");
+						if((((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getEarly_stopping() == null) ||
+								!(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getEarly_stopping().isBoolValue())) {
+							System.err.println("WARNING: In the neural network multilayer perceptron model, parameter tol is present. However, the early_stopping parameter either does not exist or is False. Please either set early_stopping to True or remove tol.\n");
+						} else {
+							tol_str = String.valueOf(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getTol().getDoubleValue());
+							tol_given = true;
+						}												
+					}
+					
+					boolean verbose_given = false;
+					boolean verbose_bool = false;
+					if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getVerbose() != null) {
+						verbose_bool = ((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getVerbose().isBoolValue();
+						verbose_given = true;						
+					}
+					
+					if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getWarm_start() != null) {
+						System.err.println("WARNING: The chosen library for DA/ML, i.e., keras-tensorflow, does not currently accept parameter warm_start. See the API documentation: https://keras.io/api/\n. Please either remove this or try using the scikit-learn library via the @dalib annotation.\n");
+					}
+					
+					boolean momentum_given = false;
+					String momentum_str = "";
+					if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getMomentum() != null) {						
+						if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getOptimizer().getValue() != Optimizer.SGD_VALUE) {
+							System.err.println("WARNING: In the neural network multilayer perceptron model, parameter momentum is present. However, that is only supported for the SGD optimizer/solver in the chosen library for DA/ML, i.e., keras-tensorflow. Thus, it will be ignored.\n See the API doc for more information: https://keras.io/api/optimizers/sgd/.\n");
+						} else if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getMomentum().getDoubleValue() < 0) {
+							System.err.println("WARNING: In the neural network multilayer perceptron model, parameter momentum is present. However, its value may not be negative in the chosen library for DA/ML, i.e., keras-tensorflow. Thus, it will be ignored.\n See the API doc for more information: https://keras.io/api/optimizers/sgd/.\n");
+						} else {						
+							momentum_str = String.valueOf(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getMomentum().getDoubleValue());
+							momentum_given = true;
+						}
+					}
+					
+					boolean nesterovs_momentum_given = false;
+					String nesterovs_momentum_str = "";
+					if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getNesterovs_momentum() != null) {						
+						if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getOptimizer().getValue() != Optimizer.SGD_VALUE) {
+							System.err.println("WARNING: In the neural network multilayer perceptron model, parameter nesterovs_momentum is present. However, that is only supported for the SGD optimizer/solver in the chosen library for DA/ML, i.e., keras-tensorflow. Thus, it will be ignored.\n See the API doc for more information: https://keras.io/api/optimizers/sgd/.\n");
+						} else if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getMomentum().getDoubleValue() < 0) {
+							System.err.println("WARNING: In the neural network multilayer perceptron model, parameter nesterovs_momentum is present. However, parameter momentum has a negative value. This is not allowed in the chosen library for DA/ML, i.e., keras-tensorflow. Thus, it will be ignored.\n See the API doc for more information: https://keras.io/api/optimizers/sgd/.\n");
+						} else {						
+							nesterovs_momentum_str = first_to_upper(String.valueOf(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getNesterovs_momentum().isBoolValue()));
+							nesterovs_momentum_given = true;
+						}
+					}
+					
+					boolean early_stopping_given = false;
+					boolean early_stopping_boolean = false;
+					if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getEarly_stopping() != null) {
+						early_stopping_boolean = ((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getEarly_stopping().isBoolValue();
+						early_stopping_given = true;
+					}
+					
+					if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getValidation_fraction() != null) {
+						System.err.println("WARNING: The chosen library for DA/ML, i.e., keras-tensorflow, does not currently accept parameter validation_fraction. See the API documentation: https://keras.io/api/\n. Please either remove this or try using the scikit-learn library via the @dalib annotation.\n");
+					}
+					
+					boolean beta_1_given = false;
+					String beta_1_str = "";
+					if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getBeta_1() != null) {
+						if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getOptimizer().getValue() != Optimizer.ADAM_VALUE) {
+							System.err.println("WARNING: In the neural network multilayer perceptron model, parameter beta_1 is only supported for the adam optimizer/solver in the chosen library for DA/ML (i.e., keras-tensorflow). Thus, it will be ignored.\n Please see the API doc for more information: https://keras.io/api/optimizers/adam/.\n");
+						} else if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getBeta_1().getDoubleValue() < 0 ||
+								((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getBeta_1().getDoubleValue() >=1 ) {
+							System.err.println("WARNING: In the neural network multilayer perceptron model, parameter beta_1 is present. However, its provided value is not in [0, 1)! Thus, it will be ignored.\n Please see the API doc for more information: https://keras.io/api/optimizers/adam/.\n");	
+						} else {
+							beta_1_str = String.valueOf(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getBeta_1().getDoubleValue());
+							beta_1_given = true;
+						}
+					}
+					
+					boolean beta_2_given = false;
+					String beta_2_str = "";
+					if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getBeta_2() != null) {
+						if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getOptimizer().getValue() != Optimizer.ADAM_VALUE) {
+							System.err.println("WARNING: In the neural network multilayer perceptron model, parameter beta_2 is only supported for the adam optimizer/solver in the chosen library for DA/ML (i.e., keras-tensorflow). Thus, it will be ignored.\n Please see the API doc for more information: https://keras.io/api/optimizers/adam/.\n");
+						} else if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getBeta_2().getDoubleValue() < 0 ||
+								((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getBeta_2().getDoubleValue() >=1 ) {
+							System.err.println("WARNING: In the neural network multilayer perceptron model, parameter beta_2 is present. However, its provided value is not in [0, 1)! Thus, it will be ignored.\n Please see the API doc for more information: https://keras.io/api/optimizers/adam/.\n");	
+						} else {
+							beta_2_str = String.valueOf(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getBeta_2().getDoubleValue());
+							beta_2_given = true;
+						}
+					}
+					
+					boolean epsilon_given = false;
+					String epsilon_str = "";
+					if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getEpsilon() != null) {
+						if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getOptimizer().getValue() != Optimizer.ADAM_VALUE) {
+							System.err.println("WARNING: In the neural network multilayer perceptron model, parameter epsilon is only supported for the adam optimizer/solver in the chosen library for DA/ML (i.e., keras-tensorflow). Thus, it will be ignored.\n Please see the API doc for more information: https://keras.io/api/optimizers/adam/.\n");
+						} else {
+							epsilon_str = String.valueOf(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getEpsilon().getDoubleValue());
+							epsilon_given = true;
+						}
+					}
+					
+					boolean n_iter_no_change_given = false;
+					String n_iter_no_change_str = "";
+					//The n_iter_no_change parameter is called "patience" for the early stopping in Keras, see: https://keras.io/api/callbacks/early_stopping/
+					if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getN_iter_no_change() != null) {
+						if((((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getEarly_stopping() == null) ||
+								!(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getEarly_stopping().isBoolValue())) {
+							System.err.println("WARNING: In the neural network multilayer perceptron model, parameter n_iter_no_change is present. However, the early_stopping parameter either does not exist or is False. Please either set early_stopping to True or remove n_iter_no_change.\n");
+						} else {
+							n_iter_no_change_str = String.valueOf(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getN_iter_no_change().getIntValue());
+							n_iter_no_change_given = true;
+						}												
+					}
+					
+					if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getMax_fun() != null) {
+						System.err.println("WARNING: The chosen library for DA/ML, i.e., keras-tensorflow, does not currently accept parameter max_fun. See the API documentation: https://keras.io/api/\n. Please either remove this or try using the scikit-learn library via the @dalib annotation.\n");
 					}
 					
 					if(random_state_given) {
@@ -2930,7 +3032,7 @@ public class PythonJavaThingActionCompiler extends CommonThingActionCompiler {
 					}
 					pythonScriptStringBuilder.append("import pandas as pd\n");
 					pythonScriptStringBuilder.append("import numpy as np\n");
-					pythonScriptStringBuilder.append("from sklearn.preprocessing import LabelEncoder\n");//TODO
+					pythonScriptStringBuilder.append("from sklearn.preprocessing import LabelEncoder\n");
 					pythonScriptStringBuilder.append("import re\n\n");
 					
 					pythonScriptStringBuilder.append("import logging, os, sys\n");
@@ -2938,9 +3040,10 @@ public class PythonJavaThingActionCompiler extends CommonThingActionCompiler {
 					pythonScriptStringBuilder.append("os.environ[\"TF_CPP_MIN_LOG_LEVEL\"] = \"3\"\n");
 					pythonScriptStringBuilder.append("stderr = sys.stderr\n");
 					pythonScriptStringBuilder.append("sys.stderr = open(os.devnull, 'w')\n");
-					pythonScriptStringBuilder.append("from keras.models import Sequential\n");
-					pythonScriptStringBuilder.append("from keras import Input\n");
-					pythonScriptStringBuilder.append("from keras.layers.core import Dense, Activation, Dropout\n");
+					pythonScriptStringBuilder.append("import tensorflow as tf\n");
+					pythonScriptStringBuilder.append("from tensorflow import keras\n");
+					pythonScriptStringBuilder.append("from tensorflow.keras import layers\n");
+					pythonScriptStringBuilder.append("from tensorflow.keras.optimizers import " + optimizer + "\n");
 					pythonScriptStringBuilder.append("sys.stderr = stderr\n\n");
 										
 					pythonScriptStringBuilder
@@ -2953,7 +3056,6 @@ public class PythonJavaThingActionCompiler extends CommonThingActionCompiler {
 							"X_train[numeric_features_list] = X_train[numeric_features_list].astype(\'float32\')\n\n");
 					
 					pythonScriptStringBuilder.append("#Preparing the class labels\n");
-					//TODO
 					pythonScriptStringBuilder.append("le = LabelEncoder()\n");
 					pythonScriptStringBuilder.append("le.fit(y_train)\n");
 					pythonScriptStringBuilder.append("p2 = re.compile(r'[\\d+(\\.\\d+)]')\n");
@@ -2963,10 +3065,10 @@ public class PythonJavaThingActionCompiler extends CommonThingActionCompiler {
 					pythonScriptStringBuilder.append("if(re.match(p3,str(y_train[0:1]))!=None):\n");
 					pythonScriptStringBuilder.append("	y_train = y_train.apply(lambda x: le.transform(x))\n");
 					pythonScriptStringBuilder.append("with open('" + path_str + "/python-scripts/pickles/"
-							+ "y_train_le.pickle', 'wb') as pickle_file:\n");
+							+ "nn_nlp_y_train_le.pickle', 'wb') as pickle_file:\n");
 					pythonScriptStringBuilder.append("    pickle.dump(le, pickle_file)\n");
 					pythonScriptStringBuilder.append("with open('" + path_str + "/python-scripts/pickles/"
-							+ "y_train_categorical.pickle', 'wb') as pickle_file:\n");
+							+ "nn_nlp_y_train_categorical.pickle', 'wb') as pickle_file:\n");
 					pythonScriptStringBuilder.append("    pickle.dump(y_train, pickle_file)\n\n");
 
 					pythonScriptStringBuilder.append("#Creating the model\n");
@@ -2974,48 +3076,46 @@ public class PythonJavaThingActionCompiler extends CommonThingActionCompiler {
 						pythonScriptStringBuilder.append("from keras.regularizers import l2\n");
 					}
 					
-					pythonScriptStringBuilder.append("from tf.keras.optimizers import " + optimizer + "\n");
+					pythonScriptStringBuilder.append("model = keras.Sequential()\n");
+					pythonScriptStringBuilder.append("model.add(layers.Input(shape=(X_train.shape[1],)))\n");
 					
-					pythonScriptStringBuilder.append("no_neurons_hidden_layers = None\n");
-					pythonScriptStringBuilder.append("if(hidden_layers_size_not_given == True):\n");
-					pythonScriptStringBuilder.append("	import random\n");
-					pythonScriptStringBuilder.append(
-							"	no_neurons_hidden_layers=random.randint(max(1,(2//3))*min(X_train.shape[1],len(y_train)),max(X_train.shape[1],len(y_train)))\n");
-					pythonScriptStringBuilder.append("	model = Sequential()\n");
-					pythonScriptStringBuilder.append("	model.add(Input(shape=(X_train.shape[1],)))\n");
-					if(alpha_given) {
-						pythonScriptStringBuilder.append("	model.add(Dense(no_neurons_hidden_layers, activation='" + activation_function + "', kernel_regularizer=l2(" + alpha + ")))\n");
+					if(hidden_layers_size_given) {
+						for(int i=0; i<no_hidden_layers; i++) {
+							if(same_activation_all_hidden_layers) {
+								if(alpha_given) {
+									pythonScriptStringBuilder.append("model.add(layers.Dense(" + String.valueOf(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getHidden_layers().get(i).getIntValue()) + ", activation='" + activation_function + "', kernel_regularizer=l2(" + alpha + ")))\n");
+								} else {
+									pythonScriptStringBuilder.append("model.add(layers.Dense(" + String.valueOf(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getHidden_layers().get(i).getIntValue()) + ", activation='" + activation_function + "'))\n");
+								}								
+							} else if(one_activation_per_hidden_layer) {
+								if(alpha_given) {
+									pythonScriptStringBuilder.append("model.add(layers.Dense(" + String.valueOf(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getHidden_layers().get(i).getIntValue()) + ", activation='" + ((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivations().get(i).getLiteral() + "', kernel_regularizer=l2(" + alpha + ")))\n");
+								} else {
+									pythonScriptStringBuilder.append("model.add(layers.Dense(" + String.valueOf(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getHidden_layers().get(i).getIntValue()) + ", activation='" + ((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivations().get(i).getLiteral() + "'))\n");
+								}								
+							}
+						}
 					} else {
-						pythonScriptStringBuilder.append("	model.add(Dense(no_neurons_hidden_layers, activation='" + activation_function + "'))\n");
-					}
-					
-					pythonScriptStringBuilder.append("	model.add(Dense(len(y_train)))\n\n");
-					
-					pythonScriptStringBuilder.append("else:\n");
-					pythonScriptStringBuilder.append("	model = Sequential()\n");
-					pythonScriptStringBuilder.append("	model.add(Input(shape=(X_train.shape[1],)))\n");
-					for(int i=0; i<no_hidden_layers; i++) {
+						pythonScriptStringBuilder.append("import math\n");
+						pythonScriptStringBuilder.append("hidden_layer_size=math.ceil(float((X_train.shape[1])+(len(y_train)))/2.0)\n");
 						if(same_activation_all_hidden_layers) {
 							if(alpha_given) {
-								pythonScriptStringBuilder.append("	model.add(Dense(" + String.valueOf(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getHidden_layers().get(i).getIntValue()) + ", activation='" + activation_function + "', kernel_regularizer=l2(" + alpha + ")))\n");
+								pythonScriptStringBuilder.append("model.add(layers.Dense(hidden_layer_size, activation='" + activation_function + "', kernel_regularizer=l2(" + alpha + ")))\n");
 							} else {
-								pythonScriptStringBuilder.append("	model.add(Dense(" + String.valueOf(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getHidden_layers().get(i).getIntValue()) + ", activation='" + activation_function + "'))\n");
-							}
-							
+								pythonScriptStringBuilder.append("model.add(layers.Dense(hidden_layer_size, activation='" + activation_function + "'))\n");
+							}								
 						} else if(one_activation_per_hidden_layer) {
 							if(alpha_given) {
-								pythonScriptStringBuilder.append("	model.add(Dense(" + String.valueOf(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getHidden_layers().get(i).getIntValue()) + ", activation='" + ((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivations().get(i).getLiteral() + "', kernel_regularizer=l2(" + alpha + ")))\n");
+								pythonScriptStringBuilder.append("model.add(layers.Dense(hidden_layer_size, activation='" + ((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivations().get(0).getLiteral() + "', kernel_regularizer=l2(" + alpha + ")))\n");
 							} else {
-								pythonScriptStringBuilder.append("	model.add(Dense(" + String.valueOf(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getHidden_layers().get(i).getIntValue()) + ", activation='" + ((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivations().get(i).getLiteral() + "'))\n");
-							}
-							
+								pythonScriptStringBuilder.append("model.add(layers.Dense(hidden_layer_size, activation='" + ((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivations().get(0).getLiteral() + "'))\n");
+							}								
 						}
-					}
-					pythonScriptStringBuilder.append("	model.add(Dense(len(y_train)))\n\n");
+					}					
 
+					pythonScriptStringBuilder.append("model.add(layers.Dense(len(y_train)))\n\n");
 					
 					pythonScriptStringBuilder.append("#Compiling the model\n");
-					
 					String loss_function = "";
 					if (((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getLoss()
 							.getValue() == Loss.NOT_SET_VALUE) {
@@ -3026,38 +3126,65 @@ public class PythonJavaThingActionCompiler extends CommonThingActionCompiler {
 					}
 					
 					if(learning_rate_mode_given) {
-						pythonScriptStringBuilder.append("from tf.keras.optimizers.schedules import " + learning_rate_mode + "\n");
+						pythonScriptStringBuilder.append("from tensorflow.keras.optimizers.schedules import " + learning_rate_mode + "\n");
 					}
-					
+					pythonScriptStringBuilder.append("\n");
 					pythonScriptStringBuilder.append("model.compile(\n");
+					
+					pythonScriptStringBuilder.append("  optimizer=" + optimizer + "(\n");
 					if(learning_rate_mode_given) {
+						pythonScriptStringBuilder.append("    learning_rate=" + learning_rate_mode + "(\n");
 						if(learning_rate_init_given) {
-							pythonScriptStringBuilder.append("  optimizer=" + optimizer + "(learning_rate=" + learning_rate_mode + "(initial_learning_rate=" + learning_rate_init + ")),\n");
+							pythonScriptStringBuilder.append("        initial_learning_rate=" + learning_rate_init + ")),\n");
 						} else {
-							pythonScriptStringBuilder.append("  optimizer=" + optimizer + "(learning_rate=" + learning_rate_mode + "()),\n");
+							pythonScriptStringBuilder.append("    ),\n");
 						}						
 					} else {
 						if(learning_rate_init_given) {
-							pythonScriptStringBuilder.append("  optimizer=" + optimizer + "(learning_rate=" + learning_rate_init + "),\n");
-						} else {
-							pythonScriptStringBuilder.append("  optimizer='" + optimizer + "',\n");
-						}						
-					}					
-					pythonScriptStringBuilder.append("  loss='" + loss_function + "',\n");
+							pythonScriptStringBuilder.append("    learning_rate=" + learning_rate_init + ",\n");
+						}
+					}
+					if(momentum_given) {
+						pythonScriptStringBuilder.append("    momentum=" + momentum_str + ",\n");
+					}
+					if(nesterovs_momentum_given) {
+						pythonScriptStringBuilder.append("    nesterov=" + nesterovs_momentum_str + ",\n");
+					}
+					if(beta_1_given) {
+						pythonScriptStringBuilder.append("    beta_1=" + beta_1_str + ",\n");
+					}
+					if(beta_2_given) {
+						pythonScriptStringBuilder.append("    beta_2=" + beta_2_str + ",\n");
+					}
+					if(epsilon_given) {
+						pythonScriptStringBuilder.append("    epsilon=" + epsilon_str + ",\n");
+					}
+					pythonScriptStringBuilder.append("  ),\n");
+					
+					pythonScriptStringBuilder.append("  loss=keras.losses." + loss_function + "(),\n");
 					pythonScriptStringBuilder.append("  metrics=['accuracy'],\n");
 					pythonScriptStringBuilder.append(")\n\n");
 
 					int no_epochs = 0;
 					if (((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getEpochs() == null) {
-						no_epochs = 5;
+						System.err.println("WARNING: In the neural network multilayer perceptron model, parameter epochs is not present. Thus, the default value 200 will be used.\n");
+						no_epochs = 200;
 					} else {
 						no_epochs = (int) ((NN_MultilayerPerceptron) (action.getDataAnalytics()
 								.getModelAlgorithm())).getEpochs().getIntValue();
 					}
 
-					
-
 					pythonScriptStringBuilder.append("#Training the model\n");
+					if(early_stopping_given && early_stopping_boolean) {
+						pythonScriptStringBuilder.append("callback = tf.keras.callbacks.EarlyStopping(monitor='loss',");
+						if(tol_given) {
+							pythonScriptStringBuilder.append("min_delta=" + tol_str + ",");
+						}
+						if(n_iter_no_change_given) {
+							pythonScriptStringBuilder.append("patience=" + n_iter_no_change_str + ",");
+						}
+						pythonScriptStringBuilder.append(")\n");
+					}
 					pythonScriptStringBuilder.append("model.fit(\n");
 					pythonScriptStringBuilder.append("  X_train,\n");
 					pythonScriptStringBuilder.append("  y_train,\n");
@@ -3067,7 +3194,21 @@ public class PythonJavaThingActionCompiler extends CommonThingActionCompiler {
 					} else {
 						pythonScriptStringBuilder.append("  batch_size=" + batch_size + ",\n");
 					}
-					pythonScriptStringBuilder.append("  verbose=0,\n");
+					if(early_stopping_given && early_stopping_boolean) {
+						pythonScriptStringBuilder.append("  callbacks=[callback],\n");
+					}
+					if(verbose_given) {
+						if(verbose_bool) {
+							pythonScriptStringBuilder.append("  verbose=2,\n");
+						} else {
+							pythonScriptStringBuilder.append("  verbose=0,\n");
+						}
+					} else {
+						pythonScriptStringBuilder.append("  verbose=0,\n");
+					}					
+					if(shuffle_given) {
+						pythonScriptStringBuilder.append("  shuffle=" + shuffle_str + ",\n");
+					}
 					pythonScriptStringBuilder.append(")\n\n");
 
 					pythonScriptStringBuilder.append("model.save_weights('" + path_str + "/python-scripts/pickles/"
@@ -3122,6 +3263,18 @@ public class PythonJavaThingActionCompiler extends CommonThingActionCompiler {
 	@Override
 	public void generate(DAPredictAction action, StringBuilder builder, Context ctx) {
 		
+		//Check for the blackbox ML (i.e., the hybrid/mixed MDSE/Non-MDSE) mode:
+		boolean blackbox_ml = false;
+		if(action.getDataAnalytics().getBlackbox_ml() != null) {
+			if(action.getDataAnalytics().getBlackbox_ml().isBoolValue()) {
+				blackbox_ml = true;
+			}
+		}
+		if(blackbox_ml) {
+			System.err.println("[ERROR] The blackbox-ml mode of the data analytics may not be used with any da_predict action in the statechart. Either use the da_pre_trained_predict action instead, or disable the blackbox ML mode.\n");
+			return;
+		}
+		
 		String dalib = "auto";
 		if (AnnotatedElementHelper.hasAnnotation(action.getDataAnalytics(), "dalib")) {
 			if (action.getDataAnalytics().getAnnotations().get(0).getValue().equals("scikit-learn")
@@ -3143,9 +3296,7 @@ public class PythonJavaThingActionCompiler extends CommonThingActionCompiler {
 		if (action.getDataAnalytics().getTimestamps().equals(Timestamps.ON)) {
 			builder.append("File preprocess_timeformat_pickle = new File(\"" + path.toString()
 					+ "/src/python-scripts/pickles/preprocess_timeformat.pickle" + "\");\n");
-			builder.append("File preprocess_base_time_pickle = new File(\"" + path.toString()
-					+ "/src/python-scripts/pickles/preprocess_base_time.pickle" + "\");\n");
-			builder.append("if(!preprocess_timeformat_pickle.exists() || !preprocess_base_time_pickle.exists())\n");
+			builder.append("if(!preprocess_timeformat_pickle.exists())\n");
 			builder.append("	return;\n");
 			builder.append(
 					"prediction_timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern(\"dd-MM-yyyy HH:mm:ss\")).toString();\n");
@@ -3168,8 +3319,6 @@ public class PythonJavaThingActionCompiler extends CommonThingActionCompiler {
 		
 		builder.append("File preprocess_original_df_pickle = new File(\"" + path.toString()
 				+ "/src/python-scripts/pickles/preprocess_original_df.pickle" + "\");\n");
-		builder.append("File preprocess_label_encoder_pickle = new File(\"" + path.toString()
-				+ "/src/python-scripts/pickles/preprocess_label_encoder.pickle" + "\");\n");
 		builder.append("if(!preprocess_original_df_pickle.exists())\n");
 		builder.append("	return;\n");
 
@@ -3477,7 +3626,7 @@ public class PythonJavaThingActionCompiler extends CommonThingActionCompiler {
 
 	// ML2: Code generator for the data analytics predicting Python script,
 	// predict.py
-	public void generatePythonDAPredictScript(String path_str, DAPredictAction action) {
+	private void generatePythonDAPredictScript(String path_str, DAPredictAction action) {
 		DataAnalyticsModelAlgorithm dataAnalyticsModelAlgorithm = action.getDataAnalytics().getModelAlgorithm();
 		
 		String dalib = "auto";
@@ -3535,29 +3684,31 @@ public class PythonJavaThingActionCompiler extends CommonThingActionCompiler {
 		pythonScriptStringBuilder.append("if(len(array_features_indexes)!=0):\n");
 		pythonScriptStringBuilder.append("		feature_values_for_prediction = feature_values_for_prediction[0]\n\n");
 
-		pythonScriptStringBuilder.append(
-				"categorical_features_indexes = list(filter(lambda x: feature_types[x] == 'String', range(len(feature_types))))\n\n");
+		pythonScriptStringBuilder.append("col_names = []\n");
+		pythonScriptStringBuilder.append("num_col_names = []\n");
+		pythonScriptStringBuilder.append("cat_col_names = []\n");
+		pythonScriptStringBuilder.append("if(timestamps.lower() == 'on'):\n");
+		pythonScriptStringBuilder.append("    col_names.append('timestamp')\n");
+		pythonScriptStringBuilder.append("for i in range(len(features)):\n");
+		pythonScriptStringBuilder.append("    feature=features[i]\n");
+		pythonScriptStringBuilder.append("    feature_type=feature_types[i]\n");
+		pythonScriptStringBuilder.append("    if((\"String\" in feature_type) or (\"Char\" in feature_type)):\n");
+		pythonScriptStringBuilder.append("        cat_col_names.append(feature)\n");
+		pythonScriptStringBuilder.append("    if((\"Int\" in feature_type) or (\"Long\" in feature_type) or (\"Double\" in feature_type)):\n");
+		pythonScriptStringBuilder.append("        num_col_names.append(feature)\n");
+		pythonScriptStringBuilder.append("    col_names.append(feature)\n\n");
 
-		pythonScriptStringBuilder.append("if(len(categorical_features_indexes)!=0):\n");
+		pythonScriptStringBuilder.append("if(len(cat_col_names)!=0):\n");
 		
-		if (dalib.equals("auto") || dalib.equals("scikit-learn")) {
-			pythonScriptStringBuilder.append("	from sklearn.preprocessing import LabelEncoder\n");
-			pythonScriptStringBuilder.append("	with open('" + path_str + "/python-scripts/pickles/"
+		pythonScriptStringBuilder.append("	from sklearn.preprocessing import LabelEncoder\n");
+		pythonScriptStringBuilder.append("	with open('" + path_str + "/python-scripts/pickles/"
 					+ "preprocess_label_encoder.pickle', 'rb') as pickle_file:\n");
-			pythonScriptStringBuilder.append("		le = pickle.load(pickle_file)\n\n");
-		} else if (dalib.equals("keras-tensorflow")) {
-			pythonScriptStringBuilder.append("from keras.utils import to_categorical\n\n");
-			pythonScriptStringBuilder.append("	with open('" + path_str + "/python-scripts/pickles/"
-					+ "preprocess_mapping.pickle', 'rb') as pickle_file:\n");
-			pythonScriptStringBuilder.append("		mapping = pickle.load(pickle_file)\n\n");
-		} else {
-			System.err.println("ERROR: " + dalib + " not supported as the library for DA/ML.\n"
-		+ "You may try @dalib=\"auto\" instead.\n");
-		}
+		pythonScriptStringBuilder.append("		le = pickle.load(pickle_file)\n\n");
+
 
 		pythonScriptStringBuilder.append("flag = False\n");
 		pythonScriptStringBuilder.append("for i in range(len(features)):\n");
-		pythonScriptStringBuilder.append("	if i in categorical_features_indexes:\n");
+		pythonScriptStringBuilder.append("	if features[i] in cat_col_names:\n");
 		pythonScriptStringBuilder.append(
 				"		if not np.isin([feature_values_for_prediction[i]],original_df[features[i]]).item(0):\n");
 		pythonScriptStringBuilder.append("			flag = True\n");
@@ -3583,6 +3734,19 @@ public class PythonJavaThingActionCompiler extends CommonThingActionCompiler {
 						pythonScriptStringBuilder.append("	with open('" + path_str + "/python-scripts/pickles/"
 								+ "train_model_lin_reg.pickle', 'rb') as pickle_file:\n");
 						pythonScriptStringBuilder.append("		model = pickle.load(pickle_file)\n\n");
+						
+						pythonScriptStringBuilder.append("	df = pd.DataFrame(data={}, columns=[])\n");
+						pythonScriptStringBuilder.append("	for i in range(len(feature_values_for_prediction)):\n");
+						pythonScriptStringBuilder.append("		if features[i] in cat_col_names:\n");
+						pythonScriptStringBuilder.append(
+								"			df.insert(i,features[i], pd.Series(le.transform([feature_values_for_prediction[i]])))\n");
+						pythonScriptStringBuilder.append("		else:\n");
+						pythonScriptStringBuilder
+								.append("			df.insert(i,features[i], pd.Series(feature_values_for_prediction[i]))\n\n");
+
+						// The actual prediction of the DA/ML model
+						pythonScriptStringBuilder.append("	print (model.predict(df).item(0))\n\n");						
+						
 						}  else if(dalib.equals("keras-tensorflow")) {
 							System.err.println("ERROR: " + dalib + " is specified as the library for DA/ML. However, it does not support the chosen model/algorithm for DA/ML: " + dataAnalyticsModelAlgorithm.getName() + ".\n"
 									+ "You may try @dalib=\"auto\" instead.\n");
@@ -3600,6 +3764,19 @@ public class PythonJavaThingActionCompiler extends CommonThingActionCompiler {
 						pythonScriptStringBuilder.append("	with open('" + path_str + "/python-scripts/pickles/"
 								+ "train_model_lin_cl_log_reg.pickle', 'rb') as pickle_file:\n");
 						pythonScriptStringBuilder.append("		model = pickle.load(pickle_file)\n\n");
+						
+						pythonScriptStringBuilder.append("	df = pd.DataFrame(data={}, columns=[])\n");
+						pythonScriptStringBuilder.append("	for i in range(len(feature_values_for_prediction)):\n");
+						pythonScriptStringBuilder.append("		if features[i] in cat_col_names:\n");
+						pythonScriptStringBuilder.append(
+								"			df.insert(i,features[i], pd.Series(le.transform([feature_values_for_prediction[i]])))\n");
+						pythonScriptStringBuilder.append("		else:\n");
+						pythonScriptStringBuilder
+								.append("			df.insert(i,features[i], pd.Series(feature_values_for_prediction[i]))\n\n");
+
+						// The actual prediction of the DA/ML model
+						pythonScriptStringBuilder.append("	print (model.predict(df).item(0))\n\n");						
+						
 						} else if(dalib.equals("keras-tensorflow")) {
 							System.err.println("ERROR: " + dalib + " is specified as the library for DA/ML. However, it does not support the chosen model/algorithm for DA/ML: " + dataAnalyticsModelAlgorithm.getName() + ".\n"
 									+ "You may try @dalib=\"auto\" instead.\n");
@@ -3617,6 +3794,19 @@ public class PythonJavaThingActionCompiler extends CommonThingActionCompiler {
 						pythonScriptStringBuilder.append("	with open('" + path_str + "/python-scripts/pickles/"
 								+ "train_model_gnb.pickle', 'rb') as pickle_file:\n");
 						pythonScriptStringBuilder.append("		model = pickle.load(pickle_file)\n\n");
+						
+						pythonScriptStringBuilder.append("	df = pd.DataFrame(data={}, columns=[])\n");
+						pythonScriptStringBuilder.append("	for i in range(len(feature_values_for_prediction)):\n");
+						pythonScriptStringBuilder.append("		if features[i] in cat_col_names:\n");
+						pythonScriptStringBuilder.append(
+								"			df.insert(i,features[i], pd.Series(le.transform([feature_values_for_prediction[i]])))\n");
+						pythonScriptStringBuilder.append("		else:\n");
+						pythonScriptStringBuilder
+								.append("			df.insert(i,features[i], pd.Series(feature_values_for_prediction[i]))\n\n");
+
+						// The actual prediction of the DA/ML model
+						pythonScriptStringBuilder.append("	print (model.predict(df).item(0))\n\n");
+						
 						} else if(dalib.equals("keras-tensorflow")) {
 							System.err.println("ERROR: " + dalib + " is specified as the library for DA/ML. However, it does not support the chosen model/algorithm for DA/ML: " + dataAnalyticsModelAlgorithm.getName() + ".\n"
 									+ "You may try @dalib=\"auto\" instead.\n");
@@ -3634,6 +3824,19 @@ public class PythonJavaThingActionCompiler extends CommonThingActionCompiler {
 						pythonScriptStringBuilder.append("	with open('" + path_str + "/python-scripts/pickles/"
 								+ "train_model_mnb.pickle', 'rb') as pickle_file:\n");
 						pythonScriptStringBuilder.append("		model = pickle.load(pickle_file)\n\n");
+						
+						pythonScriptStringBuilder.append("	df = pd.DataFrame(data={}, columns=[])\n");
+						pythonScriptStringBuilder.append("	for i in range(len(feature_values_for_prediction)):\n");
+						pythonScriptStringBuilder.append("		if features[i] in cat_col_names:\n");
+						pythonScriptStringBuilder.append(
+								"			df.insert(i,features[i], pd.Series(le.transform([feature_values_for_prediction[i]])))\n");
+						pythonScriptStringBuilder.append("		else:\n");
+						pythonScriptStringBuilder
+								.append("			df.insert(i,features[i], pd.Series(feature_values_for_prediction[i]))\n\n");
+
+						// The actual prediction of the DA/ML model
+						pythonScriptStringBuilder.append("	print (model.predict(df).item(0))\n\n");
+						
 						} else if(dalib.equals("keras-tensorflow")) {
 							System.err.println("ERROR: " + dalib + " is specified as the library for DA/ML. However, it does not support the chosen model/algorithm for DA/ML: " + dataAnalyticsModelAlgorithm.getName() + ".\n"
 									+ "You may try @dalib=\"auto\" instead.\n");
@@ -3651,6 +3854,19 @@ public class PythonJavaThingActionCompiler extends CommonThingActionCompiler {
 						pythonScriptStringBuilder.append("	with open('" + path_str + "/python-scripts/pickles/"
 								+ "train_model_cnb.pickle', 'rb') as pickle_file:\n");
 						pythonScriptStringBuilder.append("		model = pickle.load(pickle_file)\n\n");
+						
+						pythonScriptStringBuilder.append("	df = pd.DataFrame(data={}, columns=[])\n");
+						pythonScriptStringBuilder.append("	for i in range(len(feature_values_for_prediction)):\n");
+						pythonScriptStringBuilder.append("		if features[i] in cat_col_names:\n");
+						pythonScriptStringBuilder.append(
+								"			df.insert(i,features[i], pd.Series(le.transform([feature_values_for_prediction[i]])))\n");
+						pythonScriptStringBuilder.append("		else:\n");
+						pythonScriptStringBuilder
+								.append("			df.insert(i,features[i], pd.Series(feature_values_for_prediction[i]))\n\n");
+
+						// The actual prediction of the DA/ML model
+						pythonScriptStringBuilder.append("	print (model.predict(df).item(0))\n\n");
+						
 						} else if(dalib.equals("keras-tensorflow")) {
 							System.err.println("ERROR: " + dalib + " is specified as the library for DA/ML. However, it does not support the chosen model/algorithm for DA/ML: " + dataAnalyticsModelAlgorithm.getName() + ".\n"
 									+ "You may try @dalib=\"auto\" instead.\n");
@@ -3668,6 +3884,19 @@ public class PythonJavaThingActionCompiler extends CommonThingActionCompiler {
 						pythonScriptStringBuilder.append("	with open('" + path_str + "/python-scripts/pickles/"
 								+ "train_model_bnb.pickle', 'rb') as pickle_file:\n");
 						pythonScriptStringBuilder.append("		model = pickle.load(pickle_file)\n\n");
+						
+						pythonScriptStringBuilder.append("	df = pd.DataFrame(data={}, columns=[])\n");
+						pythonScriptStringBuilder.append("	for i in range(len(feature_values_for_prediction)):\n");
+						pythonScriptStringBuilder.append("		if features[i] in cat_col_names:\n");
+						pythonScriptStringBuilder.append(
+								"			df.insert(i,features[i], pd.Series(le.transform([feature_values_for_prediction[i]])))\n");
+						pythonScriptStringBuilder.append("		else:\n");
+						pythonScriptStringBuilder
+								.append("			df.insert(i,features[i], pd.Series(feature_values_for_prediction[i]))\n\n");
+
+						// The actual prediction of the DA/ML model
+						pythonScriptStringBuilder.append("	print (model.predict(df).item(0))\n\n");
+						
 						} else if(dalib.equals("keras-tensorflow")) {
 							System.err.println("ERROR: " + dalib + " is specified as the library for DA/ML. However, it does not support the chosen model/algorithm for DA/ML: " + dataAnalyticsModelAlgorithm.getName() + ".\n"
 									+ "You may try @dalib=\"auto\" instead.\n");
@@ -3685,6 +3914,19 @@ public class PythonJavaThingActionCompiler extends CommonThingActionCompiler {
 						pythonScriptStringBuilder.append("	with open('" + path_str + "/python-scripts/pickles/"
 								+ "train_model_cat_nb.pickle', 'rb') as pickle_file:\n");
 						pythonScriptStringBuilder.append("		model = pickle.load(pickle_file)\n\n");
+						
+						pythonScriptStringBuilder.append("	df = pd.DataFrame(data={}, columns=[])\n");
+						pythonScriptStringBuilder.append("	for i in range(len(feature_values_for_prediction)):\n");
+						pythonScriptStringBuilder.append("		if features[i] in cat_col_names:\n");
+						pythonScriptStringBuilder.append(
+								"			df.insert(i,features[i], pd.Series(le.transform([feature_values_for_prediction[i]])))\n");
+						pythonScriptStringBuilder.append("		else:\n");
+						pythonScriptStringBuilder
+								.append("			df.insert(i,features[i], pd.Series(feature_values_for_prediction[i]))\n\n");
+
+						// The actual prediction of the DA/ML model
+						pythonScriptStringBuilder.append("	print (model.predict(df).item(0))\n\n");
+						
 						} else if(dalib.equals("keras-tensorflow")) {
 							System.err.println("ERROR: " + dalib + " is specified as the library for DA/ML. However, it does not support the chosen model/algorithm for DA/ML: " + dataAnalyticsModelAlgorithm.getName() + ".\n"
 									+ "You may try @dalib=\"auto\" instead.\n");
@@ -3700,6 +3942,19 @@ public class PythonJavaThingActionCompiler extends CommonThingActionCompiler {
 						pythonScriptStringBuilder.append("	with open('" + path_str + "/python-scripts/pickles/"
 								+ "train_model_dtr.pickle', 'rb') as pickle_file:\n");
 						pythonScriptStringBuilder.append("		model = pickle.load(pickle_file)\n\n");
+						
+						pythonScriptStringBuilder.append("	df = pd.DataFrame(data={}, columns=[])\n");
+						pythonScriptStringBuilder.append("	for i in range(len(feature_values_for_prediction)):\n");
+						pythonScriptStringBuilder.append("		if features[i] in cat_col_names:\n");
+						pythonScriptStringBuilder.append(
+								"			df.insert(i,features[i], pd.Series(le.transform([feature_values_for_prediction[i]])))\n");
+						pythonScriptStringBuilder.append("		else:\n");
+						pythonScriptStringBuilder
+								.append("			df.insert(i,features[i], pd.Series(feature_values_for_prediction[i]))\n\n");
+
+						// The actual prediction of the DA/ML model
+						pythonScriptStringBuilder.append("	print (model.predict(df).item(0))\n\n");
+						
 						}  else if(dalib.equals("keras-tensorflow")) {
 							System.err.println("ERROR: " + dalib + " is specified as the library for DA/ML. However, it does not support the chosen model/algorithm for DA/ML: " + dataAnalyticsModelAlgorithm.getName() + ".\n"
 									+ "You may try @dalib=\"auto\" instead.\n");
@@ -3719,6 +3974,19 @@ public class PythonJavaThingActionCompiler extends CommonThingActionCompiler {
 						pythonScriptStringBuilder.append("	with open('" + path_str + "/python-scripts/pickles/"
 								+ "train_model_dtc.pickle', 'rb') as pickle_file:\n");
 						pythonScriptStringBuilder.append("		model = pickle.load(pickle_file)\n\n");
+						
+						pythonScriptStringBuilder.append("	df = pd.DataFrame(data={}, columns=[])\n");
+						pythonScriptStringBuilder.append("	for i in range(len(feature_values_for_prediction)):\n");
+						pythonScriptStringBuilder.append("		if features[i] in cat_col_names:\n");
+						pythonScriptStringBuilder.append(
+								"			df.insert(i,features[i], pd.Series(le.transform([feature_values_for_prediction[i]])))\n");
+						pythonScriptStringBuilder.append("		else:\n");
+						pythonScriptStringBuilder
+								.append("			df.insert(i,features[i], pd.Series(feature_values_for_prediction[i]))\n\n");
+
+						// The actual prediction of the DA/ML model
+						pythonScriptStringBuilder.append("	print (model.predict(df).item(0))\n\n");
+						
 						} else if(dalib.equals("keras-tensorflow")) {
 							System.err.println("ERROR: " + dalib + " is specified as the library for DA/ML. However, it does not support the chosen model/algorithm for DA/ML: " + dataAnalyticsModelAlgorithm.getName() + ".\n"
 									+ "You may try @dalib=\"auto\" instead.\n");
@@ -3734,6 +4002,19 @@ public class PythonJavaThingActionCompiler extends CommonThingActionCompiler {
 						pythonScriptStringBuilder.append("	with open('" + path_str + "/python-scripts/pickles/"
 								+ "train_model_rfr.pickle', 'rb') as pickle_file:\n");
 						pythonScriptStringBuilder.append("		model = pickle.load(pickle_file)\n\n");
+						
+						pythonScriptStringBuilder.append("	df = pd.DataFrame(data={}, columns=[])\n");
+						pythonScriptStringBuilder.append("	for i in range(len(feature_values_for_prediction)):\n");
+						pythonScriptStringBuilder.append("		if features[i] in cat_col_names:\n");
+						pythonScriptStringBuilder.append(
+								"			df.insert(i,features[i], pd.Series(le.transform([feature_values_for_prediction[i]])))\n");
+						pythonScriptStringBuilder.append("		else:\n");
+						pythonScriptStringBuilder
+								.append("			df.insert(i,features[i], pd.Series(feature_values_for_prediction[i]))\n\n");
+
+						// The actual prediction of the DA/ML model
+						pythonScriptStringBuilder.append("	print (model.predict(df).item(0))\n\n");
+						
 						}  else if(dalib.equals("keras-tensorflow")) {
 							System.err.println("ERROR: " + dalib + " is specified as the library for DA/ML. However, it does not support the chosen model/algorithm for DA/ML: " + dataAnalyticsModelAlgorithm.getName() + ".\n"
 									+ "You may try @dalib=\"auto\" instead.\n");
@@ -3753,6 +4034,19 @@ public class PythonJavaThingActionCompiler extends CommonThingActionCompiler {
 						pythonScriptStringBuilder.append("	with open('" + path_str + "/python-scripts/pickles/"
 								+ "train_model_rfc.pickle', 'rb') as pickle_file:\n");
 						pythonScriptStringBuilder.append("		model = pickle.load(pickle_file)\n\n");
+						
+						pythonScriptStringBuilder.append("	df = pd.DataFrame(data={}, columns=[])\n");
+						pythonScriptStringBuilder.append("	for i in range(len(feature_values_for_prediction)):\n");
+						pythonScriptStringBuilder.append("		if features[i] in cat_col_names:\n");
+						pythonScriptStringBuilder.append(
+								"			df.insert(i,features[i], pd.Series(le.transform([feature_values_for_prediction[i]])))\n");
+						pythonScriptStringBuilder.append("		else:\n");
+						pythonScriptStringBuilder
+								.append("			df.insert(i,features[i], pd.Series(feature_values_for_prediction[i]))\n\n");
+
+						// The actual prediction of the DA/ML model
+						pythonScriptStringBuilder.append("	print (model.predict(df).item(0))\n\n");
+						
 						} else if(dalib.equals("keras-tensorflow")) {
 							System.err.println("ERROR: " + dalib + " is specified as the library for DA/ML. However, it does not support the chosen model/algorithm for DA/ML: " + dataAnalyticsModelAlgorithm.getName() + ".\n"
 									+ "You may try @dalib=\"auto\" instead.\n");
@@ -3777,88 +4071,181 @@ public class PythonJavaThingActionCompiler extends CommonThingActionCompiler {
 									+ "train_model_nn_mlp_c.pickle', 'rb') as pickle_file:\n");
 							pythonScriptStringBuilder.append("		model = pickle.load(pickle_file)\n\n");
 						}
-					} else if(dalib.equals("auto") || dalib.equals("keras-tensorflow")) {
+						
+						pythonScriptStringBuilder.append("	df = pd.DataFrame(data={}, columns=[])\n");
+						pythonScriptStringBuilder.append("	for i in range(len(feature_values_for_prediction)):\n");
+						pythonScriptStringBuilder.append("		if features[i] in cat_col_names:\n");
+						pythonScriptStringBuilder.append(
+								"			df.insert(i,features[i], pd.Series(le.transform([feature_values_for_prediction[i]])))\n");
+						pythonScriptStringBuilder.append("		else:\n");
+						pythonScriptStringBuilder
+								.append("			df.insert(i,features[i], pd.Series(feature_values_for_prediction[i]))\n\n");
+
+						// The actual prediction of the DA/ML model
+						pythonScriptStringBuilder.append("	print (model.predict(df).item(0))\n\n");
+						
+					} else if(dalib.equals("auto") || dalib.equals("keras-tensorflow")) { //https://keras.io/api/
 						//TODO
+						//************
+						pythonScriptStringBuilder.append(
+								"	with open('" + path_str + "/python-scripts/pickles/nn_nlp_y_train_le.pickle', 'rb') as pickle_file:\n");
+						pythonScriptStringBuilder.append("		y_train_le = pickle.load(pickle_file)\n");
+						pythonScriptStringBuilder.append(
+								"	with open('" + path_str + "/python-scripts/pickles/nn_nlp_y_train_categorical.pickle', 'rb') as pickle_file:\n");
+						pythonScriptStringBuilder.append("		y_train_categorical = pickle.load(pickle_file)\n\n");
+
+						pythonScriptStringBuilder.append("	import logging, os, sys\n");
+						pythonScriptStringBuilder.append("	logging.disable(logging.WARNING)\n");
+						pythonScriptStringBuilder.append("	os.environ[\"TF_CPP_MIN_LOG_LEVEL\"] = \"3\"\n");
+						pythonScriptStringBuilder.append("	stderr = sys.stderr\n");
+						pythonScriptStringBuilder.append("	sys.stderr = open(os.devnull, 'w')\n");
+						pythonScriptStringBuilder.append("	import tensorflow as tf\n");
+						pythonScriptStringBuilder.append("	from tensorflow import keras\n");
+						pythonScriptStringBuilder.append("	from tensorflow.keras import layers\n");
+						pythonScriptStringBuilder.append("	sys.stderr = stderr\n\n");
+						
+						
+						pythonScriptStringBuilder.append("	#Rebuilding the model\n");
+						double alpha = 0;
+						boolean alpha_given = false;
+						if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getAlpha() != null) {
+							alpha = ((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getAlpha().getDoubleValue();
+							alpha_given = true;
+						}
+						int no_hidden_layers = 0;
+						boolean hidden_layers_size_given = false;
+						if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getHidden_layer_sizes() == null) {
+							System.err.println("WARNING: In the neural network multilayer perceptron model, parameter hidden_layer_sizes, which may specify the number of hidden layers and the size of each hidden layer through a tuple, where the ith element represents the number of neurons in the ith hidden layer, is not present.\n Thus, only one hidden layer with the size of the mean of the input layer size and the output layer size will be considered.\n");
+							no_hidden_layers = 1;
+							pythonScriptStringBuilder.append("hidden_layers_size_not_given = True\n");
+						} else {						
+							pythonScriptStringBuilder.append("hidden_layers_size_not_given = False\n");
+							no_hidden_layers = ((NN_MultilayerPerceptron) action.getDataAnalytics().getModelAlgorithm()).getHidden_layers().size();
+							hidden_layers_size_given = true;
+						}
+						
+						boolean same_activation_all_hidden_layers = false;
+						boolean one_activation_per_hidden_layer = false;
+						
+						if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getHidden_layers_activation_functions() != null) {
+							if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivation().getValue() != Activation.NOT_SET_VALUE) {
+								System.err.println("WARNING: In the neural network multilayer perceptron model, parameters activation and hidden_layers_activation_functions cannot be specified simultaneously. Remove one of them. If you want to use the same activation for all hidden layers, use the activation parameter. Otherwise, use the hidden_layers_activation_functions parameter.\n In the latter case, you should specifiy them through a tuple, where the ith element represents the activation function for the ith hidden layer.\n Currently, your choices will be ignored. Relu will be used by default for all hidden layers.\n ");
+								same_activation_all_hidden_layers = true;
+							} else {
+								if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivations().size() != no_hidden_layers) {
+									System.err.println("WARNING: In the neural network multilayer perceptron model, parameter hidden_layers_activation_functions implies a different number of hidden layers than parameter hidden_layer_sizes.\n Either the hidden_layer_sizes parameter does not exist or the size of its tuple is not the same as the size of the tuple of hidden_layers_activation_functions!\n");	
+									same_activation_all_hidden_layers = true;
+								} else {
+									for(int i=0; i<((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivations().size(); i++) {
+										if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivations().get(i).getValue() == Activation.NOT_SET_VALUE) {
+											((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivations().set(i, Activation.RELU);
+											System.err.println("WARNING: In the neural network multilayer perceptron model, parameter hidden_layers_activation_functions includes a NOT_SET activation function, which will be automatically set to RELU.\n");
+										} else if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivations().get(i).getValue() == Activation.RELU_VALUE &&
+												((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivations().get(i).getValue() == Activation.SIGMOID_VALUE &&
+												((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivations().get(i).getValue() == Activation.SOFTMAX_VALUE &&
+												((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivations().get(i).getValue() == Activation.SOFTPLUS_VALUE &&
+												((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivations().get(i).getValue() == Activation.SOFTSIGN_VALUE &&
+												((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivations().get(i).getValue() == Activation.TANH_VALUE &&
+												((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivations().get(i).getValue() == Activation.SELU_VALUE &&
+												((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivations().get(i).getValue() == Activation.ELU_VALUE &&
+												((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivations().get(i).getValue() == Activation.EXPONENTIAL_VALUE) {
+											((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivations().set(i, Activation.RELU);
+											System.err.println("WARNING: In the neural network multilayer perceptron model, parameter hidden_layers_activation_functions includes an invalid activation function, which will be automatically set to RELU. See the API documentation for more information on the valid choices: https://keras.io/api/layers/activations/.\n");
+										}
+									}								
+									one_activation_per_hidden_layer = true;
+								}
+							}						
+						} else {
+							same_activation_all_hidden_layers = true;
+						}
+						
+						String activation_function = "";
+						if(same_activation_all_hidden_layers) {
+							if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivation().getValue() != Activation.NOT_SET_VALUE) {
+								if(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivation().getValue() != Activation.RELU_VALUE ||
+										((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivation().getValue() != Activation.SIGMOID_VALUE ||
+										((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivation().getValue() != Activation.SOFTMAX_VALUE ||
+										((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivation().getValue() != Activation.SOFTPLUS_VALUE ||
+										((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivation().getValue() != Activation.SOFTSIGN_VALUE ||
+										((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivation().getValue() != Activation.TANH_VALUE ||
+										((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivation().getValue() != Activation.SELU_VALUE ||
+										((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivation().getValue() != Activation.ELU_VALUE ||
+										((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivation().getValue() != Activation.EXPONENTIAL_VALUE) {
+								
+									System.err.println("WARNING: In the neural network multilayer perceptron model, parameter activation does not specify a valid activation function for the selected DA/ML library (keras-tensorflow).\n Thus, the default relu activation function will be used. See the API documentation for more information: https://keras.io/api/layers/activations/. \n");
+									activation_function = Activation.RELU.getLiteral();
+								} else {
+									activation_function = ((NN_MultilayerPerceptron) (action.getDataAnalytics()
+											.getModelAlgorithm())).getActivation().getLiteral();
+								}
+							} else {
+								System.err.println("WARNING: In the neural network multilayer perceptron model, parameter activation is not present. Thus, the default relu activation function will be used.\n");
+								activation_function = Activation.RELU.getLiteral();
+							}
+						}
+
+						if(alpha_given) {
+							pythonScriptStringBuilder.append("	from keras.regularizers import l2\n");
+						}
+						
+						pythonScriptStringBuilder.append("	model = keras.Sequential()\n");
+						pythonScriptStringBuilder.append("	model.add(layers.Input(shape=(X_train.shape[1],)))\n");
+						
+						if(hidden_layers_size_given) {
+							for(int i=0; i<no_hidden_layers; i++) {
+								if(same_activation_all_hidden_layers) {
+									if(alpha_given) {
+										pythonScriptStringBuilder.append("	model.add(layers.Dense(" + String.valueOf(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getHidden_layers().get(i).getIntValue()) + ", activation='" + activation_function + "', kernel_regularizer=l2(" + alpha + ")))\n");
+									} else {
+										pythonScriptStringBuilder.append("	model.add(layers.Dense(" + String.valueOf(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getHidden_layers().get(i).getIntValue()) + ", activation='" + activation_function + "'))\n");
+									}								
+								} else if(one_activation_per_hidden_layer) {
+									if(alpha_given) {
+										pythonScriptStringBuilder.append("	model.add(layers.Dense(" + String.valueOf(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getHidden_layers().get(i).getIntValue()) + ", activation='" + ((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivations().get(i).getLiteral() + "', kernel_regularizer=l2(" + alpha + ")))\n");
+									} else {
+										pythonScriptStringBuilder.append("	model.add(layers.Dense(" + String.valueOf(((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getHidden_layers().get(i).getIntValue()) + ", activation='" + ((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivations().get(i).getLiteral() + "'))\n");
+									}								
+								}
+							}
+						} else {
+							pythonScriptStringBuilder.append("	import math\n");
+							pythonScriptStringBuilder.append("	hidden_layer_size=math.ceil(float((X_train.shape[1])+(len(y_train)))/2.0)\n");
+							if(same_activation_all_hidden_layers) {
+								if(alpha_given) {
+									pythonScriptStringBuilder.append("	model.add(layers.Dense(hidden_layer_size, activation='" + activation_function + "', kernel_regularizer=l2(" + alpha + ")))\n");
+								} else {
+									pythonScriptStringBuilder.append("	model.add(layers.Dense(hidden_layer_size, activation='" + activation_function + "'))\n");
+								}								
+							} else if(one_activation_per_hidden_layer) {
+								if(alpha_given) {
+									pythonScriptStringBuilder.append("	model.add(layers.Dense(hidden_layer_size, activation='" + ((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivations().get(0).getLiteral() + "', kernel_regularizer=l2(" + alpha + ")))\n");
+								} else {
+									pythonScriptStringBuilder.append("	model.add(layers.Dense(hidden_layer_size, activation='" + ((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivations().get(0).getLiteral() + "'))\n");
+								}								
+							}
+						}					
+
+						pythonScriptStringBuilder.append("	model.add(layers.Dense(len(y_train)))\n\n");
+						
+						pythonScriptStringBuilder.append("	model.load_weights('" + path_str + "/python-scripts/pickles/" + "train_model_nn_mlp_weights.h5')\n\n");
+						
+						pythonScriptStringBuilder.append("	df = pd.DataFrame(data={}, columns=[])\n");
+						pythonScriptStringBuilder.append("	for i in range(len(feature_values_for_prediction)):\n");
+						pythonScriptStringBuilder.append("		if features[i] in cat_col_names:\n");
+						pythonScriptStringBuilder.append(
+								"			df.insert(i,features[i], pd.Series(le.transform([feature_values_for_prediction[i]])))\n");
+						pythonScriptStringBuilder.append("		else:\n");
+						pythonScriptStringBuilder
+								.append("			df.insert(i,features[i], pd.Series(feature_values_for_prediction[i]))\n\n");
+
+						// The actual prediction of the DA/ML model
+						pythonScriptStringBuilder.append("	print(y_train_le.inverse_transform([int(model.predict(df))]).item(0))\n\n");
+						
 					} else {
 						System.err.println("ERROR: " + dalib + " not supported as the library for DA/ML.\n"
 								+ "You may try @dalib=\"auto\" instead.\n");
-					}
-					
-					
-					
-//					if (TyperHelper.isNumeric(action.getDataAnalytics().getPredictionResults().get(0).getTypeRef())) {
-//						// NN MLP Regression
-//						if (dalib.equals("auto") || dalib.equals("scikit-learn")) {
-//							
-//						} else if(dalib.equals("keras-tensorflow")) {
-//							
-//						} else {
-//							throw new Exception(dalib + " not supported as the library for DA/ML.\n"
-//						+ "You may try @dalib=\"auto\" instead.\n");
-//						}
-//					} else {
-//						// NN MLP Classification
-//						if (dalib.equals("auto") || dalib.equals("scikit-learn")) {
-//							
-//						} else if(dalib.equals("keras-tensorflow")) {
-//							pythonScriptStringBuilder.append(
-//									"	with open('/home/am/Projects/ML2/GeneratedDemo3/src/python-scripts/pickles/y_train_le.pickle', 'rb') as pickle_file:\n");
-//							pythonScriptStringBuilder.append("		y_train_le = pickle.load(pickle_file)\n");
-//							pythonScriptStringBuilder.append(
-//									"	with open('/home/am/Projects/ML2/GeneratedDemo3/src/python-scripts/pickles/y_train_categorical.pickle', 'rb') as pickle_file:\n");
-//							pythonScriptStringBuilder.append("		y_train_categorical = pickle.load(pickle_file)\n\n");
-//
-//							pythonScriptStringBuilder.append("	import logging, os, sys\n");
-//							pythonScriptStringBuilder.append("	logging.disable(logging.WARNING)\n");
-//							pythonScriptStringBuilder.append("	os.environ[\"TF_CPP_MIN_LOG_LEVEL\"] = \"3\"\n");
-//							pythonScriptStringBuilder.append("	stderr = sys.stderr\n");
-//							pythonScriptStringBuilder.append("	sys.stderr = open(os.devnull, 'w')\n");
-//							pythonScriptStringBuilder.append("	from keras.models import Sequential\n");
-//							pythonScriptStringBuilder
-//									.append("	from keras.layers.core import Dense, Activation, Dropout\n");
-//							pythonScriptStringBuilder.append("	sys.stderr = stderr\n\n");
-//
-//							pythonScriptStringBuilder.append("	#Rebuilding the model\n");
-//							String activation_function = "";
-//							if (((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm())).getActivation()
-//									.getValue() == Activation.NO_IDEA_VALUE) {
-//								activation_function = Activation.RELU.getLiteral();
-//							} else {
-//								activation_function = ((NN_MultilayerPerceptron) (action.getDataAnalytics()
-//										.getModelAlgorithm())).getActivation().getLiteral();
-//							}
-//
-//							int no_hidden_layers = 0;
-//							if (((NN_MultilayerPerceptron) (action.getDataAnalytics().getModelAlgorithm()))
-//									.getNo_hidden_layers().getIntValue() == 0) {
-//								no_hidden_layers = 1;
-//							} else {
-//								no_hidden_layers = (int) ((NN_MultilayerPerceptron) (action.getDataAnalytics()
-//										.getModelAlgorithm())).getNo_hidden_layers().getIntValue();
-//							}
-//
-//							pythonScriptStringBuilder.append("	import random\n");
-//							pythonScriptStringBuilder.append(
-//									"	no_neurons_hidden_layers=random.randint(max(1,(2//3))*min(X_train.shape[1],len(y_train)),max(X_train.shape[1],len(y_train)))\n");
-//
-//							pythonScriptStringBuilder.append("	model = Sequential([\n");
-//							pythonScriptStringBuilder.append("		Dense(no_neurons_hidden_layers, activation='"
-//									+ activation_function + "', input_shape=(X_train.shape[1],)),\n");
-//							for (int i = 0; i < no_hidden_layers; i++) {
-//								pythonScriptStringBuilder.append("		Dense(no_neurons_hidden_layers, activation='"
-//										+ activation_function + "'),\n");
-//							}
-//							pythonScriptStringBuilder.append(
-//									"		Dense(len(y_train), activation='" + selected_activation_function + "'),\n");
-//							pythonScriptStringBuilder.append("	])\n\n");
-//
-//							pythonScriptStringBuilder.append("	model.load_weights('" + path_str
-//									+ "/python-scripts/pickles/" + "train_model_nn_mlp_weights.h5')\n\n");
-//						} else {
-//							throw new Exception(dalib + " not supported as the library for DA/ML.\n"
-//						+ "You may try @dalib=\"auto\" instead.\n");
-//						}
-//					}
+					}					
 				} else {
 					System.err.println("ERROR: " + dataAnalyticsModelAlgorithm.getName() + " is currently not a supported algorithm for supervised ML (classification).\n");
 				}
@@ -3868,43 +4255,335 @@ public class PythonJavaThingActionCompiler extends CommonThingActionCompiler {
 			}
 		}
 
-		pythonScriptStringBuilder.append("	df = pd.DataFrame(data={}, columns=[])\n");
-		pythonScriptStringBuilder.append("	for i in range(len(feature_values_for_prediction)):\n");
-		pythonScriptStringBuilder.append("		if i in categorical_features_indexes:\n");
-		pythonScriptStringBuilder.append(
-				"			df.insert(i,features[i], pd.Series([le.transform([feature_values_for_prediction[i]])]))\n");
-		pythonScriptStringBuilder.append("		else:\n");
-		pythonScriptStringBuilder
-				.append("			df.insert(i,features[i], pd.Series(feature_values_for_prediction[i]))\n\n");
-
-		pythonScriptStringBuilder.append("	if(timestamps.lower() == 'on'):\n");
-		pythonScriptStringBuilder.append("		with open('" + path_str + "/python-scripts/pickles/"
-				+ "preprocess_timeformat.pickle', 'rb') as pickle_file:\n");
-		pythonScriptStringBuilder.append("			timeformat = pickle.load(pickle_file)\n");
-		pythonScriptStringBuilder.append("		with open('" + path_str + "/python-scripts/pickles/"
-				+ "preprocess_base_time.pickle', 'rb') as pickle_file:\n");
-		pythonScriptStringBuilder.append("			base_time = pickle.load(pickle_file)\n\n");
-
-		pythonScriptStringBuilder.append(
-				"	df.insert(0,'timestamp', [(datetime.datetime.strptime(timestamp_for_prediction[1:-1], timeformat)-base_time).seconds])\n\n");
-		
-		// The actual prediction of the DA/ML model
-		if (dalib.equals("auto") || dalib.equals("scikit-learn")) {
-			pythonScriptStringBuilder.append("	print (model.predict(df).item(0))\n\n");
-		} else if(dalib.equals("keras-tensorflow")) {
-			pythonScriptStringBuilder
-			.append("	print(y_train_le.inverse_transform([int(model.predict(df))]).item(0))\n\n");
-		} else {
-			System.err.println("ERROR: " + dalib + " not supported as the library for DA/ML.\n"
-					+ "You may try @dalib=\"auto\" instead.\n");
-		}
-
 //		pythonScriptStringBuilder.append("#********* ML2 *********\n\n");
 		File pythonScriptsDir = new File(path_str + "/python-scripts");
 		if (!pythonScriptsDir.exists()) {
 			pythonScriptsDir.mkdirs();
 		}
 		File scriptFile = new File(path_str + "/python-scripts/predict.py");
+		try {
+			Files.deleteIfExists(Paths.get(scriptFile.toURI()));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		FileWriter fr = null;
+		BufferedWriter br = null;
+		try {
+			fr = new FileWriter(scriptFile, true);
+			br = new BufferedWriter(fr);
+			br.append(pythonScriptStringBuilder);
+			br.close();
+			fr.close();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		} finally {
+			try {
+				br.close();
+				fr.close();
+			} catch (IOException e2) {
+				e2.printStackTrace();
+			}
+		}
+	}
+
+	// ML2: da_pre_trained_predict
+	@Override
+	public void generate(DAPreTrainedPredictAction action, StringBuilder builder, Context ctx) {
+		
+		//Check for the blackbox ML (i.e., the hybrid/mixed MDSE/Non-MDSE) mode:
+		boolean blackbox_ml = false;
+		if(action.getDataAnalytics().getBlackbox_ml() != null) {
+			if(action.getDataAnalytics().getBlackbox_ml().isBoolValue()) {
+				blackbox_ml = true;
+			}
+		}
+		if(!blackbox_ml) {
+			System.err.println("[ERROR] The da_pre_trained_predict action in the statechart may only be used in the blackbox-ml mode. Either disable blackbox-ml in the data analytics or use the da_predict action instead!\n");
+			return;
+		}
+		
+		Path path = null;
+		path = Paths.get(new File(ctx.getOutputDirectory().getAbsolutePath().toString()).toURI());
+		
+		String dalib = "auto";
+		if (AnnotatedElementHelper.hasAnnotation(action.getDataAnalytics(), "dalib")) {
+			if (action.getDataAnalytics().getAnnotations().get(0).getValue().equals("scikit-learn")
+					|| action.getDataAnalytics().getAnnotations().get(0).getValue().equals("keras-tensorflow")
+					|| action.getDataAnalytics().getAnnotations().get(0).getValue().equals("pytorch")) {
+				dalib = action.getDataAnalytics().getAnnotations().get(0).getValue();
+			} else if (action.getDataAnalytics().getAnnotations().get(0).getValue().equals("weka")) {
+				System.err.println(
+						"ERROR: This compiler/code generator generates Java AND Python code. The data analytics / machine learning part should be generated in Python. However, weka is chosen as the library for data analytics / machine learning in the annotations of the model. Please either change the annotation @dalib to a Python library, e.g., scikit-learn or use the pure Java compiler/code generator!");
+			} else {
+				dalib = "auto";
+			}
+		}		
+		
+		EList<Property> features = action.getFeatures();
+		List<String> feature_types = new ArrayList<String>();
+		for (int i = 0; i < features.size(); i++) {
+			if (action.getFeatures().get(i).getTypeRef().isIsArray()) {
+				feature_types.add(action.getFeatures().get(i).getTypeRef().getType().getName() + "[]");
+			} else {
+				feature_types.add(action.getFeatures().get(i).getTypeRef().getType().getName());
+			}
+
+		}
+		EList<Property> feature_values_for_prediction = action.getFeatures();
+
+//		builder.append("\n//********* ML2 *********\n");
+		generatePythonDAPreTrainedPredictScript(path.toString() + "/src", action);
+		
+		// Make the generated Python script executable
+		builder.append("List<String> list0 = new ArrayList<String>();\n");
+		builder.append("list0.add(\"chmod\");\n");
+		builder.append("list0.add(\"u+x\");\n");
+		builder.append("list0.add(\"" + path.toString() + "/src/python-scripts/pre_trained_predict.py\");\n");
+		builder.append("try{\n");
+		builder.append("	ProcessBuilder pb0 = new ProcessBuilder(list0);\n");
+		builder.append("	Process p0 = pb0.start();\n");
+		builder.append("} catch(Exception e){System.out.println(e);}\n");
+
+		builder.append("List<String> list = new ArrayList<String>();\n");
+		builder.append("list.add(\"python\");\n");
+		builder.append("list.add(\"" + path.toString() + "/src/python-scripts/pre_trained_predict.py\");\n");
+
+		String features_str = "";
+		String feature_types_str = "";
+		for (int i = 0; i < features.size(); i++) {
+			features_str += features.get(i).getName();
+			feature_types_str += feature_types.get(i);
+			if (i < features.size() - 1) {
+				features_str += ",";
+				feature_types_str += ",";
+			}
+		}
+		builder.append("list.add(\"" + features_str + "\");\n");
+		builder.append("list.add(\"" + feature_types_str + "\");\n");
+
+		builder.append("list.add(\"");
+		String feature_values_for_prediction_str = "";
+		for (int i = 0; i < feature_values_for_prediction.size(); i++) {
+			if (feature_values_for_prediction.get(i).getTypeRef().isIsArray()) {
+				builder.append("\"\'\" + Arrays.toString(" + ctx.getVariableName(feature_values_for_prediction.get(i))
+						+ ").replaceAll(\",\",\"\") + \"\'\"");
+			} else {
+				builder.append(ctx.getVariableName(feature_values_for_prediction.get(i)).toString());
+			}
+
+			if (i < feature_values_for_prediction.size() - 1) {
+				builder.append(",");
+			}
+		}
+		builder.append("\");\n");
+
+		builder.append("StringBuilder output_string_builder = new StringBuilder();\n");
+		builder.append("try{\n");
+		builder.append("	ProcessBuilder pb = new ProcessBuilder(list);\n");
+		builder.append("	Process p = pb.start();\n");
+		builder.append("	p.waitFor();\n");
+		builder.append(
+				"	BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));\n");
+		builder.append("	String s = null;\n");
+		builder.append("	while ((s = stdInput.readLine()) != null) {\n");
+		builder.append("		output_string_builder.append(s);\n");
+		builder.append("	}\n");
+		builder.append("} catch(Exception e){System.out.println(e);}\n");
+
+		if (!(action.getDataAnalytics().getPredictionResults().get(0).getTypeRef().getType() instanceof Enumeration)) {
+			if (AnnotatedElementHelper.hasAnnotation(
+					action.getDataAnalytics().getPredictionResults().get(0).getTypeRef().getType(), "java_type")) {
+				if (!action.getDataAnalytics().getPredictionResults().get(0).getTypeRef().isIsArray()) {
+					
+					if(AnnotatedElementHelper.annotation(action.getDataAnalytics().getPredictionResults().get(0).getTypeRef().getType(), "java_type").equals("boolean")) {
+						//boolean
+						builder.append(
+						ctx.getVariableName(action.getDataAnalytics().getPredictionResults().get(0)).toString()
+								+ "= Boolean.parseBoolean("
+						+ "(output_string_builder.toString());\n");
+						
+					} else if(AnnotatedElementHelper.annotation(action.getDataAnalytics().getPredictionResults().get(0).getTypeRef().getType(), "java_type").equals("char")) {
+						//char
+						builder.append(
+						ctx.getVariableName(action.getDataAnalytics().getPredictionResults().get(0)).toString()
+								+ "= "
+						+ "output_string_builder.toString();\n");
+						
+					} else if(AnnotatedElementHelper.annotation(action.getDataAnalytics().getPredictionResults().get(0).getTypeRef().getType(), "java_type").equals("String")) {
+						//String
+						builder.append(
+						ctx.getVariableName(action.getDataAnalytics().getPredictionResults().get(0)).toString()
+								+ "= "
+						+ "output_string_builder.toString();\n");
+						
+					} else if(AnnotatedElementHelper.annotation(action.getDataAnalytics().getPredictionResults().get(0).getTypeRef().getType(), "java_type").equals("double")) {
+						//double
+						builder.append(
+						ctx.getVariableName(action.getDataAnalytics().getPredictionResults().get(0)).toString()
+								+ "= Double.valueOf("
+						+ "output_string_builder.toString());\n");
+						
+					} else if(AnnotatedElementHelper.annotation(action.getDataAnalytics().getPredictionResults().get(0).getTypeRef().getType(), "java_type").equals("byte")) {
+						//byte
+						builder.append(
+						ctx.getVariableName(action.getDataAnalytics().getPredictionResults().get(0)).toString()
+								+ "= Byte.valueOf((int) Math.round(Double.valueOf("
+						+ "output_string_builder.toString())));\n");
+						
+					} else if(AnnotatedElementHelper.annotation(action.getDataAnalytics().getPredictionResults().get(0).getTypeRef().getType(), "java_type").equals("short")) {
+						//short
+						builder.append(
+						ctx.getVariableName(action.getDataAnalytics().getPredictionResults().get(0)).toString()
+								+ "= Short.valueOf((int) Math.round(Double.valueOf("
+						+ "output_string_builder.toString())));\n");
+						
+					} else if(AnnotatedElementHelper.annotation(action.getDataAnalytics().getPredictionResults().get(0).getTypeRef().getType(), "java_type").equals("int")) {
+						//int
+						builder.append(
+						ctx.getVariableName(action.getDataAnalytics().getPredictionResults().get(0)).toString()
+								+ "= Integer.valueOf((int) Math.round(Double.valueOf("
+						+ "output_string_builder.toString())));\n");
+						
+					}else if(AnnotatedElementHelper.annotation(action.getDataAnalytics().getPredictionResults().get(0).getTypeRef().getType(), "java_type").equals("long")) {
+						//long
+						builder.append(
+						ctx.getVariableName(action.getDataAnalytics().getPredictionResults().get(0)).toString()
+								+ "= Long.valueOf((int) Math.round(Double.valueOf("
+						+ "output_string_builder.toString())));\n");
+						
+					}
+					
+				} else {
+					builder.append(
+							"String[] arrString = output_string_builder.toString().substring(1,output_string_builder.toString().length()-1).split(\" \");\n");
+					builder.append(AnnotatedElementHelper
+							.annotation(action.getDataAnalytics().getPredictionResults().get(0).getTypeRef().getType(),
+									"java_type")
+							.toArray()[0] + "[] ");
+					builder.append("arr = new ");
+					builder.append(AnnotatedElementHelper
+							.annotation(action.getDataAnalytics().getPredictionResults().get(0).getTypeRef().getType(),
+									"java_type")
+							.toArray()[0]);
+					builder.append("[arrString.length];\n");
+					builder.append("for(int i=0; i<arrString.length; i++) {\n");
+					builder.append(
+							"	arr[i] = "
+									+ ctx.firstToUpper(AnnotatedElementHelper
+											.annotation(action.getDataAnalytics().getPredictionResults().get(0)
+													.getTypeRef().getType(), "java_type")
+											.toArray()[0].toString())
+									+ ".parse"
+									+ ctx.firstToUpper(AnnotatedElementHelper.annotation(action.getDataAnalytics()
+											.getPredictionResults().get(0).getTypeRef().getType(), "java_type")
+											.toArray()[0].toString())
+									+ "(arrString[i]);\n");
+					builder.append("}\n");
+					builder.append(
+							ctx.getVariableName(action.getDataAnalytics().getPredictionResults().get(0)).toString()
+									+ "=arr;\n");
+				}
+			} else {
+				if (!action.getDataAnalytics().getPredictionResults().get(0).getTypeRef().isIsArray()) {
+					// TODO
+					builder.append("(Object) (output_string_builder.toString());\n");
+				} else {
+					// TODO
+					builder.append("(Object[]) (output_string_builder.toString());\n");
+				}
+			}
+		}
+
+//		builder.append("//********* ML2 *********\n\n");
+	}
+	
+	// ML2: Code generator for the Python script regarding prediction using a pre-trained ML model, pre_trained_predict.py
+	private void generatePythonDAPreTrainedPredictScript(String path_str, DAPreTrainedPredictAction action) {
+		
+		String dalib = "auto";
+		if (AnnotatedElementHelper.hasAnnotation(action.getDataAnalytics(), "dalib")) {
+			if (action.getDataAnalytics().getAnnotations().get(0).getValue().equals("scikit-learn")
+					|| action.getDataAnalytics().getAnnotations().get(0).getValue().equals("keras-tensorflow")
+					|| action.getDataAnalytics().getAnnotations().get(0).getValue().equals("pytorch")) {
+				dalib = action.getDataAnalytics().getAnnotations().get(0).getValue();
+			} else if (action.getDataAnalytics().getAnnotations().get(0).getValue().equals("weka")) {
+				System.err.println(
+						"ERROR: This compiler/code generator generates Java AND Python code. The data analytics / machine learning part should be generated in Python. However, weka is chosen as the library for data analytics / machine learning in the annotations of the model. Please either change the annotation @dalib to a Python library, e.g., scikit-learn or use the pure Java compiler/code generator!");
+			} else {
+				dalib = "auto";
+			}
+		}
+		
+		StringBuilder pythonScriptStringBuilder = new StringBuilder();
+//		pythonScriptStringBuilder.append("#********* ML2 *********\n\n");
+		pythonScriptStringBuilder.append("import sys\n");
+		pythonScriptStringBuilder.append("import pandas as pd\n");
+		pythonScriptStringBuilder.append("import numpy as np\n");
+		pythonScriptStringBuilder.append("import pickle\n\n");
+
+		pythonScriptStringBuilder.append("features = sys.argv[1].split(',')\n");
+		pythonScriptStringBuilder.append("feature_types = sys.argv[2].split(',')\n");
+		pythonScriptStringBuilder.append("feature_values_for_prediction = sys.argv[3].split(',')\n\n");
+		
+		pythonScriptStringBuilder.append(action.getDataAnalytics().getBlackbox_import_algorithm() + "\n\n");
+		
+		pythonScriptStringBuilder.append("with open('" + path_str + action.getDataAnalytics().getBlackbox_ml_model() + "', 'rb') as pickle_file:\n");
+		pythonScriptStringBuilder.append("	model = pickle.load(pickle_file)\n\n");
+				
+		pythonScriptStringBuilder.append(
+				"array_features_indexes = list(filter(lambda x: '[' in feature_types[x], range(len(feature_types))))\n");
+		pythonScriptStringBuilder.append("new_feature_values_for_prediction = []\n");
+		pythonScriptStringBuilder.append("for index in array_features_indexes:\n");
+		pythonScriptStringBuilder.append("	for item in feature_values_for_prediction[index][2:-2].split(' '):\n");
+		pythonScriptStringBuilder.append("		new_feature_values_for_prediction.append(item)\n");
+		pythonScriptStringBuilder.append("	feature_values_for_prediction.pop(index)\n");
+		pythonScriptStringBuilder.append("	feature_values_for_prediction.append(new_feature_values_for_prediction)\n");
+		pythonScriptStringBuilder.append("	feature_name = features[index]\n");
+		pythonScriptStringBuilder.append("	features.pop(index)\n");
+		pythonScriptStringBuilder.append("	i=index\n");
+		pythonScriptStringBuilder.append("	for item in range(len(new_feature_values_for_prediction)):\n");
+		pythonScriptStringBuilder.append("		features.insert(i,feature_name+'_'+str(item))\n");
+		pythonScriptStringBuilder.append("		i=i+1\n");
+		pythonScriptStringBuilder.append("if(len(array_features_indexes)!=0):\n");
+		pythonScriptStringBuilder.append("		feature_values_for_prediction = feature_values_for_prediction[0]\n\n");
+
+		pythonScriptStringBuilder.append("col_names = []\n");
+		pythonScriptStringBuilder.append("num_col_names = []\n");
+		pythonScriptStringBuilder.append("cat_col_names = []\n");
+		pythonScriptStringBuilder.append("if(timestamps.lower() == 'on'):\n");
+		pythonScriptStringBuilder.append("    col_names.append('timestamp')\n");
+		pythonScriptStringBuilder.append("for i in range(len(features)):\n");
+		pythonScriptStringBuilder.append("    feature=features[i]\n");
+		pythonScriptStringBuilder.append("    feature_type=feature_types[i]\n");
+		pythonScriptStringBuilder.append("    if((\"String\" in feature_type) or (\"Char\" in feature_type)):\n");
+		pythonScriptStringBuilder.append("        cat_col_names.append(feature)\n");
+		pythonScriptStringBuilder.append("    if((\"Int\" in feature_type) or (\"Long\" in feature_type) or (\"Double\" in feature_type)):\n");
+		pythonScriptStringBuilder.append("        num_col_names.append(feature)\n");
+		pythonScriptStringBuilder.append("    col_names.append(feature)\n\n");
+		
+		pythonScriptStringBuilder.append("if(len(cat_col_names)!=0):\n");
+		pythonScriptStringBuilder.append("	from sklearn.preprocessing import LabelEncoder\n");
+		pythonScriptStringBuilder.append("	with open('" + path_str + action.getDataAnalytics().getBlackbox_label_encoder() + "', 'rb') as pickle_file:\n");
+		pythonScriptStringBuilder.append("		le = pickle.load(pickle_file)\n\n");
+		
+		pythonScriptStringBuilder.append("df = pd.DataFrame(data={}, columns=[])\n");
+		pythonScriptStringBuilder.append("for i in range(len(feature_values_for_prediction)):\n");
+		pythonScriptStringBuilder.append("	if features[i] in cat_col_names:\n");
+		pythonScriptStringBuilder.append(
+				"		df.insert(i,features[i], pd.Series(le.transform([feature_values_for_prediction[i]])))\n");
+		pythonScriptStringBuilder.append("	else:\n");
+		pythonScriptStringBuilder
+				.append("		df.insert(i,features[i], pd.Series(feature_values_for_prediction[i]))\n\n");
+
+		pythonScriptStringBuilder.append("print (model.predict(df).item(0))\n\n");
+
+//		pythonScriptStringBuilder.append("#********* ML2 *********\n\n");
+		File pythonScriptsDir = new File(path_str + "/python-scripts");
+		if (!pythonScriptsDir.exists()) {
+			pythonScriptsDir.mkdirs();
+		}
+		File scriptFile = new File(path_str + "/python-scripts/pre_trained_predict.py");
 		try {
 			Files.deleteIfExists(Paths.get(scriptFile.toURI()));
 		} catch (IOException e) {

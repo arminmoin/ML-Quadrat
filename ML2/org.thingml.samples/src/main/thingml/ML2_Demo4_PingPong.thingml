@@ -1,3 +1,6 @@
+// Armin Moin, moin@in.tum.de
+// Sample model instance for regression using the smart ping-pong example
+
 object String
     @type_checker "String"
 	@c_type "char *"
@@ -148,18 +151,14 @@ thing PingPongDataAnalytics includes PingPongMsgs {
 	data_analytics da1 
 	@dalib "scikit-learn" {
 	//@dalib "keras-tensorflow" {
-		dataset "data/ip_dataset_reg.csv"
-		sequential TRUE
-		timestamps ON
 		labels ON
 		features client_ip_address,prediction
-		//model_algorithm linear_regression my_lin_reg()
-		//model_algorithm decision_tree_regressor my_dtr()
-		//model_algorithm random_forest_regressor my_rfr()
-		//model_algorithm nn_multilayer_perceptron my_nn_mlp(activation relu optimizer Adam loss sparse_categorical_crossentropy)
-		model_algorithm nn_multilayer_perceptron my_nn_mlp()
-		training_results "data/training.txt"		
 		prediction_results prediction
+		dataset "data/ip_dataset_reg.csv"
+		sequential TRUE
+		timestamps ON		
+		model_algorithm nn_multilayer_perceptron my_nn_mlp()
+		training_results "data/training.txt"
 	}
 
 	statechart PingPongDataAnalyticsBehavior init Preprocess {

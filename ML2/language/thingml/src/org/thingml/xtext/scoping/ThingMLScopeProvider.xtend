@@ -3,6 +3,10 @@
  */
 package org.thingml.xtext.scoping
 
+/**
+ * Extended by Armin Moin, moin@in.tum.de, moin@arminmoin.de
+ */
+
 import java.util.ArrayList
 import org.eclipse.emf.ecore.ENamedElement
 import org.eclipse.emf.ecore.EObject
@@ -48,6 +52,7 @@ import org.thingml.xtext.thingML.DAPredictAction
 import org.thingml.xtext.services.ThingMLGrammarAccess.DASaveActionElements
 import org.thingml.xtext.thingML.DASaveAction
 import org.thingml.xtext.thingML.Action
+import org.thingml.xtext.thingML.DAPreTrainedPredictAction
 
 /**
  * This class contains custom scoping description.
@@ -173,6 +178,12 @@ class ThingMLScopeProvider extends AbstractThingMLScopeProvider {
 		else if (reference == p.dataAnalytics_PredictionResults) { //ML2
 			return scopeForDataAnalyticsPredictionResults(context as DataAnalytics)
 		}
+		else if (reference == p.DAPreTrainedPredictAction_DataAnalytics) { //ML2
+			return scopeForDataAnalyticsPreTrainedPredictAction(context as DAPreTrainedPredictAction)
+		}
+		else if (reference == p.DAPreTrainedPredictAction_Features) { //ML2
+			return scopeForDataAnalyticsPreTrainedPredictActionFeatures(context as DAPreTrainedPredictAction)
+		}
 		else {
 			System.out.println("INFO: Resolving reference : " + reference.name + " in Class " + (reference.eContainer as ENamedElement).getName);
 		}
@@ -229,12 +240,18 @@ class ThingMLScopeProvider extends AbstractThingMLScopeProvider {
 	}
 	def protected IScope scopeForDataAnalyticsPredictActionFeatures(DAPredictAction context) { //ML2
 		Scopes.scopeFor( ThingMLHelpers.allProperties(ThingMLHelpers.findContainingThing(context)) );
-	}
+	}	
 	def protected IScope scopeForDataAnalyticsFeatures(DataAnalytics context) { //ML2
 		Scopes.scopeFor( ThingMLHelpers.allProperties(context.eContainer as Thing) )
 	}
 	def protected IScope scopeForDataAnalyticsPredictionResults(DataAnalytics context) { //ML2
 		Scopes.scopeFor( ThingMLHelpers.allProperties(context.eContainer as Thing) )
+	}
+	def protected IScope scopeForDataAnalyticsPreTrainedPredictAction(DAPreTrainedPredictAction context) { //ML2
+		Scopes.scopeFor( ThingMLHelpers.allDataAnalytics(ThingMLHelpers.findContainingThing(context)) );
+	}
+	def protected IScope scopeForDataAnalyticsPreTrainedPredictActionFeatures(DAPreTrainedPredictAction context) { //ML2
+		Scopes.scopeFor( ThingMLHelpers.allProperties(ThingMLHelpers.findContainingThing(context)) );
 	}
 	def protected IScope scopeForPort_SendsReceives(Port context) {
 		Scopes.scopeFor( ThingMLHelpers.allMessages(context.eContainer as Thing) );

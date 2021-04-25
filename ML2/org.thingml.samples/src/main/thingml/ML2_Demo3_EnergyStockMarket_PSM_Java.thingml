@@ -1,3 +1,6 @@
+// Armin Moin, moin@in.tum.de
+// Sample Platform-Specific Model (PSM) instance for the energy stock market example
+
 import "ML2_Demo3_EnergyStockMarket_PIM.thingml"
 import "thingml/core/_java/timer.thingml"
 

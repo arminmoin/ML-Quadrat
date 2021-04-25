@@ -1,3 +1,6 @@
+// Armin Moin, moin@in.tum.de
+// Sample model instance for the smart ping-pong example
+
 object String
     @type_checker "String"
 	@c_type "char *"
@@ -18,12 +21,10 @@ datatype Int32<4>
 
 thing fragment PingPongMsgs {
 	
-	message ping(ip: String);
-	//message ping(ip: Int32);
+	message ping(ip: String, code: Int32);
 	message pong();
 	
-	message query(client_ip: String);
-	//message query(client_ip: Int32);
+	message query(client_ip: String, client_code: Int32);
 	message prediction_positive();
 	message prediction_negative();
 	
@@ -36,7 +37,7 @@ thing PingClient includes PingPongMsgs {
 	}
 		
 	property my_ip_address: String = "192.168.1.1"
-	//property my_ip_address: Int32 = 1
+	property my_code: Int32 = 10
 	
 	statechart PingClientBehavior init Ping {
 	
@@ -46,7 +47,7 @@ thing PingClient includes PingPongMsgs {
 			
 			on entry do				
 				print "Sending Ping...\n"				
-				ping_service!ping(my_ip_address)				
+				ping_service!ping(my_ip_address,my_code)				
 			end				
 			
 			transition -> Pong 
@@ -81,7 +82,7 @@ thing PingServer includes PingPongMsgs {
 	}
 	
 	property client_ip_address: String
-	//property client_ip_address: Int32
+	property client_code: Int32
 	property malicious_client: Boolean
 	
 	statechart PongServerBehavior init GetPing {
@@ -94,8 +95,9 @@ thing PingServer includes PingPongMsgs {
 			action		 
 			do				
 			client_ip_address = e.ip
+			client_code = e.code
 			print("Checking if the client is a malicious one...\n")
-			da_service!query(client_ip_address)
+			da_service!query(client_ip_address, client_code)
 			end
 			transition -> Pong
 			event da_service?prediction_negative
@@ -106,7 +108,7 @@ thing PingServer includes PingPongMsgs {
 		
 		state Pong {
 			on entry do
-			print "Got ping from: " + client_ip_address + "\n"
+			print "Got ping from: " + client_ip_address + " code: " + client_code + "\n"
 			print "Sending Pong...\n"
 			ping_service!pong()
 			malicious_client = false
@@ -134,28 +136,23 @@ thing PingPongDataAnalytics includes PingPongMsgs {
 	}
 	
 	property client_ip_address: String
-	//property client_ip_address: Int32
+	property client_code: Int32
 	property prediction: Boolean = false
 
 	data_analytics da1 
 	@dalib "scikit-learn" {
 	//@dalib "keras-tensorflow" {
 	//{
+		labels ON
+		features client_ip_address,client_code,prediction
+		prediction_results prediction
 		dataset "data/ip_dataset.csv"
 		automl OFF
 		sequential TRUE
-		timestamps ON
-		labels ON
-		features client_ip_address,prediction
+		timestamps OFF	
 		preprocess_feature_scaling STANDARDIZATION_Z_SCORE_NORMALIZATION
-		//model_algorithm linear_classifier_logistic_regression my_lin_log_reg(fit_intercept true, intercept_scaling 0.2, solver 'liblinear')
-		//model_algorithm naive_bayes_gaussian my_nbg()
-		//model_algorithm decision_tree_classifier my_dtc(random_state 10)
-		//model_algorithm random_forest_classifier my_rfc()
-		//model_algorithm nn_multilayer_perceptron my_nn_mlp(hidden_layer_sizes(100,200) activation relu optimizer Adam loss sparse_categorical_crossentropy)
 		model_algorithm nn_multilayer_perceptron my_nn_mlp(activation relu, optimizer adam, loss SparseCategoricalCrossentropy)
 		training_results "data/training.txt"		
-		prediction_results prediction
 	}
 
 	statechart PingPongDataAnalyticsBehavior init Preprocess {
@@ -184,13 +181,16 @@ thing PingPongDataAnalytics includes PingPongMsgs {
 			end
 			transition -> Predict
 			event m: da_service?query
-			action client_ip_address = m.client_ip
+			action do
+				client_ip_address = m.client_ip
+				client_code = m.client_code
+			end
 		}
 		
 		state Predict {
 			on entry do
 			print "Ping Pong Data Analytics: Predicting\n"
-			da_predict da1(client_ip_address)
+			da_predict da1(client_ip_address, client_code)
 			if(prediction==false)
 			da_service!prediction_negative()
 			else

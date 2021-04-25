@@ -1,3 +1,7 @@
+/**
+ * Extended by Armin Moin, moin@in.tum.de, moin@arminmoin.de
+ */
+
 grammar org.thingml.xtext.ThingML hidden(WS, ML_COMMENT, SL_COMMENT)
 
 import "http://www.eclipse.org/emf/2002/Ecore" as ecore
@@ -211,16 +215,20 @@ MessageParameter returns MessageParameter:
 
 DataAnalytics returns DataAnalytics:
 	'data_analytics' name=ID ( annotations+=PlatformAnnotation )* '{'
-		('dataset' dataset=STRING)?
+		(('labels' labels=Labels)?
+		('features' features+=[Property|ID] ( "," features+=[Property|ID])*)?
+		('prediction_results' predictionResults+=[Property|ID] ( "," predictionResults+=[Property|ID])*)?)
+		(('dataset' dataset=STRING)?
 		('automl' autoML=AutoML)?
 		('sequential' sequential=Sequential)?
 		('timestamps' timestamps=Timestamps)?
-		('labels' labels=Labels)
-		('features' features+=[Property|ID] ( "," features+=[Property|ID])*)
 		('preprocess_feature_scaling' preprocess_feature_scaling=Preprocess_feature_scaling)?
 		('model_algorithm' modelAlgorithm=DataAnalyticsModelAlgorithm)?
-		('training_results' trainingResults=STRING)?
-		('prediction_results' predictionResults+=[Property|ID] ( "," predictionResults+=[Property|ID])*)?
+		('training_results' trainingResults=STRING)?) |
+		(('blackbox_ml' blackbox_ml=BooleanLiteral)?
+		('blackbox_ml_model' blackbox_ml_model=STRING)?
+		('blackbox_import_algorithm' blackbox_import_algorithm=STRING)?
+		('blackbox_label_encoder' blackbox_label_encoder=STRING)?)
 '}';
 
 enum AutoML:
@@ -240,7 +248,7 @@ enum Labels:
 ;
 
 enum Preprocess_feature_scaling:
-	NOT_SET='NOT_SET' | OFF='OFF' | STANDARDIZATION_Z_SCORE_NORMALIZATION='STANDARDIZATION_Z_SCORE_NORMALIZATION' | MIN_MAX_NORMALIZATION='MIN_MAX_NORMALIZATION' | MEAN_NORMALIZATION_MIN_MAX='MEAN_NORMALIZATION_MIN_MAX' | MEAN_NORMALIZATION_L2_NORM='MEAN_NORMALIZATION_L2_NORM' | UNIT_LENGTH_SCALING='UNIT_LENGTH_SCALING' 
+	NOT_SET='NOT_SET' | OFF='OFF' | STANDARDIZATION_Z_SCORE_NORMALIZATION='STANDARDIZATION_Z_SCORE_NORMALIZATION' | MIN_MAX_NORMALIZATION='MIN_MAX_NORMALIZATION' | ROBUST_SCALER='ROBUST_SCALER' | NORMALIZATION_L2_NORM='NORMALIZATION_L2_NORM' | NORMALIZATION_L1_NORM='NORMALIZATION_L1_NORM' | NORMALIZATION_MAX_NORM='NORMALIZATION_MAX_NORM' 
 ;
 
 DataAnalyticsModelAlgorithm returns DataAnalyticsModelAlgorithm:
@@ -297,7 +305,7 @@ LinearRegression returns LinearRegression: // scikit-learn v0.24.1
 	('normalize' normalize=BooleanLiteral (',')?)?
 	('copy_X' copy_X=BooleanLiteral (',')?)?
 	('n_jobs' n_jobs=IntegerLiteral (',')?)?
-	('positive' positive=BooleanLiteral (',')?)?	
+	('positive' positive=BooleanLiteral (',')?)?
 	')'
 ;
 
@@ -318,7 +326,7 @@ LinearClassifierLogisticRegression returns LinearClassifierLogisticRegression: /
 	('verbose' verbose=IntegerLiteral (',')?)?
 	('warm_start' warm_start=BooleanLiteral (',')?)?
 	('n_jobs' n_jobs=IntegerLiteral (',')?)?
-	('l1_ratio' l1_ratio=DoubleLiteral (',')?)?	
+	('l1_ratio' l1_ratio=DoubleLiteral (',')?)?
 	')'
 ;
 
@@ -334,7 +342,7 @@ NaiveBayesMultinomial returns NaiveBayesMultinomial: // scikit-learn v0.24.1
 	'naive_bayes_multinomial' name=ID
 	'('
 	('alpha' alpha=DoubleLiteral (',')?)?
-	('fit_prior' fit_prior=BooleanLiteral (',')?)?	
+	('fit_prior' fit_prior=BooleanLiteral (',')?)?
 	('class_prior' class_prior=STRING (',')?)?
 	')'
 ;
@@ -444,7 +452,7 @@ RandomForestClassifier returns RandomForestClassifier: // scikit-learn v0.24.1
 	('min_weight_fraction_leaf' min_weight_fraction_leaf=DoubleLiteral (',')?)?
 	(('max_features' max_features_numeric=DoubleLiteral) |
 	(('max_features' max_features_enum=Max_features_enum)) (',')?)?
-	('max_leaf_nodes' max_leaf_nodes=IntegerLiteral (',')?)? 
+	('max_leaf_nodes' max_leaf_nodes=IntegerLiteral (',')?)?
 	('min_impurity_decrease' min_impurity_decrease=DoubleLiteral (',')?)?
 	('min_impurity_split' min_impurity_split=DoubleLiteral (',')?)? 
 	('bootstrap' bootstrap=BooleanLiteral (',')?)?
@@ -472,23 +480,23 @@ NN_MultilayerPerceptron returns NN_MultilayerPerceptron: // scikit-learn v0.24.1
 	('learning_rate_init' learning_rate_init=STRING (',')?)? // i.e., "initial_learning_rate" in keras // scikit-learn v0.24.1 & keras
 	('power' power=DoubleLiteral (',')?)? // specific to keras
 	('power_t' power_t=DoubleLiteral (',')?)? // specific to scikit-learn
-	('max_iter' max_iter=IntegerLiteral (',')?)? // specific to scikit-learn
+	('max_iter' max_iter=IntegerLiteral (',')?)? // specific to scikit-learn; equiv. to epochs in keras-tensorflow.
 	('shuffle' shuffle=BooleanLiteral (',')?)?
 	('random_state' random_state=IntegerLiteral (',')?)? // i.e., numpy seed & tensorflow set_random_seed for keras // scikit-learn v0.24.1 & keras
-	('tol' tol=DoubleLiteral (',')?)?
+	('tol' tol=DoubleLiteral (',')?)? // scikit-learn v0.24.1 & keras // Called "min_delta" for early stopping in keras
 	('verbose' verbose=BooleanLiteral (',')?)? // scikit-learn v0.24.1 & keras
-	('warm_start' warm_start=BooleanLiteral (',')?)?
-	('momentum' momentum=DoubleLiteral (',')?)?
-	('nesterovs_momentum' nesterovs_momentum=BooleanLiteral (',')?)?
-	('early_stopping' early_stopping=BooleanLiteral (',')?)?
-	('validation_fraction' validation_fraction=DoubleLiteral (',')?)?
-	('beta_1' beta_1=DoubleLiteral (',')?)?
-	('beta_2' beta_2=DoubleLiteral (',')?)?
-	('epsilon' epsilon=DoubleLiteral (',')?)?
-	('n_iter_no_change' n_iter_no_change=IntegerLiteral (',')?)?
+	('warm_start' warm_start=BooleanLiteral (',')?)? // specific to scikit-learn
+	('momentum' momentum=DoubleLiteral (',')?)? // scikit-learn v0.24.1 & keras
+	('nesterovs_momentum' nesterovs_momentum=BooleanLiteral (',')?)? // scikit-learn v0.24.1 & keras
+	('early_stopping' early_stopping=BooleanLiteral (',')?)? // scikit-learn v0.24.1 & keras
+	('validation_fraction' validation_fraction=DoubleLiteral (',')?)? // specific to scikit-learn
+	('beta_1' beta_1=DoubleLiteral (',')?)? // scikit-learn v0.24.1 & keras
+	('beta_2' beta_2=DoubleLiteral (',')?)? // scikit-learn v0.24.1 & keras
+	('epsilon' epsilon=DoubleLiteral (',')?)? // scikit-learn v0.24.1 & keras
+	('n_iter_no_change' n_iter_no_change=IntegerLiteral (',')?)? // scikit-learn v0.24.1 & keras // Called "patience" for early stopping in keras
 	('max_fun' max_fun=IntegerLiteral (',')?)? 
 	('loss' loss=Loss (',')?)? 	 // specific to keras-tensorflow (https://keras.io/guides/sequential_model/)
-	('epochs' epochs=IntegerLiteral (',')?)? 	 // specific to keras-tensorflow (https://keras.io/guides/sequential_model/)
+	('epochs' epochs=IntegerLiteral (',')?)? 	 // specific to keras-tensorflow (https://keras.io/guides/sequential_model/); equiv. to max_iter in scikit-learn.
 	')'
 ;
 
@@ -559,7 +567,7 @@ ReceiveMessage returns ReceiveMessage:
 Action returns Action:
 	ActionBlock | ExternStatement | SendAction | VariableAssignment | Increment | Decrement | LoopAction | ForAction |
 	ConditionalAction | ReturnAction | PrintAction | ErrorAction | StartSession | FunctionCallStatement | LocalVariable |
-	DASaveAction | DAPreprocessAction | DATrainAction | DAPredictAction; //ML2
+	DASaveAction | DAPreprocessAction | DATrainAction | DAPredictAction | DAPreTrainedPredictAction ; //ML2
 
 
 ActionBlock returns ActionBlock:
@@ -621,6 +629,9 @@ DATrainAction returns DATrainAction:
 
 DAPredictAction returns DAPredictAction:
 	'da_predict' dataAnalytics=[DataAnalytics|ID] '(' features+=[Property|ID] ( "," features+=[Property|ID])* ')';
+
+DAPreTrainedPredictAction returns DAPreTrainedPredictAction:
+	'da_pre_trained_predict' dataAnalytics=[DataAnalytics|ID] '(' features+=[Property|ID] ( "," features+=[Property|ID])* ')';
 
 /*****************************************************************************
  *       EXPRESSIONS                                                         *

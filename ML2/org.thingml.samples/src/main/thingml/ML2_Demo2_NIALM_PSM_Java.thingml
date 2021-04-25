@@ -1,3 +1,6 @@
+// Armin Moin, moin@in.tum.de
+// Sample Platform-Specific Model (PSM) instance for the Non-Intrusive Appliance Load Monitoring (NIALM) example
+
 import "ML2_Demo2_NIALM_PIM.thingml"
 import "thingml/core/_java/timer.thingml"
 

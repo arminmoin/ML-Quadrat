@@ -14,7 +14,12 @@
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
  */
+
 package org.thingml.xtext.ui;
+
+/**
+ * Extended by Armin Moin, moin@in.tum.de, moin@arminmoin.de
+ */
 
 import java.util.HashSet;
 import java.util.regex.Pattern;
@@ -42,18 +47,19 @@ public class ThingMLAntlrTokenToAttributeIdMapper extends AbstractAntlrTokenToAt
 					, "'print'", "'println'", "'error'", "'errorln'", "'not'", "'and'", "'or'"
 					, "'init'", "'keeps'", "'history'", "'exit'", "'->'"
 					, "'fork'", "'set'", "'as'", "'!'"
-					, "'da_save'", "'da_preprocess'", "'da_train'", "'da_predict'", "'input_features'" //ML2
+					, "'da_save'", "'da_preprocess'", "'da_train'", "'da_predict'", "'da_pre_trained_predict'" //ML2
 			}));
 	
 	HashSet<String> configuration = new HashSet<String>(java.util.Arrays.asList(new String[]
 			{"'configuration'", "'instance'", "'connector'", "'over'", "'=>'"}));
 
 	HashSet<String> data_analytics = new HashSet<String>(java.util.Arrays.asList(new String[] //ML2
-			{"'data_analytics'", "'dataset'", "'sequential'", "'timestamps'", "'labels'", "'features'", "'preprocess_feature_scaling'", "'model_algorithm'", "'automl'"
+			{"'data_analytics'", "'blackbox_ml'", "'blackbox_ml_model'", "'blackbox_import_algorithm'", "'blackbox_label_encoder'"
+					, "'dataset'", "'sequential'", "'timestamps'", "'labels'", "'features'", "'preprocess_feature_scaling'", "'model_algorithm'", "'automl'"
 					, "'training_results'", "'prediction_results'"
 					, "'NOT_SET'", "'ON'", "'OFF'", "'TRUE'", "'FALSE'", "'true'", "'false'"
 					, "'pretrained'", "'pmml'", "'pfa'", "'path'"
-					, "'STANDARDIZATION_Z_SCORE_NORMALIZATION'", "'MIN_MAX_NORMALIZATION'", "'MEAN_NORMALIZATION_MIN_MAX'", "'MEAN_NORMALIZATION_L2_NORM'", "'UNIT_LENGTH_SCALING'"
+					, "'STANDARDIZATION_Z_SCORE_NORMALIZATION'", "'MIN_MAX_NORMALIZATION'", "'ROBUST_SCALER'", "'NORMALIZATION_L2_NORM'", "'NORMALIZATION_L1_NORM'", "'NORMALIZATION_MAX_NORM'"
 					, "'linear_classifier_logistic_regression'", "'penalty'", "'dual'", "'tol'", "'C'", "'fit_intercept'", "'intercept_scaling'", "'class_weight'", "'random_state'", "'solver'", "'max_iter'", "'multi_class'", "'verbose'", "'warm_start'", "'n_jobs'", "'l1_ratio'"
 					, "'linear_regression'", "'normalize'", "'copy_X'", "'positive'"
 					, "'naive_bayes_gaussian'", "'priors'", "'var_smoothing'"

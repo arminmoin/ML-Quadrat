@@ -1,0 +1,193 @@
+// Armin Moin, moin@in.tum.de
+// Sample model instance for the blackbox-ML mode, smart ping-pong
+
+object String
+    @type_checker "String"
+	@c_type "char *"
+	@java_type "String"
+    @js_type "String";
+	
+datatype Boolean<1>
+    @type_checker "Boolean"
+	@c_type "uint8_t"
+	@java_type "boolean"
+ 	@js_type "boolean";
+ 	
+datatype Int32<4>
+    @type_checker "Integer"
+	@c_type "int32_t"
+	@java_type "int"
+    @js_type "int";
+
+thing fragment PingPongMsgs {
+	
+	message ping(ip: String, code: Int32);
+	message pong();
+	
+	message query(client_ip: String, client_code: Int32);
+	message prediction_positive();
+	message prediction_negative();
+	
+}
+
+thing PingClient includes PingPongMsgs {
+	required port ping_service {
+		sends ping
+		receives pong
+	}
+		
+	property my_ip_address: String = "192.168.1.1"
+	property my_code: Int32 = 10
+	
+	statechart PingClientBehavior init Ping {
+	
+	on entry print "Ping/Pong Client Started!\n"
+	
+		state Ping {
+			
+			on entry do				
+				print "Sending Ping...\n"				
+				ping_service!ping(my_ip_address,my_code)				
+			end				
+			
+			transition -> Pong 
+			event ping_service?pong
+		}
+		
+		state Pong {
+			on entry print "Got pong!\n"
+			
+			transition -> Stop
+			
+		}
+		
+		state Stop {
+			on entry print "Bye.\n"
+		}
+		
+	}
+
+}
+
+thing PingServer includes PingPongMsgs {
+	
+	provided port ping_service {
+		receives ping
+		sends pong
+	}
+	
+	required port da_service {
+		sends query
+		receives prediction_positive, prediction_negative
+	}
+	
+	property client_ip_address: String
+	property client_code: Int32
+	property malicious_client: Boolean
+	
+	statechart PongServerBehavior init GetPing {
+
+        on entry print "Ping/Pong Server Started!\n"
+	
+		state GetPing {
+			
+			internal event e: ping_service?ping			
+			action		 
+			do				
+			client_ip_address = e.ip
+			client_code = e.code
+			print("Checking if the client is a malicious one...\n")
+			da_service!query(client_ip_address, client_code)
+			end
+			transition -> Pong
+			event da_service?prediction_negative
+			
+			transition -> Ignore
+			event da_service?prediction_positive
+		}
+		
+		state Pong {
+			on entry do
+			print "Got ping from: " + client_ip_address + " code: " + client_code + "\n"
+			print "Sending Pong...\n"
+			ping_service!pong()
+			malicious_client = false
+			end
+			transition -> GetPing
+		}
+		
+		state Ignore {
+			on entry do
+			print "Got ping from: " + client_ip_address + "\n"
+			print "Ignoring the ping message, since the client is probably a malicious one...\n"
+			malicious_client = true
+			end
+			transition -> GetPing
+		}
+	}
+
+}
+
+thing PingPongDataAnalytics includes PingPongMsgs {
+		
+	provided port da_service {
+		receives query
+		sends prediction_positive, prediction_negative
+	}
+	
+	property client_ip_address: String
+	property client_code: Int32
+	property prediction: Boolean = false
+
+	data_analytics da1 
+	@dalib "scikit-learn" {
+		labels ON
+		features client_ip_address,client_code,prediction
+		prediction_results prediction
+		blackbox_ml true	
+		blackbox_ml_model "pre_trained/pre_trained_ml_model.pickle"
+		blackbox_import_algorithm "from sklearn.neural_network import MLPClassifier"
+		//blackbox_label_encoder "pre_trained/pre_trained_label_encoder.pickle"
+	}
+
+	statechart PingPongDataAnalyticsBehavior init Ready {
+	
+	on entry print "Ping Pong Data Analytics Started!\n"
+		
+		state Ready {
+			on entry do
+			print "Ping Pong Data Analytics: Ready for Prediction using the pre-trained ML model.\n"
+			end
+			transition -> Predict
+			event m: da_service?query
+			action do
+				client_ip_address = m.client_ip
+				client_code = m.client_code
+			end
+		}
+		
+		state Predict {
+			on entry do
+			print "Ping Pong Data Analytics: Predicting using the pre-trained ML model...\n"
+			da_pre_trained_predict da1(client_ip_address, client_code)
+			if(prediction==false)
+			da_service!prediction_negative()
+			else
+			da_service!prediction_positive()		
+			end
+			transition -> Ready
+			on exit da_save da1
+		}	
+	}
+}
+
+configuration SmartPingPongCfg @compiler "python_java" {
+	
+    instance pingClient : PingClient
+    instance pingServer : PingServer
+    instance pingPongDataAnalytics : PingPongDataAnalytics
+
+    connector pingClient.ping_service => pingServer.ping_service
+    connector pingServer.da_service => pingPongDataAnalytics.da_service
+    
+}

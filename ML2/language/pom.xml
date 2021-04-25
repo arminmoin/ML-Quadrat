@@ -46,7 +46,6 @@
 		<module>thingml</module>
 		<module>thingml.ide</module>
 		<module>thingml.ui</module>
-		<module>thingml.web</module>
 		<module>thingml.target</module>
 		<module>thingml.feature</module>
 		<module>thingml.tests</module>

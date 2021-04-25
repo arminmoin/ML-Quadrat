@@ -2,15 +2,15 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
  */
@@ -62,17 +62,86 @@ public class DataAnalyticsItemProvider extends NamedElementItemProvider {
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addLabelsPropertyDescriptor(object);
+			addFeaturesPropertyDescriptor(object);
+			addPredictionResultsPropertyDescriptor(object);
 			addDatasetPropertyDescriptor(object);
 			addAutoMLPropertyDescriptor(object);
 			addSequentialPropertyDescriptor(object);
 			addTimestampsPropertyDescriptor(object);
-			addLabelsPropertyDescriptor(object);
-			addFeaturesPropertyDescriptor(object);
 			addPreprocess_feature_scalingPropertyDescriptor(object);
 			addTrainingResultsPropertyDescriptor(object);
-			addPredictionResultsPropertyDescriptor(object);
+			addBlackbox_ml_modelPropertyDescriptor(object);
+			addBlackbox_import_algorithmPropertyDescriptor(object);
+			addBlackbox_label_encoderPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
+	}
+
+	/**
+	 * This adds a property descriptor for the Labels feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addLabelsPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_DataAnalytics_labels_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_DataAnalytics_labels_feature", "_UI_DataAnalytics_type"),
+				 ThingMLPackage.eINSTANCE.getDataAnalytics_Labels(),
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Features feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addFeaturesPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_DataAnalytics_features_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_DataAnalytics_features_feature", "_UI_DataAnalytics_type"),
+				 ThingMLPackage.eINSTANCE.getDataAnalytics_Features(),
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Prediction Results feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addPredictionResultsPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_DataAnalytics_predictionResults_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_DataAnalytics_predictionResults_feature", "_UI_DataAnalytics_type"),
+				 ThingMLPackage.eINSTANCE.getDataAnalytics_PredictionResults(),
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
 	}
 
 	/**
@@ -164,50 +233,6 @@ public class DataAnalyticsItemProvider extends NamedElementItemProvider {
 	}
 
 	/**
-	 * This adds a property descriptor for the Labels feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addLabelsPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_DataAnalytics_labels_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_DataAnalytics_labels_feature", "_UI_DataAnalytics_type"),
-				 ThingMLPackage.eINSTANCE.getDataAnalytics_Labels(),
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Features feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addFeaturesPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_DataAnalytics_features_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_DataAnalytics_features_feature", "_UI_DataAnalytics_type"),
-				 ThingMLPackage.eINSTANCE.getDataAnalytics_Features(),
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
-	}
-
-	/**
 	 * This adds a property descriptor for the Preprocess feature scaling feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -252,23 +277,67 @@ public class DataAnalyticsItemProvider extends NamedElementItemProvider {
 	}
 
 	/**
-	 * This adds a property descriptor for the Prediction Results feature.
+	 * This adds a property descriptor for the Blackbox ml model feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addPredictionResultsPropertyDescriptor(Object object) {
+	protected void addBlackbox_ml_modelPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_DataAnalytics_predictionResults_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_DataAnalytics_predictionResults_feature", "_UI_DataAnalytics_type"),
-				 ThingMLPackage.eINSTANCE.getDataAnalytics_PredictionResults(),
+				 getString("_UI_DataAnalytics_blackbox_ml_model_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_DataAnalytics_blackbox_ml_model_feature", "_UI_DataAnalytics_type"),
+				 ThingMLPackage.eINSTANCE.getDataAnalytics_Blackbox_ml_model(),
 				 true,
 				 false,
-				 true,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
 				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Blackbox import algorithm feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addBlackbox_import_algorithmPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_DataAnalytics_blackbox_import_algorithm_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_DataAnalytics_blackbox_import_algorithm_feature", "_UI_DataAnalytics_type"),
+				 ThingMLPackage.eINSTANCE.getDataAnalytics_Blackbox_import_algorithm(),
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Blackbox label encoder feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addBlackbox_label_encoderPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_DataAnalytics_blackbox_label_encoder_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_DataAnalytics_blackbox_label_encoder_feature", "_UI_DataAnalytics_type"),
+				 ThingMLPackage.eINSTANCE.getDataAnalytics_Blackbox_label_encoder(),
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
 				 null,
 				 null));
 	}
@@ -287,6 +356,7 @@ public class DataAnalyticsItemProvider extends NamedElementItemProvider {
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(ThingMLPackage.eINSTANCE.getAnnotatedElement_Annotations());
 			childrenFeatures.add(ThingMLPackage.eINSTANCE.getDataAnalytics_ModelAlgorithm());
+			childrenFeatures.add(ThingMLPackage.eINSTANCE.getDataAnalytics_Blackbox_ml());
 		}
 		return childrenFeatures;
 	}
@@ -342,17 +412,21 @@ public class DataAnalyticsItemProvider extends NamedElementItemProvider {
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(DataAnalytics.class)) {
+			case ThingMLPackage.DATA_ANALYTICS__LABELS:
 			case ThingMLPackage.DATA_ANALYTICS__DATASET:
 			case ThingMLPackage.DATA_ANALYTICS__AUTO_ML:
 			case ThingMLPackage.DATA_ANALYTICS__SEQUENTIAL:
 			case ThingMLPackage.DATA_ANALYTICS__TIMESTAMPS:
-			case ThingMLPackage.DATA_ANALYTICS__LABELS:
 			case ThingMLPackage.DATA_ANALYTICS__PREPROCESS_FEATURE_SCALING:
 			case ThingMLPackage.DATA_ANALYTICS__TRAINING_RESULTS:
+			case ThingMLPackage.DATA_ANALYTICS__BLACKBOX_ML_MODEL:
+			case ThingMLPackage.DATA_ANALYTICS__BLACKBOX_IMPORT_ALGORITHM:
+			case ThingMLPackage.DATA_ANALYTICS__BLACKBOX_LABEL_ENCODER:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case ThingMLPackage.DATA_ANALYTICS__ANNOTATIONS:
 			case ThingMLPackage.DATA_ANALYTICS__MODEL_ALGORITHM:
+			case ThingMLPackage.DATA_ANALYTICS__BLACKBOX_ML:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -459,6 +533,11 @@ public class DataAnalyticsItemProvider extends NamedElementItemProvider {
 			(createChildParameter
 				(ThingMLPackage.eINSTANCE.getDataAnalytics_ModelAlgorithm(),
 				 ThingMLFactory.eINSTANCE.createNN_MultilayerPerceptron()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ThingMLPackage.eINSTANCE.getDataAnalytics_Blackbox_ml(),
+				 ThingMLFactory.eINSTANCE.createBooleanLiteral()));
 	}
 
 }
