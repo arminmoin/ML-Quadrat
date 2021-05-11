@@ -64,11 +64,19 @@ Run the following commands in the Linux terminal:
 cd ML2/compilers/registry/target
 java -jar mlquadrat.compilers.registry-2.0.0-SNAPSHOT-jar-with-dependencies.jar -c auto -s ../../../org.thingml.samples/src/main/thingml/ML2_Demo_PingPong.thingml -o ../../../../../Generated_ML2_Demo_PingPong
 ```
-Note that the -c option specifies the model-to-code transformation (a.k.a. the code generator) or "**c**ompiler" that shall be deployed. Here, we choose "auto", since the model instance already includes this information in the configuration section of it. Also, the -s and the -o options let the user state the paths of the **s**ource model instance and the **o**utput directory for the target generated code, respectively. If the output directory does not exist, it will be created. The generated code includes all the Java and Python code, as well as the necessary build scripts. Thus, it can be easily built using the Apache Maven with one command (mvn clean install). Also, the output of Maven will include an executable JAR file with all the dependencies as a bundle. Hence, running the generated IoT service will be also very easy with just one command (java -jar ...). Below, we illustrate how to install and run the generated code.
+Note that the -c option specifies the model-to-code transformation (a.k.a. the code generator) or "**c**ompiler" that shall be deployed. Here, we choose "auto", since the model instance already includes this information in the configuration section of it. Also, the -s and the -o options let the user state the paths of the **s**ource model instance and the **o**utput directory for the target generated code, respectively. If the output directory does not exist, it will be created. 
+
+The generated code will include all the Java and Python code, as well as the necessary build scripts. Thus, it can be easily built using the Apache Maven with one command (mvn clean install). Also, the output of Maven will include an executable JAR file with all the dependencies as a bundle. Hence, running the generated IoT service will be also very easy with just one command (java -jar ...). Below, we illustrate how to install and run the generated code.
 
 <a name="user-doc"></a>
 ## Users' Documentation (Full Tutorial)
-Before reading the full tutorial below, you should first follow the quick (15-minutes) tutorial above. Moreover, since ML2 is based on ThingML, we encourage those users, who are not familiar with ThingML, to first read the documentation of ThingML and take a look at their samples. See: https://github.com/TelluIoT/ThingML
+Before reading the full tutorial below, you should first follow the quick (15-minutes) tutorial above.
+
+**Additional software prerequisites:**
+Please also install the following software before proceeding:
+
+1. Anaconda: https://docs.anaconda.com/anaconda/install/
+2. 
 
 TODO
 Python 3 (Anaconda recommended: https://www.anaconda.com/), Scikit-learn, e.g., version 0.22.1 (https://scikit-learn.org), Tensorflow / TensorFlow-GPU, e.g., version 1.15.0 (https://www.tensorflow.org/), Keras, e.g., version 2.3.1 (https://keras.io/) and Pytorch, e.g., version 1.4.0 (https://pytorch.org/). They are all free open source software. Finally, install the Xtext ANTLR plugin from the following update site in the Eclipse IDE: https://download.itemis.de/updates/releases/2.1.1/
@@ -218,6 +226,9 @@ Now, you should be able to run the generated program easily. Please use java -ja
 cd target
 java -jar SmartPingPongCfg-1.0.0-jar-with-dependencies.jar
 ```
+
+Finally, since ML2 is based on ThingML, in order to get a deeper understanding, you might want to read the documentation of ThingML and take a look at their samples. See: https://github.com/TelluIoT/ThingML
+
 <a name="maven"></a>
 ## Maven Artifacts
 You can find the Maven artifacts of ML2 at https://oss.sonatype.org (e.g., search for the groupid: io.github.arminmoin). You may add the dependencies to your pom.xml file. For instance, add the following to your pom.xml:
