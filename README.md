@@ -63,7 +63,7 @@ Run the following commands in the Linux terminal:
 cd ML2/compilers/registry/target
 java -jar mlquadrat.compilers.registry-2.0.0-SNAPSHOT-jar-with-dependencies.jar -c auto -s ../../../org.thingml.samples/src/main/thingml/ML2_Demo_PingPong.thingml -o ../../../../../Generated_ML2_Demo_PingPong
 ```
-Note that the -c option specifies the model-to-code transformation (a.k.a. the code generator) or "**c**ompiler" that shall be deployed. Here, we chose "auto", since the model isntance already includes this information in the configuration section of it. Also, the -s and the -o options let the user state the paths of the **s**ource model instance and the **o**utput directory for the target generated code, respectively. If the output directory does not exist, it will be created.
+Note that the -c option specifies the model-to-code transformation (a.k.a. the code generator) or "**c**ompiler" that shall be deployed. Here, we choose "auto", since the model instance already includes this information in the configuration section of it. Also, the -s and the -o options let the user state the paths of the **s**ource model instance and the **o**utput directory for the target generated code, respectively. If the output directory does not exist, it will be created.
 
 <a name="user-doc"></a>
 ## Users' Documentation (Full Tutorial)
