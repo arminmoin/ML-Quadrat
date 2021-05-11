@@ -7,7 +7,7 @@ The name ML-Quadrat ("Quadrat" is the German word for "square" / ˆ2) refers to 
 
 1. [How to Cite ML2 in Your Publications](#citation)
 2. [Reporting Issues/Bugs and Requests](#issues)
-3. [ML2 Quick Users' Documentation (15-Minutes Tutorial)](#user-doc-quick)
+3. [ML2 Quick (15-Minutes) Tutorial](#user-doc-quick)
 4. [ML2 Users' Documentation (Full Tutorial)](#user-doc)
 5. [ML2 Maven Artifacts](#maven)
 6. [ML2 Developers' Documentation (for Contributors)](#dev-doc)
@@ -24,7 +24,7 @@ Please cite the following papers if you are using ML2 or referring to it in your
 ML2 is a research prototype. If you find any issues/bugs or have any feature request, please kindly report that through our issue tracking system: https://github.com/arminmoin/ML-Quadrat/issues
 
 <a name="user-doc-quick"></a>
-## ML2 Quick Users' Documentation (15-Minutes Tutorial)
+## ML2 Quick (15-Minutes) Tutorial
 Here, we provide a quick tutorial to get familiar with ML2. However, in order to read the full documentation, please go to the section ML2 Users' Documentation (Full Tutorial) below.
 
 ### Why ML2?
