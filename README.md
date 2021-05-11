@@ -7,10 +7,10 @@ The name ML-Quadrat ("Quadrat" is the German word for "square" / ˆ2) refers to 
 
 1. [How to Cite ML2 in Your Publications](#citation)
 2. [Reporting Issues/Bugs and Requests](#issues)
-3. [ML2 Quick (15-Minutes) Tutorial](#user-doc-quick)
-4. [ML2 Users' Documentation (Full Tutorial)](#user-doc)
-5. [ML2 Maven Artifacts](#maven)
-6. [ML2 Developers' Documentation (for Contributors)](#dev-doc)
+3. [Quick (15-Minutes) Tutorial](#user-doc-quick)
+4. [Users' Documentation (Full Tutorial)](#user-doc)
+5. [Maven Artifacts](#maven)
+6. [Developers' Documentation (for Contributors)](#dev-doc)
 
 <a name="citation"></a>
 ## How to Cite ML2 in Your Publications
@@ -24,7 +24,7 @@ Please cite the following papers if you are using ML2 or referring to it in your
 ML2 is a research prototype. If you find any issues/bugs or have any feature request, please kindly report that through our issue tracking system: https://github.com/arminmoin/ML-Quadrat/issues
 
 <a name="user-doc-quick"></a>
-## ML2 Quick (15-Minutes) Tutorial
+## Quick (15-Minutes) Tutorial
 Here, we provide a quick tutorial to get familiar with ML2. However, in order to read the full documentation, please go to the section ML2 Users' Documentation (Full Tutorial) below.
 
 ### Why ML2?
@@ -66,7 +66,7 @@ java -jar mlquadrat.compilers.registry-2.0.0-SNAPSHOT-jar-with-dependencies.jar 
 Note that the -c option specifies the model-to-code transformation (a.k.a. the code generator) or "**c**ompiler" that shall be deployed. Here, we chose "auto", since the model isntance already includes this information in the configuration section of it. Also, the -s and the -o options let the user state the paths of the **s**ource model instance and the **o**utput directory for the target generated code, respectively. If the output directory does not exist, it will be created.
 
 <a name="user-doc"></a>
-## ML2 Users' Documentation (Full Tutorial)
+## Users' Documentation (Full Tutorial)
 Before readin the full tutorial below, you should first follow the quick (15-minutes) tutorial above. Moreover, since ML2 is based on ThingML, we encourage those users, who are not familiar with ThingML, to first read the documentation of ThingML and take a look at their samples: https://github.com/TelluIoT/ThingML
 
 TODO
@@ -218,7 +218,7 @@ cd target
 java -jar SmartPingPongCfg-1.0.0-jar-with-dependencies.jar
 ```
 <a name="maven"></a>
-## ML2 Maven Artifacts
+## Maven Artifacts
 You can find the Maven artifacts of ML2 at https://oss.sonatype.org (e.g., search for the groupid: io.github.arminmoin). You may add the dependencies to your pom.xml file. For instance, add the following to your pom.xml:
 
 ```
@@ -231,7 +231,7 @@ You can find the Maven artifacts of ML2 at https://oss.sonatype.org (e.g., searc
 ```
 
 <a name="dev-doc"></a>
-## ML2 Developers' Documentation (for Contributors)
+## Developers' Documentation (for Contributors)
 If you are going to contribute to this project, please read the developers' documentation below. Our documentation focuses on Linux and mainly Java. However, a number of other platforms and programming languages may also be used similarly with minor modifications.
 
 Our focus is on the Java code generator (model-to-text transformation), which also generates Python code. However, the same strategy shall apply to the other supported target platforms and programming languages for code generation. 
