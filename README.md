@@ -1,7 +1,14 @@
 # ML-Quadrat (ML2)
-ML2 is a free open source Model-Driven Software Engineering (MDSE) tool (a.k.a. "low-code") for creating smart services for the Internet of Things (IoT) and Cyber-Physical Systems (CPS). ML2 is based on [ThingML](https://github.com/TelluIoT/ThingML). Both ML2 and ThingML are built on top of the Eclipse Modeling Framework (EMF).
+ML2 is a Model-Driven Software Engineering (MDSE) and "Low-Code" tool for creating smart services for the Internet of Things (IoT) and Cyber-Physical Systems (CPS). ML2 is based on [ThingML](https://github.com/TelluIoT/ThingML). Similar to ThingML, ML2 is built using the Eclipse Modeling Framework (EMF), and is release under the terms of the Apache 2.0 permissive open source license.
 
-The name ML-Quadrat (German word for ML-Square / MLˆ2) refers to the fact that the project is about two MLs: (i) ML for Modeling Language; (ii) ML for Machine Learning. However, in the following documentation and also in the source code comments, we refer to the project name as ML2 for simplicity.
+The name ML-Quadrat ("Quadrat" is the German word for "square" / ˆ2) refers to the fact that the project is about two MLs: (i) ML for Modeling Language (as in ThingML); (ii) ML for Machine Learning, i.e., a sub-discipline of Artificial Intelligence (AI). However, in what follows, we refer to the project name as ML2 for simplicity.
+
+# How to Cite ML2 in Your Publications
+Please cite the following papers if you are using ML2 or referring to it in your papers:
+
+1. **From Things’ Modeling Language (ThingML) to Things’ Machine Learning (ThingML2)**, Armin Moin, Stephan Rössler, Marouane Sayih, Stephan Günnemann, In Proceedings of the ACM / IEEE 23rd International Conference on Model Driven Engineering Languages and Systems (MODELS) Companion (Extended Abstract), 2020.
+2. **ThingML+: Augmenting Model-Driven Software Engineering for the Internet of Things with Machine Learning**, Armin Moin, Stephan Rössler, Stephan Günnemann, In Proceedings of the ACM / IEEE International Conference on Model Driven Engineering Languages and Systems (MODELS) Workshops (MDE4IoT), 2018.
+
 
 # Table of Contents
 
@@ -12,16 +19,14 @@ The name ML-Quadrat (German word for ML-Square / MLˆ2) refers to the fact that 
 
 <a name="issues"></a>
 ## Reporting Issues/Bugs and Requests
-Currently, ML2 is a research prototype. If you find any issues/bugs or have any feature request, please kindly report that through our issue tracking system: https://github.com/arminmoin/ML-Quadrat/issues
+ML2 is a research prototype. If you find any issues/bugs or have any feature request, please kindly report that through our issue tracking system: https://github.com/arminmoin/ML-Quadrat/issues
 
 <a name="user-doc"></a>
 ## ML2 Users' Documentation (Tutorial)
-If you are looking for a tutorial to learn how to use ML2, please read the users' documentation below. Our documentation focuses on Linux and mainly Java. However, a number of other platforms and programming languages may also be used similarly with minor modifications.
-
 Since ML2 is based on ThingML, we highly encourage those users, who are not familiar with ThingML, to first read the documentation of ThingML and take a look at their samples: https://github.com/TelluIoT/ThingML
 
 ### Why ML2?
-ThingML and other Model-Driven Software Engineering (MDSE) tools, that we are aware of, do not support Machine Learning and Data Analytics on the modeling level. However, those concepts are currently  crucial for developing smart IoT services. Therefore, we enable Machine Learning and Data Analytics through our Domain-Specific Modeling Language (DSML) and tool.
+Currently, ThingML and other Model-Driven Software Engineering (MDSE) tools for the IoT/CPS, that we are aware of, do not support Data Analytics and Machine Learning (DAML) at the modeling level. However, DAML methods and techniques are crucial for developing smart IoT services and CPS applications. Therefore, we enable DAML at the modeling level through our Domain-Specific Modeling Language (DSML) and tool.
 
 ### How to install ML2?
 **Prerequisites:**
