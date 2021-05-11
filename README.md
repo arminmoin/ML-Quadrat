@@ -8,8 +8,9 @@ The name ML-Quadrat ("Quadrat" is the German word for "square" / ˆ2) refers to 
 1. [How to Cite ML2 in Your Publications](#citation)
 2. [Reporting Issues/Bugs and Requests](#issues)
 3. [ML2 Quick Users' Documentation (15-Minutes Tutorial)](#user-doc-quick)
-4. [ML2 Maven Artifacts](#maven)
-5. [ML2 Developers' Documentation (for Contributors)](#dev-doc)
+4. [ML2 Users' Documentation (Full Tutorial)](#user-doc)
+5. [ML2 Maven Artifacts](#maven)
+6. [ML2 Developers' Documentation (for Contributors)](#dev-doc)
 
 <a name="citation"></a>
 ## How to Cite ML2 in Your Publications
@@ -24,14 +25,14 @@ ML2 is a research prototype. If you find any issues/bugs or have any feature req
 
 <a name="user-doc-quick"></a>
 ## ML2 Quick Users' Documentation (15-Minutes Tutorial)
-Since ML2 is based on ThingML, we highly encourage those users, who are not familiar with ThingML, to first read the documentation of ThingML and take a look at their samples: https://github.com/TelluIoT/ThingML
+Here, we provide a quick tutorial to get familiar with ML2. However, in order to read the full documentation, please go to the section ML2 Users' Documentation (Full Tutorial) below.
 
 ### Why ML2?
 Currently, ThingML and other Model-Driven Software Engineering (MDSE) tools for the IoT and CPS, that we are aware of, do not support Data Analytics and Machine Learning (DAML) at the modeling level. However, DAML methods and techniques are crucial for developing smart IoT services and CPS applications. Therefore, we enable DAML at the modeling level through our Domain-Specific Modeling Language (DSML) and tool.
 
 ### How to install ML2?
 **System requirements and software prerequisites:**
-You need a normal PC/laptop with at least XGB of main memory (RAM) and at least YGB of disk space. In this tutorial, we use a x86_64 Linux system with the Ubuntu 20.04.2 LTS (focal) operating system. Please install the following software before proceeding with the installation of ML2:
+We recommend a normal PC/laptop with at least 4GB of main memory (RAM) and at least 1GB of free disk space. In this tutorial, we use a x86_64 Linux system with the Ubuntu 20.04.2 LTS (focal) operating system. Please install the following software before proceeding with the installation of ML2:
 
 1. Git (https://git-scm.com/): apt-get install git
 2. Apache Maven: https://maven.apache.org/: apt-get install maven 
@@ -54,7 +55,7 @@ cd ../..
 ### How to find a sample model instance?
 There exist a number of sample model instances with the .thingml extension at this location: https://github.com/arminmoin/ML-Quadrat/tree/master/ML2/org.thingml.samples/src/main/thingml
 
-Let's choose ML2_Demo_PingPong.thingml for this quick tutorial, and generate, e.g., the Python and Java source code out of it using the Python_Java model-to-code transformation (a.k.a. code generator or "compiler").
+Let's choose ML2_Demo_PingPong.thingml for this quick tutorial, and generate, e.g., the Python and Java source code out of it using the Python_Java model-to-code transformation (a.k.a. code generator or "compiler"). The details will be explained in the full tutorial below.
 
 ### How to generate code out of the sample model instance?
 Run the following commands in the Linux terminal:
@@ -62,6 +63,11 @@ Run the following commands in the Linux terminal:
 cd ML2/compilers/registry/target
 java -jar mlquadrat.compilers.registry-2.0.0-SNAPSHOT-jar-with-dependencies.jar -c auto -s ../../../org.thingml.samples/src/main/thingml/ML2_Demo_PingPong.thingml -o ../../../../../Generated_ML2_Demo_PingPong
 ```
+Note that the -c option specifies the model-to-code transformation (a.k.a. the code generator) or "**c**ompiler" that shall be deployed. Here, we chose "auto", since the model isntance already includes this information in the configuration section of it. Also, the -s and the -o options let the user state the paths of the **s**ource model instance and the **o**utput directory for the target generated code, respectively. If the output directory does not exist, it will be created.
+
+<a name="user-doc"></a>
+## ML2 Users' Documentation (Full Tutorial)
+Before readin the full tutorial below, you should first follow the quick (15-minutes) tutorial above. Moreover, since ML2 is based on ThingML, we encourage those users, who are not familiar with ThingML, to first read the documentation of ThingML and take a look at their samples: https://github.com/TelluIoT/ThingML
 
 TODO
 Python 3 (Anaconda recommended: https://www.anaconda.com/), Scikit-learn, e.g., version 0.22.1 (https://scikit-learn.org), Tensorflow / TensorFlow-GPU, e.g., version 1.15.0 (https://www.tensorflow.org/), Keras, e.g., version 2.3.1 (https://keras.io/) and Pytorch, e.g., version 1.4.0 (https://pytorch.org/). They are all free open source software. Finally, install the Xtext ANTLR plugin from the following update site in the Eclipse IDE: https://download.itemis.de/updates/releases/2.1.1/
