@@ -7,7 +7,7 @@ The name ML-Quadrat ("Quadrat" is the German word for "square" / ˆ2) refers to 
 
 1. [How to Cite ML2 in Your Publications](#citation)
 2. [Reporting Issues/Bugs and Requests](#issues)
-3. [ML2 Users' Documentation (Tutorial)](#user-doc)
+3. [ML2 Quick Users' Documentation (15-Minutes Tutorial)](#user-doc-quick)
 4. [ML2 Maven Artifacts](#maven)
 5. [ML2 Developers' Documentation (for Contributors)](#dev-doc)
 
@@ -22,24 +22,51 @@ Please cite the following papers if you are using ML2 or referring to it in your
 ## Reporting Issues/Bugs and Requests
 ML2 is a research prototype. If you find any issues/bugs or have any feature request, please kindly report that through our issue tracking system: https://github.com/arminmoin/ML-Quadrat/issues
 
-<a name="user-doc"></a>
-## ML2 Users' Documentation (Tutorial)
+<a name="user-doc-quick"></a>
+## ML2 Quick Users' Documentation (15-Minutes Tutorial)
 Since ML2 is based on ThingML, we highly encourage those users, who are not familiar with ThingML, to first read the documentation of ThingML and take a look at their samples: https://github.com/TelluIoT/ThingML
 
 ### Why ML2?
 Currently, ThingML and other Model-Driven Software Engineering (MDSE) tools for the IoT and CPS, that we are aware of, do not support Data Analytics and Machine Learning (DAML) at the modeling level. However, DAML methods and techniques are crucial for developing smart IoT services and CPS applications. Therefore, we enable DAML at the modeling level through our Domain-Specific Modeling Language (DSML) and tool.
 
 ### How to install ML2?
-**Prerequisites:**
-You need Git (https://git-scm.com/), Maven (https://maven.apache.org/), the Java Development Kit (JDK) version 8+, Python 3 (Anaconda recommended: https://www.anaconda.com/), Scikit-learn, e.g., version 0.22.1 (https://scikit-learn.org), Tensorflow / TensorFlow-GPU, e.g., version 1.15.0 (https://www.tensorflow.org/), Keras, e.g., version 2.3.1 (https://keras.io/) and Pytorch, e.g., version 1.4.0 (https://pytorch.org/). They are all free open source software. Finally, install the Xtext ANTLR plugin from the following update site in the Eclipse IDE: https://download.itemis.de/updates/releases/2.1.1/
+**System requirements and software prerequisites:**
+You need a normal PC/laptop with at least XGB of main memory (RAM) and at least YGB of disk space. In this tutorial, we use a x86_64 Linux system with the Ubuntu 20.04.2 LTS (focal) operating system. Please install the following software before proceeding with the installation of ML2:
 
-Go to the terminal / shell / command line and follow the steps below.
+1. Git (https://git-scm.com/): apt-get install git
+2. Apache Maven: https://maven.apache.org/: apt-get install maven 
 
-1. Check out the source code from our Git repository:
+**Now, please go to the Linux terminal / shell / command line and follow the steps below.**
+
+1. Check out the source code from the Git repository:
 ```bash
 git clone https://github.com/arminmoin/ML-Quadrat/
 ```
-2. In principle, it is possible to use any text editor, e.g., vi / vim to create a model instance, if you follow the syntax of our Domain-Specific Modeling Language (DSML) and save the text file with the **.thingml** extension. However, a major added value of our tool is provided through our customized model editors. ML2 and ThingML are built on top of the Eclipse Modeling Framework (EMF). Thus, in order to benefit from our model editors, you need to run the Eclipse Modeling Tools. You can download and install that IDE from https://www.eclipse.org/downloads/packages/.
+
+2. Install ML2 using the Apache Maven:
+```bash
+cd ML-Quadrat
+mvn clean install -DskipTests
+cd ML2/language
+mvn clean install -DskipTests
+cd ../..
+```
+### How to find a sample model instance?
+There exist a number of sample model instances with the .thingml extension at this location: https://github.com/arminmoin/ML-Quadrat/tree/master/ML2/org.thingml.samples/src/main/thingml
+
+Let's choose ML2_Demo_PingPong.thingml for this quick tutorial, and generate, e.g., the Python and Java source code out of it using the Python_Java model-to-code transformation (a.k.a. code generator or "compiler").
+
+### How to generate code out of the sample model instance?
+Run the following commands in the Linux terminal:
+```bash
+cd ML2/compilers/registry/target
+java -jar mlquadrat.compilers.registry-2.0.0-SNAPSHOT-jar-with-dependencies.jar -c auto -s ../../../org.thingml.samples/src/main/thingml/ML2_Demo_PingPong.thingml -o ../../../../../Generated_ML2_Demo_PingPong
+```
+
+TODO
+Python 3 (Anaconda recommended: https://www.anaconda.com/), Scikit-learn, e.g., version 0.22.1 (https://scikit-learn.org), Tensorflow / TensorFlow-GPU, e.g., version 1.15.0 (https://www.tensorflow.org/), Keras, e.g., version 2.3.1 (https://keras.io/) and Pytorch, e.g., version 1.4.0 (https://pytorch.org/). They are all free open source software. Finally, install the Xtext ANTLR plugin from the following update site in the Eclipse IDE: https://download.itemis.de/updates/releases/2.1.1/
+
+In principle, it is possible to use any text editor, e.g., vi / vim to create a model instance, if you follow the syntax of our Domain-Specific Modeling Language (DSML) and save the text file with the **.thingml** extension. However, a major added value of our tool is provided through our customized model editors. ML2 and ThingML are built on top of the Eclipse Modeling Framework (EMF). Thus, in order to benefit from our model editors, you need to run the Eclipse Modeling Tools. You can download and install that IDE from https://www.eclipse.org/downloads/packages/.
 
 Once installed, you shall create a new workspace and then import the ML2 project there. Perhaps there are different ways to accomplish that. However, we recommend the following method:
 
@@ -47,13 +74,6 @@ File -> import -> General -> Existing Projects into Workspace (you may also chec
 
 Make sure that you wait sufficiently long, so that the (sub-/nested) projects are built and you get a clean workspace without any errors. If that is not the case, sometimes cleaning the workspace (Project -> Clean... -> Clean all projects), updating the Maven projects (right click on a project -> Maven -> Update Project... -> Select All, you may also check the option **Force Update of Snapshots/Releases**) or restarting the Eclipse IDE (Eclipse Modeling Tools) might help.
 
-3. Build the project using Maven:
-```bash
-mvn clean install
-cd ML2/language
-mvn clean install
-cd ..
-```
 
 ### How to create new model instances using ML2?
 Before creating new model instances, you may want to take a look at our samples for 3 use cases: Smart Ping-Pong, Non-Intrusive Appliance Load Monitoring, and Energy Stock Exchange. Please check them out at https://github.com/arminmoin/ML-Quadrat/tree/master/ML2/org.thingml.samples/src/main/thingml.
