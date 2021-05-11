@@ -3,19 +3,20 @@ ML2 is a Model-Driven Software Engineering (MDSE) and "Low-Code" tool for creati
 
 The name ML-Quadrat ("Quadrat" is the German word for "square" / ˆ2) refers to the fact that the project is about two MLs: (i) ML for Modeling Language (as in ThingML); (ii) ML for Machine Learning, i.e., a sub-discipline of Artificial Intelligence (AI). However, in what follows, we refer to the project name as ML2 for simplicity.
 
-# How to Cite ML2 in Your Publications
+# Table of Contents
+
+1. [How to Cite ML2 in Your Publications](#citation)
+2. [Reporting Issues/Bugs and Requests](#issues)
+3. [ML2 Users' Documentation (Tutorial)](#user-doc)
+4. [ML2 Maven Artifacts](#maven)
+5. [ML2 Developers' Documentation (for Contributors)](#dev-doc)
+
+<a name="citation"></a>
+## How to Cite ML2 in Your Publications
 Please cite the following papers if you are using ML2 or referring to it in your papers:
 
 1. **From Things’ Modeling Language (ThingML) to Things’ Machine Learning (ThingML2)**, Armin Moin, Stephan Rössler, Marouane Sayih, Stephan Günnemann, In Proceedings of the ACM / IEEE 23rd International Conference on Model Driven Engineering Languages and Systems (MODELS) Companion (Extended Abstract), 2020.
 2. **ThingML+: Augmenting Model-Driven Software Engineering for the Internet of Things with Machine Learning**, Armin Moin, Stephan Rössler, Stephan Günnemann, In Proceedings of the ACM / IEEE International Conference on Model Driven Engineering Languages and Systems (MODELS) Workshops (MDE4IoT), 2018.
-
-
-# Table of Contents
-
-1. [Reporting Issues/Bugs and Requests](#issues)
-2. [ML2 Users' Documentation (Tutorial)](#user-doc)
-3. [ML2 Maven Artifacts](#maven)
-4. [ML2 Developers' Documentation (for Contributors)](#dev-doc)
 
 <a name="issues"></a>
 ## Reporting Issues/Bugs and Requests
