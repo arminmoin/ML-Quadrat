@@ -1,5 +1,6 @@
 // Armin Moin, moin@in.tum.de
-// Sample model instance for regression using the REFIT dataset
+// A sample model instance illustrating regression using the REFIT dataset
+// This example is related to the Non-Intrusive Appliance Load Monitoring (NIALM) use case.
 
 import "thingml/core/timer.thingml"
 import "thingml/core/_java/timer.thingml"
@@ -128,7 +129,7 @@ thing DAML_Srv includes TimerMsgs {
 		automl OFF
 		sequential TRUE
 		timestamps ON		
-		preprocess_feature_scaling STANDARDIZATION_Z_SCORE_NORMALIZATION
+		preprocess_feature_scaler StandardScaler
 		model_algorithm nn_multilayer_perceptron my_nn_mlp(activation relu, optimizer adam, loss SparseCategoricalCrossentropy)
 		training_results "data/training.txt"
 	}

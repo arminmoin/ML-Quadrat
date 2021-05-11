@@ -222,13 +222,14 @@ DataAnalytics returns DataAnalytics:
 		('automl' autoML=AutoML)?
 		('sequential' sequential=Sequential)?
 		('timestamps' timestamps=Timestamps)?
-		('preprocess_feature_scaling' preprocess_feature_scaling=Preprocess_feature_scaling)?
+		('preprocess_feature_scaler' preprocess_feature_scaler=Preprocess_feature_scaler)?
+		('preprocess_sample_normalizer' preprocess_sample_normalizer=Preprocess_sample_normalizer)?
 		('model_algorithm' modelAlgorithm=DataAnalyticsModelAlgorithm)?
-		('training_results' trainingResults=STRING)?) |
-		(('blackbox_ml' blackbox_ml=BooleanLiteral)?
+		('training_results' trainingResults=STRING)?)
+		('blackbox_ml' blackbox_ml=BooleanLiteral)?
 		('blackbox_ml_model' blackbox_ml_model=STRING)?
 		('blackbox_import_algorithm' blackbox_import_algorithm=STRING)?
-		('blackbox_label_encoder' blackbox_label_encoder=STRING)?)
+		('blackbox_label_encoder' blackbox_label_encoder=STRING)?
 '}';
 
 enum AutoML:
@@ -244,16 +245,20 @@ enum Timestamps:
 ;
 
 enum Labels:
-	NOT_SET='NOT_SET'| OFF='OFF' | ON='ON'
+	NOT_SET='NOT_SET'| OFF='OFF' | ON='ON'| SEMI='SEMI'
 ;
 
-enum Preprocess_feature_scaling:
-	NOT_SET='NOT_SET' | OFF='OFF' | STANDARDIZATION_Z_SCORE_NORMALIZATION='STANDARDIZATION_Z_SCORE_NORMALIZATION' | MIN_MAX_NORMALIZATION='MIN_MAX_NORMALIZATION' | ROBUST_SCALER='ROBUST_SCALER' | NORMALIZATION_L2_NORM='NORMALIZATION_L2_NORM' | NORMALIZATION_L1_NORM='NORMALIZATION_L1_NORM' | NORMALIZATION_MAX_NORM='NORMALIZATION_MAX_NORM' 
+enum Preprocess_feature_scaler:
+	NOT_SET='NOT_SET' | OFF='OFF' | STANDARD_SCALER='StandardScaler' | MIN_MAX_SCALER='MinMaxScaler' | ROBUST_SCALER='RobustScaler'  
+;
+
+enum Preprocess_sample_normalizer:
+	NOT_SET='NOT_SET' | OFF='OFF' | NORMALIZER_L2_NORM='NORMALIZER_L2_NORM' | NORMALIZER_L1_NORM='NORMALIZER_L1_NORM' | NORMALIZER_MAX_NORM='NORMALIZER_MAX_NORM' 
 ;
 
 DataAnalyticsModelAlgorithm returns DataAnalyticsModelAlgorithm:
-	ML2_ModelAlgorithm | Pretrained_ML_Model | PMML_ModelAlgorithm | PFA_ModelAlgorithm;
-
+	ML2_ModelAlgorithm | PMML_ModelAlgorithm | PFA_ModelAlgorithm;
+	
 // ML2 models and algorithms
 // TODO To be extended
 ML2_ModelAlgorithm returns ML2_ModelAlgorithm:
@@ -268,16 +273,15 @@ ML2_ModelAlgorithm returns ML2_ModelAlgorithm:
 	DecisionTreeClassifier |
 	RandomForestRegressor | 
 	RandomForestClassifier |
-	NN_MultilayerPerceptron
-;
-
-// Pre-trained ML Model for the mixed/hybrid MDSE/Non-MDSE approach, i.e., if someone brings his/her own pre-trained ML model 
-// and wants to use that in a software model.
-Pretrained_ML_Model returns Pretrained_ML_Model:
-	'pretrained' name=ID
-	'('
-	('path' pretrained_path=STRING)
-	')'
+	NN_MultilayerPerceptron |
+	KMeans |
+	MiniBatchKMeans |
+	DBSCAN |
+	SpectralClustering |
+	GaussianMixture |
+	SelfTrainingClassifier |
+	LabelPropagation |
+	LabelSpreading
 ;
 
 // The PMML Standard (see http://dmg.org/pmml/v4-4/GeneralStructure.html)
@@ -298,7 +302,12 @@ PFA_ModelAlgorithm returns PFA_ModelAlgorithm:
 	')'
 ;
 
-LinearRegression returns LinearRegression: // scikit-learn v0.24.1
+ClassifierWithPredictionCertaintyProbabilities returns ClassifierWithPredictionCertaintyProbabilities:
+	LinearClassifierLogisticRegression | NaiveBayesGaussian | NaiveBayesMultinomial | NaiveBayesComplement | NaiveBayesBernoulli | NaiveBayesCategorical |
+	DecisionTreeClassifier | NN_MultilayerPerceptron
+;
+
+LinearRegression returns LinearRegression: // scikit-learn v0.24.1, https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html
 	'linear_regression' name=ID
 	'('
 	('fit_intercept' fit_intercept=BooleanLiteral (',')?)?
@@ -309,7 +318,7 @@ LinearRegression returns LinearRegression: // scikit-learn v0.24.1
 	')'
 ;
 
-LinearClassifierLogisticRegression returns LinearClassifierLogisticRegression: // scikit-learn v0.24.1
+LinearClassifierLogisticRegression returns LinearClassifierLogisticRegression: // scikit-learn v0.24.1, https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html
 	'linear_classifier_logistic_regression' name=ID
 	'('
 	('penalty' penalty=Penalty (',')?)?
@@ -330,7 +339,7 @@ LinearClassifierLogisticRegression returns LinearClassifierLogisticRegression: /
 	')'
 ;
 
-NaiveBayesGaussian returns NaiveBayesGaussian: // scikit-learn v0.24.1
+NaiveBayesGaussian returns NaiveBayesGaussian: // scikit-learn v0.24.1, https://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.GaussianNB.html
 	'naive_bayes_gaussian' name=ID
 	'('
 	('priors' priors=STRING	(',')?)?
@@ -338,7 +347,7 @@ NaiveBayesGaussian returns NaiveBayesGaussian: // scikit-learn v0.24.1
 	')'
 ;
 
-NaiveBayesMultinomial returns NaiveBayesMultinomial: // scikit-learn v0.24.1
+NaiveBayesMultinomial returns NaiveBayesMultinomial: // scikit-learn v0.24.1, https://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.MultinomialNB.html
 	'naive_bayes_multinomial' name=ID
 	'('
 	('alpha' alpha=DoubleLiteral (',')?)?
@@ -347,7 +356,7 @@ NaiveBayesMultinomial returns NaiveBayesMultinomial: // scikit-learn v0.24.1
 	')'
 ;
 
-NaiveBayesComplement returns NaiveBayesComplement: // scikit-learn v0.24.1
+NaiveBayesComplement returns NaiveBayesComplement: // scikit-learn v0.24.1, https://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.ComplementNB.html
 	'naive_bayes_complement' name=ID
 	'('
 	('alpha' alpha=DoubleLiteral (',')?)?
@@ -357,7 +366,7 @@ NaiveBayesComplement returns NaiveBayesComplement: // scikit-learn v0.24.1
 	')'
 ;
 
-NaiveBayesBernoulli returns NaiveBayesBernoulli: // scikit-learn v0.24.1
+NaiveBayesBernoulli returns NaiveBayesBernoulli: // scikit-learn v0.24.1, https://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.BernoulliNB.html
 	'naive_bayes_bernoulli' name=ID
 	'('
 	('alpha' alpha=DoubleLiteral (',')?)?
@@ -367,7 +376,7 @@ NaiveBayesBernoulli returns NaiveBayesBernoulli: // scikit-learn v0.24.1
 	')'
 ;
 
-NaiveBayesCategorical returns NaiveBayesCategorical: // scikit-learn v0.24.1
+NaiveBayesCategorical returns NaiveBayesCategorical: // scikit-learn v0.24.1, https://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.CategoricalNB.html
 	'naive_bayes_categorical' name=ID
 	'('
 	('alpha' alpha=DoubleLiteral (',')?)?
@@ -377,7 +386,7 @@ NaiveBayesCategorical returns NaiveBayesCategorical: // scikit-learn v0.24.1
 	')'
 ;
 
-DecisionTreeRegressor returns DecisionTreeRegressor: // scikit-learn v0.24.1
+DecisionTreeRegressor returns DecisionTreeRegressor: // scikit-learn v0.24.1, https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeRegressor.html
 	'decision_tree_regressor' name=ID
 	'('
 	('criterion' decisionTreeRegressorCriterion=DecisionTreeRegressorCriterion (',')?)?
@@ -396,7 +405,7 @@ DecisionTreeRegressor returns DecisionTreeRegressor: // scikit-learn v0.24.1
 	')'
 ;
 
-DecisionTreeClassifier returns DecisionTreeClassifier: // scikit-learn v0.24.1
+DecisionTreeClassifier returns DecisionTreeClassifier: // scikit-learn v0.24.1, https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html
 	'decision_tree_classifier' name=ID
 	'('
 	('criterion' decisionTreeClassifierCriterion=DecisionTreeClassifierCriterion (',')?)?
@@ -416,7 +425,7 @@ DecisionTreeClassifier returns DecisionTreeClassifier: // scikit-learn v0.24.1
 	')'
 ;
 
-RandomForestRegressor returns RandomForestRegressor: // scikit-learn v0.24.1
+RandomForestRegressor returns RandomForestRegressor: // scikit-learn v0.24.1, https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestRegressor.html
 	'random_forest_regressor' name=ID
 	'('
 	('n_estimators' n_estimators=IntegerLiteral (',')?)?
@@ -441,7 +450,7 @@ RandomForestRegressor returns RandomForestRegressor: // scikit-learn v0.24.1
 	')'
 ;
 
-RandomForestClassifier returns RandomForestClassifier: // scikit-learn v0.24.1
+RandomForestClassifier returns RandomForestClassifier: // scikit-learn v0.24.1, https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html
 	'random_forest_classifier' name=ID
 	'('
 	('n_estimators' n_estimators=IntegerLiteral (',')?)?
@@ -467,7 +476,11 @@ RandomForestClassifier returns RandomForestClassifier: // scikit-learn v0.24.1
 	')'
 ;
 
-NN_MultilayerPerceptron returns NN_MultilayerPerceptron: // scikit-learn v0.24.1 and keras (https://keras.io/guides/sequential_model/)
+// NN_MultilayerPerceptron: scikit-learn & keras
+// scikit-learn v0.24.1, https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPClassifier.html#sklearn.neural_network.MLPClassifier 
+// scikit-learn v0.24.1, https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPRegressor.html
+// keras, https://keras.io/guides/sequential_model/
+NN_MultilayerPerceptron returns NN_MultilayerPerceptron: 
 	'nn_multilayer_perceptron' name=ID
 	'('
 	('hidden_layer_sizes' hidden_layer_sizes='(' (hidden_layers+=IntegerLiteral ("," hidden_layers+=IntegerLiteral)* )? ')' (',')?)? // scikit-learn v0.24.1 & keras
@@ -498,6 +511,170 @@ NN_MultilayerPerceptron returns NN_MultilayerPerceptron: // scikit-learn v0.24.1
 	('loss' loss=Loss (',')?)? 	 // specific to keras-tensorflow (https://keras.io/guides/sequential_model/)
 	('epochs' epochs=IntegerLiteral (',')?)? 	 // specific to keras-tensorflow (https://keras.io/guides/sequential_model/); equiv. to max_iter in scikit-learn.
 	')'
+;
+
+KMeans returns KMeans: // scikit-learn v0.24.1, https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html
+	'k_means' name=ID
+	'('
+	('n_clusters' n_clusters=IntegerLiteral (',')?)?
+	('init' (init_enum=KMeans_init_enum) | (init_str=STRING)  (',')?)?
+	('n_init' n_init=IntegerLiteral (',')?)?
+	('max_iter' max_iter=IntegerLiteral (',')?)?
+	('tol' tol=DoubleLiteral (',')?)?
+	('verbose' verbose=IntegerLiteral (',')?)?
+	('random_state' random_state=IntegerLiteral (',')?)?
+	('copy_x' copy_x=BooleanLiteral (',')?)?
+	('n_jobs' n_jobs=IntegerLiteral (',')?)?
+	('algorithm' algorithm=KMeans_algorithm_enum (',')?)?
+	')'
+;
+
+MiniBatchKMeans returns MiniBatchKMeans: // scikit-learn v0.24.2, https://scikit-learn.org/stable/modules/generated/sklearn.cluster.MiniBatchKMeans.html#sklearn.cluster.MiniBatchKMeans
+	'mini_batch_k_means' name=ID
+	'('
+	('n_clusters' n_clusters=IntegerLiteral (',')?)?
+	('init' (init_enum=KMeans_init_enum) | (init_str=STRING)  (',')?)?
+	('max_iter' max_iter=IntegerLiteral (',')?)?
+	('batch_size' batch_size=IntegerLiteral (',')?)?
+	('verbose' verbose=IntegerLiteral (',')?)?
+	('compute_labels' compute_labels=BooleanLiteral (',')?)?
+	('random_state' random_state=IntegerLiteral (',')?)?	
+	('tol' tol=DoubleLiteral (',')?)?
+	('max_no_improvement' max_no_improvement=IntegerLiteral (',')?)?
+	('init_size' init_size=IntegerLiteral (',')?)?
+	('n_init' n_init=IntegerLiteral (',')?)?
+	('reassignment_ratio' reassignment_ratio=DoubleLiteral (',')?)?
+	')'
+;
+
+
+DBSCAN returns DBSCAN: // scikit-learn v0.24.2, https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html
+	'dbscan' name=ID
+	'('
+	('eps' eps=DoubleLiteral (',')?)?
+	('min_samples' min_samples=IntegerLiteral (',')?)?
+	('metric' metric=STRING (',')?)?
+	('metric_params' metric_params=STRING (',')?)?
+	('algorithm' algorithm=KNN_Algorithms (',')?)?
+	('leaf_size' leaf_size=IntegerLiteral (',')?)?	
+	('p' p=DoubleLiteral (',')?)?
+	('n_jobs' n_jobs=IntegerLiteral (',')?)?
+	')'
+;
+
+SpectralClustering returns SpectralClustering: // scikit-learn v0.24.2, https://scikit-learn.org/stable/modules/generated/sklearn.cluster.SpectralClustering.html
+	'spectral_clustering' name=ID
+	'('
+	('n_clusters' n_clusters=IntegerLiteral (',')?)?
+	('eigen_solver' eigen_solver=Eigen_Solver (',')?)?
+	('n_components' n_components=IntegerLiteral (',')?)?
+	('random_state' random_state=IntegerLiteral (',')?)?
+	('n_init' n_init=IntegerLiteral (',')?)?
+	('gamma' gamma=DoubleLiteral (',')?)?	
+	('affinity' affinity=STRING (',')?)?
+	('n_neighbors' n_neighbors=IntegerLiteral (',')?)?
+	('eigen_tol' eigen_tol=DoubleLiteral (',')?)?
+	('assign_labels' assign_labels=Laplacian_Embedding_Label_Assign_Strategy (',')?)?
+	('degree' degree=DoubleLiteral (',')?)?
+	('coef0' coef0=DoubleLiteral (',')?)?
+	('kernel_params' kernel_params=STRING (',')?)?
+	('n_jobs' n_jobs=IntegerLiteral (',')?)?
+	('verbose' verbose=BooleanLiteral (',')?)?
+	')'
+;
+
+GaussianMixture returns GaussianMixture: // scikit-learn v0.24.2, https://scikit-learn.org/stable/modules/generated/sklearn.mixture.GaussianMixture.html
+	'gaussian_mixture' name=ID
+	'('
+	('n_components' n_components=IntegerLiteral (',')?)?
+	('covariance_type' covariance_type=Covariance_Type (',')?)?
+	('tol' tol=DoubleLiteral (',')?)?
+	('reg_covar' reg_covar=DoubleLiteral (',')?)?
+	('max_iter' max_iter=IntegerLiteral (',')?)?
+	('n_init' n_init=IntegerLiteral (',')?)?	
+	('init_params' init_params=Init_Params_Methods (',')?)?
+	('weights_init' weights_init=STRING (',')?)?
+	('means_init' means_init=STRING (',')?)?
+	('precisions_init' precisions_init=STRING (',')?)?
+	('random_state' random_state=IntegerLiteral (',')?)?
+	('warm_start' warm_start=BooleanLiteral (',')?)?
+	('verbose' verbose=IntegerLiteral (',')?)?
+	('verbose_interval' verbose_interval=IntegerLiteral (',')?)?
+	')'
+;
+
+SelfTrainingClassifier returns SelfTrainingClassifier: // scikit-learn v0.24.2, https://scikit-learn.org/stable/modules/generated/sklearn.semi_supervised.SelfTrainingClassifier.html#sklearn.semi_supervised.SelfTrainingClassifier
+	'self_training_classifier' name=ID
+	'('
+	('base_estimator' base_estimator=ClassifierWithPredictionCertaintyProbabilities (',')?)?
+	('threshold' threshold=DoubleLiteral (',')?)?
+	('criterion' criterion=Self_Training_Criterion (',')?)?
+	('k_best' k_best=IntegerLiteral (',')?)?
+	('max_iter' max_iter=IntegerLiteral (',')?)?
+	('verbose' verbose=BooleanLiteral (',')?)?
+	')'
+;
+
+LabelPropagation returns LabelPropagation: // scikit-learn v0.24.2, https://scikit-learn.org/stable/modules/generated/sklearn.semi_supervised.LabelPropagation.html
+	'label_propagation' name=ID
+	'('
+	('kernel' kernel=Label_Propagation_Kernel (',')?)?
+	('gamma' gamma=DoubleLiteral (',')?)?
+	('n_neighbors' n_neighbors=IntegerLiteral (',')?)?
+	('max_iter' max_iter=IntegerLiteral (',')?)?
+	('tol' tol=DoubleLiteral (',')?)?
+	('n_jobs' n_jobs=IntegerLiteral (',')?)?
+	')'
+;
+
+LabelSpreading returns LabelSpreading: // scikit-learn v0.24.2, https://scikit-learn.org/stable/modules/generated/sklearn.semi_supervised.LabelSpreading.html
+	'label_spreading' name=ID
+	'('
+	('kernel' kernel=Label_Propagation_Kernel (',')?)?
+	('gamma' gamma=DoubleLiteral (',')?)?
+	('n_neighbors' n_neighbors=IntegerLiteral (',')?)?
+	('alpha' alpha=DoubleLiteral (',')?)?	
+	('max_iter' max_iter=IntegerLiteral (',')?)?
+	('tol' tol=DoubleLiteral (',')?)?
+	('n_jobs' n_jobs=IntegerLiteral (',')?)?
+	')'
+;
+
+enum Label_Propagation_Kernel:
+	NOT_SET='NOT_SET' | KNN="'knn'" | RBF="'rbf'" 
+;
+
+enum Self_Training_Criterion:
+	NOT_SET='NOT_SET' | THRESHOLD="'threshold'" | KBEST="'k_best'" 
+;
+
+
+enum Init_Params_Methods:
+	NOT_SET='NOT_SET' | KMEANS="'kmeans'" | RANDOM="'random'" 
+;
+
+enum Covariance_Type:
+	NOT_SET='NOT_SET' | FULL="'full'" | TIED="'tied'" | DIAG="'diag'" | SPHERICAL="'spherical'"
+;
+
+enum Laplacian_Embedding_Label_Assign_Strategy:
+	NOT_SET='NOT_SET' | KMEANS="'kmeans'" | DISCRETIZE="'discretize'" 
+;
+
+enum Eigen_Solver:
+	NOT_SET='NOT_SET' | AUTO="'auto'" | ARPACK="'arpack'" | LOBPCG="'lobpcg'" | AMG="'amg'"
+;
+
+enum KNN_Algorithms:
+	NOT_SET='NOT_SET' | AUTO="'auto'" | BALL_TREE="'ball_tree'" | KD_TREE="'kd_tree'" | BRUTE="'brute'"
+;
+
+enum KMeans_init_enum:
+	NOT_SET='NOT_SET' | KMEANS_PLUS_PLUS="'k-means++'" | RANDOM="'random'"
+;
+
+enum KMeans_algorithm_enum:
+	NOT_SET='NOT_SET' | AUTO="'auto'" | FULL="'full'" | ELKAN="'elkan'"
 ;
 
 enum Penalty:

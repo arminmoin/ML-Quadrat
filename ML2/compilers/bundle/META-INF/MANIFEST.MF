@@ -1,12 +1,12 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1619363044701
-Build-Jdk: 11.0.9.1
+Bnd-LastModified: 1620727441699
+Build-Jdk: 11.0.11
 Built-By: am
 Bundle-ClassPath: jars/mlquadrat.compilers.official-network-plugins-2.0.
  0-SNAPSHOT.jar,jars/mlquadrat.compilers.c-2.0.0-SNAPSHOT.jar,jars/mlqua
  drat.compilers.java-2.0.0-SNAPSHOT.jar,jars/mlquadrat.compilers.javascr
  ipt-2.0.0-SNAPSHOT.jar,jars/minimal-json-0.9.4.jar,jars/mlquadrat.compi
- lers.framework-2.0.0-SNAPSHOT.jar,jars/commons-io-2.6.jar,jars/mlquadra
+ lers.framework-2.0.0-SNAPSHOT.jar,jars/commons-io-2.7.jar,jars/mlquadra
  t.utilities-2.0.0-SNAPSHOT.jar,jars/mlquadrat.compilers.registry-2.0.0-
  SNAPSHOT.jar,jars/mlquadrat.compilers.python_java-2.0.0-SNAPSHOT.jar,ja
  rs/mlquadrat.compilers.uml-2.0.0-SNAPSHOT.jar,jars/mlquadrat.compilers.
@@ -19,7 +19,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: MLQuadrat :: Compilers :: Bundle
 Bundle-SymbolicName: mlquadrat.compilers.bundle
 Bundle-Vendor: MLQuadrat
-Bundle-Version: 2.0.0.202104251503
+Bundle-Version: 2.0.0.202105111002
 Created-By: Apache Maven Bundle Plugin
 Embed-Dependency: *;scope=compile|runtime;artifactId=!org.eclipse.*|thin
  gml
@@ -36,7 +36,7 @@ Embedded-Artifacts: jars/mlquadrat.compilers.official-network-plugins-2.
  .9.4.jar;g="com.eclipsesource.minimal-json";a="minimal-json";v="0.9.4",
  jars/mlquadrat.compilers.framework-2.0.0-SNAPSHOT.jar;g="io.github.armi
  nmoin";a="mlquadrat.compilers.framework";v="2.0.0-SNAPSHOT",jars/common
- s-io-2.6.jar;g="commons-io";a="commons-io";v="2.6",jars/mlquadrat.utili
+ s-io-2.7.jar;g="commons-io";a="commons-io";v="2.7",jars/mlquadrat.utili
  ties-2.0.0-SNAPSHOT.jar;g="io.github.arminmoin";a="mlquadrat.utilities"
  ;v="2.0.0-SNAPSHOT",jars/mlquadrat.compilers.registry-2.0.0-SNAPSHOT.ja
  r;g="io.github.arminmoin";a="mlquadrat.compilers.registry";v="2.0.0-SNA
@@ -98,40 +98,42 @@ Export-Package: com.beust.jcommander;version="1.72",com.beust.jcommander
  0.0",javascript.react;version="2.0.0",javascriptmqttjson;version="2.0.0
  ",javatemplates;version="2.0.0",org.apache.commons.io;version="1.4.9999
  ",org.apache.commons.io.comparator;version="1.4.9999",org.apache.common
- s.io.filefilter;version="1.4.9999",org.apache.commons.io.input;version=
- "1.4.9999",org.apache.commons.io.monitor;version="2.6",org.apache.commo
- ns.io.output;version="1.4.9999",org.apache.commons.io.serialization;ver
- sion="2.6",org.thingml.compilers;version="2.0.0",org.thingml.compilers.
- builder;version="2.0.0",org.thingml.compilers.c;version="2.0.0",org.thi
- ngml.compilers.c.arduino;version="2.0.0",org.thingml.compilers.c.arduin
- omf;version="2.0.0",org.thingml.compilers.c.plugin;version="2.0.0",org.
- thingml.compilers.c.posix;version="2.0.0",org.thingml.compilers.c.posix
- mt;version="2.0.0",org.thingml.compilers.c.teensy;version="2.0.0",org.t
- hingml.compilers.commandline;version="2.0.0",org.thingml.compilers.conf
- iguration;version="2.0.0",org.thingml.compilers.cpp;version="2.0.0",org
- .thingml.compilers.cpp.arduino;version="2.0.0",org.thingml.compilers.cp
- p.arduinomf;version="2.0.0",org.thingml.compilers.cpp.sintefboard;versi
- on="2.0.0",org.thingml.compilers.cpp.sintefboard.plugin;version="2.0.0"
- ,org.thingml.compilers.interfaces.c;version="2.0.0",org.thingml.compile
- rs.java;version="2.0.0",org.thingml.compilers.javascript;version="2.0.0
- ",org.thingml.compilers.javascript.browser;version="2.0.0",org.thingml.
- compilers.javascript.node;version="2.0.0",org.thingml.compilers.javascr
- ipt.react;version="2.0.0",org.thingml.compilers.python_java;version="2.
- 0.0",org.thingml.compilers.registry;version="2.0.0",org.thingml.compile
- rs.spi;version="2.0.0",org.thingml.compilers.thing;version="2.0.0",org.
- thingml.compilers.thing.common;version="2.0.0",org.thingml.compilers.um
- l;version="2.0.0",org.thingml.compilers.utils;version="2.0.0",org.thing
- ml.generator.go;version="2.0.0",org.thingml.generator.java;version="2.0
- .0",org.thingml.generator.javascript;version="2.0.0",org.thingml.genera
- tor.posix;version="2.0.0",org.thingml.monitor;version="2.0.0",org.thing
- ml.networkplugins.c;version="2.0.0",org.thingml.networkplugins.c.arduin
- o;version="2.0.0",org.thingml.networkplugins.c.posix;version="2.0.0",or
- g.thingml.networkplugins.cpp.rcd;version="2.0.0",org.thingml.networkplu
- gins.java;version="2.0.0",org.thingml.networkplugins.js;version="2.0.0"
- ,org.thingml.testconfigurationgenerator;version="2.0.0",org.thingml.thi
- ngmltools;version="2.0.0",org.thingml.utilities.logging;version="2.0.0"
- ,pomtemplates;version="2.0.0",posixmqttjson;version="2.0.0",templates;v
- ersion="2.0.0",templates.dnssdparts;version="2.0.0"
+ s.io.file;version="2.7",org.apache.commons.io.filefilter;version="1.4.9
+ 999",org.apache.commons.io.function;version="2.7",org.apache.commons.io
+ .input;version="1.4.9999",org.apache.commons.io.input.buffer;version="2
+ .7",org.apache.commons.io.monitor;version="2.7",org.apache.commons.io.o
+ utput;version="1.4.9999",org.apache.commons.io.serialization;version="2
+ .7",org.thingml.compilers;version="2.0.0",org.thingml.compilers.builder
+ ;version="2.0.0",org.thingml.compilers.c;version="2.0.0",org.thingml.co
+ mpilers.c.arduino;version="2.0.0",org.thingml.compilers.c.arduinomf;ver
+ sion="2.0.0",org.thingml.compilers.c.plugin;version="2.0.0",org.thingml
+ .compilers.c.posix;version="2.0.0",org.thingml.compilers.c.posixmt;vers
+ ion="2.0.0",org.thingml.compilers.c.teensy;version="2.0.0",org.thingml.
+ compilers.commandline;version="2.0.0",org.thingml.compilers.configurati
+ on;version="2.0.0",org.thingml.compilers.cpp;version="2.0.0",org.thingm
+ l.compilers.cpp.arduino;version="2.0.0",org.thingml.compilers.cpp.ardui
+ nomf;version="2.0.0",org.thingml.compilers.cpp.sintefboard;version="2.0
+ .0",org.thingml.compilers.cpp.sintefboard.plugin;version="2.0.0",org.th
+ ingml.compilers.interfaces.c;version="2.0.0",org.thingml.compilers.java
+ ;version="2.0.0",org.thingml.compilers.javascript;version="2.0.0",org.t
+ hingml.compilers.javascript.browser;version="2.0.0",org.thingml.compile
+ rs.javascript.node;version="2.0.0",org.thingml.compilers.javascript.rea
+ ct;version="2.0.0",org.thingml.compilers.python_java;version="2.0.0",or
+ g.thingml.compilers.registry;version="2.0.0",org.thingml.compilers.spi;
+ version="2.0.0",org.thingml.compilers.thing;version="2.0.0",org.thingml
+ .compilers.thing.common;version="2.0.0",org.thingml.compilers.uml;versi
+ on="2.0.0",org.thingml.compilers.utils;version="2.0.0",org.thingml.gene
+ rator.go;version="2.0.0",org.thingml.generator.java;version="2.0.0",org
+ .thingml.generator.javascript;version="2.0.0",org.thingml.generator.pos
+ ix;version="2.0.0",org.thingml.monitor;version="2.0.0",org.thingml.netw
+ orkplugins.c;version="2.0.0",org.thingml.networkplugins.c.arduino;versi
+ on="2.0.0",org.thingml.networkplugins.c.posix;version="2.0.0",org.thing
+ ml.networkplugins.cpp.rcd;version="2.0.0",org.thingml.networkplugins.ja
+ va;version="2.0.0",org.thingml.networkplugins.js;version="2.0.0",org.th
+ ingml.testconfigurationgenerator;version="2.0.0",org.thingml.thingmltoo
+ ls;version="2.0.0",org.thingml.utilities.logging;version="2.0.0",pomtem
+ plates;version="2.0.0",posixmqttjson;version="2.0.0",templates;version=
+ "2.0.0",templates.dnssdparts;version="2.0.0"
 Import-Package: com.beust.jcommander;version="[1.72,2)",com.beust.jcomma
  nder.converters;version="[1.72,2)",com.beust.jcommander.internal;versio
  n="[1.72,2)",com.beust.jcommander.validators;version="[1.72,2)",com.ecl
@@ -164,33 +166,34 @@ Import-Package: com.beust.jcommander;version="[1.72,2)",com.beust.jcomma
  2.11,3)",com.google.common.collect;version="[21.0,22)",com.google.injec
  t;version="[1.3,2)",compilers.go,javax.xml.datatype,javax.xml.namespace
  ,javax.xml.parsers,org.apache.commons.io;version="[1.4,2)",org.apache.c
- ommons.io.comparator;version="[1.4,2)",org.apache.commons.io.filefilter
- ;version="[1.4,2)",org.apache.commons.io.input;version="[1.4,2)",org.ap
- ache.commons.io.output;version="[1.4,2)",org.eclipse.emf.common.util,or
- g.eclipse.emf.ecore,org.eclipse.emf.ecore.resource,org.eclipse.emf.ecor
- e.resource.impl,org.eclipse.emf.ecore.util,org.eclipse.emf.ecore.xmi.im
- pl,org.eclipse.xtext,org.eclipse.xtext.diagnostics,org.eclipse.xtext.no
- demodel,org.eclipse.xtext.parser,org.eclipse.xtext.resource,org.eclipse
- .xtext.resource.impl,org.eclipse.xtext.serializer,org.eclipse.xtext.val
- idation,org.eclipse.xtext.xtext,org.thingml.compilers,org.thingml.compi
- lers.builder,org.thingml.compilers.c,org.thingml.compilers.c.arduino,or
- g.thingml.compilers.c.arduinomf,org.thingml.compilers.c.plugin,org.thin
- gml.compilers.c.posix,org.thingml.compilers.c.posixmt,org.thingml.compi
- lers.c.teensy,org.thingml.compilers.configuration,org.thingml.compilers
- .cpp,org.thingml.compilers.cpp.arduino,org.thingml.compilers.cpp.sintef
- board,org.thingml.compilers.interfaces.c,org.thingml.compilers.java,org
- .thingml.compilers.javascript,org.thingml.compilers.javascript.browser,
- org.thingml.compilers.javascript.node,org.thingml.compilers.javascript.
- react,org.thingml.compilers.python_java,org.thingml.compilers.registry,
- org.thingml.compilers.spi,org.thingml.compilers.thing,org.thingml.compi
- lers.thing.common,org.thingml.compilers.uml,org.thingml.compilers.utils
- ,org.thingml.generator.go,org.thingml.generator.java,org.thingml.genera
- tor.javascript,org.thingml.generator.posix,org.thingml.monitor,org.thin
- gml.testconfigurationgenerator,org.thingml.thingmltools,org.thingml.uti
- lities.logging,org.thingml.xtext,org.thingml.xtext.constraints,org.thin
- gml.xtext.helpers,org.thingml.xtext.parser.antlr,org.thingml.xtext.serv
- ices,org.thingml.xtext.thingML,org.thingml.xtext.thingML.impl,org.thing
- ml.xtext.thingML.util,org.thingml.xtext.validation,org.w3c.dom,org.w3c.
- dom.bootstrap,org.w3c.dom.ls,org.xml.sax
+ ommons.io.comparator;version="[1.4,2)",org.apache.commons.io.file;versi
+ on="[2.7,3)",org.apache.commons.io.filefilter;version="[1.4,2)",org.apa
+ che.commons.io.function;version="[2.7,3)",org.apache.commons.io.input;v
+ ersion="[1.4,2)",org.apache.commons.io.output;version="[1.4,2)",org.ecl
+ ipse.emf.common.util,org.eclipse.emf.ecore,org.eclipse.emf.ecore.resour
+ ce,org.eclipse.emf.ecore.resource.impl,org.eclipse.emf.ecore.util,org.e
+ clipse.emf.ecore.xmi.impl,org.eclipse.xtext,org.eclipse.xtext.diagnosti
+ cs,org.eclipse.xtext.nodemodel,org.eclipse.xtext.parser,org.eclipse.xte
+ xt.resource,org.eclipse.xtext.resource.impl,org.eclipse.xtext.serialize
+ r,org.eclipse.xtext.validation,org.eclipse.xtext.xtext,org.thingml.comp
+ ilers,org.thingml.compilers.builder,org.thingml.compilers.c,org.thingml
+ .compilers.c.arduino,org.thingml.compilers.c.arduinomf,org.thingml.comp
+ ilers.c.plugin,org.thingml.compilers.c.posix,org.thingml.compilers.c.po
+ sixmt,org.thingml.compilers.c.teensy,org.thingml.compilers.configuratio
+ n,org.thingml.compilers.cpp,org.thingml.compilers.cpp.arduino,org.thing
+ ml.compilers.cpp.sintefboard,org.thingml.compilers.interfaces.c,org.thi
+ ngml.compilers.java,org.thingml.compilers.javascript,org.thingml.compil
+ ers.javascript.browser,org.thingml.compilers.javascript.node,org.thingm
+ l.compilers.javascript.react,org.thingml.compilers.python_java,org.thin
+ gml.compilers.registry,org.thingml.compilers.spi,org.thingml.compilers.
+ thing,org.thingml.compilers.thing.common,org.thingml.compilers.uml,org.
+ thingml.compilers.utils,org.thingml.generator.go,org.thingml.generator.
+ java,org.thingml.generator.javascript,org.thingml.generator.posix,org.t
+ hingml.monitor,org.thingml.testconfigurationgenerator,org.thingml.thing
+ mltools,org.thingml.utilities.logging,org.thingml.xtext,org.thingml.xte
+ xt.constraints,org.thingml.xtext.helpers,org.thingml.xtext.parser.antlr
+ ,org.thingml.xtext.services,org.thingml.xtext.thingML,org.thingml.xtext
+ .thingML.impl,org.thingml.xtext.thingML.util,org.thingml.xtext.validati
+ on,org.w3c.dom,org.w3c.dom.bootstrap,org.w3c.dom.ls,org.xml.sax
 Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.8))"
 Tool: Bnd-3.2.0.201605172007

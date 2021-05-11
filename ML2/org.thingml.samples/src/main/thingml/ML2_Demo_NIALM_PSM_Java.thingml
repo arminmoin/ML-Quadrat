@@ -1,0 +1,19 @@
+// Armin Moin, moin@in.tum.de
+// A sample Platform-Specific Model (PSM) instance for the Non-Intrusive Appliance Load Monitoring (NIALM) use case
+
+import "ML2_Demo_NIALM_PIM.thingml"
+import "thingml/core/_java/timer.thingml"
+
+configuration NIALM_Cfg @compiler "python_java" {
+	
+	instance timer : TimerJava
+	instance last_training_timer : TimerJava
+    instance smartGrid : SmartGrid
+    instance smartHome : SmartHome
+    instance nIALMDataAnalytics : NIALMDataAnalytics
+	
+	connector smartGrid.timer => timer.timer
+	connector smartGrid.grid_service => smartHome.grid_service
+	connector smartGrid.da_service => nIALMDataAnalytics.da_service
+	connector nIALMDataAnalytics.last_training_timer => last_training_timer.timer
+}

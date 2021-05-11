@@ -2,15 +2,15 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
+ * 
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
  */
@@ -69,7 +69,8 @@ public class DataAnalyticsItemProvider extends NamedElementItemProvider {
 			addAutoMLPropertyDescriptor(object);
 			addSequentialPropertyDescriptor(object);
 			addTimestampsPropertyDescriptor(object);
-			addPreprocess_feature_scalingPropertyDescriptor(object);
+			addPreprocess_feature_scalerPropertyDescriptor(object);
+			addPreprocess_sample_normalizerPropertyDescriptor(object);
 			addTrainingResultsPropertyDescriptor(object);
 			addBlackbox_ml_modelPropertyDescriptor(object);
 			addBlackbox_import_algorithmPropertyDescriptor(object);
@@ -233,19 +234,41 @@ public class DataAnalyticsItemProvider extends NamedElementItemProvider {
 	}
 
 	/**
-	 * This adds a property descriptor for the Preprocess feature scaling feature.
+	 * This adds a property descriptor for the Preprocess feature scaler feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addPreprocess_feature_scalingPropertyDescriptor(Object object) {
+	protected void addPreprocess_feature_scalerPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_DataAnalytics_preprocess_feature_scaling_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_DataAnalytics_preprocess_feature_scaling_feature", "_UI_DataAnalytics_type"),
-				 ThingMLPackage.eINSTANCE.getDataAnalytics_Preprocess_feature_scaling(),
+				 getString("_UI_DataAnalytics_preprocess_feature_scaler_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_DataAnalytics_preprocess_feature_scaler_feature", "_UI_DataAnalytics_type"),
+				 ThingMLPackage.eINSTANCE.getDataAnalytics_Preprocess_feature_scaler(),
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Preprocess sample normalizer feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addPreprocess_sample_normalizerPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_DataAnalytics_preprocess_sample_normalizer_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_DataAnalytics_preprocess_sample_normalizer_feature", "_UI_DataAnalytics_type"),
+				 ThingMLPackage.eINSTANCE.getDataAnalytics_Preprocess_sample_normalizer(),
 				 true,
 				 false,
 				 false,
@@ -417,7 +440,8 @@ public class DataAnalyticsItemProvider extends NamedElementItemProvider {
 			case ThingMLPackage.DATA_ANALYTICS__AUTO_ML:
 			case ThingMLPackage.DATA_ANALYTICS__SEQUENTIAL:
 			case ThingMLPackage.DATA_ANALYTICS__TIMESTAMPS:
-			case ThingMLPackage.DATA_ANALYTICS__PREPROCESS_FEATURE_SCALING:
+			case ThingMLPackage.DATA_ANALYTICS__PREPROCESS_FEATURE_SCALER:
+			case ThingMLPackage.DATA_ANALYTICS__PREPROCESS_SAMPLE_NORMALIZER:
 			case ThingMLPackage.DATA_ANALYTICS__TRAINING_RESULTS:
 			case ThingMLPackage.DATA_ANALYTICS__BLACKBOX_ML_MODEL:
 			case ThingMLPackage.DATA_ANALYTICS__BLACKBOX_IMPORT_ALGORITHM:
@@ -458,11 +482,6 @@ public class DataAnalyticsItemProvider extends NamedElementItemProvider {
 			(createChildParameter
 				(ThingMLPackage.eINSTANCE.getDataAnalytics_ModelAlgorithm(),
 				 ThingMLFactory.eINSTANCE.createML2_ModelAlgorithm()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(ThingMLPackage.eINSTANCE.getDataAnalytics_ModelAlgorithm(),
-				 ThingMLFactory.eINSTANCE.createPretrained_ML_Model()));
 
 		newChildDescriptors.add
 			(createChildParameter
@@ -533,6 +552,46 @@ public class DataAnalyticsItemProvider extends NamedElementItemProvider {
 			(createChildParameter
 				(ThingMLPackage.eINSTANCE.getDataAnalytics_ModelAlgorithm(),
 				 ThingMLFactory.eINSTANCE.createNN_MultilayerPerceptron()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ThingMLPackage.eINSTANCE.getDataAnalytics_ModelAlgorithm(),
+				 ThingMLFactory.eINSTANCE.createKMeans()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ThingMLPackage.eINSTANCE.getDataAnalytics_ModelAlgorithm(),
+				 ThingMLFactory.eINSTANCE.createMiniBatchKMeans()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ThingMLPackage.eINSTANCE.getDataAnalytics_ModelAlgorithm(),
+				 ThingMLFactory.eINSTANCE.createDBSCAN()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ThingMLPackage.eINSTANCE.getDataAnalytics_ModelAlgorithm(),
+				 ThingMLFactory.eINSTANCE.createSpectralClustering()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ThingMLPackage.eINSTANCE.getDataAnalytics_ModelAlgorithm(),
+				 ThingMLFactory.eINSTANCE.createGaussianMixture()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ThingMLPackage.eINSTANCE.getDataAnalytics_ModelAlgorithm(),
+				 ThingMLFactory.eINSTANCE.createSelfTrainingClassifier()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ThingMLPackage.eINSTANCE.getDataAnalytics_ModelAlgorithm(),
+				 ThingMLFactory.eINSTANCE.createLabelPropagation()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ThingMLPackage.eINSTANCE.getDataAnalytics_ModelAlgorithm(),
+				 ThingMLFactory.eINSTANCE.createLabelSpreading()));
 
 		newChildDescriptors.add
 			(createChildParameter

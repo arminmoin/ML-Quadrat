@@ -55,11 +55,12 @@ public class ThingMLAntlrTokenToAttributeIdMapper extends AbstractAntlrTokenToAt
 
 	HashSet<String> data_analytics = new HashSet<String>(java.util.Arrays.asList(new String[] //ML2
 			{"'data_analytics'", "'blackbox_ml'", "'blackbox_ml_model'", "'blackbox_import_algorithm'", "'blackbox_label_encoder'"
-					, "'dataset'", "'sequential'", "'timestamps'", "'labels'", "'features'", "'preprocess_feature_scaling'", "'model_algorithm'", "'automl'"
+					, "'dataset'", "'sequential'", "'timestamps'", "'labels'", "'features'", "'preprocess_feature_scaler'",  "'preprocess_sample_normalizer'", "'model_algorithm'", "'automl'"
 					, "'training_results'", "'prediction_results'"
-					, "'NOT_SET'", "'ON'", "'OFF'", "'TRUE'", "'FALSE'", "'true'", "'false'"
+					, "'NOT_SET'", "'ON'", "'OFF'", "'SEMI'", "'TRUE'", "'FALSE'", "'true'", "'false'", "'True'", "'False'"
 					, "'pretrained'", "'pmml'", "'pfa'", "'path'"
-					, "'STANDARDIZATION_Z_SCORE_NORMALIZATION'", "'MIN_MAX_NORMALIZATION'", "'ROBUST_SCALER'", "'NORMALIZATION_L2_NORM'", "'NORMALIZATION_L1_NORM'", "'NORMALIZATION_MAX_NORM'"
+					, "'StandardScaler'", "'MinMaxScaler'", "'RobustScaler'"
+					, "'NORMALIZER_L2_NORM'", "'NORMALIZER_L1_NORM'", "'NORMALIZER_MAX_NORM'"
 					, "'linear_classifier_logistic_regression'", "'penalty'", "'dual'", "'tol'", "'C'", "'fit_intercept'", "'intercept_scaling'", "'class_weight'", "'random_state'", "'solver'", "'max_iter'", "'multi_class'", "'verbose'", "'warm_start'", "'n_jobs'", "'l1_ratio'"
 					, "'linear_regression'", "'normalize'", "'copy_X'", "'positive'"
 					, "'naive_bayes_gaussian'", "'priors'", "'var_smoothing'"
@@ -84,6 +85,19 @@ public class ThingMLAntlrTokenToAttributeIdMapper extends AbstractAntlrTokenToAt
 					, "'relu'", "'sigmoid'", "'softmax'", "'softplus'", "'softsign'", "'tanh'", "'selu'", "'elu'", "'exponential'", "'identity'", "'logistic'"
 					, "''constant''", "''invscaling''", "''adaptive''", "'ExponentialDecay'", "'PiecewiseConstantDecay'", "'PolynomialDecay'", "'InverseTimeDecay'"
 					, "'SparseCategoricalCrossentropy'", "'CategoricalCrossentropy'", "'MeanSquaredError'"
+					, "'k_means'", "'n_clusters'", "'init'", "'n_init'", "'max_iter'", "'tol'", "'precompute_distances'", "'verbose'", "'random_state'", "'copy_x'", "'n_jobs'", "'algorithm'", "'full'", "'elkan'"
+					, "'k-means++'", "'random'"
+					, "'mini_batch_k_means'", "'n_clusters'", "'init'", "'max_iter'", "'batch_size'", "'verbose'", "'compute_labels'", "'random_state'", "'tol'", "'max_no_improvement'", "'init_size'", "'n_init'", "'reassignment_ratio'"
+					, "'ball_tree'", "'kd_tree'", "'brute'"
+					, "'dbscan'", "'eps'", "'min_samples'", "'metric'", "'metric_params'", "'algorithm'", "'leaf_size'", "'p'", "'n_jobs'"
+					, "'spectral_clustering'", "'n_clusters'", "'eigen_solver'", "'n_components'", "'random_state'", "'n_init'", "'gamma'", "'affinity'", "'n_neighbors'", "'eigen_tol'", "'assign_labels'", "'degree'", "'coef0'", "'kernel_params'", "'n_jobs'", "'verbose'"
+					, "'arpack'", "'lobpcg'", "'amg'"
+					, "'gaussian_mixture'", "'n_components'", "'covariance_type'", "'tol'", "'reg_covar'", "'max_iter'", "'n_init'", "'init_params'", "'weights_init'", "'means_init'", "'precisions_init'", "'random_state'", "'warm_start'", "'verbose'", "'verbose_interval'"
+					, "'kmeans'", "'discretize'",  "'random'", "'threshold'", "'k_best'", "'full'", "'tied'", "'diag'", "'spherical'"
+					, "'self_training_classifier'", "'base_estimator'", "'threshold'", "'criterion'", "'k_best'", "'max_iter'", "'verbose'"
+					, "'knn'", "'rbf'"
+					, "'label_propagation'", "'kernel'", "'gamma'", "'n_neighbors'", "'max_iter'", "'tol'", "'n_jobs'"
+					, "'label_spreading'", "'alpha'"					
 			}));
 
 	

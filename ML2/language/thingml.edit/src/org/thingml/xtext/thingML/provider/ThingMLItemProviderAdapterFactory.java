@@ -2,15 +2,15 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
+ * 
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
  */
@@ -914,29 +914,6 @@ public class ThingMLItemProviderAdapterFactory extends ThingMLAdapterFactory imp
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.thingml.xtext.thingML.Pretrained_ML_Model} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected Pretrained_ML_ModelItemProvider pretrained_ML_ModelItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link org.thingml.xtext.thingML.Pretrained_ML_Model}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createPretrained_ML_ModelAdapter() {
-		if (pretrained_ML_ModelItemProvider == null) {
-			pretrained_ML_ModelItemProvider = new Pretrained_ML_ModelItemProvider(this);
-		}
-
-		return pretrained_ML_ModelItemProvider;
-	}
-
-	/**
 	 * This keeps track of the one adapter used for all {@link org.thingml.xtext.thingML.PMML_ModelAlgorithm} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -980,6 +957,29 @@ public class ThingMLItemProviderAdapterFactory extends ThingMLAdapterFactory imp
 		}
 
 		return pfA_ModelAlgorithmItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.thingml.xtext.thingML.ClassifierWithPredictionCertaintyProbabilities} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected ClassifierWithPredictionCertaintyProbabilitiesItemProvider classifierWithPredictionCertaintyProbabilitiesItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.thingml.xtext.thingML.ClassifierWithPredictionCertaintyProbabilities}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createClassifierWithPredictionCertaintyProbabilitiesAdapter() {
+		if (classifierWithPredictionCertaintyProbabilitiesItemProvider == null) {
+			classifierWithPredictionCertaintyProbabilitiesItemProvider = new ClassifierWithPredictionCertaintyProbabilitiesItemProvider(this);
+		}
+
+		return classifierWithPredictionCertaintyProbabilitiesItemProvider;
 	}
 
 	/**
@@ -1256,6 +1256,190 @@ public class ThingMLItemProviderAdapterFactory extends ThingMLAdapterFactory imp
 		}
 
 		return nN_MultilayerPerceptronItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.thingml.xtext.thingML.KMeans} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected KMeansItemProvider kMeansItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.thingml.xtext.thingML.KMeans}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createKMeansAdapter() {
+		if (kMeansItemProvider == null) {
+			kMeansItemProvider = new KMeansItemProvider(this);
+		}
+
+		return kMeansItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.thingml.xtext.thingML.MiniBatchKMeans} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected MiniBatchKMeansItemProvider miniBatchKMeansItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.thingml.xtext.thingML.MiniBatchKMeans}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createMiniBatchKMeansAdapter() {
+		if (miniBatchKMeansItemProvider == null) {
+			miniBatchKMeansItemProvider = new MiniBatchKMeansItemProvider(this);
+		}
+
+		return miniBatchKMeansItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.thingml.xtext.thingML.DBSCAN} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected DBSCANItemProvider dbscanItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.thingml.xtext.thingML.DBSCAN}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createDBSCANAdapter() {
+		if (dbscanItemProvider == null) {
+			dbscanItemProvider = new DBSCANItemProvider(this);
+		}
+
+		return dbscanItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.thingml.xtext.thingML.SpectralClustering} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected SpectralClusteringItemProvider spectralClusteringItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.thingml.xtext.thingML.SpectralClustering}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createSpectralClusteringAdapter() {
+		if (spectralClusteringItemProvider == null) {
+			spectralClusteringItemProvider = new SpectralClusteringItemProvider(this);
+		}
+
+		return spectralClusteringItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.thingml.xtext.thingML.GaussianMixture} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected GaussianMixtureItemProvider gaussianMixtureItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.thingml.xtext.thingML.GaussianMixture}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createGaussianMixtureAdapter() {
+		if (gaussianMixtureItemProvider == null) {
+			gaussianMixtureItemProvider = new GaussianMixtureItemProvider(this);
+		}
+
+		return gaussianMixtureItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.thingml.xtext.thingML.SelfTrainingClassifier} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected SelfTrainingClassifierItemProvider selfTrainingClassifierItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.thingml.xtext.thingML.SelfTrainingClassifier}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createSelfTrainingClassifierAdapter() {
+		if (selfTrainingClassifierItemProvider == null) {
+			selfTrainingClassifierItemProvider = new SelfTrainingClassifierItemProvider(this);
+		}
+
+		return selfTrainingClassifierItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.thingml.xtext.thingML.LabelPropagation} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected LabelPropagationItemProvider labelPropagationItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.thingml.xtext.thingML.LabelPropagation}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createLabelPropagationAdapter() {
+		if (labelPropagationItemProvider == null) {
+			labelPropagationItemProvider = new LabelPropagationItemProvider(this);
+		}
+
+		return labelPropagationItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.thingml.xtext.thingML.LabelSpreading} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected LabelSpreadingItemProvider labelSpreadingItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.thingml.xtext.thingML.LabelSpreading}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createLabelSpreadingAdapter() {
+		if (labelSpreadingItemProvider == null) {
+			labelSpreadingItemProvider = new LabelSpreadingItemProvider(this);
+		}
+
+		return labelSpreadingItemProvider;
 	}
 
 	/**
@@ -2802,9 +2986,9 @@ public class ThingMLItemProviderAdapterFactory extends ThingMLAdapterFactory imp
 		if (dataAnalyticsItemProvider != null) dataAnalyticsItemProvider.dispose();
 		if (dataAnalyticsModelAlgorithmItemProvider != null) dataAnalyticsModelAlgorithmItemProvider.dispose();
 		if (ml2_ModelAlgorithmItemProvider != null) ml2_ModelAlgorithmItemProvider.dispose();
-		if (pretrained_ML_ModelItemProvider != null) pretrained_ML_ModelItemProvider.dispose();
 		if (pmmL_ModelAlgorithmItemProvider != null) pmmL_ModelAlgorithmItemProvider.dispose();
 		if (pfA_ModelAlgorithmItemProvider != null) pfA_ModelAlgorithmItemProvider.dispose();
+		if (classifierWithPredictionCertaintyProbabilitiesItemProvider != null) classifierWithPredictionCertaintyProbabilitiesItemProvider.dispose();
 		if (linearRegressionItemProvider != null) linearRegressionItemProvider.dispose();
 		if (linearClassifierLogisticRegressionItemProvider != null) linearClassifierLogisticRegressionItemProvider.dispose();
 		if (naiveBayesGaussianItemProvider != null) naiveBayesGaussianItemProvider.dispose();
@@ -2817,6 +3001,14 @@ public class ThingMLItemProviderAdapterFactory extends ThingMLAdapterFactory imp
 		if (randomForestRegressorItemProvider != null) randomForestRegressorItemProvider.dispose();
 		if (randomForestClassifierItemProvider != null) randomForestClassifierItemProvider.dispose();
 		if (nN_MultilayerPerceptronItemProvider != null) nN_MultilayerPerceptronItemProvider.dispose();
+		if (kMeansItemProvider != null) kMeansItemProvider.dispose();
+		if (miniBatchKMeansItemProvider != null) miniBatchKMeansItemProvider.dispose();
+		if (dbscanItemProvider != null) dbscanItemProvider.dispose();
+		if (spectralClusteringItemProvider != null) spectralClusteringItemProvider.dispose();
+		if (gaussianMixtureItemProvider != null) gaussianMixtureItemProvider.dispose();
+		if (selfTrainingClassifierItemProvider != null) selfTrainingClassifierItemProvider.dispose();
+		if (labelPropagationItemProvider != null) labelPropagationItemProvider.dispose();
+		if (labelSpreadingItemProvider != null) labelSpreadingItemProvider.dispose();
 		if (eventItemProvider != null) eventItemProvider.dispose();
 		if (receiveMessageItemProvider != null) receiveMessageItemProvider.dispose();
 		if (actionItemProvider != null) actionItemProvider.dispose();
