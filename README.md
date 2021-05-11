@@ -1,5 +1,5 @@
 # ML-Quadrat (ML2)
-ML2 is a Model-Driven Software Engineering (MDSE) and "Low-Code" tool for creating smart services for the Internet of Things (IoT) and Cyber-Physical Systems (CPS). ML2 is based on [ThingML](https://github.com/TelluIoT/ThingML). Similar to ThingML, ML2 is built using the Eclipse Modeling Framework (EMF), and is release under the terms of the Apache 2.0 permissive open source license.
+ML2 is a Computer-Aided Software Engineering (CASE) and "Low-Code" tool, based on the Model-Driven Software Engineering (MDSE) paradigm, specifically the Domain-Specific Modeling (DSM) methodology with full code generation. ML2 is focused on creating smart services for the Internet of Things (IoT) and Cyber-Physical Systems (CPS). Moreover, it is based on the [ThingML](https://github.com/TelluIoT/ThingML) project. Similar to ThingML, ML2 is built using the Eclipse Modeling Framework (EMF), and is release under the terms of the Apache 2.0 permissive open source license.
 
 The name ML-Quadrat ("Quadrat" is the German word for "square" / ˆ2) refers to the fact that the project is about two MLs: (i) ML for Modeling Language (as in ThingML); (ii) ML for Machine Learning, i.e., a sub-discipline of Artificial Intelligence (AI). However, in what follows, we refer to the project name as ML2 for simplicity.
 
@@ -27,7 +27,7 @@ ML2 is a research prototype. If you find any issues/bugs or have any feature req
 Since ML2 is based on ThingML, we highly encourage those users, who are not familiar with ThingML, to first read the documentation of ThingML and take a look at their samples: https://github.com/TelluIoT/ThingML
 
 ### Why ML2?
-Currently, ThingML and other Model-Driven Software Engineering (MDSE) tools for the IoT/CPS, that we are aware of, do not support Data Analytics and Machine Learning (DAML) at the modeling level. However, DAML methods and techniques are crucial for developing smart IoT services and CPS applications. Therefore, we enable DAML at the modeling level through our Domain-Specific Modeling Language (DSML) and tool.
+Currently, ThingML and other Model-Driven Software Engineering (MDSE) tools for the IoT and CPS, that we are aware of, do not support Data Analytics and Machine Learning (DAML) at the modeling level. However, DAML methods and techniques are crucial for developing smart IoT services and CPS applications. Therefore, we enable DAML at the modeling level through our Domain-Specific Modeling Language (DSML) and tool.
 
 ### How to install ML2?
 **Prerequisites:**
