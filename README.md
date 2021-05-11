@@ -70,16 +70,32 @@ The generated code will include all the Java and Python code, as well as the nec
 
 <a name="user-doc"></a>
 ## Users' Documentation (Full Tutorial)
-Before reading the full tutorial below, you should first follow the quick (15-minutes) tutorial above.
+Before reading the full tutorial below, you should first follow the quick (15-minutes) tutorial above. In what follows, we first name the additional software packages that you should install. Then, we illustrate how the generated example in the quick tutorial can be installed and executed. Further, we show how the textual and the tree-based model editors can be used in the Eclipse IDE. Finally, we provide the full documentation of the Domain-Specific Modeling Langauge (DSML).
 
-**Additional software prerequisites:**
-Please also install the following software before proceeding:
+### Additional software prerequisites
+I. Install the latest version of Anaconda for Python 3.x: https://docs.anaconda.com/anaconda/install/linux/
 
-1. Anaconda: https://docs.anaconda.com/anaconda/install/
-2. 
+Then, please go to the Linux terminal and follow the steps below, in order to create a conda virtual environment and install the latest versions of the required Python libraries. They are necessary for running the generated code, if the generated code includes Python code for Data Analytics and Machine Learning (DAML).
+
+1. conda create --name ml2 python=3.8
+2. conda activate ml2
+3. conda install networkx scipy tensorflow-gpu nb_conda jupyter scikit-learn seaborn matplotlib nomkl bokeh libiconv numpy pandas nltk gensim keras pytorch
+4. conda install jupyter_contrib_nbextensions -c conda-forge
+5. conda deactivate
+6. conda activate ml2
+
+II. Install the latest version of the Eclipse IDE, specifically the Eclipse Modeling Tools: https://projects.eclipse.org/projects/modeling
+
+III. Install the Xtext ANTLR plugin from the following update site in the Eclipse IDE: https://download.itemis.de/updates/releases/2.1.1/
+
+### How to install and execute the generated code?
+
+Now, please go to the Linux terminal / shell / command line and follow the steps below.
+
+
 
 TODO
-Python 3 (Anaconda recommended: https://www.anaconda.com/), Scikit-learn, e.g., version 0.22.1 (https://scikit-learn.org), Tensorflow / TensorFlow-GPU, e.g., version 1.15.0 (https://www.tensorflow.org/), Keras, e.g., version 2.3.1 (https://keras.io/) and Pytorch, e.g., version 1.4.0 (https://pytorch.org/). They are all free open source software. Finally, install the Xtext ANTLR plugin from the following update site in the Eclipse IDE: https://download.itemis.de/updates/releases/2.1.1/
+Python 3 (Anaconda recommended: https://www.anaconda.com/), Scikit-learn, e.g., version 0.22.1 (https://scikit-learn.org), Tensorflow / TensorFlow-GPU, e.g., version 1.15.0 (https://www.tensorflow.org/), Keras, e.g., version 2.3.1 (https://keras.io/) and Pytorch, e.g., version 1.4.0 (https://pytorch.org/). They are all free open source software. 
 
 In principle, it is possible to use any text editor, e.g., vi / vim to create a model instance, if you follow the syntax of our Domain-Specific Modeling Language (DSML) and save the text file with the **.thingml** extension. However, a major added value of our tool is provided through our customized model editors. ML2 and ThingML are built on top of the Eclipse Modeling Framework (EMF). Thus, in order to benefit from our model editors, you need to run the Eclipse Modeling Tools. You can download and install that IDE from https://www.eclipse.org/downloads/packages/.
 
@@ -90,7 +106,7 @@ File -> import -> General -> Existing Projects into Workspace (you may also chec
 Make sure that you wait sufficiently long, so that the (sub-/nested) projects are built and you get a clean workspace without any errors. If that is not the case, sometimes cleaning the workspace (Project -> Clean... -> Clean all projects), updating the Maven projects (right click on a project -> Maven -> Update Project... -> Select All, you may also check the option **Force Update of Snapshots/Releases**) or restarting the Eclipse IDE (Eclipse Modeling Tools) might help.
 
 
-### How to create new model instances using ML2?
+### How to create new model instances using the model editors?
 Before creating new model instances, you may want to take a look at our samples for 3 use cases: Smart Ping-Pong, Non-Intrusive Appliance Load Monitoring, and Energy Stock Exchange. Please check them out at https://github.com/arminmoin/ML-Quadrat/tree/master/ML2/org.thingml.samples/src/main/thingml.
 
 As mentioned above, one may trivially use a text editor and follow the syntax of our DSML (Domain-Specific Modeling Language) to create new model instances with the **.thingml** extension. However, in order to exploit the power of our DSML and modeling tool, one may either employ our graphical tree model editor (EMF-based) or our customized textual model editor (Xtext-based). In what follows, we illustrate both options. Regardless of your choice, you will need to follow the steps below:
@@ -118,6 +134,8 @@ However, if you right-click on the model instance and select Open With -> **Thin
 
 #### Which Model Editor to Choose?
 There is no universal answer to this question. Some users prefer the textual editor, whereas some other ones find the graphical one more convenient. Please give both a try if you are not sure about your own preference.
+
+### Full documentation of the DSML
 
 #### Understanding the data analytics block of ML2 model instances
 
