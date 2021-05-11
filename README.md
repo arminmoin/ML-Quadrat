@@ -66,7 +66,7 @@ java -jar mlquadrat.compilers.registry-2.0.0-SNAPSHOT-jar-with-dependencies.jar 
 ```
 Note that the -c option specifies the model-to-code transformation (a.k.a. the code generator) or "**c**ompiler" that shall be deployed. Here, we choose "auto", since the model instance already includes this information in the configuration section of it. Also, the -s and the -o options let the user state the paths of the **s**ource model instance and the **o**utput directory for the target generated code, respectively. If the output directory does not exist, it will be created. 
 
-The generated code will include all the Java and Python code, as well as the necessary build scripts. Thus, it can be easily built using the Apache Maven with one command (mvn clean install). Also, the output of Maven will include an executable JAR file with all the dependencies as a bundle. Hence, running the generated IoT service will be also very easy with just one command (java -jar ...). Below, we illustrate how to install and run the generated code.
+The generated code will include the entire Java and Python source code that is needed, as well as the necessary build scripts. Thus, it can be easily built/installed using the Apache Maven with one command (mvn clean install). Also, the output of Maven will include an executable JAR file with all the dependencies as a bundle. Hence, running the generated IoT service will be also very easy with just one command (java -jar ...). Below, we illustrate how to install and run the generated code.
 
 <a name="user-doc"></a>
 ## Users' Documentation (Full Tutorial)
