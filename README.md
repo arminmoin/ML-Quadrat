@@ -5,26 +5,26 @@ The name ML-Quadrat ("Quadrat" is the German word for "square" / ˆ2) refers to 
 
 # Table of Contents
 
-1. [How to Cite ML2 in Your Publications](#citation)
-2. [Reporting Issues/Bugs and Requests](#issues)
-3. [Quick (15-Minutes) Tutorial](#user-doc-quick)
-4. [Users' Documentation (Full Tutorial)](#user-doc)
-5. [Maven Artifacts](#maven)
-6. [Developers' Documentation (for Contributors)](#dev-doc)
+I. [How to Cite ML2 in Your Publications](#citation)
+II. [Reporting Issues/Bugs and Requests](#issues)
+III. [Quick (15-Minutes) Tutorial](#user-doc-quick)
+IV. [Users' Documentation (Full Tutorial)](#user-doc)
+V. [Maven Artifacts](#maven)
+VI. [Developers' Documentation (for Contributors)](#dev-doc)
 
 <a name="citation"></a>
-## How to Cite ML2 in Your Publications
+## I. How to Cite ML2 in Your Publications
 Please cite the following papers if you are using ML2 or referring to it in your papers:
 
 1. **From Things’ Modeling Language (ThingML) to Things’ Machine Learning (ThingML2)**, Armin Moin, Stephan Rössler, Marouane Sayih, Stephan Günnemann, In Proceedings of the ACM / IEEE 23rd International Conference on Model Driven Engineering Languages and Systems (MODELS) Companion (Extended Abstract), 2020.
 2. **ThingML+: Augmenting Model-Driven Software Engineering for the Internet of Things with Machine Learning**, Armin Moin, Stephan Rössler, Stephan Günnemann, In Proceedings of the ACM / IEEE International Conference on Model Driven Engineering Languages and Systems (MODELS) Workshops (MDE4IoT), 2018.
 
 <a name="issues"></a>
-## Reporting Issues/Bugs and Requests
+## II. Reporting Issues/Bugs and Requests
 ML2 is a research prototype. If you find any issues/bugs or have any feature request, please kindly report that through our issue tracking system: https://github.com/arminmoin/ML-Quadrat/issues
 
 <a name="user-doc-quick"></a>
-## Quick (15-Minutes) Tutorial
+## III. Quick (15-Minutes) Tutorial
 Here, we provide a quick tutorial to get familiar with ML2. However, in order to read the full documentation, please go to the section ML2 Users' Documentation (Full Tutorial) below.
 
 ### Why ML2?
@@ -69,7 +69,7 @@ Note that the -c option specifies the model-to-code transformation (a.k.a. the c
 The generated code will include the entire Java and Python source code that is needed, as well as the necessary build scripts. Thus, it can be easily built/installed using the Apache Maven with one command (mvn clean install). Also, the output of Maven will include an executable JAR file with all the dependencies as a bundle. Hence, running the generated IoT service will be also very easy with just one command (java -jar ...). Below, we illustrate how to install and run the generated code.
 
 <a name="user-doc"></a>
-## Users' Documentation (Full Tutorial)
+## IV. Users' Documentation (Full Tutorial)
 Before reading the full tutorial below, you should first follow the quick (15-minutes) tutorial above. In what follows, we first name the additional software packages that you should install. Then, we illustrate how the generated example in the quick tutorial can be installed and executed. Further, we show how the textual and the tree-based model editors can be used in the Eclipse IDE. Finally, we provide the full documentation of the Domain-Specific Modeling Langauge (DSML).
 
 ### Additional software prerequisites
@@ -248,7 +248,7 @@ java -jar SmartPingPongCfg-1.0.0-jar-with-dependencies.jar
 Finally, since ML2 is based on ThingML, in order to get a deeper understanding, you might want to read the documentation of ThingML and take a look at their samples. See: https://github.com/TelluIoT/ThingML
 
 <a name="maven"></a>
-## Maven Artifacts
+## V. Maven Artifacts
 You can find the Maven artifacts of ML2 at https://oss.sonatype.org (e.g., search for the groupid: io.github.arminmoin). You may add the dependencies to your pom.xml file. For instance, add the following to your pom.xml:
 
 ```
@@ -261,7 +261,7 @@ You can find the Maven artifacts of ML2 at https://oss.sonatype.org (e.g., searc
 ```
 
 <a name="dev-doc"></a>
-## Developers' Documentation (for Contributors)
+## VI. Developers' Documentation (for Contributors)
 If you are going to contribute to this project, please read the developers' documentation below. Our documentation focuses on Linux and mainly Java. However, a number of other platforms and programming languages may also be used similarly with minor modifications.
 
 Our focus is on the Java code generator (model-to-text transformation), which also generates Python code. However, the same strategy shall apply to the other supported target platforms and programming languages for code generation. 
