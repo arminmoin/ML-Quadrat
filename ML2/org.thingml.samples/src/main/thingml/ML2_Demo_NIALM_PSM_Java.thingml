@@ -4,7 +4,7 @@
 import "ML2_Demo_NIALM_PIM.thingml"
 import "thingml/core/_java/timer.thingml"
 
-configuration NIALM_Cfg @compiler "python_java" {
+configuration ML2_Demo_NIALM_Cfg @compiler "python_java" {
 	
 	instance timer : TimerJava
 	instance last_training_timer : TimerJava
