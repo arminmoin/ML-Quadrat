@@ -205,7 +205,7 @@ thing PingPongDataAnalytics includes PingPongMsgs {
 	}
 }
 
-configuration SmartPingPongCfg @compiler "python_java" {
+configuration ML2_Demo_PingPong_Regression_Cfg @compiler "python_java" {
 	
     instance pingClient : PingClient
     instance pingServer : PingServer
