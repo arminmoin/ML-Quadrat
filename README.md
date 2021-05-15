@@ -331,5 +331,7 @@ This Java class is located at ML2/compilers/java/src/main/java/org/thingml/compi
 
 This is the core of the code generation mechanism, based on the imperative action language. This is where you can instruct the code generation framework how to generate code for each "action" in a model instance, e.g., da_preprocess, da_train, etc.
 
-7. [Exploitation & Industry Adoption](#exploitation)
+<a name="exploitation"></a>
+7. [Exploitation & Industry Adoption]
+
 [DriotData](https://www.driotdata.com), a web-based low-code platform for the IoT
