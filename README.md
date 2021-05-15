@@ -1,5 +1,5 @@
 # ML-Quadrat (ML2)
-ML2 is a Computer-Aided Software Engineering (CASE) and "Low-Code" tool, based on the Model-Driven Software Engineering (MDSE) paradigm, specifically the Domain-Specific Modeling (DSM) methodology with full code generation. ML2 is focused on creating smart services for the Internet of Things (IoT) and Cyber-Physical Systems (CPS). Moreover, it is based on the [ThingML](https://github.com/TelluIoT/ThingML) project. Similar to ThingML, ML2 is built using the Eclipse Modeling Framework (EMF), and is release under the terms of the Apache 2.0 permissive open source license.
+ML2 is a Computer-Aided Software Engineering (CASE) tool, based on the Model-Driven Software Engineering (MDSE) paradigm, specifically the Domain-Specific Modeling (DSM) methodology with full code generation. ML2 is focused on creating smart services for the Internet of Things (IoT) and Cyber-Physical Systems (CPS). Moreover, it is based on the [ThingML](https://github.com/TelluIoT/ThingML) project. Similar to ThingML, ML2 is built using the Eclipse Modeling Framework (EMF), and is release under the terms of the Apache 2.0 permissive open source license. However, unlike ThingML, ML2 enables Data Analytics & Machine Learning (DAML) at the modeling layer. In other words, the practicioner has access to the APIs of ML libraries and frameworks, such as Scikit-Learn, Keras, TensorFlow, Pytorch and WEKA at the modeling layer. The model-to-code transformations generate the full source code of the entire software solution, including the ML models in a fully automated manner. Moreover, the generated code can train, deploy, use, and possibly re-train the ML models. Further, one may bring a pre-trained ML model with any arbitrary architecture and trained with any arbitrary learning algorithm, and simply "connect" or "plug" it into the software model. 
 
 The name ML-Quadrat ("Quadrat" is the German word for "square" / ˆ2) refers to the fact that the project is about two MLs: (i) ML for Modeling Language (as in ThingML); (ii) ML for Machine Learning, i.e., a sub-discipline of Artificial Intelligence (AI). However, in what follows, we refer to the project name as ML2 for simplicity.
 
@@ -11,6 +11,7 @@ The name ML-Quadrat ("Quadrat" is the German word for "square" / ˆ2) refers to 
 4. [Users' Documentation (Full Tutorial)](#user-doc)
 5. [Maven Artifacts](#maven)
 6. [Developers' Documentation (for Contributors)](#dev-doc)
+7. [Exploitation & Industry Adoption](#exploitation)
 
 <a name="citation"></a>
 ## 1. How to Cite ML2 in Your Publications
@@ -329,3 +330,6 @@ There, you can add any new Java packages that must be included among the importe
 This Java class is located at ML2/compilers/java/src/main/java/org/thingml/compilers/java/JavaThingActionCompiler.java
 
 This is the core of the code generation mechanism, based on the imperative action language. This is where you can instruct the code generation framework how to generate code for each "action" in a model instance, e.g., da_preprocess, da_train, etc.
+
+7. [Exploitation & Industry Adoption](#exploitation)
+[DriotData](https://www.driotdata.com), a web-based low-code platform for the IoT
