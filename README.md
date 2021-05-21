@@ -19,8 +19,8 @@ The name ML-Quadrat ("Quadrat" is the German word for "square" / ˆ2) refers to 
 ## 1. How to Cite ML2 in Your Publications
 Please cite the following papers if you are using ML2 or referring to it in your papers:
 
-1. **From Things’ Modeling Language (ThingML) to Things’ Machine Learning (ThingML2)**, Armin Moin, Stephan Rössler, Marouane Sayih, Stephan Günnemann, In Proceedings of the ACM / IEEE 23rd International Conference on Model Driven Engineering Languages and Systems (MODELS) Companion (Extended Abstract), 2020.
-2. **ThingML+: Augmenting Model-Driven Software Engineering for the Internet of Things with Machine Learning**, Armin Moin, Stephan Rössler, Stephan Günnemann, In Proceedings of the ACM / IEEE International Conference on Model Driven Engineering Languages and Systems (MODELS) Workshops (MDE4IoT), 2018.
+1. **From Things’ Modeling Language (ThingML) to Things’ Machine Learning (ThingML2)**, Armin Moin, Stephan Rössler, Marouane Sayih, Stephan Günnemann, In Proceedings of the ACM / IEEE 23rd International Conference on Model Driven Engineering Languages and Systems (MODELS) Companion (Extended Abstract), 2020. Pre-print: https://arxiv.org/pdf/2009.10632
+2. **ThingML+: Augmenting Model-Driven Software Engineering for the Internet of Things with Machine Learning**, Armin Moin, Stephan Rössler, Stephan Günnemann, In Proceedings of the ACM / IEEE International Conference on Model Driven Engineering Languages and Systems (MODELS) Workshops (MDE4IoT), 2018. Pre-print: https://arxiv.org/pdf/2009.10633.pdf
 
 <a name="issues"></a>
 ## 2. Reporting Issues/Bugs and Requests
@@ -334,6 +334,6 @@ This Java class is located at ML2/compilers/java/src/main/java/org/thingml/compi
 This is the core of the code generation mechanism, based on the imperative action language. This is where you can instruct the code generation framework how to generate code for each "action" in a model instance, e.g., da_preprocess, da_train, etc.
 
 <a name="exploitation"></a>
-7. [Exploitation & Industry Adoption]
+## 7. Exploitation & Industry Adoption
 
-[DriotData](https://www.driotdata.com), a web-based low-code platform for the IoT
+[DriotData](https://www.driotdata.com), provides citizen data scientists and citizen / end-user software developers with a web-based low-code platform, so that they can create their desired IoT services without extensive knowledge and skills in Software Engineering or Artificial Intelligence (AI). 
