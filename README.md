@@ -9,7 +9,7 @@ The name ML-Quadrat ("Quadrat" is the German word for "square" / ˆ2) refers to 
 
 1. [How to Cite ML2 in Your Publications](#citation)
 2. [Reporting Issues/Bugs and Requests](#issues)
-3. [Quick (15-Minutes) Tutorial](#user-doc-quick)
+3. [Quick (15 mins) Tutorial](#user-doc-quick)
 4. [Users' Documentation (Full Tutorial)](#user-doc)
 5. [Maven Artifacts](#maven)
 6. [Developers' Documentation (for Contributors)](#dev-doc)
@@ -27,7 +27,7 @@ Please cite the following papers if you are using ML2 or referring to it in your
 ML2 is a research prototype. If you find any issues/bugs or have any feature request, please kindly report that through our issue tracking system: https://github.com/arminmoin/ML-Quadrat/issues
 
 <a name="user-doc-quick"></a>
-## 3. Quick (15-Minutes) Tutorial
+## 3. Quick (15 mins) Tutorial
 Here, we provide a quick tutorial to get familiar with ML2. However, in order to read the full documentation, please go to the section ML2 Users' Documentation (Full Tutorial) below.
 
 ### Why ML2?
@@ -73,7 +73,7 @@ The generated code will include the entire Java and Python source code that is n
 
 <a name="user-doc"></a>
 ## 4. Users' Documentation (Full Tutorial)
-Before reading the full tutorial below, you should first follow the quick (15-minutes) tutorial above. In what follows, we first name the additional software packages that you should install. Then, we illustrate how the generated example in the quick tutorial can be installed and executed. Further, we show how the textual and the tree-based model editors can be used in the Eclipse IDE. Finally, we provide the full documentation of the Domain-Specific Modeling Langauge (DSML).
+Before reading the full tutorial below, you should first follow the quick (15 mins) tutorial above. In what follows, we first name the additional software packages that you should install. Then, we illustrate how the generated example in the quick tutorial can be installed and executed. Further, we show how the textual and the tree-based model editors can be used in the Eclipse IDE. Finally, we provide the full documentation of the Domain-Specific Modeling Langauge (DSML).
 
 ### Additional software prerequisites
 I. Install the latest version of Anaconda for Python 3.x: https://docs.anaconda.com/anaconda/install/linux/
