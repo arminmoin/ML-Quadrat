@@ -10,6 +10,7 @@ ThingML and other Model-Driven Software Engineering (MDSE) tools for the IoT/CPS
 
 Moreover, the generated code is capable of creating, training, deploying and possibly re-training the ML models as necessary. Further, one may bring a pre-trained ML model with any arbitrary architecture, which might have been trained using any learning algorithm, and simply "connect" or "plug" it into the software model. This is called the Blackbox-ML mode or the hybrid/mixed MDSE/Non-MDSE mode. This mode offers a lot of flexibility.
 
+<a name="toc"></a>
 # Table of Contents
 
 1. [How to Cite ML2 in Your Publications](#citation)
@@ -72,6 +73,8 @@ java -jar mlquadrat.compilers.registry-2.0.0-SNAPSHOT-jar-with-dependencies.jar 
 Note that the -c option specifies the model-to-code transformation (a.k.a. the code generator) or "**c**ompiler" that shall be deployed. Here, we choose "auto", since the model instance already includes this information in the configuration section of it. Also, the -s and the -o options let the user state the paths of the **s**ource model instance and the **o**utput directory for the target generated code, respectively. If the output directory does not exist, it will be created. 
 
 The generated code will include the entire Java and Python source code that is needed, as well as the necessary build scripts. Thus, it can be easily built/installed using the Apache Maven with one command (mvn clean install). Also, the output of Maven will include an executable JAR file with all the dependencies as a bundle. Hence, running the generated IoT service will be also very easy with just one command (java -jar ...). Below, we illustrate how to install and run the generated code.
+
+[Back to top](#toc)
 
 <a name="user-doc"></a>
 ## 4. Users' Documentation (Full Tutorial)
