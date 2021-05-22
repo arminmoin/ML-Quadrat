@@ -59,10 +59,11 @@ Here, we provide a quick tutorial to get familiar with ML2. However, in order to
 
 ### How to install ML2?
 **System requirements and software prerequisites:**
-We recommend a normal PC/laptop with at least 4GB of main memory (RAM) and at least 1GB of free disk space. In this tutorial, we use a x86_64 Linux system with the Ubuntu 20.04.2 LTS (focal) operating system. Please install the following software before proceeding with the installation of ML2:
+We recommend a normal PC/laptop with at least 4GB of main memory (RAM) and at least 1GB of free disk space. In this tutorial, we use a x86_64 Linux system with the Ubuntu 20.04.2 LTS (focal) operating system. Please install the following software before proceeding with the installation of ML2 (use ```sudo su``` to run the commands as root and at the end ```exit``` in order to get back to the non-root user):
 
 1. [Git](https://git-scm.com/): 
 ```
+sudo su
 apt-get install git
 ```
 2. [The Java Runtime Environment (JRE) and the Java Development Kit (JDK)](https://www.java.com/en/download/): 
@@ -72,6 +73,7 @@ apt-get install default-jre default-jdk
 3. [Apache Maven](https://maven.apache.org/): 
 ```
 apt-get install maven
+exit
 ```
 
 **Now, please go to the Linux terminal / shell / command line and follow the steps below.**
@@ -111,11 +113,13 @@ The generated code includes the entire source code that is needed, as well as th
 Before reading the full tutorial below, you should first follow the [quick (15 mins) tutorial](#user-doc-quick) above. In what follows, we first name the additional software packages that you should install. Then, we illustrate how the generated example in the quick tutorial can be installed and executed. Further, we show how the textual and the tree-based model editors can be used in the Eclipse IDE. Finally, we provide the full documentation of the Domain-Specific Modeling Langauge (DSML).
 
 ### Additional software prerequisites
-I. Install the latest version of [Anaconda for Python 3.x](https://docs.anaconda.com/anaconda/install/linux/), e.g., as follows:
+I. Install the latest version of [Anaconda for Python 3.x](https://docs.anaconda.com/anaconda/install/linux/), e.g., as follows (use ```sudo su``` to run the chmod command as root and then ```exit``` in order to get back to the non-root user):
 
 ```bash
 wget https://repo.anaconda.com/archive/Anaconda3-2021.05-Linux-x86_64.sh
+sudo su
 chmod u+x ./Anaconda3-2021.05-Linux-x86_64.sh
+exit
 ./Anaconda3-2021.05-Linux-x86_64.sh
 ```
 
