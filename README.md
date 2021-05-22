@@ -31,7 +31,7 @@ BibTeX:
 @inproceedings{Moin+2020,
   title={From Things’ Modeling Language (ThingML) to Things’ Machine Learning (ThingML2)},
   author={Moin, Armin and R{\"o}ssler, Stephan and Sayih, Marouane and G{\"u}nnemann, Stephan},
-  booktitle={ACM / IEEE 23rd International Conference on Model Driven Engineering Languages and Systems (MODELS) Companion (Extended Abstract and Poster)},
+  booktitle={ACM/IEEE 23rd International Conference on Model Driven Engineering Languages and Systems (MODELS) Companion (Extended Abstract and Poster)},
   year={2020}
 }
 ```
@@ -42,7 +42,7 @@ BibTeX:
 @inproceedings{Moin+2018,
   title={ThingML+: Augmenting Model-Driven Software Engineering for the Internet of Things with Machine Learning.},
   author={Moin, Armin and R{\"o}ssler, Stephan and G{\"u}nnemann, Stephan},
-  booktitle={ACM / IEEE International Conference on Model Driven Engineering Languages and Systems (MODELS) Workshops (MDE4IoT)},
+  booktitle={ACM/IEEE 21st International Conference on Model Driven Engineering Languages and Systems (MODELS) Workshops (MDE4IoT)},
   pages={521--523},
   year={2018}
 }
