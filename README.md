@@ -40,9 +40,9 @@ Here, we provide a quick tutorial to get familiar with ML2. However, in order to
 **System requirements and software prerequisites:**
 We recommend a normal PC/laptop with at least 4GB of main memory (RAM) and at least 1GB of free disk space. In this tutorial, we use a x86_64 Linux system with the Ubuntu 20.04.2 LTS (focal) operating system. Please install the following software before proceeding with the installation of ML2:
 
-1. Git (https://git-scm.com/): apt-get install git
+1. [Git](https://git-scm.com/): apt-get install git
 2. The Java Runtime Environment (JRE) and the Java Development Kit (JDK): apt-get default-jre default-jdk
-3. Apache Maven: https://maven.apache.org/: apt-get install maven 
+3. [Apache Maven](https://maven.apache.org/): apt-get install maven 
 
 **Now, please go to the Linux terminal / shell / command line and follow the steps below.**
 
