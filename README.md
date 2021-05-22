@@ -111,20 +111,22 @@ The generated code includes the entire source code that is needed, as well as th
 Before reading the full tutorial below, you should first follow the [quick (15 mins) tutorial](#user-doc-quick) above. In what follows, we first name the additional software packages that you should install. Then, we illustrate how the generated example in the quick tutorial can be installed and executed. Further, we show how the textual and the tree-based model editors can be used in the Eclipse IDE. Finally, we provide the full documentation of the Domain-Specific Modeling Langauge (DSML).
 
 ### Additional software prerequisites
-I. Install the latest version of Anaconda for Python 3.x: https://docs.anaconda.com/anaconda/install/linux/
+I. Install the latest version of [Anaconda for Python 3.x](https://docs.anaconda.com/anaconda/install/linux/).
 
 Then, please go to the Linux terminal and follow the steps below, in order to create a conda virtual environment and install the latest versions of the required Python libraries. They are necessary for running the generated code, if the generated code includes Python code for Data Analytics and Machine Learning (DAML).
 
-1. conda create --name ml2 python=3.8
-2. conda activate ml2
-3. conda install networkx scipy tensorflow-gpu nb_conda jupyter scikit-learn seaborn matplotlib nomkl bokeh libiconv numpy pandas nltk gensim keras pytorch
-4. conda install jupyter_contrib_nbextensions -c conda-forge
-5. conda deactivate
-6. conda activate ml2
+```bash
+conda create --name ml2 python=3.8
+conda activate ml2
+conda install networkx scipy tensorflow-gpu nb_conda jupyter scikit-learn seaborn matplotlib nomkl bokeh libiconv numpy pandas nltk gensim keras pytorch
+conda install jupyter_contrib_nbextensions -c conda-forge
+conda deactivate
+conda activate ml2
+```
 
-II. Install the latest version of the Eclipse IDE, specifically the Eclipse Modeling Tools: https://projects.eclipse.org/projects/modeling
+II. Install the latest version of the [Eclipse IDE, specifically the Eclipse Modeling Tools](https://projects.eclipse.org/projects/modeling).
 
-III. Install the Xtext ANTLR plugin from the following update site in the Eclipse IDE: https://download.itemis.de/updates/releases/2.1.1/
+III. Install the [Xtext ANTLR plugin from the this update site](https://download.itemis.de/updates/releases/2.1.1/) in the Eclipse IDE.
 
 ### How to install and execute the generated code?
 
