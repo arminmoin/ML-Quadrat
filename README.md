@@ -255,6 +255,8 @@ java -jar SmartPingPongCfg-1.0.0-jar-with-dependencies.jar
 
 Finally, since ML2 is based on ThingML, in order to get a deeper understanding, you might want to read the documentation of ThingML and take a look at their samples. See: https://github.com/TelluIoT/ThingML
 
+[Back to top](#toc)
+
 <a name="maven"></a>
 ## 5. Maven Artifacts
 You can find the Maven artifacts of ML2 at https://oss.sonatype.org (e.g., search for the groupid: io.github.arminmoin). You may add the dependencies to your pom.xml file. For instance, add the following to your pom.xml:
@@ -267,6 +269,8 @@ You can find the Maven artifacts of ML2 at https://oss.sonatype.org (e.g., searc
   <type>pom</type>
 </dependency>
 ```
+
+[Back to top](#toc)
 
 <a name="dev-doc"></a>
 ## 6. Developers' Documentation (for Contributors)
@@ -337,6 +341,8 @@ There, you can add any new Java packages that must be included among the importe
 This Java class is located at ML2/compilers/java/src/main/java/org/thingml/compilers/java/JavaThingActionCompiler.java
 
 This is the core of the code generation mechanism, based on the imperative action language. This is where you can instruct the code generation framework how to generate code for each "action" in a model instance, e.g., da_preprocess, da_train, etc.
+
+[Back to top](#toc)
 
 <a name="exploitation"></a>
 ## 7. Exploitation & Industry Adoption
