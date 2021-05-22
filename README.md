@@ -149,10 +149,28 @@ II. Install the latest version of the [Eclipse IDE, specifically the Eclipse Mod
 III. Install the [Xtext ANTLR plugin from the this update site](https://download.itemis.de/updates/releases/2.1.1/) in the Eclipse IDE.
 
 ### How to install and execute the generated code?
+The code that we generated for the sample model instance through the [quick (15 mins) tutorial](#user-doc-quick) above can be built using the Apache Maven (the generated code resides in the /home/user/Generated_ML2_Demo_PingPong directory):
 
-Now, please go to the Linux terminal / shell / command line and follow the steps below.
+```bash
+cd /home/user/Generated_ML2_Demo_PingPong
+cd python_java/
+mvn clean install
+```
 
+The target directory is created/updated. If the software model instance has a data analytics section with a dataset path, then we must provide the dataset in the target directory at the same path as specified in the data analytics section of the model instance, before running the application / IoT service. For now, we copy a dummy sample dataset that is available at: https://github.com/arminmoin/ML-Quadrat/tree/master/ML2/org.thingml.samples/src/main/thingml/ML2_Demos_SampleData
 
+For the current example, we should choose the sample dataset [ip_dataset.csv](https://github.com/arminmoin/ML-Quadrat/blob/master/ML2/org.thingml.samples/src/main/thingml/ML2_Demos_SampleData/ip_dataset.csv). We should copy this Comma-Sparated Values (CSV) file into the correct path, in this case at target/data (the data sub-directory must be created):
+
+```bash
+cd target/
+mkdir data
+cp /home/user/ML-Quadrat/ML2/org.thingml.samples/src/main/thingml/ML2_Demos_SampleData/ip_dataset.csv data/
+```
+Now, in order to run the generated application / IoT service:
+
+```bash
+java -jar SmartPingPongCfg-1.0.0-jar-with-dependencies.jar
+```
 
 TODO
 Python 3 (Anaconda recommended: https://www.anaconda.com/), Scikit-learn, e.g., version 0.22.1 (https://scikit-learn.org), Tensorflow / TensorFlow-GPU, e.g., version 1.15.0 (https://www.tensorflow.org/), Keras, e.g., version 2.3.1 (https://keras.io/) and Pytorch, e.g., version 1.4.0 (https://pytorch.org/). They are all free open source software. 
