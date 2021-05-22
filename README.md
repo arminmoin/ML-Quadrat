@@ -78,7 +78,7 @@ The generated code will include the entire Java and Python source code that is n
 
 <a name="user-doc"></a>
 ## 4. Users' Documentation (Full Tutorial)
-Before reading the full tutorial below, you should first follow the quick (15 mins) tutorial above. In what follows, we first name the additional software packages that you should install. Then, we illustrate how the generated example in the quick tutorial can be installed and executed. Further, we show how the textual and the tree-based model editors can be used in the Eclipse IDE. Finally, we provide the full documentation of the Domain-Specific Modeling Langauge (DSML).
+Before reading the full tutorial below, you should first follow the [quick (15 mins) tutorial](#user-doc-quick) above. In what follows, we first name the additional software packages that you should install. Then, we illustrate how the generated example in the quick tutorial can be installed and executed. Further, we show how the textual and the tree-based model editors can be used in the Eclipse IDE. Finally, we provide the full documentation of the Domain-Specific Modeling Langauge (DSML).
 
 ### Additional software prerequisites
 I. Install the latest version of Anaconda for Python 3.x: https://docs.anaconda.com/anaconda/install/linux/
