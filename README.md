@@ -347,4 +347,4 @@ This is the core of the code generation mechanism, based on the imperative actio
 <a name="exploitation"></a>
 ## 7. Exploitation & Industry Adoption
 
-[DriotData](https://www.driotdata.com), provides citizen data scientists and citizen / end-user software developers with a web-based low-code platform, so that they can create their desired IoT services without extensive knowledge and skills in Software Engineering or Artificial Intelligence (AI). 
+[DriotData](https://www.driotdata.com) provides citizen data scientists and citizen / end-user software developers with a web-based low-code platform, so that they can create their desired IoT services without extensive knowledge and skills in Software Engineering or Artificial Intelligence (AI). 
