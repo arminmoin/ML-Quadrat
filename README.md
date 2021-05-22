@@ -111,9 +111,14 @@ The generated code includes the entire source code that is needed, as well as th
 Before reading the full tutorial below, you should first follow the [quick (15 mins) tutorial](#user-doc-quick) above. In what follows, we first name the additional software packages that you should install. Then, we illustrate how the generated example in the quick tutorial can be installed and executed. Further, we show how the textual and the tree-based model editors can be used in the Eclipse IDE. Finally, we provide the full documentation of the Domain-Specific Modeling Langauge (DSML).
 
 ### Additional software prerequisites
-I. Install the latest version of [Anaconda for Python 3.x](https://docs.anaconda.com/anaconda/install/linux/).
+I. Install the latest version of [Anaconda for Python 3.x](https://docs.anaconda.com/anaconda/install/linux/), e.g., as follows:
 
-Then, please go to the Linux terminal and follow the steps below, in order to create a conda virtual environment and install the latest versions of the required Python libraries. They are necessary for running the generated code, if the generated code includes Python code for Data Analytics and Machine Learning (DAML).
+```bash
+wget https://repo.anaconda.com/archive/Anaconda3-2021.05-Linux-x86_64.sh
+chmod u+x ./Anaconda3-2021.05-Linux-x86_64.sh
+./Anaconda3-2021.05-Linux-x86_64.sh
+```
+Then, please follow the steps below, in order to create a conda virtual environment and install the latest versions of the required Python libraries. They are necessary for running the generated code, if the generated code includes Python code for Data Analytics and Machine Learning (DAML).
 
 ```bash
 conda create --name ml2 python=3.8
