@@ -119,7 +119,7 @@ chmod u+x ./Anaconda3-2021.05-Linux-x86_64.sh
 ./Anaconda3-2021.05-Linux-x86_64.sh
 ```
 
-Perhaps you need to add conda to the PATH, if it is not there (you may check that with ```bash echo $PATH```). Assuming, you have downloaded and installed Anaconda in /home/user:
+Perhaps you need to add conda to the PATH environmental variable, if it is not there (you may check that with ```echo $PATH```). Assuming, you have downloaded and installed Anaconda in /home/user:
 
 ```bash 
 export PATH=$PATH:/home/user/anaconda3/condabin/
