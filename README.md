@@ -118,6 +118,18 @@ wget https://repo.anaconda.com/archive/Anaconda3-2021.05-Linux-x86_64.sh
 chmod u+x ./Anaconda3-2021.05-Linux-x86_64.sh
 ./Anaconda3-2021.05-Linux-x86_64.sh
 ```
+
+Perhaps you need to add conda to the PATH, if it is not there (you may check that with ```bash echo $PATH```). Assuming, you have downloaded and installed Anaconda in /home/user:
+
+```bash 
+export PATH=$PATH:/home/user/anaconda3/condabin/
+```
+To make it permanent, use a text editor, such as vim, append that to the .bashrc file (replace user with your username), and run source as follows:
+```bash 
+vim /home/user/.bashrc
+source /home/user/.bashrc
+```
+
 Then, please follow the steps below, in order to create a conda virtual environment and install the latest versions of the required Python libraries. They are necessary for running the generated code, if the generated code includes Python code for Data Analytics and Machine Learning (DAML).
 
 ```bash
