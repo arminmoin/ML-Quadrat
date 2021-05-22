@@ -5,6 +5,9 @@ ML2 is a Computer-Aided Software Engineering (CASE) tool, based on the Model-Dri
 
 The name ML-Quadrat ("Quadrat" is the German word for "square" / ˆ2) refers to the fact that the project is about two MLs: (i) ML for Modeling Language (as in ThingML); (ii) ML for Machine Learning, i.e., a sub-discipline of Artificial Intelligence (AI). However, in what follows, we refer to the project name as ML2 for simplicity.
 
+## Why ML2?
+Currently, ThingML and other Model-Driven Software Engineering (MDSE) tools for the IoT and CPS, that we are aware of, do not support Data Analytics and Machine Learning (DAML) at the modeling level. However, DAML methods and techniques are crucial for developing smart IoT services and CPS applications. Therefore, we enable DAML at the modeling level through our Domain-Specific Modeling Language (DSML) and tool.
+
 # Table of Contents
 
 1. [How to Cite ML2 in Your Publications](#citation)
@@ -29,9 +32,6 @@ ML2 is a research prototype. If you find any issues/bugs or have any feature req
 <a name="user-doc-quick"></a>
 ## 3. Quick (15 mins) Tutorial
 Here, we provide a quick tutorial to get familiar with ML2. However, in order to read the full documentation, please go to the section ML2 Users' Documentation (Full Tutorial) below.
-
-### Why ML2?
-Currently, ThingML and other Model-Driven Software Engineering (MDSE) tools for the IoT and CPS, that we are aware of, do not support Data Analytics and Machine Learning (DAML) at the modeling level. However, DAML methods and techniques are crucial for developing smart IoT services and CPS applications. Therefore, we enable DAML at the modeling level through our Domain-Specific Modeling Language (DSML) and tool.
 
 ### How to install ML2?
 **System requirements and software prerequisites:**
