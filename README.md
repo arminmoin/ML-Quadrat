@@ -146,7 +146,7 @@ conda activate ml2
 
 II. Install the latest version of the [Eclipse IDE, specifically the Eclipse Modeling Tools](https://projects.eclipse.org/projects/modeling).
 
-III. Install the [Xtext ANTLR plugin from the this update site](https://download.itemis.de/updates/releases/2.1.1/) in the Eclipse IDE.
+III. Install the [Xtext ANTLR plugin from this update site](https://download.itemis.de/updates/releases/2.1.1/) in the Eclipse IDE.
 
 ### How to install and execute the generated code?
 The code that we generated for the sample model instance through the [quick (15 mins) tutorial](#user-doc-quick) above can be built using the Apache Maven (the generated code resides in the /home/user/Generated_ML2_Demo_PingPong directory):
@@ -176,42 +176,39 @@ After running the service, you will see the output in the terminal. You may stop
 Congratulations! It worked!
 
 ### How to create new software model instances?
+In principle, it is possible to use any text editor, e.g., vi/vim, nano or Notepad to create a model instance, if you follow the syntax of the Domain-Specific Modeling Language (DSML) of ML2 and save the text file with the **.thingml** extension. However, a major added value of the tool is delivered via the customized model editors. There exist a textual model editor in the Eclipse IDE, which offers syntax highlighting, auto-completion and warnings/errors/hints at the design-time. This is usually preferred by man advanced software developers. Moreover, there exist a graphical EMF tree-based model editor. Below, we explain how to use each choice. However, we first need to set up the workspace in the Eclipse IDE.
 
-In principle, it is possible to use any text editor, e.g., vi / vim to create a model instance, if you follow the syntax of our Domain-Specific Modeling Language (DSML) and save the text file with the **.thingml** extension. However, a major added value of our tool is provided through our customized model editors. ML2 and ThingML are built on top of the Eclipse Modeling Framework (EMF). Thus, in order to benefit from our model editors, you need to run the Eclipse Modeling Tools. You can download and install that IDE from https://www.eclipse.org/downloads/packages/.
-
+#### How to set up the workspace in the Eclipse IDE (Eclipse Modeling Tools)?
 Once installed, you shall create a new workspace and then import the ML2 project there. Perhaps there are different ways to accomplish that. However, we recommend the following method:
 
-File -> import -> General -> Existing Projects into Workspace (you may also check the option **search for nested projects** in the wizard)
+File -> import -> General -> Existing Projects into Workspace (you should also check the option **search for nested projects** in the wizard)
 
 Make sure that you wait sufficiently long, so that the (sub-/nested) projects are built and you get a clean workspace without any errors. If that is not the case, sometimes cleaning the workspace (Project -> Clean... -> Clean all projects), updating the Maven projects (right click on a project -> Maven -> Update Project... -> Select All, you may also check the option **Force Update of Snapshots/Releases**) or restarting the Eclipse IDE (Eclipse Modeling Tools) might help.
 
-Before creating new model instances, you may want to take a look at our samples for 3 use cases: Smart Ping-Pong, Non-Intrusive Appliance Load Monitoring, and Energy Stock Exchange. Please check them out at https://github.com/arminmoin/ML-Quadrat/tree/master/ML2/org.thingml.samples/src/main/thingml.
+#### Running the GenerateThingML.mwe2 workflow in the Eclipse IDE
+One of the projects in the workspace, called thingml.ide might still have errors. Please run the [GenerateThingML.mwe2](https://github.com/arminmoin/ML-Quadrat/blob/master/ML2/language/thingml/src/org/thingml/xtext/GenerateThingML.mwe2) workflow, which resides in the thingml project in the workspace (under thingml/src/org/thingml/xtext) from within the Eclipse IDE by right-clicking on it and choosing run from the context menu. This shall deploy the [Xtext ANTLR plugin](https://download.itemis.de/updates/releases/2.1.1/) that we installed before, and fix the issues. This way, the customized textual model editor will work properly (see below).
 
-As mentioned above, one may trivially use a text editor and follow the syntax of our DSML (Domain-Specific Modeling Language) to create new model instances with the **.thingml** extension. However, in order to exploit the power of our DSML and modeling tool, one may either employ our graphical tree model editor (EMF-based) or our customized textual model editor (Xtext-based). In what follows, we illustrate both options. Regardless of your choice, you will need to follow the steps below:
+#### How to run a nested Eclipse instance to use the model editors?
+In order to use the textual or the EMF tree-based model editors, you must run a new/nested instance of the Eclipse IDE inside of the Eclipse IDE (the above-mentioned workspace). To this aim, click on one of the projects in the workspace, let's say, e.g., thingml or thingml.ide, and select "Run As" and then "Eclipse Application" from the context menu.
 
-Step 1: Open the Eclipse IDE (Eclipse Modeling Tools) and choose the workspace, which contains ML2.
+#### Using the Textual (Xtext-based) Model Editor
+Create a new project in the new/nested Eclipse instance, say Demo_ML2 and then create a new file with the **.thingml** extension, such as Test.thingml. This is a model instance, which shall conform to the meta-model/grammar of the DSML of ML2. You may create this model instance by choosing File -> New -> Other -> Example EMF Model Creation Wizards -> ThingML Model, and then clicking on Next, then giving it the name Test.thingml, Clicking on Next, selecting **Model** as the **Model Object**, and finally clicking on Finish. 
 
-Step 2: Run a second (nested) instance of the Eclipse IDE by right-clicking on one of the (sub)projects, e.g., thingml, selecting "Run As" and then selecting "Eclipse Application". This way, a new (nested) instance of the Eclipse IDE will open, while the first (main) instance is still open. If you see any problems, e.g., concerning javax, ignore that and simply click on continue.
+By default, the customized, textual Xtext-based model editor will open for the files with the extension .thingml, i.e., for the ML2 model instances. You can write the following in the model editor and save the model instance:
 
-Step 3: Create a new project, say Demo_ML2 and then create a new file with the **.thingml** extension, say Test.thingml. This is a model instance, which shall conform to the ThingML meta-model (DSML). You may create this model instance by choosing File -> New -> Other -> Example EMF Model Creation Wizards -> ThingML Model, clicking on Next, then giving it the name Test.thingml, Clicking on Next, selecting **Model** as the **Model Object**, and finally clicking on Finish. 
-
-By default, our textual Xtext-based model editor will open. You will need to write the following in that text editor and save the file:
 ```
 thing my {
 	
 }
 ```
 
-#### Using the Graphical EMF-based Model Editor
+If everything is configured properly so far, you should already see the syntax highlighting (e.g., the orange color for the keyword thing) and you should be also already able to experience the auto-completion, e.g., by pressing CTRL+SPACE simultaneously. Moreover, you will see warnings, errors and hints in the editor and also in the properties view/tab of the Eclipse IDE if applicable.
 
-Now, if you right-click on the model instance and select Open With -> **ThingML Model Editor**, the **graphical** EMF-based tree model editor of ML2 will open.
-
-#### Using the Textual Xtext-based Model Editor
-
-However, if you right-click on the model instance and select Open With -> **ThingML Editor**, the **textual** Xtext-based model editor of ML2 will open.
+#### Using the Graphical EMF Tree-based Model Editor
+In the new/nested Eclipse instance, if you right-click on a model instance, e.g., Test.thingml and select Open With -> **ThingML Model Editor**, the graphical EMF tree-based model editor of ML2 will open. In contrast, if you right-click on a model instance and select Open With -> **ThingML Editor**, not **ThingML Model Editor**, the **textual** Xtext-based model editor of ML2 will open.
 
 #### Which Model Editor to Choose?
-There is no universal answer to this question. Some users prefer the textual editor, whereas some other ones find the graphical one more convenient. Please give both a try if you are not sure about your own preference.
+There is no universal answer to this question. Some practitioners/users, especially many advanced software developers prefer the textual model editor, whereas some other practitioners/users find the graphical tree-based model editor more convenient. Please give both a try if you are not sure about your own preference.
 
 ### Full documentation of the DSML
 
@@ -417,4 +414,4 @@ This is the core of the code generation mechanism, based on the imperative actio
 <a name="exploitation"></a>
 ## 7. Exploitation & Industry Adoption
 
-[DriotData](https://www.driotdata.com) provides citizen data scientists and citizen / end-user software developers with a web-based low-code platform, so that they can create their desired IoT services without extensive knowledge and skills in Software Engineering or Artificial Intelligence (AI). 
+[DriotData](https://www.driotdata.com) provides citizen data scientists and citizen / end-user software developers with a web-based "Low-Code" platform that has a graphical drag-and-drop dashboard, so that they can easily create their desired smart IoT services without extensive knowledge and skills in Software Engineering or Artificial Intelligence (AI).
