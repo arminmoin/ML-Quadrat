@@ -34,7 +34,7 @@ ML2 is a research prototype. If you find any issues/bugs or have any feature req
 
 <a name="user-doc-quick"></a>
 ## 3. Quick (15 mins) Tutorial
-Here, we provide a quick tutorial to get familiar with ML2. However, in order to read the full documentation, please go to the section ML2 Users' Documentation (Full Tutorial) below.
+Here, we provide a quick tutorial to get familiar with ML2. However, in order to read the full documentation, please go to the section [ML2 Users' Documentation (Full Tutorial)](#user-doc) below.
 
 ### How to install ML2?
 **System requirements and software prerequisites:**
