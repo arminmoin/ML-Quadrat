@@ -92,7 +92,7 @@ cd ../..
 ### How to find a sample model instance?
 There exist a number of sample model instances with the .thingml extension at this location: https://github.com/arminmoin/ML-Quadrat/tree/master/ML2/org.thingml.samples/src/main/thingml
 
-Let's choose ML2_Demo_PingPong.thingml for this quick tutorial, and generate, e.g., the Python and Java source code out of it using the Python_Java model-to-code transformation (a.k.a. code generator or "compiler"). The details will be explained in the full tutorial below.
+Let's choose [ML2_Demo_PingPong.thingml](https://github.com/arminmoin/ML-Quadrat/blob/master/ML2/org.thingml.samples/src/main/thingml/ML2_Demo_PingPong.thingml) for this quick tutorial, and generate, e.g., the Python and Java source code out of it using the Python_Java model-to-code transformation (a.k.a. code generator or "compiler"). The details will be explained in the [full tutorial](#user-doc) below.
 
 ### How to generate code out of the sample model instance?
 Run the following commands in the Linux terminal:
