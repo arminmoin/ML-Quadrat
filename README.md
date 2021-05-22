@@ -135,8 +135,7 @@ Then, please follow the steps below, in order to create a conda virtual environm
 ```bash
 conda create --name ml2 python=3.8
 conda activate ml2
-conda install networkx scipy tensorflow-gpu nb_conda jupyter scikit-learn seaborn matplotlib nomkl bokeh libiconv numpy pandas nltk gensim keras pytorch
-conda install jupyter_contrib_nbextensions -c conda-forge
+conda install nb_conda jupyter jupyter_contrib_nbextensions numpy pandas matplotlib scikit-learn tensorflow-gpu gensim keras pytorch -c conda-forge
 conda deactivate
 conda activate ml2
 ```
