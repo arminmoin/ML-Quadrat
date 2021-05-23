@@ -213,6 +213,8 @@ There is no universal answer to this question. Some practitioners/users, especia
 [Back to top](#toc)
 
 ### Full documentation of the DSML
+As mentioned, ML2 is based on the [ThingML](https://github.com/TelluIoT/ThingML) / [HEADS](https://github.com/HEADS-project) projects. Therefore, in order to gain a deeper insight and a thorough understanding of the underlying concepts and technologies, you are invited to read the documentations of the said open source projects.
+
 A typical software model instance that conforms to the meta-model/grammar of the DSML of ML2 consists of 4 main sections and various subsections in Section 3, i.e., "Things":
 
 #### Section 1. Imports
@@ -224,16 +226,12 @@ One may specify the platform annotations in this section. For instance, the prov
 #### Section 3. Things
 #####  For each thing, say Thing_A:
 ###### Subsection 3.1: Messages, Ports and Properties
-Following the semantics of ThingML/HEADS, the communication between the "things" in ML2 is carried out through asynchronous message-passing. A message must be sent from a port of the source thing to a port of the destination thing. 
+The keywords of this subsection of the model instance are highlighted in **orange** in the textual model editor of ML2. Following the semantics of [ThingML](https://github.com/TelluIoT/ThingML) / [HEADS](https://github.com/HEADS-project), the communication between the "things" in ML2 is carried out through asynchronous message-passing. A **message** must be sent from a **port** of the source thing to a **port** of the destination thing. Moreover, each message may have zero or more **parameters**. Further, each thing can have local variables, called **properties**.
 
 ###### Subsection 3.2: Data Analytics (and Machine Learning)
+This is the main innovation of ML2 compared to [ThingML](https://github.com/TelluIoT/ThingML) / [HEADS](https://github.com/HEADS-project). It is this subsection that enables DAML at the modeling layer. However, this subsection is optional. In other words, only those things that are supposed to possess DAML capabilities have this subsection. Note that a software model instance may have several things in Section 3. However, usually only one or some of them exhibit DAML capabilities. 
 
-###### Subsection 3.3: Statechart
-
-#### Section 4. Configuration
-
-
-#### Understanding the data analytics block of ML2 model instances
+The keywords of this subsection of the model instance are highlighted in **blue** in the textual model editor of ML2. Since there is obviously no documentation for this subsection elsewehre, which is reasonable due to the innovative nature, we elaboarte on the concepts, syntax and semantics of this subsection in more detail in what follows.
 
 This is a sample data analytics block in our demo, Smart Ping-Pong, which you may find at https://github.com/arminmoin/ML-Quadrat/tree/master/ML2/org.thingml.samples/src/main/thingml:
 
@@ -270,10 +268,6 @@ model_algorithm nn_multilayer_perceptron my_nn_mlp(
 
 you will see suggestions regarding the hyperparameters and configurations of the Neural Networks model, such as the choice of the ctivation function, optimizer, loss function and so forth. These choices are based on the APIs of the Keras library (see https://keras.io/guides) for the Deep Learning models, e.g., for the Multi-Layer Perceptron (MLP) Neural Network (NN), and based on the APIs of the Scikit-Learn library (see https://scikit-learn.org/stable/) for other models, e.g., Decision Trees and Random Forests.
 
-Moreover, all keywords regarding data analytics are highlíghted in blue color in our textual xtext-based model editor.
-
-#### The extended action language
-
 If you are familiar with the action language of ThingML, you can notice that we introduced four new action types concerning data analytics:
 
 (i) da_preprocess: This action leads to preprocessing the data, based on the data analytics block. The name of the corresponding data analytics block shall be mentioned after that, e.g., da_preprocess da1.
@@ -285,6 +279,11 @@ If you are familiar with the action language of ThingML, you can notice that we 
 (iv) da_save: This action leads to saving the prediction (new data) in the dataset. The name of the corresponding data analytics block shall be mentioned after that, e.g., da_save da1.
 
 Please see our examples (ML2 Demos) at https://github.com/arminmoin/ML-Quadrat/tree/master/ML2/org.thingml.samples/src/main/thingml.
+
+###### Subsection 3.3: Statechart
+
+#### Section 4. Configuration
+
 
 #### How to have the trained data analytics models retrained periodically
 In our sample model instances, we show how to do this. For instance, see this line:
