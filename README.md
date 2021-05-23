@@ -8,7 +8,7 @@ The name ML-Quadrat ("Quadrat" is the German word for "square" / ˆ2) refers to 
 ## Why ML2?
 ThingML/HEADS and other Model-Driven Software Engineering (MDSE) tools for the IoT/CPS, that we are aware of, do not support Data Analytics and Machine Learning (DAML) at the modeling layer. However, DAML methods and techniques are crucial for developing smart IoT services and CPS applications. Therefore, we enable DAML at the modeling layer through our Domain-Specific Modeling Language (DSML) and tool. In other words, the practitioner has access to the APIs of ML libraries and frameworks, such as [Scikit-Learn](https://scikit-learn.org/stable/), [Keras](https://keras.io), [TensorFlow](https://www.tensorflow.org), [Pytorch](https://pytorch.org) and [WEKA](https://www.cs.waikato.ac.nz/~ml/weka/) at the modeling layer. The model-to-code transformations generate the full source code of the entire software solution, including the ML part in a fully automated manner. 
 
-Moreover, the generated code is capable of creating, training, deploying and possibly re-training the ML models as necessary. Further, one may bring a pre-trained ML model with any arbitrary architecture, which might have been trained using any learning algorithm, and simply "connect" or "plug" it into the software model. This is called the Blackbox-ML mode or the hybrid/mixed MDSE/Non-MDSE mode. This mode offers a lot of flexibility since the practitioner is not limited to the ML models/algorithms/methods/techniques that are already supported by the DSML of ML2.
+Moreover, the generated code is capable of creating, training, deploying and possibly re-training the ML models as necessary. Further, one may bring a pre-trained ML model with any arbitrary architecture, which might have been trained using any learning algorithm, and simply "connect" or "plug" it into the software model. This is called the blackbox-ML mode or the hybrid/mixed MDSE/Non-MDSE mode. This mode offers a lot of flexibility since the practitioner is not limited to the ML models/algorithms/methods/techniques that are already supported by the DSML of ML2.
 
 <a name="toc"></a>
 # Table of Contents
@@ -235,7 +235,9 @@ This is the main innovation of ML2 compared to [ThingML](https://github.com/Tell
 
 The keywords of this subsection of the model instance are highlighted in **blue** in the textual model editor of ML2. Since there is obviously no documentation for this subsection elsewehre, which is reasonable due to its innovative nature, we elaborate on the concepts, syntax and semantics of this subsection in more detail in what follows.
 
-Let us consider the sample model instance [ML2_Demo_PingPong.thingml](https://github.com/arminmoin/ML-Quadrat/blob/master/ML2/org.thingml.samples/src/main/thingml/ML2_Demo_PingPong.thingml) once again. This is the data_analytics subsection of thing PingPongDataAnalytics, which is responsible for the DAML capabilites of this thing:
+Let us consider two of the provided sample model instances [ML2_Demo_PingPong.thingml](https://github.com/arminmoin/ML-Quadrat/blob/master/ML2/org.thingml.samples/src/main/thingml/ML2_Demo_PingPong.thingml) and [ML2_Demo_PingPong_Blackbox.thingml](https://github.com/arminmoin/ML-Quadrat/blob/master/ML2/org.thingml.samples/src/main/thingml/ML2_Demo_PingPong_Blackbox.thingml). The former corresponds to the pure (full) MDSE mode, whereas the latter corresponds to the **blackbox-ML mode or the hybrid/mixed MDSE/Non-MDSE mode**, where the practitioner (i.e., the user of the tool) may bring any arbitrary **pre-trained** ML model and "connect" or "plug" it into the software model.
+
+This is the data_analytics subsection of thing PingPongDataAnalytics in the former sample (namely ML2_Demo_PingPong.thingml):
 
 ```
 	data_analytics da1 
@@ -254,19 +256,35 @@ Let us consider the sample model instance [ML2_Demo_PingPong.thingml](https://gi
 		training_results "data/training.txt"		
 	}
 ```
-Below, we explain it line by line:
 
-(i) **data_analytics da1:** The **data_analytics** keyword must be followed by the name of this data_analytics component/block/workflow/pipeline since each thing may possess even more than one component/block/workflow/pipeline. In this case, da1 is its name.
+In addition, this is the data_analytics subsection of thing PingPongDataAnalytics in the latter case (namely ML2_Demo_PingPong_Blackbox.thingml):
 
-(ii) **@dalib "scikit-learn":** The dalib annotation is optional. It specifies the particular DAML library/framework that must be deployed for the code generation. If it is not mentioned, or if it is set to auto (i.e., @dalib "auto"), then the MDSE tool will deploy its AutoML engine to find the best choice. In some cases the chice might be trivially limited to one since not every DAML method/model/algorithm/technique is implemented in every DAML library/framework. The APIs of the selected DAML library/framework will be used for the automated code generation. 
+```
+	data_analytics da1 
+	@dalib "scikit-learn" {
+		labels ON
+		features client_ip_address,client_code,prediction
+		prediction_results prediction
+		blackbox_ml true	
+		blackbox_ml_model "pre_trained/pre_trained_ml_model.pickle"
+		blackbox_import_algorithm "from sklearn.neural_network import MLPClassifier"
+		//blackbox_label_encoder "pre_trained/pre_trained_label_encoder.pickle"
+	}
+```
+
+Below, we explain them line-by-line:
+
+(i) **data_analytics:** The **data_analytics** keyword must be followed by the name of this data_analytics component/block/workflow/pipeline since each thing may possess even more than one component/block/workflow/pipeline. In this case, da1 is its name.
+
+(ii) **@dalib:** The dalib annotation is optional. It specifies the particular DAML library/framework that must be deployed for the code generation. If it is not mentioned, or if it is set to auto (i.e., @dalib "auto"), then the MDSE tool will deploy its AutoML engine to find the best choice. In some cases the choice might be trivially limited to only one since not every DAML method/model/algorithm/technique is implemented in every DAML library/framework. In the shown example, [the Scikit-Learn library](https://scikit-learn.org/stable/) has been chosen. In any case, the APIs of the selected DAML library/framework will be used for the automated code generation. However, the choice of the DAML library/framework must be compatible with the choice of the ML model/algorithm and the choice of the model-to-code transformation for the code generation. If you are uncertain, it would be often better to not specify any particular DAML library/framework, thus relying on the default option.
 
 (iii) **{:** Open the braces (curly brackets) as shown above.
 
-(iv) **//:** Similar to Java, in order to comment out a line (i.e., disable or inactivate it) or if you want to write a comment, a double slash can be added to the beginning of the line, e.g., see "//@dalib "keras-tensorflow" {" in the example above.
+(iv) **//:** Similar to Java, in order to comment out a line (i.e., disable or inactivate it) or if you want to write a comment, a double slash can be added to the beginning of the line, e.g., see "//@dalib "keras-tensorflow" {" above.
 
-(v) **labels ON:** 
+(v) **labels ON:** This item specifies whether the data are labeled, unlabeled, or partially labeled. Thus, it implicitly determines the type of the ML task; its value can be ON for labeled data (supervised ML), OFF for unlabeled data (unsupervised ML), or SEMI for partially labeled data (semi-supervised ML). The labels parameter appears in both the pure (full) MDSE and the blackbox-ML modes.
 
-(vi)
+(vi) **features client_ip_address,client_code,prediction:** 
 
 (vii)
 
