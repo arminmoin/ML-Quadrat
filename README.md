@@ -417,7 +417,6 @@ cd ML-Quadrat
 mvn clean install -X
 cd ML2/language
 mvn clean install -X
-cd ../..
 ```
 The -X option is optional and enables the debugging mode, thus resulting in a more detailed output.
 
@@ -434,33 +433,22 @@ Last but not least, as mentioned before, you must run the [GenerateThingML.mwe2]
 If you want to introduce new keywords and let the features of the textual model editor, such as syntax highlighting work for them, please add the keywords to the [ThingMLAntlrTokenToAttributeIdMapper Java class](https://github.com/arminmoin/ML-Quadrat/blob/master/ML2/language/thingml.ui/src/org/thingml/xtext/ui/ThingMLAntlrTokenToAttributeIdMapper.java).
 
 ### Contributing to the Semantics of the DSML at the Modeling Layer
-If you want to adapt or extend the model checking constraints, validation rules, etc., please chekc out the Java/Xtend classes here: [ML2/language/thingml/src/org/thingml](https://github.com/arminmoin/ML-Quadrat/tree/master/ML2/language/thingml/src/org/thingml).
+If you want to adapt or extend the model checking constraints, validation rules, etc., please check out the Java/Xtend classes here: [ML2/language/thingml/src/org/thingml](https://github.com/arminmoin/ML-Quadrat/tree/master/ML2/language/thingml/src/org/thingml).
 
 ### Contributing to the Semantics of the DSML at the Model-to-Code Transformations Layer
+Please check out the existing model-to-code transformations (code generators/"compilers") at [ML2/compilers](https://github.com/arminmoin/ML-Quadrat/tree/master/ML2/compilers). Let's say you want to adapt/extend the Python and Java code generator (python_java). For example, suppose that you want to enable a new ML method out-of-the-box, i.e., in the pure MDSE mode. To this aim, please adapt/extend the [PythonJavaThingActionCompiler Java class](https://github.com/arminmoin/ML-Quadrat/blob/master/ML2/compilers/python_java/src/main/java/org/thingml/compilers/python_java/PythonJavaThingActionCompiler.java).
 
-Below, we explain the key sections for making changes to the code generation framework (specifically for Java and Python). As mentioned, the code generator for Java also generates the required Python code for covering the Data Analytics and Machine Learning aspects. After any modifications, please build the project again using Maven:
+**Note:** You may add any new Java packages that must be included among the imported Java packages in the generated Java code to the Helper Java class, e.g., in the case of the python_java code generator to the [PythonJavaHelper Java class](https://github.com/arminmoin/ML-Quadrat/blob/master/ML2/compilers/python_java/src/main/java/org/thingml/compilers/python_java/PythonJavaHelper.java).
+
+After any modifications, please build the corresponding projects again using Maven in the terminal as follows (e.g., for the python_java case):
 
 ```bash
-cd ML2/compilers/java
-mvn clean install
-cd ..
-mvn clean install
-cd ..
-mvn clean install
+cd ML-Quadrat/ML2/compilers/python_java
+mvn clean install -X
+cd ML-Quadrat/ML2/compilers/registry
+mvn clean install -X
 ```
-Also, generate the graphical EMF-based model editor by opening ThingML.genmodel at thingml -> model -> generated, then right-clicking on ThingML and generating the **Model Code**, the **Edit Code** and the **Editor Code**.
-
-#### Java Helper
-
-This Java class is located at ML2/compilers/java/src/main/java/org/thingml/compilers/java/JavaHelper.java
-
-There, you can add any new Java packages that must be included among the imported packages in the generated Java code.
-
-#### Java Thing Action Compiler
-
-This Java class is located at ML2/compilers/java/src/main/java/org/thingml/compilers/java/JavaThingActionCompiler.java
-
-This is the core of the code generation mechanism, based on the imperative action language. This is where you can instruct the code generation framework how to generate code for each "action" in a model instance, e.g., da_preprocess, da_train, etc.
+The -X option is optional and enables the debugging mode, thus resulting in a more detailed output.
 
 [Back to top](#toc)
 
