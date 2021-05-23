@@ -188,7 +188,9 @@ File -> import -> General -> Existing Projects into Workspace (you should also c
 Make sure that you wait sufficiently long, so that the (sub-/nested) projects are built and you get a clean workspace without any errors. If that is not the case, sometimes cleaning the workspace (Project -> Clean... -> Clean all projects), updating the Maven projects (right click on a project -> Maven -> Update Project... -> Select All, you may also check the option **Force Update of Snapshots/Releases**) or restarting the Eclipse IDE (Eclipse Modeling Tools) might help.
 
 #### Running the GenerateThingML.mwe2 workflow in the Eclipse IDE
-One of the projects in the workspace, called thingml.ide might still have errors. Please run the [GenerateThingML.mwe2](https://github.com/arminmoin/ML-Quadrat/blob/master/ML2/language/thingml/src/org/thingml/xtext/GenerateThingML.mwe2) workflow, which resides in the thingml project in the workspace (under thingml/src/org/thingml/xtext) from within the Eclipse IDE by right-clicking on it and choosing run from the context menu. This shall deploy the [Xtext ANTLR plugin](https://download.itemis.de/updates/releases/2.1.1/) that we installed before, and fix the issues. This way, the customized textual model editor will work properly (see below).
+One of the projects in the workspace, called thingml.ide might still have errors. Often, you need to do the following, in order to have a functioning textual model editor. 
+
+Please run the [GenerateThingML.mwe2](https://github.com/arminmoin/ML-Quadrat/blob/master/ML2/language/thingml/src/org/thingml/xtext/GenerateThingML.mwe2) workflow, which resides in the thingml project in the workspace (under src -> org.thingml.xtext) from within the Eclipse IDE by right-clicking on it and choosing Run as -> MWE2 Workflow from the context menu. This shall deploy the [Xtext ANTLR plugin](https://download.itemis.de/updates/releases/2.1.1/) that we installed before, and fix the issues. This way, the customized textual model editor will work properly (see below).
 
 #### Running a nested Eclipse instance to use the model editors
 In order to use the textual or the EMF tree-based model editors, you must run a new/nested instance of the Eclipse IDE inside of the Eclipse IDE (the above-mentioned workspace). To this aim, click on one of the projects in the workspace, let's say, e.g., thingml or thingml.ide, and select "Run As" and then "Eclipse Application" from the context menu.
@@ -400,49 +402,41 @@ You can find the Maven artifacts of ML2 at https://oss.sonatype.org (e.g., searc
 
 <a name="dev-doc"></a>
 ## 6. Developers' Documentation (for Contributors)
-If you are going to contribute to this project, please read the developers' documentation below. Our documentation focuses on Linux and mainly Java. However, a number of other platforms and programming languages may also be used similarly with minor modifications.
+If you are going to contribute to this project, please read the developers' documentation below. Basically, there exist 4 main extensio points: (i) The abstract syntax of the modeling langauge, i.e., the [Xtext grammar](https://github.com/arminmoin/ML-Quadrat/blob/master/ML2/language/thingml/src/org/thingml/xtext/ThingML.xtext) (which also implicitly means the Ecore meta-model since the latter is generated automatically out of the former as stated before). (ii) The concrete syntax of the modeling language, e.g., the textual model editor. (iii) The semantics realized through the Xtext framework, e.g., in the Java/Xtend classes at [ML2/language/thingml/src/org/thingml](https://github.com/arminmoin/ML-Quadrat/tree/master/ML2/language/thingml/src/org/thingml). (iv) The semantics implemented in the model-to-code transformations (code generators/"compilers") at [ML2/compilers](https://github.com/arminmoin/ML-Quadrat/tree/master/ML2/compilers). Below, we briefly explain each of them.
 
-Our focus is on the Java code generator (model-to-text transformation), which also generates Python code. However, the same strategy shall apply to the other supported target platforms and programming languages for code generation. 
+### Contributing to the Grammar/Meta-model of the DSML
 
-### Contribution to the Modeling Language
+The Xtext grammar is the core of the DSML of ML2. If you are not already familiar with the Xtext framework for DSML/DSL/programming language creation, please read the documentation here: https://www.eclipse.org/Xtext/documentation/index.html
 
-Below, we explain the key sections for making changes to the modeling language. After any modifications, please build the project again using Maven:
+**Note:** In some cases, the enforced scoping rules might prevent you from making the desired modifications working. For instance, you might want to allow the practitioner to use a certain concept, such as the message parameters in a (sub)section of the model instances that was not possible so far. If that is the case, you might find the [ThingMLScopeProvider Xtend class](https://github.com/arminmoin/ML-Quadrat/blob/master/ML2/language/thingml/src/org/thingml/xtext/scoping/ThingMLScopeProvider.xtend) helpful.
+
+After any modifications, please build the entire project again using Maven in the terminal as follows:
 
 ```bash
-mvn clean install
+cd ML-Quadrat
+mvn clean install -X
 cd ML2/language
-mvn clean install
-cd ..
+mvn clean install -X
+cd ../..
 ```
-Also, generate the graphical EMF-based model editor by opening ThingML.genmodel at thingml -> model -> generated, then right-clicking on ThingML and generating the **Model Code**, the **Edit Code** and the **Editor Code**.
+The -X option is optional and enables the debugging mode, thus resulting in a more detailed output.
 
-#### The Main Part: the Xtext Grammar
+Now, we see that the Ecore meta-model is also automatically generated and resides in thingml -> model -> generated.
 
-This is the core of the Domain-Specific Modeling Language (DSML). Even the Ecore meta-model is generated out of this grammar. You may find the grammar in the following path:
+Moreover, you need to re-generate the graphical EMF tree-based model editor in the Eclipse IDE by following these steps:
 
-ML2/language/thingml/src/org/thingml/xtext/ThingML.xtext
+1. Open ThingML.genmodel that resides in the project called "thingml" in the workspace at model -> generated. 
+2. Right-click on ThingML and select the options **Generate Model Code**, **Generate Edit Code** and **Generate Editor Code** one after another.
 
-If you are not already familiar with Xtext, please read the tutorial here:
+Last but not least, as mentioned before, you must run the [GenerateThingML.mwe2](https://github.com/arminmoin/ML-Quadrat/blob/master/ML2/language/thingml/src/org/thingml/xtext/GenerateThingML.mwe2) workflow, which resides in the thingml project in the workspace (under src -> org.thingml.xtext) from within the Eclipse IDE by right-clicking on it and choosing Run as -> MWE2 Workflow from the context menu. This shall deploy the [Xtext ANTLR plugin](https://download.itemis.de/updates/releases/2.1.1/) that we installed before. This way, the customized textual model editor will also work properly.
 
-https://www.eclipse.org/Xtext/documentation/index.html
+### Contributing to the Concrete Syntax of the DSML
+If you want to introduce new keywords and let the features of the textual model editor, such as syntax highlighting work for them, please add the keywords to the [ThingMLAntlrTokenToAttributeIdMapper Java class](https://github.com/arminmoin/ML-Quadrat/blob/master/ML2/language/thingml.ui/src/org/thingml/xtext/ui/ThingMLAntlrTokenToAttributeIdMapper.java).
 
-#### Token To AttributeId Mapper
+### Contributing to the Semantics of the DSML at the Modeling Layer
+If you want to adapt or extend the model checking constraints, validation rules, etc., please chekc out the Java/Xtend classes here: [ML2/language/thingml/src/org/thingml](https://github.com/arminmoin/ML-Quadrat/tree/master/ML2/language/thingml/src/org/thingml).
 
-You may find this Java class (ThingMLAntlrTokenToAttributeIdMapper) in the following path:
-
-ML2/language/thingml.ui/src/org/thingml/xtext/ui/ThingMLAntlrTokenToAttributeIdMapper.java
-
-You can add any new keywords to the corresponding section of that.
-
-#### Scope Provider
-
-You may find this Xtend class (ThingMLScopeProvider) in the following path:
-
-ML2/language/thingml/src/org/thingml/xtext/scoping/ThingMLScopeProvider.xtend
-
-This shall be used for any possible adjustments of the scoping of the modeling language.
-
-### Contribution to the Code Generation Framework
+### Contributing to the Semantics of the DSML at the Model-to-Code Transformations Layer
 
 Below, we explain the key sections for making changes to the code generation framework (specifically for Java and Python). As mentioned, the code generator for Java also generates the required Python code for covering the Data Analytics and Machine Learning aspects. After any modifications, please build the project again using Maven:
 
