@@ -215,6 +215,8 @@ There is no universal answer to this question. Some practitioners/users, especia
 ### Full documentation of the DSML
 As mentioned, ML2 is based on the [ThingML](https://github.com/TelluIoT/ThingML) / [HEADS](https://github.com/HEADS-project) projects. Therefore, in order to gain a deeper insight and a thorough understanding of the underlying concepts and technologies, you are invited to read the documentations of the said open source projects.
 
+In principle, a DSML comprises three key components: (i) Abstract syntax. (ii) Concrete syntax. (iii) Semantics. The **abstract syntax** of the DSML of ML2 is implemented through the [Xtext grammar](https://github.com/arminmoin/ML-Quadrat/blob/master/ML2/language/thingml/src/org/thingml/xtext/ThingML.xtext). The Ecore meta-model is generated automatically out of the Xtext grammar. Moreover, the **concrete syntax** of the DSML is realized in the textual (Xtext-based) and graphical (EMF tree-based) forms, as explained above. Last but not least, the **semantics** are implemented both via the Xtext framework (in Java and Xtend) on the modeling langauge layer and also through the model-to-code transformations (i.e., code generators, also known as "compilers").
+
 A typical software model instance that conforms to the meta-model/grammar of the DSML of ML2 consists of 4 main sections and various subsections in Section 3, i.e., "Things":
 
 #### Section 1. Imports
@@ -229,24 +231,62 @@ One may specify the platform annotations in this section. For instance, the prov
 The keywords of this subsection of the model instance are highlighted in **orange** in the textual model editor of ML2. Following the semantics of [ThingML](https://github.com/TelluIoT/ThingML) / [HEADS](https://github.com/HEADS-project), the communication between the "things" in ML2 is carried out through asynchronous message-passing. A **message** must be sent from a **port** of the source thing to a **port** of the destination thing. Moreover, each message may have zero or more **parameters**. Further, each thing can have local variables, called **properties**.
 
 ###### Subsection 3.2: Data Analytics (and Machine Learning)
-This is the main innovation of ML2 compared to [ThingML](https://github.com/TelluIoT/ThingML) / [HEADS](https://github.com/HEADS-project). It is this subsection that enables DAML at the modeling layer. However, this subsection is optional. In other words, only those things that are supposed to possess DAML capabilities have this subsection. Note that a software model instance may have several things in Section 3. However, usually only one or some of them exhibit DAML capabilities. 
+This is the main innovation of ML2 compared to [ThingML](https://github.com/TelluIoT/ThingML) / [HEADS](https://github.com/HEADS-project). It is this subsection that enables DAML at the modeling layer. However, this subsection is optional. In other words, only those things that are supposed to possess DAML capabilities should have this subsection. Note that a software model instance may contain several things. In fact, very often this is the case, since containing only one thing is trivial and no interaction can occur. However, usually only one or some of the things exhibit DAML capabilities, not all of them.
 
-The keywords of this subsection of the model instance are highlighted in **blue** in the textual model editor of ML2. Since there is obviously no documentation for this subsection elsewehre, which is reasonable due to the innovative nature, we elaboarte on the concepts, syntax and semantics of this subsection in more detail in what follows.
+The keywords of this subsection of the model instance are highlighted in **blue** in the textual model editor of ML2. Since there is obviously no documentation for this subsection elsewehre, which is reasonable due to its innovative nature, we elaborate on the concepts, syntax and semantics of this subsection in more detail in what follows.
 
-This is a sample data analytics block in our demo, Smart Ping-Pong, which you may find at https://github.com/arminmoin/ML-Quadrat/tree/master/ML2/org.thingml.samples/src/main/thingml:
+Let us consider the sample model instance [ML2_Demo_PingPong.thingml](https://github.com/arminmoin/ML-Quadrat/blob/master/ML2/org.thingml.samples/src/main/thingml/ML2_Demo_PingPong.thingml) once again. This is the data_analytics subsection of thing PingPongDataAnalytics, which is responsible for the DAML capabilites of this thing:
 
-	data_analytics da1 {
-		dataset "data/ip_dataset.csv"
-		sequential TRUE
-		timestamps ON
+```
+	data_analytics da1 
+	@dalib "scikit-learn" {
+	//@dalib "keras-tensorflow" {
+	//{
 		labels ON
-		features client_ip_address,prediction
-		model_algorithm decision_tree my_dt()
-		training_results "data/training.txt"		
+		features client_ip_address,client_code,prediction
 		prediction_results prediction
+		dataset "data/ip_dataset.csv"
+		automl OFF
+		sequential TRUE
+		timestamps OFF	
+		preprocess_feature_scaler StandardScaler
+		model_algorithm nn_multilayer_perceptron my_nn_mlp(activation relu, optimizer adam, loss SparseCategoricalCrossentropy)
+		training_results "data/training.txt"		
 	}
+```
+Below, we explain it line by line:
+
+(i) **data_analytics da1:** The **data_analytics** keyword must be followed by the name of this data_analytics component/block/workflow/pipeline since each thing may possess even more than one component/block/workflow/pipeline. In this case, da1 is its name.
+
+(ii) **@dalib "scikit-learn":** The dalib annotation is optional. It specifies the particular DAML library/framework that must be deployed for the code generation. If it is not mentioned, or if it is set to auto (i.e., @dalib "auto"), then the MDSE tool will deploy its AutoML engine to find the best choice. In some cases the chice might be trivially limited to one since not every DAML method/model/algorithm/technique is implemented in every DAML library/framework. The APIs of the selected DAML library/framework will be used for the automated code generation. 
+
+(iii) **{:** Open the braces (curly brackets) as shown above.
+
+(iv) **//:** Similar to Java, in order to comment out a line (i.e., disable or inactivate it) or if you want to write a comment, a double slash can be added to the beginning of the line, e.g., see "//@dalib "keras-tensorflow" {" in the example above.
+
+(v) **labels ON:** 
+
+(vi)
+
+(vii)
+
+(viii)
+
+(ix)
+
+(x)
+
+(xi)
+
+(xii)
+
+(xiii)
+
+(xiv) 
+
+(xv) **}:** Finally, do not forget to close the braces (curly brackets) as shown above.
 	
-(i) dataset: This is the path to the Comma-Separated Values (CSV) file, which contains the dataset that should be used for data analytics.
+dataset: This is the path to the Comma-Separated Values (CSV) file, which contains the dataset that should be used for data analytics.
 
 (ii) sequential: This is a Boolean (TRUE/FLASE) value that indicates whether the dataset is a sequential / temporal one, i.e., whether the order of the data instances must be preserved or not. If this is true, then, e.g., cross validation shall not be practiced.
 
