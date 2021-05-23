@@ -228,6 +228,8 @@ One may import other model instances that conform to the meta-model/grammar of t
 One may specify the platform annotations in this section. For instance, the provided example [ML2_Demo_PingPong.thingml](https://github.com/arminmoin/ML-Quadrat/blob/master/ML2/org.thingml.samples/src/main/thingml/ML2_Demo_PingPong.thingml) demonstrates how the String, Boolean<1> and Int32<4> datatypes are supposed to be mapped to the "platform"-specific datatypes, such as String <-> char * for the C code generation, but String <-> String for the Java and the Javascript code generation. Note that the platform annotations might appear in other sections, e.g., for choosing the specific library/framework for DAML in Subsection 3.2 ("Data Analytics (and Machine Learning)"), or for selecting a particular model-to-code transformation (code generator, also known as "compiler") in Section 4 ("Configuration").
 
 #### Section 3. Things
+Things are somehow analogues to the "Classes" in the Object-Oriented Programming (OOP) paradigm.
+
 #####  For each thing, say Thing_A:
 ###### Subsection 3.1: Messages, Ports and Properties
 The keywords of this subsection of the model instance are highlighted in **orange** in the textual model editor of ML2. Following the semantics of [ThingML](https://github.com/TelluIoT/ThingML) / [HEADS](https://github.com/HEADS-project), the communication between the "things" in ML2 is carried out through asynchronous message-passing. A **message** must be sent from a **port** of the source thing to a **port** of the destination thing. Moreover, each message may have zero or more **parameters**. Further, each thing can have local variables, called **properties**.
@@ -353,29 +355,31 @@ Below, we briefly explain the new action types that are introduced in ML2, but d
 4. **da_predict:** This "action" triggers a query to the trained ML model for its predictions and storing the predictions in the specified local variable (i.e., property) of the thing (see prediction_results above). Further, this "action" must be followed by the name of the respective data analytics block, e.g., da1 in the case of the shown example above. Additionally, this "action" requires the local variables (i.e., properties) corresponding to the ML features/attributes as arguments (See "da_predict da1(client_ip_address, client_code)" in the provided example [ML2_Demo_PingPong.thingml](https://github.com/arminmoin/ML-Quadrat/blob/master/ML2/org.thingml.samples/src/main/thingml/ML2_Demo_PingPong.thingml)).
 5. **da_pre_trained_predict:** In the blackbox-ML mode, none of the above-mentioned "actions" is useful. Instead, this "action" loads the provided pre-trained ML model into the main memory and asks it to make the predictions. Similarly, this "action" must be followed by the name of the respective data analytics block, e.g., da1 in the case of the shown blackbox-ML example above. Additionally, this "action" requires the local variables (i.e., properties) corresponding to the ML features/attributes as arguments (See "da_pre_trained_predict da1(client_ip_address, client_code)" in the provided blackbox-ML example [ML2_Demo_PingPong_Blackbox.thingml](https://github.com/arminmoin/ML-Quadrat/blob/master/ML2/org.thingml.samples/src/main/thingml/ML2_Demo_PingPong_Blackbox.thingml)).
 
-
-TODO
-If you are familiar with the action language of ThingML, you can notice that we introduced four new action types concerning data analytics:
-
-(i) : This action leads to preprocessing the data, based on the data analytics block. The name of the corresponding data analytics block shall be mentioned after that, e.g., da_preprocess da1.
-
-(ii) : This action leads to training the data analytics model, based on the data analytics block. The name of the corresponding data analytics block shall be mentioned after that, e.g., da_train da1.
-
-(iii) : This action leads to predictions using the data analytics model. The name of the corresponding data analytics block, as well as the values of the features, based on which the prediction shall occur, must be mentioned after that, e.g., da_predict da1(value).
-
-(iv) : This action leads to saving the prediction (new data) in the dataset. The name of the corresponding data analytics block shall be mentioned after that, e.g., da_save da1.
-
-Please see our examples (ML2 Demos) at https://github.com/arminmoin/ML-Quadrat/tree/master/ML2/org.thingml.samples/src/main/thingml.
-
 #### Section 4. Configuration
+The keywords of this subsection of the model instances are highlighted in **green** in the textual model editor of ML2. As long as a model instance is valid (i.e., conforms to the meta-model/grammar of the DSML of ML2), and is complete, we can use a model-to-code transformation (code generator/"compiler") of ML2 to gnerate the entire source code of the target (smart) IoT service out of it in a fully automated manner, provided that it has a configuration section at the end. If we have a PIM instance, such as the provided example [ML2_Demo_NIALM_PIM.thingml](https://github.com/arminmoin/ML-Quadrat/blob/master/ML2/org.thingml.samples/src/main/thingml/ML2_Demo_NIALM_PIM.thingml), it reasonably does not include any configuration. However, the PSM instances, e.g., [ML2_Demo_NIALM_PSM_Java.thingml](https://github.com/arminmoin/ML-Quadrat/blob/master/ML2/org.thingml.samples/src/main/thingml/ML2_Demo_NIALM_PSM_Java.thingml) must contain the configuration. Here is the sample configuration of the above-mentioned example [ML2_Demo_PingPong.thingml](https://github.com/arminmoin/ML-Quadrat/blob/master/ML2/org.thingml.samples/src/main/thingml/ML2_Demo_PingPong.thingml):
 
+```
+configuration ML2_Demo_PingPong_Cfg @compiler "python_java" {	
+    	instance pingClient : PingClient
+    	instance pingServer : PingServer
+    	instance pingPongDataAnalytics : PingPongDataAnalytics
+    	connector pingClient.ping_service => pingServer.ping_service
+    	connector pingServer.da_service => pingPongDataAnalytics.da_service    
+}
+```
 
-#### How to have the trained data analytics models retrained periodically
-In our sample model instances, we show how to do this. For instance, see this line:
+The configuration subsection has typically 3 parts:
+
+1. Optionally, it has the annotation @compiler, determining the particular model-to-code transformation (code generator/"compiler") that needs to be deployed, e.g., @compiler "python_java" for the Python and Java code generator, or @compiler "java" for the pure Java code generator. This is required if the practitioner wants to later use the "-c auto" option for the code generation. Otherwise, if it is not specified in the configuration, the practitioner may later use the "-c" option in the code generation to determine the target model-to-code transformation (code generator/"compiler") that shall be deployed, e.g., "-c python_java" for the Python and Java code generator, or "-c java" for the pure Java code generator.
+2. As mentioned before, Things are analogues to the "Classes" in the Object-Oriented Programming (OOP) paradigm. Similarly, instances are analogues to the "Objects" in the OOP paradigm. Therefore, the concrete instances of the things defined above must be instantiated here. In the shown example above, we see the instances ("objects") pingClient, pingServer and pingPongDataAnalytics that are instaces of the things("classes") PingClient, PingServer and PingPongDataAnalytics, respectively.
+3. The connections between the ports of the defined things must be specified here using the connector keyword as illustrated above. Without this, there will be no communication between the things' instances at the runtime!
+
+### How to have the ML models re-trained automatically and periodically?
+See, e.g., thing NIALMDataAnalytics in the provided sample model instance [ML2_Demo_NIALM_PIM.thingml](https://github.com/arminmoin/ML-Quadrat/blob/master/ML2/org.thingml.samples/src/main/thingml/ML2_Demo_NIALM_PIM.thingml). As we can see in the Ready state of the NIALMDataAnalyticsBehavior statechart, the last_training_timer port is used for this purpose. Note that the time is in milliseconds:
 
 last_training_timer!timer_start(3600000)
 
-in our examples here: https://github.com/arminmoin/ML-Quadrat/tree/master/ML2/org.thingml.samples/src/main/thingml. That is the time in milliseconds, thus in this case retraining the data analytics models in 1 hour periods always using the latest data in the CSV file (dataset). This way, we will take new data into account.
+Hence, in this case, every 60 mins the event timer_timeout occurs on the last_training_timer port, leading to the transition of the statechart from the Ready state to the Train state, thus re-training the ML model.
 
 [Back to top](#toc)
 
