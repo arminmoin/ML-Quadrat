@@ -302,17 +302,17 @@ Below, we explain them line-by-line:
 
 (xiv) **model_algorithm:** The specific ML method that shall be deployed is set here. The method includes the architecture/type of the ML model, e.g., whether it is from the ANN family or from the linear family, and in each case, what the hyper-parameters are, e.g., for Deep ANNs, how many hidden layers, with which sizes, does the ML model possess, what is the learning algorithm that shall be used for training the ML model, e.g., Stochastic Gradient Descent (SGD), and so forth. The range of ML models/algorithms/methods/techniques is evolving. However, currently, the following ML methods are supported:
 
-**For supervised ML: **
-1. Logistic Regression (for linear classification)
-2. Linear Regression
-3. Gaussian Naive Bayes
-4. Multinomial Naive Bayes
-5. Complement Naive Bayes
-6. Bernoulli Naive Bayes
-7. Categorical Naive Bayes
-8. Decision Tree Regressor and Decision Tree Classifier
-9. Random Forest Regressor Random Forest Classifier (ensemble methods)
-10. The Multi-Layer Perceptron (MLP) Artificial Neural Networks (ANN) for classification and regression
+**For supervised ML:**
+1. Logistic Regression for linear classification, see the [Scikit-Learn API doc](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html)
+2. Linear Regression, see the [Scikit-Learn API doc](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html)
+3. Gaussian Naive Bayes, see the [Scikit-Learn API doc](https://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.GaussianNB.html)
+4. Multinomial Naive Bayes, see the [Scikit-Learn API doc](https://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.MultinomialNB.html)
+5. Complement Naive Bayes, see the [Scikit-Learn API doc](https://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.ComplementNB.html)
+6. Bernoulli Naive Bayes, see the [Scikit-Learn API doc](https://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.BernoulliNB.html)
+7. Categorical Naive Bayes, see the [Scikit-Learn API doc](https://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.CategoricalNB.html)
+8. Decision Tree Regressor and Decision Tree Classifier, see the [Scikit-Learn API doc (regression)](https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeRegressor.html) / [Scikit-Learn API doc (classification)](https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html)
+9. The Random Forest Regressor and Random Forest Classifier ensemble methods, see the [Scikit-Learn API doc (regression)](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestRegressor.html) / [Scikit-Learn API doc (classification)](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html)
+10. The Multi-Layer Perceptron (MLP) Artificial Neural Networks (ANN) for classification and regression, see the [Keras API doc (default)](https://keras.io/guides/sequential_model/) and the [Scikit-Learn API doc (regression)](https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPRegressor.html) / [Scikit-Learn API doc (classification)](https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPClassifier.html).
 
 **For unsupervised ML:**
 1. K-Means
