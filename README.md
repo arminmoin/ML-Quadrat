@@ -280,52 +280,66 @@ Below, we explain them line-by-line:
 
 (iii) **{:** Open the braces (curly brackets) as shown above.
 
-(iv) **//:** Similar to Java, in order to comment out a line (i.e., disable or inactivate it) or if you want to write a comment, a double slash can be added to the beginning of the line, e.g., see "//@dalib "keras-tensorflow" {" above.
+(iv) **//:** Similar to Java, in order to comment out a line (i.e., disable or inactivate it) or write any comment, a double slash can be added to the beginning of the line, e.g., see "//@dalib "keras-tensorflow" {" above.
 
-(v) **labels ON:** This item specifies whether the data are labeled, unlabeled, or partially labeled. Thus, it implicitly determines the type of the ML task; its value can be ON for labeled data (supervised ML), OFF for unlabeled data (unsupervised ML), or SEMI for partially labeled data (semi-supervised ML). The labels parameter appears in both the pure (full) MDSE and the blackbox-ML modes.
+(v) **labels:** This item specifies whether the data are labeled, unlabeled, or partially labeled. Thus, it implicitly determines the type of the ML task; its value can be ON for labeled data (supervised ML), OFF for unlabeled data (unsupervised ML), or SEMI for partially labeled data (semi-supervised ML). The "labels" parameter appears in both the pure (full) MDSE and the blackbox-ML modes.
 
-(vi) **features client_ip_address,client_code,prediction:** 
+(vi) **features:** This one specifies the ML features/attributes separated by commas. These are a subset of the properties (i.e., local variables) of the respective thing to which the data analytics block belongs. For instance, the properties might store the incoming messages or some of their specific parameters. The values of the features might be scalar or vector. If "labels" is set to ON, thus having supervised ML, the last feature is considered as the class label. Also in this case, the label can be a vector. Similar to "labels", the "features" parameter is also used in both the pure (full) MDSE and the blackbox-ML modes.
 
-(vii)
+(vii) **prediction_results:** The predictions of the ML model, e.g., the predicted class label or target value in the case of supervised ML (classification/regression) or the cluster index in the case of unsupervised ML for a new data instance shall be stored in the property specified here. This parameter is also required in both the pure (full) MDSE and the blackbox-ML modes.
 
-(viii)
+(viii) **dataset:** This provides the path to the Comma-Separated Values (CSV) file containing the input data that shall be used for training the ML model.
 
-(ix)
+(ix) **automl:** This parameter can turn the AutoML (Automated ML) engine on or off. The AutoML functionalities are still basic and under development.
 
-(x)
+(x) **sequential:** This Boolean parameter specifies whether the data are sequential, i.e., whether the order matters. For instance, time series or DNA data may not be shuffled or be involved in cross validation or similar practices.
 
-(xi)
+(xi) **timestamps:** This binary (ON/OFF) parameter determines if the first column of the dataset includes the timestamps of the input data. If set to ON, the predictions of the ML model will also be automatically timestamped, e.g., if they should be appended to the dataset.
 
-(xii)
+(xii) **preprocess_feature_scaler:** Here, one could choose a scaler for the **standardization**, which works per ML feature (i.e., column-wise). Many ML methods, such as Neural Networks exhibit a poor performance on the data with ML features that have different scales. The available choices for standardization are the standard scaler (i.e., z-score, which removes the mean and scales to unit variance), the robust scaler (which uses the statistics that are robust to the outliers), and the min-max scaler (which scales each feature to a given range).
 
-(xiii)
+(xiii) **preprocess_sample_normalizer:** This is not shown in the above-mentioned examples. Here, one could choose a normalizer for the **normalization**, which works per sample (i.e., row-wise). Normalization transforms each sample with at least one non-zero feature to the unit norm, independently of the other samples. This is usually required for similarity metrics, e.g., in text classification/clustering. The supported norms are the L2 norm, the L1 norm and the Max norm.
 
-(xiv) 
+(xiv) **model_algorithm:** The specific ML method that shall be deployed is set here. The method includes the architecture/type of the ML model, e.g., whether it is from the ANN family or from the linear family, and in each case, what the hyper-parameters are, e.g., for Deep ANNs, how many hidden layers, with which sizes, does the ML model possess, what is the learning algorithm that shall be used for training the ML model, e.g., Stochastic Gradient Descent (SGD), and so forth. The range of ML models/algorithms/methods/techniques is evolving. However, currently, the following ML methods are supported:
 
-(xv) **}:** Finally, do not forget to close the braces (curly brackets) as shown above.
-	
-dataset: This is the path to the Comma-Separated Values (CSV) file, which contains the dataset that should be used for data analytics.
+**For supervised ML: **
+1. Logistic Regression (for linear classification)
+2. Linear Regression
+3. Gaussian Naive Bayes
+4. Multinomial Naive Bayes
+5. Complement Naive Bayes
+6. Bernoulli Naive Bayes
+7. Categorical Naive Bayes
+8. Decision Tree Regressor and Decision Tree Classifier
+9. Random Forest Regressor Random Forest Classifier (ensemble methods)
+10. The Multi-Layer Perceptron (MLP) Artificial Neural Networks (ANN) for classification and regression
 
-(ii) sequential: This is a Boolean (TRUE/FLASE) value that indicates whether the dataset is a sequential / temporal one, i.e., whether the order of the data instances must be preserved or not. If this is true, then, e.g., cross validation shall not be practiced.
+**For unsupervised ML:**
+1. K-Means
+2. Mini-Batch K-Means
+3. DB-SCAN
+4. Spectral Clustering
+5. Gaussian Mixture Model
 
-(iii) timestamps: This is a binary (ON/OFF) value, which indicates whether timestamps are present in the dataset or not. If this is on, it means we should assume that the first column in the CSV file contains the timestamps. Also, timestamps shall be added to new data instances through the da_save action of the action language used in the state charts.
+**For semi-supervised ML:**
+1. Self-Training
+2. Label Propagation
+3. Label Spreading
 
-(iv) labels: This is a binary (ON/OFF) value, which indicates whether the dataset is labeled or not. If the data instances are labeled, it means we can do supervised machine learning, i.e., classification or regression. In this case, the last feature in the CSV file is always the class label for each data instance (on each row).
+(xv) **training_results:**
 
-(v) features: Here, we list the features in the machine learning sense. If labels (see above) is on, then the last item on this comma-separated list is the class label.
+(xvi) **blackbox_ml:**
 
-(vi) model_algorithm: This is the model/algorithm that must be used for conducting data analytics / machine learning. We support a number of them in ML2. Also, one may use the Predictive Model Markup Language (PMML) standard models.
+(xvii) **blackbox_ml_model:**
 
-(vii) training_results: This is the path to a text file, which contains the training log, i.e., the timestamps and names of the models/algorithms, which have been used for training.
+(xviii): **blackbox_import_algorithm:**
 
-(viii) prediction_results: Here we mention the property that shall contain the final result of the prediction of the data analytics model.
+(xix): **blackbox_label_encoder:**
 
-The auto-complete feature of our Xtext-based model editor or alternatively our EMF-based tree model editor can be quite useful for finding out all possible options to tune the data analytics models. For instance, depending on the configurations of your Eclipse IDE, by clicking on Control and Space buttons of your keyboard, you should be able to see all the suggestions of the model editor. Just as an example, if you click on those buttons at this point (at the end of the following line): 
+(xx): **}:** Finally, do not forget to close the braces (curly brackets) as shown above.
 
-model_algorithm nn_multilayer_perceptron my_nn_mlp(
 
-you will see suggestions regarding the hyperparameters and configurations of the Neural Networks model, such as the choice of the ctivation function, optimizer, loss function and so forth. These choices are based on the APIs of the Keras library (see https://keras.io/guides) for the Deep Learning models, e.g., for the Multi-Layer Perceptron (MLP) Neural Network (NN), and based on the APIs of the Scikit-Learn library (see https://scikit-learn.org/stable/) for other models, e.g., Decision Trees and Random Forests.
-
+TODO
 If you are familiar with the action language of ThingML, you can notice that we introduced four new action types concerning data analytics:
 
 (i) da_preprocess: This action leads to preprocessing the data, based on the data analytics block. The name of the corresponding data analytics block shall be mentioned after that, e.g., da_preprocess da1.
