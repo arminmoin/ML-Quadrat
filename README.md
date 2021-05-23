@@ -315,28 +315,33 @@ Below, we explain them line-by-line:
 10. The Multi-Layer Perceptron (MLP) Artificial Neural Networks (ANN) for classification and regression, see the [Keras API doc (default)](https://keras.io/guides/sequential_model/) and the [Scikit-Learn API doc (regression)](https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPRegressor.html) / [Scikit-Learn API doc (classification)](https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPClassifier.html).
 
 **For unsupervised ML:**
-1. K-Means
-2. Mini-Batch K-Means
-3. DB-SCAN
-4. Spectral Clustering
-5. Gaussian Mixture Model
+1. K-Means, see the [Scikit-Learn API doc](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html)
+2. Mini-Batch K-Means, see the [Scikit-Learn API doc](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.MiniBatchKMeans.html)
+3. DB-SCAN, see the [Scikit-Learn API doc](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html)
+4. Spectral Clustering, see the [Scikit-Learn API doc](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.SpectralClustering.html)
+5. Gaussian Mixture Model, see the [Scikit-Learn API doc](https://scikit-learn.org/stable/modules/generated/sklearn.mixture.GaussianMixture.html)
 
 **For semi-supervised ML:**
-1. Self-Training
-2. Label Propagation
-3. Label Spreading
+1. Self-Training, see the [Scikit-Learn API doc](https://scikit-learn.org/stable/modules/generated/sklearn.semi_supervised.SelfTrainingClassifier.html)
+2. Label Propagation, see the [Scikit-Learn API doc](https://scikit-learn.org/stable/modules/generated/sklearn.semi_supervised.LabelPropagation.html)
+3. Label Spreading, see the [Scikit-Learn API doc](https://scikit-learn.org/stable/modules/generated/sklearn.semi_supervised.LabelSpreading.html)
 
-(xv) **training_results:**
+(xv) **training_results:** This parameter sets the path to the text file that shall log the training and the possible re-trainings of the ML model. Note that the serialized objects (e.g., the trained ML models) are stored in a directory, called pickles. The majority of them have the Python Pickle type. However, some of them are in other formats. For instance, the weights of the Keras ML models are stored in the Hierarchical Data Format (HDF) version 5 with the .h5 file name extension. If you want to completely restart an IoT service and remove all its stored data and configurations, you must delete all the files in the pickles directory, which resides in the **src** directory (not in the **target** directory) in the Maven root. Note that running "mvn clean" will not affect the contents of the src directory of Maven, but only the target directory.
 
-(xvi) **blackbox_ml:**
+(xvi) **blackbox_ml:** If this Boolean parameter is set to true, it means the practitioner is not willing to take a pure MDSE approach. Instead, the blackbox-ML mode, also known as the hybrid/mixed MDSE/Non-MDSE mode is desired. Therefore, a pre-trained ML model shall be provided (see below).
 
-(xvii) **blackbox_ml_model:**
+(xvii) **blackbox_ml_model:** This parameter is specific to the blackbox-ML mode, as its name suggests. It specifies the path to the pre-trained ML model that shall be deployed for the predictions.
 
-(xviii): **blackbox_import_algorithm:**
+(xviii): **blackbox_import_algorithm:** In order to use the stated pre-trained ML model (see above), the corresponding ML method/algorithm must be imported from the respective ML library. This shall be specified here. The syntax must match the syntax of the target programming language, e.g., Python. See "from sklearn.neural_network import MLPClassifier" in the example above.
 
-(xix): **blackbox_label_encoder:**
+(xix): **blackbox_label_encoder:** This is currently disabled in the above-mentioned sample. However, in the blackbox-ML mode, if there exist categorical labels that had been transformed to one-hot-encoding via the Label Encoder in Python (Scikit-Learn), the path to the serialized Label Encoder object must be provided here. This way, the predictions of the ML model can be transformed back into the original categorical format.
 
-(xx): **}:** Finally, do not forget to close the braces (curly brackets) as shown above.
+(xx): **}:** Finally, please do not forget to close the braces (curly brackets) as shown above.
+
+###### Subsection 3.3: Statechart
+The keywords of this subsection of the model instances are highlighted in **red** in the textual model editor of ML2. One statechart, i.e., state machine or more precisely Finite-State Machine (FSM), is required for each thing in order to model its behavior. Trivially, a statechart might only have one state, such as Active or Init and simply remain in that state forever. However, often the behavior of a thing is modeled through several states, e.g., in the case of our provided sample [ML2_Demo_PingPong.thingml](https://github.com/arminmoin/ML-Quadrat/blob/master/ML2/org.thingml.samples/src/main/thingml/ML2_Demo_PingPong.thingml), the behavior of thing PingPongDataAnalytics is modeled via the following states: Preprocess, Train, Ready and Predict.
+
+A platform-independent imperative action language is adopted and adapted from the DSML of [ThingML](https://github.com/TelluIoT/ThingML) / [HEADS](https://github.com/HEADS-project). This action language enables the Event-Driven Programming (EDP) paradigm in the state machines. For instance, using this langauge the practitioner may specify which concrete action must be taken if a certain event occurs, e.g., if a particular message is received on a certain port. The action can be as simple as printing to the standard output or sending a new message to the sender or to another thing. However, another key innovation of ML2, compared to [ThingML](https://github.com/TelluIoT/ThingML) / [HEADS](https://github.com/HEADS-project) is the extension of this action language to support using the DAML components (explained above) in the state machines. For instance, in the case of the said example [ML2_Demo_PingPong.thingml](https://github.com/arminmoin/ML-Quadrat/blob/master/ML2/org.thingml.samples/src/main/thingml/ML2_Demo_PingPong.thingml), statechart PingPongDataAnalyticsBehavior has the "da_preprocess da1" action in its Preprocess state, the "da_train da1" action in its Train state, as well as the "da_predict da1(...)" and the "da_save da1" actions in its Predict state. Below, we briefly explain the new action types that are introduced 
 
 
 TODO
@@ -351,8 +356,6 @@ If you are familiar with the action language of ThingML, you can notice that we 
 (iv) da_save: This action leads to saving the prediction (new data) in the dataset. The name of the corresponding data analytics block shall be mentioned after that, e.g., da_save da1.
 
 Please see our examples (ML2 Demos) at https://github.com/arminmoin/ML-Quadrat/tree/master/ML2/org.thingml.samples/src/main/thingml.
-
-###### Subsection 3.3: Statechart
 
 #### Section 4. Configuration
 
