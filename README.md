@@ -149,7 +149,7 @@ II. Install the latest version of the [Eclipse IDE, specifically the Eclipse Mod
 III. Install the [Xtext ANTLR plugin from this update site](https://download.itemis.de/updates/releases/2.1.1/) in the Eclipse IDE.
 
 ### How to install and execute the generated code?
-The code that we generated for the sample model instance through the [quick (15 mins) tutorial](#user-doc-quick) above can be built using the Apache Maven (the generated code resides in the /home/user/Generated_ML2_Demo_PingPong directory):
+The code that we generated for the sample model instance through the [quick (15 mins) tutorial](#user-doc-quick) above, namely [ML2_Demo_PingPong.thingml](https://github.com/arminmoin/ML-Quadrat/blob/master/ML2/org.thingml.samples/src/main/thingml/ML2_Demo_PingPong.thingml), can be built easily using the Apache Maven (the generated code resides in the /home/user/Generated_ML2_Demo_PingPong directory):
 
 ```bash
 cd /home/user/Generated_ML2_Demo_PingPong
@@ -176,7 +176,7 @@ After running the service, you will see the output in the terminal. You may stop
 Congratulations! It worked!
 
 ### How to create new software model instances?
-In principle, it is possible to use any text editor, e.g., vi/vim, nano or Notepad to create a model instance, if you follow the syntax of the Domain-Specific Modeling Language (DSML) of ML2 and save the text file with the **.thingml** extension. However, a major added value of the tool is delivered via the customized model editors. There exist a textual model editor in the Eclipse IDE, which offers syntax highlighting, auto-completion and warnings/errors/hints at the design-time. This is usually preferred by man advanced software developers. Moreover, there exist a graphical EMF tree-based model editor. Below, we explain how to use each choice. However, we first need to set up the workspace in the Eclipse IDE.
+In principle, it is possible to use any text editor, e.g., vi/vim, nano or Notepad to create a model instance as long as you follow the syntax of the Domain-Specific Modeling Language (DSML) of ML2 and save the text file with the **.thingml** extension. However, a major added value of the tool is delivered via the customized model editors. There exist a textual model editor in the Eclipse IDE, which offers syntax highlighting, auto-completion and warnings/errors/hints at the design-time. This is usually preferred by man advanced software developers. Moreover, there exist a graphical EMF tree-based model editor. Below, we explain how to use each choice. However, we first need to set up the workspace in the Eclipse IDE.
 
 #### How to set up the workspace in the Eclipse IDE (Eclipse Modeling Tools)?
 Once installed, you shall create a new workspace and then import the ML2 project there. Perhaps there are different ways to accomplish that. However, we recommend the following method:
@@ -188,7 +188,7 @@ Make sure that you wait sufficiently long, so that the (sub-/nested) projects ar
 #### Running the GenerateThingML.mwe2 workflow in the Eclipse IDE
 One of the projects in the workspace, called thingml.ide might still have errors. Please run the [GenerateThingML.mwe2](https://github.com/arminmoin/ML-Quadrat/blob/master/ML2/language/thingml/src/org/thingml/xtext/GenerateThingML.mwe2) workflow, which resides in the thingml project in the workspace (under thingml/src/org/thingml/xtext) from within the Eclipse IDE by right-clicking on it and choosing run from the context menu. This shall deploy the [Xtext ANTLR plugin](https://download.itemis.de/updates/releases/2.1.1/) that we installed before, and fix the issues. This way, the customized textual model editor will work properly (see below).
 
-#### How to run a nested Eclipse instance to use the model editors?
+#### Running a nested Eclipse instance to use the model editors
 In order to use the textual or the EMF tree-based model editors, you must run a new/nested instance of the Eclipse IDE inside of the Eclipse IDE (the above-mentioned workspace). To this aim, click on one of the projects in the workspace, let's say, e.g., thingml or thingml.ide, and select "Run As" and then "Eclipse Application" from the context menu.
 
 #### Using the Textual (Xtext-based) Model Editor
@@ -197,7 +197,7 @@ Create a new project in the new/nested Eclipse instance, say Demo_ML2 and then c
 By default, the customized, textual Xtext-based model editor will open for the files with the extension .thingml, i.e., for the ML2 model instances. You can write the following in the model editor and save the model instance:
 
 ```
-thing my {
+thing my_thing {
 	
 }
 ```
@@ -210,7 +210,28 @@ In the new/nested Eclipse instance, if you right-click on a model instance, e.g.
 #### Which Model Editor to Choose?
 There is no universal answer to this question. Some practitioners/users, especially many advanced software developers prefer the textual model editor, whereas some other practitioners/users find the graphical tree-based model editor more convenient. Please give both a try if you are not sure about your own preference.
 
+[Back to top](#toc)
+
 ### Full documentation of the DSML
+A typical software model instance that conforms to the meta-model/grammar of the DSML of ML2 consists of 4 main sections and various subsections in Section 3, i.e., "Things":
+
+#### Section 1. Imports
+One may import other model instances that conform to the meta-model/grammar of the DSML of ML2 here. For instance, a Platform-Specific Model (PSM) should import the corresponding Platform-Independent Model (PIM) in this section. The provided examples [ML2_Demo_NIALM_PSM_Java.thingml](https://github.com/arminmoin/ML-Quadrat/blob/master/ML2/org.thingml.samples/src/main/thingml/ML2_Demo_NIALM_PSM_Java.thingml) and [ML2_Demo_NIALM_PIM.thingml](https://github.com/arminmoin/ML-Quadrat/blob/master/ML2/org.thingml.samples/src/main/thingml/ML2_Demo_NIALM_PIM.thingml) illustrate this. However, this is not the only use-case for the imports.
+
+#### Section 2. Annotations
+One may specify the platform annotations in this section. For instance, the provided example [ML2_Demo_PingPong.thingml](https://github.com/arminmoin/ML-Quadrat/blob/master/ML2/org.thingml.samples/src/main/thingml/ML2_Demo_PingPong.thingml) demonstrates how the String, Boolean<1> and Int32<4> datatypes are supposed to be mapped to the "platform"-specific datatypes, such as String <-> char * for the C code generation, but String <-> String for the Java and the Javascript code generation. Note that the platform annotations might appear in other sections, e.g., for choosing the specific library/framework for DAML in Subsection 3.2 ("Data Analytics (and Machine Learning)"), or for selecting a particular model-to-code transformation (code generator, also known as "compiler") in Section 4 ("Configuration").
+
+#### Section 3. Things
+#####  For each thing, say Thing_A:
+###### Subsection 3.1: Messages, Ports and Properties
+Following the semantics of ThingML/HEADS, the communication between the "things" in ML2 is carried out through asynchronous message-passing. A message must be sent from a port of the source thing to a port of the destination thing. 
+
+###### Subsection 3.2: Data Analytics (and Machine Learning)
+
+###### Subsection 3.3: Statechart
+
+#### Section 4. Configuration
+
 
 #### Understanding the data analytics block of ML2 model instances
 
@@ -271,56 +292,6 @@ In our sample model instances, we show how to do this. For instance, see this li
 last_training_timer!timer_start(3600000)
 
 in our examples here: https://github.com/arminmoin/ML-Quadrat/tree/master/ML2/org.thingml.samples/src/main/thingml. That is the time in milliseconds, thus in this case retraining the data analytics models in 1 hour periods always using the latest data in the CSV file (dataset). This way, we will take new data into account.
-
-### How to generate the target software (IoT service / CPS application) using ML2?
-
-If a model instance is incomplete or not valid according to the syntax and semantics of our DSML, you will not be able to generate source code out of that. In case your model instance is invalid with respect to the syntax, you will see errors already during the design time (modeling time) within the Eclipse IDE (i.e., in the second/nested Eclipse instance). However, in many cases, e.g., for semantic errors and most of the model incompleteness cases, one gets errors only after trying to generate the source code. Those errors will appear in the terminal / shell / command line.
-
-The command-line interface JAR containing all you need to generate source code for the supported target platforms out of the model instances can be found here:
-
-```bash
-cd ML2/compilers/registry/target
-java -jar mlquadrat.compilers.registry-2.0.0-SNAPSHOT-jar-with-dependencies.jar
-```
-If you run the JAR file (e.g., with the -h or --help options), you will see the list of all options and commands.
-
-For instance, if you want to generate source code in Java and Python for our samples (you can find our examples Smart Ping-Pong, Non-Intrusive Appliance Load Monitoring, and Energy Stock Exchange at https://github.com/arminmoin/ML-Quadrat/tree/master/ML2/org.thingml.samples/src/main/thingml), please use the commands below:
-
-```bash
-cd ML2/compilers/registry/target
-
-java -jar mlquadrat.compilers.registry-2.0.0-SNAPSHOT-jar-with-dependencies.jar -c java -s ../../../org.thingml.samples/src/main/thingml/ML2_Demo1_PingPong.thingml -o GeneratedDemo1
-
-java -jar mlquadrat.compilers.registry-2.0.0-SNAPSHOT-jar-with-dependencies.jar -c java -s ../../../org.thingml.samples/src/main/thingml/ML2_Demo2_NIALM_PSM_Java.thingml  -o GeneratedDemo2
-
-java -jar mlquadrat.compilers.registry-2.0.0-SNAPSHOT-jar-with-dependencies.jar -c java -s ../../../org.thingml.samples/src/main/thingml/ML2_Demo3_EnergyStockMarket.thingml  -o GeneratedDemo3 	
-
-```
-Note that we choose the Java "code generator" (also known as "model-to-code transformation" or "compiler") with the option **-c java** above. However, the framework will generate the Data Analytics part of the source code in Python. The generated Python code will seamlessly integrate with the generated Java code using the Process Builder API in Java.
-
-### How to build and run the generated code?
-The generated code is fully ready to be built using Maven. Please go to the directory, which contains the generated code. A pom.xml file, as well as a src directory are there. Please use Maven to build the generated code. For example, for our above example, GeneratedDemo1:
-
-```bash
-cd GeneratedDemo1
-mvn clean install
-```
-
-Then, please create a data directory in target and a CSV (Comma Separated Values) data file to start with to avoid cold-start. For instance:
-```bash
-cd target
-mkdir data
-```
-
-Please copy a sample CSV file from https://github.com/arminmoin/ML-Quadrat/tree/master/ML2/org.thingml.samples/src/main/thingml/ML2_Demos_SampleData into the data directory. For instance, in case of GeneratedDemo1, please use the CSV file called ip_dataset.csv. For GeneratedDemo2 and GeneratedDemo3, please use nialm.csv and esm.csv, respectively.
-
-Now, you should be able to run the generated program easily. Please use java -jar to run the generated executable JAR file with all of the required dependencies. For instance, for GeneratedDemo1:
-```bash
-cd target
-java -jar SmartPingPongCfg-1.0.0-jar-with-dependencies.jar
-```
-
-Finally, since ML2 is based on ThingML, in order to get a deeper understanding, you might want to read the documentation of ThingML and take a look at their samples. See: https://github.com/TelluIoT/ThingML
 
 [Back to top](#toc)
 
