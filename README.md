@@ -29,10 +29,25 @@ Please cite the following papers if you are using ML2 or referring to it in your
 BibTeX:
 ```
 @inproceedings{Moin+2020,
-  title={From Things’ Modeling Language (ThingML) to Things’ Machine Learning (ThingML2)},
-  author={Moin, Armin and R{\"o}ssler, Stephan and Sayih, Marouane and G{\"u}nnemann, Stephan},
-  booktitle={ACM/IEEE 23rd International Conference on Model Driven Engineering Languages and Systems (MODELS) Companion (Extended Abstract and Poster)},
-  year={2020}
+  author    = {Armin Moin and
+               Stephan R{\"{o}}ssler and
+               Marouane Sayih and
+               Stephan G{\"{u}}nnemann},
+  editor    = {Esther Guerra and
+               Ludovico Iovino},
+  title     = {From things' modeling language (ThingML) to things' machine learning
+               (ThingML2)},
+  booktitle = {{MODELS} '20: {ACM/IEEE} 23rd International Conference on Model Driven
+               Engineering Languages and Systems, Virtual Event, Canada, 18-23 October,
+               2020, Companion Proceedings},
+  pages     = {19:1--19:2},
+  publisher = {{ACM}},
+  year      = {2020},
+  url       = {https://doi.org/10.1145/3417990.3420057},
+  doi       = {10.1145/3417990.3420057},
+  timestamp = {Thu, 29 Oct 2020 13:29:50 +0100},
+  biburl    = {https://dblp.org/rec/conf/models/MoinRSG20.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
 }
 ```
 
@@ -40,11 +55,27 @@ BibTeX:
 BibTeX:
 ```
 @inproceedings{Moin+2018,
-  title={ThingML+: Augmenting Model-Driven Software Engineering for the Internet of Things with Machine Learning.},
-  author={Moin, Armin and R{\"o}ssler, Stephan and G{\"u}nnemann, Stephan},
-  booktitle={ACM/IEEE 21st International Conference on Model Driven Engineering Languages and Systems (MODELS) Workshops (MDE4IoT)},
-  pages={521--523},
-  year={2018}
+  author    = {Armin Moin and
+               Stephan R{\"{o}}ssler and
+               Stephan G{\"{u}}nnemann},
+  editor    = {Regina Hebig and
+               Thorsten Berger},
+  title     = {ThingML+: Augmenting Model-Driven Software Engineering for the Internet
+               of Things with Machine Learning},
+  booktitle = {Proceedings of {MODELS} 2018 Workshops: ModComp, MRT, OCL, FlexMDE,
+               EXE, COMMitMDE, MDETools, GEMOC, MORSE, MDE4IoT, MDEbug, MoDeVVa,
+               ME, MULTI, HuFaMo, AMMoRe, {PAINS} co-located with {ACM/IEEE} 21st
+               International Conference on Model Driven Engineering Languages and
+               Systems {(MODELS} 2018), Copenhagen, Denmark, October, 14, 2018},
+  series    = {{CEUR} Workshop Proceedings},
+  volume    = {2245},
+  pages     = {521--523},
+  publisher = {CEUR-WS.org},
+  year      = {2018},
+  url       = {http://ceur-ws.org/Vol-2245/mde4iot\_paper\_5.pdf},
+  timestamp = {Wed, 23 Sep 2020 15:46:03 +0200},
+  biburl    = {https://dblp.org/rec/conf/models/RosslerG18.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
 }
 ```
 <a name="issues"></a>
