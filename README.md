@@ -332,7 +332,7 @@ Below, we explain them line-by-line:
 
 (x) **sequential:** This Boolean parameter specifies whether the data are sequential, i.e., whether the order matters. For instance, time series or DNA data may not be shuffled or be involved in cross validation or similar practices.
 
-(xi) **timestamps:** This binary (ON/OFF) parameter determines if the first column of the dataset includes the timestamps of the input data. The format for the timestamps should be %d-%m-%Y %H:%M:%S, e.g., 11-07-2020 13:50:27 for July 11, 2020 at 1:50:27pm. If the timestamps parameter is set to ON, the predictions of the ML model will also be automatically timestamped, e.g., if they should be appended to the dataset.
+(xi) **timestamps:** This binary (ON/OFF) parameter determines if the first column of the dataset includes the timestamps of the input data. The format for the timestamps should be dd-mm-yyyy HH:MM:SS, e.g., 11-07-2020 13:50:27 for July 11, 2020 at 1:50:27pm. If the timestamps parameter is set to ON, the predictions of the ML model will also be automatically timestamped, e.g., if they should be appended to the dataset.
 
 (xii) **preprocess_feature_scaler:** Here, one could choose a scaler for the **standardization**, which works per ML feature (i.e., column-wise). Many ML methods, such as Neural Networks exhibit a poor performance on the data with ML features that have different scales. The available choices for standardization are the standard scaler (i.e., z-score, which removes the mean and scales to unit variance), the robust scaler (which uses the statistics that are robust to the outliers), and the min-max scaler (which scales each feature to a given range).
 
