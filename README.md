@@ -107,7 +107,7 @@ apt-get install maven
 exit
 ```
 
-**Now, please go to the Linux terminal / shell / command line and follow the steps below.**
+**Now, please follow the steps below in the Linux terminal / shell / command line:**
 
 1. Check out the source code from the Git repository:
 ```bash
