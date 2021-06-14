@@ -178,7 +178,7 @@ conda deactivate
 conda activate ml2
 ```
 
-II. Install the latest version of the [Eclipse IDE, specifically the Eclipse Modeling Tools](https://projects.eclipse.org/projects/modeling).
+II. Donwload the latest version of the [Eclipse IDE](https://www.eclipse.org/downloads) and install the latest version of the [Eclipse Modeling Tools](https://projects.eclipse.org/projects/modeling) through the wizard.
 
 III. Install the [Xtext ANTLR plugin from this update site](https://download.itemis.de/updates/releases/2.1.1/) in the Eclipse IDE.
 
