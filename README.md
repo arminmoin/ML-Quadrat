@@ -219,6 +219,11 @@ File -> import -> General -> Existing Projects into Workspace / Projects from Fo
 
 Make sure that you wait sufficiently long, so that the (sub-/nested) projects are built and you get a clean workspace without any errors. If that is not the case, sometimes cleaning the workspace (Project -> Clean... -> Clean all projects), updating the Maven projects (right click on a project -> Maven -> Update Project... -> Select All, you may also check the option **Force Update of Snapshots/Releases**) or restarting the Eclipse IDE (Eclipse Modeling Tools) might help.
 
+Once you import the projects into the workspace in the Eclipse IDE, you will get notified about a number of missing extensions, such as the Maven support in Eclipse (m2e) and the Eclipse Enterprise Java and Web Developers Tools, which can be installed through the Eclipse Marketplace. Please install them one by one. You will need to restart the Eclipse IDE after each installation. 
+
+Finall, please go to Help -> Install New Software and install the following software through the default update site (e.g., http://download.eclipse.org/releases/2021-03): Under the Modeling category, select and install both MWE2 Language SDK and MWE2 Runtime SDK.
+
+
 #### Running the GenerateThingML.mwe2 workflow in the Eclipse IDE
 One of the projects in the workspace, called thingml.ide might still have errors. Often, you need to do the following, in order to have a functioning textual model editor. 
 
