@@ -235,6 +235,8 @@ After running the service, you will see the output in the terminal. You may stop
 
 Congratulations! It worked!
 
+**Note:** If you try to generate the code on one machine and run the generated code on another machine, you might experience troubles, due to the absolute paths, e.g., in the case of the python_java code generator, in the generated Python scripts under src/python-scripts. Please adjust them accordingly before running the code. Alternatively, you can generate the code on the new machine and then execute the generated code.
+
 ### How to create new software model instances?
 In principle, it is possible to use any text editor, e.g., vi/vim, nano or Notepad to create a model instance as long as you follow the syntax of the Domain-Specific Modeling Language (DSML) of ML2 and save the text file with the **.thingml** extension. However, a major added value of the tool is delivered via the customized model editors. There exist a textual model editor in the Eclipse IDE, which offers syntax highlighting, auto-completion and warnings/errors/hints at the design-time. This is usually preferred by man advanced software developers. Moreover, there exist a graphical EMF tree-based model editor. Below, we explain how to use each choice. However, we first need to set up the workspace in the Eclipse IDE.
 
