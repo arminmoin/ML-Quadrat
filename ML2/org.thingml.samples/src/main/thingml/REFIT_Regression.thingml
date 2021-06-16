@@ -1,5 +1,5 @@
 // Armin Moin, moin@in.tum.de
-// A sample model instance illustrating classification using the REFIT dataset
+// A sample model instance illustrating regression using the REFIT dataset
 // This example is related to the Non-Intrusive Appliance Load Monitoring (NIALM) use case.
 
 import "thingml/core/timer.thingml"
@@ -28,7 +28,7 @@ thing DB_Srv {
 	;
 	message response_current_loads(fridge_load: Double, freezer1_load: Double, freezer2_load: Double, washing_machine_load: Double, dishwasher_load: Double, computer_load: Double, television_site_load: Double, electric_heater_load: Double, aggregate_load: Double)
 	;
-	message prediction(washer_dryer_status: Boolean)
+	message prediction(washer_dryer_load: Double)
 	;
 	provided port smart_meter_service {
 		receives fridge_current_load, freezer1_current_load, freezer2_current_load, washing_machine_current_load, dishwasher_current_load, computer_current_load, television_site_current_load, electric_heater_current_load, aggregate_current_load
@@ -46,7 +46,7 @@ thing DB_Srv {
 	property television_site_load: Double = 0.0
 	property electric_heater_load: Double = 0.0
 	property aggregate_load: Double = 0.0
-	property washer_dryer_status: Boolean = false
+	property washer_dryer_load: Double = 0.0
 	statechart DB_SrvBehavior init Active {
 		on entry print "Database server started!\n"
 		state Active {
@@ -83,10 +83,10 @@ thing DB_Srv {
 			internal
 			event daml_server_response_event: da_service?prediction
 			action do
-				washer_dryer_status = daml_server_response_event.washer_dryer_status
-				print "Database server: got the prediction of the DAML server for the washer dryer status (true=on, false=off): \n"
+				washer_dryer_load = daml_server_response_event.washer_dryer_load
+				print "Database server: got the prediction of the DAML server for the washer dryer load: \n"
 				print "*************"
-				print washer_dryer_status
+				print washer_dryer_load
 				print "*************\n"
 			end
 		}
@@ -97,7 +97,7 @@ thing DAML_Srv includes TimerMsgs {
 	;
 	message response_current_loads(fridge_load: Double, freezer1_load: Double, freezer2_load: Double, washing_machine_load: Double, dishwasher_load: Double, computer_load: Double, television_site_load: Double, electric_heater_load: Double, aggregate_load: Double)
 	;
-	message prediction(washer_dryer_status: Boolean)
+	message prediction(washer_dryer_load: Double)
 	;
 	
 	required port timer {
@@ -117,23 +117,22 @@ thing DAML_Srv includes TimerMsgs {
 	property television_site_load: Double = 0.0
 	property electric_heater_load: Double = 0.0
 	property aggregate_load: Double = 0.0
-	property washer_dryer_status: Boolean = false
+	property washer_dryer_load: Double = 0.0
 	data_analytics da1 
 	@dalib "scikit-learn" {
 	//@dalib "keras-tensorflow" {
 	//{
 		labels ON
-		features fridge_load, freezer1_load, freezer2_load, washing_machine_load, dishwasher_load, computer_load, television_site_load, electric_heater_load, aggregate_load, washer_dryer_status
-		prediction_results washer_dryer_status
-		dataset "data/REFIT_house1_reordered_classification.csv"
+		features fridge_load, freezer1_load, freezer2_load, washing_machine_load, dishwasher_load, computer_load, television_site_load, electric_heater_load, aggregate_load, washer_dryer_load
+		prediction_results washer_dryer_load
+		dataset "data/REFIT_house1_reordered_regression.csv"
 		automl OFF
 		sequential TRUE
 		timestamps ON		
 		preprocess_feature_scaler StandardScaler
 		model_algorithm nn_multilayer_perceptron my_nn_mlp(activation relu, optimizer adam, loss SparseCategoricalCrossentropy)
-		training_results "data/training.txt"		
+		training_results "data/training.txt"
 	}
-	
 	statechart DAML_SrvBehavior init Preprocess {
 		on entry print "DAML server started!\n"
 		state Preprocess {
@@ -183,7 +182,7 @@ thing DAML_Srv includes TimerMsgs {
 			on entry do
 				print "DAML server: Predicting\n"
 				da_predict da1(fridge_load, freezer1_load, freezer2_load, washing_machine_load, dishwasher_load, computer_load, television_site_load, electric_heater_load, aggregate_load)
-				da_service!prediction(washer_dryer_status)
+				da_service!prediction(washer_dryer_load)
 			end
 			transition -> Ready
 		// on exit da_save da1
@@ -510,7 +509,7 @@ thing WasherDryer includes TimerMsgs {
 		}
 	}
 }
-configuration SoSyM_Classification_Cfg @compiler "python_java" {
+configuration REFIT_Regression_Cfg @compiler "python_java" {
 	instance timer : TimerJava
 	instance last_training_timer : TimerJava
 	instance dB_Srv : DB_Srv

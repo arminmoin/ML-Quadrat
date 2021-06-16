@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1620727441699
+Bnd-LastModified: 1623239765634
 Build-Jdk: 11.0.11
-Built-By: am
+Built-By: ubuntu
 Bundle-ClassPath: jars/mlquadrat.compilers.official-network-plugins-2.0.
  0-SNAPSHOT.jar,jars/mlquadrat.compilers.c-2.0.0-SNAPSHOT.jar,jars/mlqua
  drat.compilers.java-2.0.0-SNAPSHOT.jar,jars/mlquadrat.compilers.javascr
@@ -19,7 +19,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: MLQuadrat :: Compilers :: Bundle
 Bundle-SymbolicName: mlquadrat.compilers.bundle
 Bundle-Vendor: MLQuadrat
-Bundle-Version: 2.0.0.202105111002
+Bundle-Version: 2.0.0.202106091153
 Created-By: Apache Maven Bundle Plugin
 Embed-Dependency: *;scope=compile|runtime;artifactId=!org.eclipse.*|thin
  gml
