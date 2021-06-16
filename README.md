@@ -122,6 +122,21 @@ cd ML2/language
 mvn clean install -DskipTests
 cd ../..
 ```
+
+Note that the -DskipTests option lets us skip running the tests, thus saving more time.
+
+If you want to see a more detailed output to debug, use the option -X:
+
+```bash
+mvn clean install -DskipTests -X
+```
+
+Moreover, if you want to use Maven in the offline mode, e.g., in the case that your machine is behind a firewall that prohibits the Internet access, you should use the option -o, but, remember that you would need to first copy the .m2 directory, which includes the Maven cache from another computer behind the firewall (on which you have already cached ´the required dependencies) to this computer. The .m2 directory is usually stored in the user's home directory.
+
+```bash
+mvn clean install -DskipTests -o
+```
+
 ### How to find a sample model instance?
 There exist a number of sample model instances with the .thingml extension at this location: https://github.com/arminmoin/ML-Quadrat/tree/master/ML2/org.thingml.samples/src/main/thingml
 
@@ -189,6 +204,17 @@ The code that we generated for the sample model instance through the [quick (15 
 cd /home/user/Generated_ML2_Demo_PingPong
 cd python_java/
 mvn clean install
+```
+As mentioned, if you want to see a more detailed output to debug, use the option -X:
+
+```bash
+mvn clean install -X
+```
+
+Moreover, as stated before, if you want to use Maven in the offline mode, e.g., in the case that your machine is behind a firewall that prohibits the Internet access, you should use the option -o, but, remember that you would need to first copy the .m2 directory, which includes the Maven cache from another computer behind the firewall (on which you have already cached ´the required dependencies) to this computer. The .m2 directory is usually stored in the user's home directory.
+
+```bash
+mvn clean install -o
 ```
 
 The target directory is created/updated. If the software model instance has a data analytics section with a dataset path, then we must provide the dataset in the target directory at the same path as specified in the data analytics section of the model instance, before running the application / IoT service. For now, we copy a dummy sample dataset that is available at: https://github.com/arminmoin/ML-Quadrat/tree/master/ML2/org.thingml.samples/src/main/thingml/ML2_Demos_SampleData
@@ -370,7 +396,7 @@ Below, we explain them line-by-line:
 2. Label Propagation, see the [Scikit-Learn API doc](https://scikit-learn.org/stable/modules/generated/sklearn.semi_supervised.LabelPropagation.html)
 3. Label Spreading, see the [Scikit-Learn API doc](https://scikit-learn.org/stable/modules/generated/sklearn.semi_supervised.LabelSpreading.html)
 
-**Note:** Obviously, not every ML model_algorithm is implemented in every ML library/framework. The ML libraries/frameworks, which are supported for the code generation for each of the above-mentioned choices for the ML model_algorithm are mentioned in front of them as links (see above). Hence, you should either avoid mentioning the annotation @dalib, so that the default choice for the ML model_algorithm is set (see the default option for the ML library/framework marked as "(default)", e.g., for the Multi-Layer Perceptron (MLP) above), or you should set the annotation @dalib to the auto mode: @dalib "auto", or you should specify the correct choice, e.g., in the case of the Multi-Layer Perceptron (MLP) the annotation can be set to either @dalib "scikit-learn" or @dalib "keras-tensorflow". If you are not certain, please do not specify any library/framework manually.
+**Note:** Obviously, not every ML method (model_algorithm) is implemented in every ML library/framework. The ML libraries/frameworks, which are supported for the code generation for each of the above-mentioned choices for the ML model_algorithm are mentioned in front of them as links (see above). Hence, you should either avoid mentioning the annotation @dalib, so that the default choice for the ML model_algorithm is set (see the default option for the ML library/framework marked as "(default)", e.g., for the Multi-Layer Perceptron (MLP) above), or you should set the annotation @dalib to the auto mode: @dalib "auto", or you should specify the correct choice, e.g., in the case of the Multi-Layer Perceptron (MLP) the annotation can be set to either @dalib "scikit-learn" or @dalib "keras-tensorflow". If you are not certain, please do not specify any library/framework manually.
 
 (xv) **training_results:** This parameter sets the path to the text file that shall log the training and the possible re-trainings of the ML model. It is recommended to start the path with "data/", so that the training log text file is created in the data directory. Note that the serialized objects (e.g., the trained ML models) are stored in a directory, called "pickles" under src/python-scripts/ (in the case of the python_java code generator) or "objects" under src/ (in the case of the pure java code generator). The majority of them have the Python Pickle or the Java Byte Stream types, respectively. However, some of them are in other formats. For instance, the weights of the Keras ML model parameters are stored in the Hierarchical Data Format (HDF) version 5 (HDF5) with the .h5 file name extension. If you want to completely restart an IoT service and remove all its stored data and configurations, you must delete all the files in the pickles/objects directory, which resides in the **src** directory (not in the **target** directory) in the Maven root. Note that running "mvn clean" will not affect the contents of the src directory of Maven, but only the target directory.
 
