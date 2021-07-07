@@ -1,5 +1,9 @@
 // Armin Moin, moin@in.tum.de
-// A sample model instance for the smart ping-pong use case
+// A sample model instance for the smart ping-pong example. This is based on the ping-pong example of ThingML. However, the idea is to prevent the so-called Distributed Denial-of-Service (DDoS) attacks via Data Analytics & Machine Learning (DAML).
+// There exist 3 "Things": (i) PingServer, (ii) PingClient, (iii) PingPongDataAnalytics.
+// The server, PingServer simply waits for ping messages. Once a ping message is received from the client, PingClient, the server first asks the data analytics server, called PingPongDataAnalytics whether the sender of the ping message, i.e., PingClient is prone to be an attacker or not.
+// If PingPongDataAnalytics predicts that the client is more likely to be malicious, then the server will simply ignore the ping message and may blacklist the client for a certain period of time (e.g., X weeks or monnths). Otherwise, the server will reply with a pong message.
+// This example is for illustration purposes and does not use a real dataset. A number of small dummy datasets are available here (ip_dataset_*.csv): https://github.com/arminmoin/ML-Quadrat/tree/master/ML2/org.thingml.samples/src/main/thingml/ML2_Demos_SampleData
 
 object String
     @type_checker "String"
@@ -19,27 +23,25 @@ datatype Int32<4>
 	@java_type "int"
     @js_type "int";
 
-thing fragment PingPongMsgs {
-	
+thing fragment PingPongMsgs { // The Thing-fragment defines the messages and their parameters.
 	message ping(ip: String, code: Int32);
 	message pong();
-	
 	message query(client_ip: String, client_code: Int32);
 	message prediction_positive();
 	message prediction_negative();
-	
 }
 
-thing PingClient includes PingPongMsgs {
-	required port ping_service {
-		sends ping
-		receives pong
+thing PingClient includes PingPongMsgs { // The PingClient Thing inclues the Thing-fragment above (Thus, implicitly imports the above-mentioned messages).
+
+	required port ping_service { // This port is for the communication between PingClient and PingServer.
+		sends ping // The port may send a ping message.
+		receives pong // The port may receive a pong message.
 	}
 		
-	property my_ip_address: String = "192.168.1.1"
-	property my_code: Int32 = 10
+	property my_ip_address: String = "192.168.1.1" // This is a property, i.e., local variable, that stores the IP address of the client.
+	property my_code: Int32 = 10 // This is a property, i.e., local variable, that stores a protocol code to be shared with the server.
 	
-	statechart PingClientBehavior init Ping {
+	statechart PingClientBehavior init Ping { // This statechart models the behavior of the PingClient Thing. Initially, it is in the Ping state.
 	
 	on entry print "Ping/Pong Client Started!\n"
 	
@@ -50,14 +52,14 @@ thing PingClient includes PingPongMsgs {
 				ping_service!ping(my_ip_address,my_code)				
 			end				
 			
-			transition -> Pong 
+			transition -> Pong // Switch to the Pong state upon receiving a pong response from the PingServer Thing.
 			event ping_service?pong
 		}
 		
 		state Pong {
 			on entry print "Got pong!\n"
 			
-			transition -> Stop
+			transition -> Stop // Eventually, switch to the Stop state.
 			
 		}
 		
@@ -69,40 +71,39 @@ thing PingClient includes PingPongMsgs {
 
 }
 
-thing PingServer includes PingPongMsgs {
+thing PingServer includes PingPongMsgs { // The PingServer Thing inclues the Thing-fragment above (Thus, implicitly imports the above-mentioned messages).
 	
-	provided port ping_service {
-		receives ping
-		sends pong
+	provided port ping_service { // This port is for the communication between the PingServer Thing and the PingClient Thing.
+		receives ping // The port may receive ping messages.
+		sends pong // The port may send pong messages.
 	}
 	
-	required port da_service {
-		sends query
-		receives prediction_positive, prediction_negative
+	required port da_service { // This port is for the communication between the PingServer Thing and the PingPongDataAnalytics Thing.
+		sends query // The port may send query messages.
+		receives prediction_positive, prediction_negative // The port may receive prediction messages from the PingPongDataAnalytics Thing, either prediction_positive, i.e., malicious or prediction_negative, i.e., nonmalicious. .
 	}
 	
-	property client_ip_address: String
-	property client_code: Int32
-	property malicious_client: Boolean
+	property client_ip_address: String // This is a property, i.e., local variable that stores the IP address of the current/latest client that has sent a ping message.
+	property client_code: Int32 // This is a property, i.e., local variable that stores the protocol code of the current/latest client that has sent a ping message.
+	property malicious_client: Boolean // This is a property, i.e., local variable that stores the prediction of the PingPongDataAnalytics Thing concerning the current/latest ping message.
 	
-	statechart PongServerBehavior init GetPing {
+	statechart PongServerBehavior init GetPing { // This statechart models the behavior of the PingServer Thing. Initially, it is in the GetPing state.
 
         on entry print "Ping/Pong Server Started!\n"
 	
-		state GetPing {
-			
-			internal event e: ping_service?ping			
+		state GetPing {			
+			internal event e: ping_service?ping // As soon as a ping message arrives, take the following actions.		
 			action		 
 			do				
-			client_ip_address = e.ip
-			client_code = e.code
+			client_ip_address = e.ip // Store the IP address parameter of the ping message in the property, i.e., local variable, client_ip_address.
+			client_code = e.code // Store the protocol code parameter of the ping message in the property, i.e., local variable, client_code.
 			print("Checking if the client is a malicious one...\n")
-			da_service!query(client_ip_address, client_code)
+			da_service!query(client_ip_address, client_code) // Send a query to the PingPongDataAnalytics Thing to consult and see whether the client is more likely to be an attacker.
 			end
-			transition -> Pong
+			transition -> Pong // Switch to the Pong state if the prediction of the PingPongDataAnalytics Thing is negative, i.e., nonmalicious client.
 			event da_service?prediction_negative
 			
-			transition -> Ignore
+			transition -> Ignore // Switch to the Ignore state if the prediction of the PingPongDataAnalytics Thing is positive, i.e., malicious client.
 			event da_service?prediction_positive
 		}
 		
@@ -110,10 +111,10 @@ thing PingServer includes PingPongMsgs {
 			on entry do
 			print "Got ping from: " + client_ip_address + " code: " + client_code + "\n"
 			print "Sending Pong...\n"
-			ping_service!pong()
+			ping_service!pong() // Send the pong response to the client.
 			malicious_client = false
 			end
-			transition -> GetPing
+			transition -> GetPing // Eventually, switch back to the GetPing state.
 		}
 		
 		state Ignore {
@@ -122,7 +123,7 @@ thing PingServer includes PingPongMsgs {
 			print "Ignoring the ping message, since the client is probably a malicious one...\n"
 			malicious_client = true
 			end
-			transition -> GetPing
+			transition -> GetPing // Eventually, switch back to the GetPing state. No pong response was sent. Hence, the ping message was intentionally ignored.
 		}
 	}
 
@@ -130,14 +131,14 @@ thing PingServer includes PingPongMsgs {
 
 thing PingPongDataAnalytics includes PingPongMsgs {
 		
-	provided port da_service {
-		receives query
-		sends prediction_positive, prediction_negative
+	provided port da_service { // This port is for the communication of the PingPongDataAnalytics Thing with the PingServer Thing.
+		receives query // The port may receive query messages.
+		sends prediction_positive, prediction_negative // The port may send prediction messages, either prediction_positive or prediction_negative.
 	}
 	
-	property client_ip_address: String
-	property client_code: Int32
-	property prediction: Boolean = false
+	property client_ip_address: String // This is a property, i.e., local variable, that stores the IP address of the sender of the ping message to the PingServer Thing, for which the PingPongDataAnalytics Thing is being consulted. 
+	property client_code: Int32 // This is a property, i.e., local variable, that stores the protocol code of the ping message sent to the PingServer Thing, for which the PingPongDataAnalytics Thing is being consulted. 
+	property prediction: Boolean = false // This is a property, i.e., local variable, that stores the final prediction of the PingPongDataAnalytics Thing.
 
 	data_analytics da1 
 	@dalib "scikit-learn" {
