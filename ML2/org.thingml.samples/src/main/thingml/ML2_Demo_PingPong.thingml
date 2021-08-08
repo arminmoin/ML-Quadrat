@@ -140,20 +140,20 @@ thing PingPongDataAnalytics includes PingPongMsgs {
 	property client_code: Int32 // This is a property, i.e., local variable, that stores the protocol code of the ping message sent to the PingServer Thing, for which the PingPongDataAnalytics Thing is being consulted. 
 	property prediction: Boolean = false // This is a property, i.e., local variable, that stores the final prediction of the PingPongDataAnalytics Thing.
 
-	data_analytics da1 
-	@dalib "scikit-learn" {
+	data_analytics da1 // This optional section of the model instance is responsible for the Data Analytics and Machine Learning (DAML) capabilities of the "thing".
+	@dalib "scikit-learn" { // This optional annotation (@dalib) specifies the specific library/framework for DAML. The code generators will try to generate the APIs of this library/framework.
 	//@dalib "keras-tensorflow" {
 	//{
-		labels ON
-		features client_ip_address,client_code,prediction
-		prediction_results prediction
-		dataset "data/ip_dataset.csv"
-		automl OFF
-		sequential TRUE
-		timestamps OFF	
-		preprocess_feature_scaler StandardScaler
-		model_algorithm nn_multilayer_perceptron my_nn_mlp(activation relu, optimizer adam, loss SparseCategoricalCrossentropy)
-		training_results "data/training.txt"		
+		labels ON // If the labels parameter is set to on, we are dealing with supervised Machine Learning (ML).
+		features client_ip_address,client_code,prediction // These are the thing properties (local variables) that shall be used as ML features/attributes. 
+		prediction_results prediction // The prediction results of the ML model will be stored in the thing property (local variable) stated here.
+		dataset "data/ip_dataset.csv" // This CSV file will be used as the dataset for training the ML model. The path is relative to the target directory of the generated Maven project (in the case of the Java and the Python & Java code generation).
+		automl OFF // If AutoML is ON, some advanced Automated Machine Learning (AutoML) functionalities will be enabled. This would be useful for the novice users in DAML.
+		sequential TRUE // This parameter specifies whether the data are sequential, i.e., whether the order of the data instances does matter.
+		timestamps OFF // This parameters determines if the first column of the daatset includes the timestamps of the data instances. If this is set to TRUE, in the case of adding the new predcition sof the ML model to the dataset, they will also be timestamped automatically.
+		preprocess_feature_scaler StandardScaler // This parameter may enable some sort of feature scaling as part of the data preparation process.
+		model_algorithm nn_multilayer_perceptron my_nn_mlp(activation relu, optimizer adam, loss SparseCategoricalCrossentropy) // This line determines the ML model that shall be deployed, as well as the hyperparameters, such as the choice of the learning algorithm.
+		training_results "data/training.txt" // This is the path of the log file that will store the training data.
 	}
 
 	statechart PingPongDataAnalyticsBehavior init Preprocess {
@@ -203,13 +203,13 @@ thing PingPongDataAnalytics includes PingPongMsgs {
 	}
 }
 
-configuration ML2_Demo_PingPong_Cfg @compiler "python_java" {
-	
-    instance pingClient : PingClient
+configuration ML2_Demo_PingPong_Cfg @compiler "python_java" { // The configuration section is required if the model instance shall be capable of being used by the code generators. Alternaticely, one might have a Platform-Independent Model (PIM) that would be imported in a Platform-Specific Model (PSM), or into several PSMs each for a certain target platform, and that PSM or those PSMs would then include their own configuration sections for the respective target platforms.
+// The optional @compiler annotation may determine the model-to-code transformation (code generator) that shall be deployed by default.
+    instance pingClient : PingClient // The instances of things are analog to the objects that are instances of classes in the object-oriented design.
     instance pingServer : PingServer
     instance pingPongDataAnalytics : PingPongDataAnalytics
 
-    connector pingClient.ping_service => pingServer.ping_service
+    connector pingClient.ping_service => pingServer.ping_service // The ports of the instances of things must be connected in this manner. This way, they will be able to communicate using asynchronous message-passing.
     connector pingServer.da_service => pingPongDataAnalytics.da_service
     
 }
