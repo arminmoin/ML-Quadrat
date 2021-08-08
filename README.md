@@ -41,7 +41,6 @@ BibTeX:
   pages     = {19:1--19:2},
   publisher = {{ACM}},
   year      = {2020},
-  url       = {https://doi.org/10.1145/3417990.3420057},
   doi       = {10.1145/3417990.3420057},
   timestamp = {Thu, 29 Oct 2020 13:29:50 +0100},
   biburl    = {https://dblp.org/rec/conf/models/MoinRSG20.bib},
