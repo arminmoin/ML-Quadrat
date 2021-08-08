@@ -358,7 +358,7 @@ Below, we explain them line-by-line:
 
 (vii) **prediction_results:** The predictions of the ML model, e.g., the predicted class label or target value in the case of supervised ML (classification/regression) or the cluster index in the case of unsupervised ML for a new data instance shall be stored in the property specified here. This parameter is also required in both the pure (full) MDSE and the blackbox-ML modes.
 
-(viii) **dataset:** This provides the path to the Comma-Separated Values (CSV) file containing the input data that shall be used for training the ML model. It must always start with "data/". In other words, the dataset (CSV file) must always reside in the data directory.
+(viii) **dataset:** This provides the path to the Comma-Separated Values (CSV) file containing the input data that shall be used for training the ML model. It must always start with "data/". In other words, the dataset (CSV file) must always reside in the data directory. Currently, only batch processing, i.e., offline learning is supported. Thus, the datasets are bounded. In the future, stream processing, i.e., online learning through unbounded datasets shall be supported too.
 
 (ix) **automl:** This parameter can turn the AutoML (Automated ML) engine on or off. The AutoML functionalities are still basic and under development.
 
