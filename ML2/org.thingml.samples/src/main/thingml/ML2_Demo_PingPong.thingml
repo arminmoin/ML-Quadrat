@@ -150,7 +150,7 @@ thing PingPongDataAnalytics includes PingPongMsgs {
 		dataset "data/ip_dataset.csv" // This CSV file will be used as the dataset for training the ML model. The path is relative to the target directory of the generated Maven project (in the case of the Java and the Python & Java code generation).
 		automl OFF // If AutoML is ON, some advanced Automated Machine Learning (AutoML) functionalities will be enabled. This would be useful for the novice users in DAML.
 		sequential TRUE // This parameter specifies whether the data are sequential, i.e., whether the order of the data instances does matter.
-		timestamps OFF // This parameters determines if the first column of the daatset includes the timestamps of the data instances. If this is set to TRUE, in the case of adding the new predcition sof the ML model to the dataset, they will also be timestamped automatically.
+		timestamps OFF // This parameters determines if the first column of the dataset includes the timestamps of the data instances. If this is set to TRUE, in the case of adding the new predictions of the ML model to the dataset, they will also be timestamped automatically.
 		preprocess_feature_scaler StandardScaler // This parameter may enable some sort of feature scaling as part of the data preparation process.
 		model_algorithm nn_multilayer_perceptron my_nn_mlp(activation relu, optimizer adam, loss SparseCategoricalCrossentropy) // This line determines the ML model that shall be deployed, as well as the hyperparameters, such as the choice of the learning algorithm.
 		training_results "data/training.txt" // This is the path of the log file that will store the training data.
