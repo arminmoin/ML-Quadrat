@@ -1,4 +1,4 @@
-*Please watch our video here: https://www.youtube.com/watch?v=VAuz25w0a5k*
+**Please watch our video here: https://www.youtube.com/watch?v=VAuz25w0a5k**
 
 # ML-Quadrat (ML2)
 ML2 is a Computer-Aided Software Engineering (CASE) tool, based on the Model-Driven Software Engineering (MDSE) paradigm, specifically the Domain-Specific Modeling (DSM) methodology with full code generation. ML2 is focused on creating smart services for the Internet of Things (IoT) and Cyber-Physical Systems (CPS). Moreover, it is based on the [ThingML](https://github.com/TelluIoT/ThingML) / [HEADS](https://github.com/HEADS-project) projects. Similar to ThingML/HEADS, ML2 is built using the [Eclipse Modeling Framework (EMF)](https://www.eclipse.org/modeling/emf/), as well as the [Xtext framework](https://www.eclipse.org/Xtext/), and is released under the terms of the Apache 2.0 permissive open source license. 
