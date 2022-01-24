@@ -25,7 +25,7 @@ Moreover, the generated code is capable of creating, training, deploying and pos
 ## 1. How to Cite ML2 in Your Publications
 Please cite the following journal paper if you are using ML2 or referring to it in your papers:
 
-1. [**A model-driven approach to machine learning and software modeling for the IoT:** Generating full source code for smart Internet of Things (IoT) services and cyber-physical systems (CPS), Armin Moin, Moharram Challenger, Atta Badii and Stephan Günnemann, Software and Systems Modeling (SoSyM), January 2022.](https://arxiv.org/pdf/2009.10632)
+[**A model-driven approach to machine learning and software modeling for the IoT:** Generating full source code for smart Internet of Things (IoT) services and cyber-physical systems (CPS), Armin Moin, Moharram Challenger, Atta Badii and Stephan Günnemann, Software and Systems Modeling (SoSyM), January 2022.](https://link.springer.com/article/10.1007/s10270-021-00967-x)
 BibTeX:
 ```
 @article{Moin+2022-SoSyM,
