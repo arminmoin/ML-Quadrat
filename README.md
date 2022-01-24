@@ -23,60 +23,22 @@ Moreover, the generated code is capable of creating, training, deploying and pos
 
 <a name="citation"></a>
 ## 1. How to Cite ML2 in Your Publications
-Please cite the following papers if you are using ML2 or referring to it in your papers:
+Please cite the following journal paper if you are using ML2 or referring to it in your papers:
 
-1. [**From Things’ Modeling Language (ThingML) to Things’ Machine Learning (ThingML2)**, Armin Moin, Stephan Rössler, Marouane Sayih, Stephan Günnemann, In Proceedings of the ACM / IEEE 23rd International Conference on Model Driven Engineering Languages and Systems (MODELS) Companion (Extended Abstract), 2020.](https://arxiv.org/pdf/2009.10632)
+1. [**A model-driven approach to machine learning and software modeling for the IoT:** Generating full source code for smart Internet of Things (IoT) services and cyber-physical systems (CPS), Armin Moin, Moharram Challenger, Atta Badii and Stephan Günnemann, Software and Systems Modeling (SoSyM), January 2022.](https://arxiv.org/pdf/2009.10632)
 BibTeX:
 ```
-@inproceedings{Moin+2020,
-  author    = {Armin Moin and
-               Stephan R{\"{o}}ssler and
-               Marouane Sayih and
-               Stephan G{\"{u}}nnemann},
-  editor    = {Esther Guerra and
-               Ludovico Iovino},
-  title     = {From things' modeling language (ThingML) to things' machine learning
-               (ThingML2)},
-  booktitle = {{MODELS} '20: {ACM/IEEE} 23rd International Conference on Model Driven
-               Engineering Languages and Systems, Virtual Event, Canada, 18-23 October,
-               2020, Companion Proceedings},
-  pages     = {19:1--19:2},
-  publisher = {{ACM}},
-  year      = {2020},
-  doi       = {10.1145/3417990.3420057},
-  timestamp = {Thu, 29 Oct 2020 13:29:50 +0100},
-  biburl    = {https://dblp.org/rec/conf/models/MoinRSG20.bib},
-  bibsource = {dblp computer science bibliography, https://dblp.org}
-}
+@article{Moin+2022-SoSyM,
+	date = {2022/01/19},
+	doi = {10.1007/s10270-021-00967-x},
+	isbn = {1619-1374},
+	journal = {Software and Systems Modeling},
+	title = {A model-driven approach to machine learning and software modeling for the IoT},
+	url = {https://doi.org/10.1007/s10270-021-00967-x},
+	year = {2022},
+	bdsk-url-1 = {https://doi.org/10.1007/s10270-021-00967-x}}
 ```
 
-2. [**ThingML+: Augmenting Model-Driven Software Engineering for the Internet of Things with Machine Learning**, Armin Moin, Stephan Rössler, Stephan Günnemann, In Proceedings of the ACM / IEEE International Conference on Model Driven Engineering Languages and Systems (MODELS) Workshops (MDE4IoT), 2018.](https://arxiv.org/pdf/2009.10633.pdf)
-BibTeX:
-```
-@inproceedings{Moin+2018,
-  author    = {Armin Moin and
-               Stephan R{\"{o}}ssler and
-               Stephan G{\"{u}}nnemann},
-  editor    = {Regina Hebig and
-               Thorsten Berger},
-  title     = {ThingML+: Augmenting Model-Driven Software Engineering for the Internet
-               of Things with Machine Learning},
-  booktitle = {Proceedings of {MODELS} 2018 Workshops: ModComp, MRT, OCL, FlexMDE,
-               EXE, COMMitMDE, MDETools, GEMOC, MORSE, MDE4IoT, MDEbug, MoDeVVa,
-               ME, MULTI, HuFaMo, AMMoRe, {PAINS} co-located with {ACM/IEEE} 21st
-               International Conference on Model Driven Engineering Languages and
-               Systems {(MODELS} 2018), Copenhagen, Denmark, October, 14, 2018},
-  series    = {{CEUR} Workshop Proceedings},
-  volume    = {2245},
-  pages     = {521--523},
-  publisher = {CEUR-WS.org},
-  year      = {2018},
-  url       = {http://ceur-ws.org/Vol-2245/mde4iot\_paper\_5.pdf},
-  timestamp = {Wed, 23 Sep 2020 15:46:03 +0200},
-  biburl    = {https://dblp.org/rec/conf/models/RosslerG18.bib},
-  bibsource = {dblp computer science bibliography, https://dblp.org}
-}
-```
 <a name="issues"></a>
 ## 2. Reporting Issues/Bugs and Requests
 ML2 is a research prototype. If you find any issues/bugs or have any feature request, please kindly report that through our issue tracking system: https://github.com/arminmoin/ML-Quadrat/issues
