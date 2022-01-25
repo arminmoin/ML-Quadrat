@@ -29,7 +29,7 @@ Please cite the following journal paper if you are using ML2 or referring to it 
 BibTeX:
 ```
 @article{Moin+2022-SoSyM,
-	authors = {Armin Moin and Moharram Challenger and Atta Badii and Stephan G{\"u}nnemann},
+	author = {Armin Moin and Moharram Challenger and Atta Badii and Stephan G{\"u}nnemann},
 	date = {2022/01/19},
 	doi = {10.1007/s10270-021-00967-x},
 	isbn = {1619-1374},
