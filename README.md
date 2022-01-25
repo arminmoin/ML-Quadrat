@@ -33,7 +33,7 @@ BibTeX:
 	date = {2022/01/19},
 	doi = {10.1007/s10270-021-00967-x},
 	isbn = {1619-1374},
-	journal = {Software and Systems Modeling},
+	journal = {Software and Systems Modeling (SoSyM)},
 	title = {A model-driven approach to machine learning and software modeling for the IoT},
 	url = {https://doi.org/10.1007/s10270-021-00967-x},
 	year = {2022},
