@@ -491,4 +491,4 @@ The -X option is optional and enables the debugging mode, thus resulting in a mo
 <a name="exploitation"></a>
 ## 7. Exploitation & Industry Adoption
 
-[DriotData](https://www.driotdata.com) provides citizen data scientists and citizen / end-user software developers with a web-based "Low-Code" platform that has a graphical drag-and-drop dashboard, so that they can easily create their desired smart IoT services without extensive knowledge and skills in Software Engineering or Artificial Intelligence (AI).
+[DriotData](https://arxiv.org/abs/2107.02692) provides citizen data scientists and citizen / end-user software developers with a web-based "Low-Code" platform that has a graphical drag-and-drop dashboard, so that they can easily create their desired smart IoT services without extensive knowledge and skills in Software Engineering or Artificial Intelligence (AI).
